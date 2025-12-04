@@ -1,0 +1,109 @@
+<div class="page-with-user-navigation">
+  @if (!loading) {
+    <h1>{{ 'SEEK_REFERENDUM.TITLE' | translate }}</h1>
+    <div class="flex flex-col gap-3" [class.mt-3]="myDecrees.length > 0">
+      @for (decree of myDecrees; track decree.id) {
+        <vo-ecol-decree-card [decree]="decree">
+          <div class="flex flex-col gap-3 mt-3">
+            @for (referendum of decree.collections; track referendum.collection.id) {
+              <vo-ecol-referendum-card [referendum]="referendum"
+                                       [decree]="decree"
+                                       [clickable]="true"
+                                       [role]="referendum.collection.userPermissions?.role"
+                                       (cardClick)="open(referendum.id)">
+                <ng-container [ngTemplateOutlet]="referendumActions"
+                              [ngTemplateOutletContext]="{ $implicit: referendum }">
+                </ng-container>
+              </vo-ecol-referendum-card>
+            }
+          </div>
+        </vo-ecol-decree-card>
+      } @empty {
+        <p class="no-data m-0">{{ 'SEEK_REFERENDUM.NO_DATA' | translate }}</p>
+      }
+    </div>
+    @if (myReferendumsWithoutDecree.length > 0) {
+      <h2 class="mt-3">{{ 'SEEK_REFERENDUM.WITHOUT_DECREE_TITLE' | translate }}</h2>
+      <div class="flex flex-col gap-3 mt-3">
+        @for (referendum of myReferendumsWithoutDecree; track referendum.collection.id) {
+          <vo-ecol-referendum-card [referendum]="referendum" [clickable]="true" [role]="referendum.collection.userPermissions?.role" (cardClick)="open(referendum.id)">
+            <ng-container [ngTemplateOutlet]="referendumActions"
+                          [ngTemplateOutletContext]="{ $implicit: referendum }">
+            </ng-container>
+          </vo-ecol-referendum-card>
+        }
+      </div>
+    }
+
+    <h1 class="mt-3">{{ 'SEEK_REFERENDUM.LIST_IN_COLLECTION_TITLE' | translate }}</h1>
+    <div class="flex justify-end">
+      <bc-button color="primary"
+                 variant="tertiary"
+                 (buttonClick)="createReferendum()"
+                 icon="plus"
+                 [label]="'SEEK_REFERENDUM.CREATE_WITHOUT_DECREE' | translate"></bc-button>
+    </div>
+    <div class="flex flex-col gap-3 mt-3">
+      @for (group of decreeGroups; track group.domainOfInfluenceType) {
+        <app-referendum-doi-type-card [doiType]="group.domainOfInfluenceType"
+                                      [decrees]="group.decrees"
+                                      [cardContent]="referendumContent"></app-referendum-doi-type-card>
+      }
+    </div>
+  } @else {
+    <h1>
+      <bc-spinner class="mr-1"></bc-spinner>
+      {{ 'COMMON.LOADING' | translate }}
+    </h1>
+  }
+</div>
+
+<ng-template #referendumActions let-referendum>
+  @if (referendum.collection.userPermissions) {
+    <div class="flex items-center gap-x-2">
+      <bc-button color="primary"
+                 variant="tertiary"
+                 (buttonClick)="open(referendum.id)"
+                 [label]="'SEEK_REFERENDUM.SHOW' | translate"></bc-button>
+
+      @if (referendum.collection.userPermissions.canDownloadElectronicSignaturesProtocol) {
+        <div class="flex items-center">
+          <bc-button color="primary"
+                     variant="tertiary"
+                     [disabled]="!!isDownloadingElectronicSignaturesProtocolOfId"
+                     (buttonClick)="downloadElectronicSignaturesProtocol(referendum.id)"
+                     [label]="'SEEK_REFERENDUM.DOWNLOAD_ELECTRONIC_SIGNATURES_PROTOCOL' | translate"></bc-button>
+          @if (isDownloadingElectronicSignaturesProtocolOfId === referendum.id) {
+            <bc-spinner></bc-spinner>
+          }
+        </div>
+      }
+    </div>
+  }
+</ng-template>
+
+<ng-template #referendumContent let-decree>
+  <div class="flex flex-col gap-3 mt-3">
+    @for (referendum of decree.collections; track referendum.collection.id) {
+      <vo-ecol-referendum-card [referendum]="referendum"
+                               [decree]="decree"
+                               [clickable]="!!referendum.collection.userPermissions"
+                               [role]="referendum.collection.userPermissions?.role"
+                               (cardClick)="open(referendum.id)">
+        <ng-container [ngTemplateOutlet]="referendumActions"
+                      [ngTemplateOutletContext]="{ $implicit: referendum }">
+        </ng-container>
+      </vo-ecol-referendum-card>
+    }
+  </div>
+  @if (decree.userPermissions?.hasMaximumReferendumsBeenReached) {
+    <bc-error class="mt-2">{{ 'SEEK_REFERENDUM.MAXIMUM_REFERENDUMS_REACHED' | translate }}</bc-error>
+  } @else if (decree.userPermissions?.canCreateReferendum) {
+    <bc-button class="mt-2"
+               color="primary"
+               variant="tertiary"
+               (buttonClick)="createReferendum(decree)"
+               icon="plus"
+               [label]="'SEEK_REFERENDUM.CREATE' | translate"></bc-button>
+  }
+</ng-template>

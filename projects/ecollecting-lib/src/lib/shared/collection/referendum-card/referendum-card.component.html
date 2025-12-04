@@ -1,0 +1,17 @@
+<bc-card [clickable]="clickable" (cardClick)="cardClick.emit()">
+  <vo-ecol-collection-card-header
+    [collectionOrDecree]="referendum.collection"
+    [collectionStartDate]="decree?.collectionStartDate"
+    [collectionEndDate]="decree?.collectionEndDate"
+    [showState]="showState"
+    [showPeriodState]="false"
+    [role]="role"
+  ></vo-ecol-collection-card-header>
+
+  <bc-card-content>
+    <div>
+      <p class="text-grey-2">{{ 'COLLECTION.ADDRESS' | translate: referendum.collection.address }}</p>
+    </div>
+    <ng-content></ng-content>
+  </bc-card-content>
+</bc-card>

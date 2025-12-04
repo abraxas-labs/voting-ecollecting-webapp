@@ -1,0 +1,57 @@
+@use '@abraxas/voting-lib/style/table' as *;
+
+::ng-deep .bc-column-bfs,
+::ng-deep .bc-column-municipality-name,
+::ng-deep .bc-column-number,
+::ng-deep .bc-column-received-at,
+::ng-deep .bc-column-signature-count-total,
+::ng-deep .bc-column-signature-count-valid,
+::ng-deep .bc-column-signature-count-invalid,
+::ng-deep .bc-column-modified-by-name,
+::ng-deep .bc-column-state {
+  @include truncate-long-sortable-table-header();
+}
+
+.bc-column-actions {
+  width: 3rem;
+}
+
+.bc-column-bfs {
+  width: 6rem;
+}
+
+.bc-column-number {
+  width: 7rem;
+}
+
+.bc-column-state {
+  width: 7rem;
+}
+
+.bc-column-received-at {
+  width: 9rem;
+}
+
+.bc-column-signature-count-invalid {
+  width: 13rem;
+}
+
+.bc-column-signature-count-valid {
+  width: 12rem;
+}
+
+.bc-column-modified-by-name {
+  width: 12rem;
+}
+
+.bc-column-signature-count-total {
+  width: 11rem;
+}
+
+::ng-deep bc-header-cell {
+  z-index: 100; // without this, the action button would be visible in the header during scrolling
+}
+
+.selectable {
+  cursor: pointer;
+}

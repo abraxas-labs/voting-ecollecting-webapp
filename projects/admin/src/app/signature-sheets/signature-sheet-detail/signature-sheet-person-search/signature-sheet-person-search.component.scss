@@ -1,0 +1,10 @@
+form {
+  display: flex;
+  gap: 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 1.75rem; // match the label of the filters
+}

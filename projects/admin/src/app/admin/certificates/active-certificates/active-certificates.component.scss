@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.detail {
+  font-size: 13px; // same as bc-label
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  overflow: hidden;
+}

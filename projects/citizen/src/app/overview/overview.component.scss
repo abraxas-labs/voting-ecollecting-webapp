@@ -1,0 +1,11 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+::ng-deep .play-button button {
+  background-color: $color-primary-25 !important;
+}
+
+::ng-deep bc-card .mat-mdc-card {
+  height: 100%;
+  overflow: hidden;
+  min-width: 15rem;
+}

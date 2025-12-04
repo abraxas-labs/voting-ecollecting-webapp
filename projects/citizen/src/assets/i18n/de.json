@@ -1,0 +1,515 @@
+{
+  "APP": {
+    "TITLE": {
+      "default": "E-Collecting",
+      "sg": "E-Collecting"
+    },
+    "LOGIN": "Login",
+    "LOGOUT": "Abmelden",
+    "ACCOUNT": "Konto",
+    "NAVIGATION": {
+      "SIGN_COLLECTION": "Sammlung unterzeichnen",
+      "ENDED_COLLECTIONS": "Beendete Sammlungen",
+      "SEEK_REFERENDUM": "Referendum ergreifen",
+      "LAUNCH_INITIATIVE": "Initiative lancieren"
+    },
+    "INITIALIZING": "Laden…",
+    "AUTHENTICATING": "Authentifizieren…",
+    "FOOTER": {
+      "IMPRINT": "Impressum",
+      "DATA_PROTECTION": "Datenschutz",
+      "ACCESSIBILITY": "Barrierefreiheit",
+      "COPYRIGHT": "© {{year}} Portal Kanton St.Gallen"
+    },
+    "DELETE": "Löschen",
+    "EDIT": "Bearbeiten",
+    "CLOSE": "Schliessen",
+    "BACK": "Zurück"
+  },
+  "AUTH": {
+    "LOGIN_FAILED": {
+      "TITLE": "The login failed",
+      "MESSAGE": "Unknown error"
+    }
+  },
+  "OVERVIEW": {
+    "TITLE": "E-COLLECTING",
+    "SUB_TITLE": "Ihre Möglichkeiten",
+    "SIGN_INFO": "Folgende Sammlungen können elektronisch unterschrieben werden:",
+    "INFO": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+    "EXPLAINER_VIDEO": {
+      "TITLE": "Erklärvideos",
+      "SIGN_COLLECTION": {
+        "TITLE": "Sammlung unterzeichnen",
+        "DESCRIPTION": "Erfahren Sie, wie Sie eine laufende Sammlung unterschreiben können."
+      },
+      "SEEK_REFERENDUM": {
+        "TITLE": "Referendum ergreifen",
+        "DESCRIPTION": "Zu Beschlüssen, die dem fakultativen Referendum unterliegen, kann das Referendum ergriffen werden. Wir zeigen Ihnen, was dazu notwendig ist."
+      },
+      "LAUNCH_INITIATIVE": {
+        "TITLE": "Initiative lancieren",
+        "DESCRIPTION": "Erfassen Sie eine Initiative zu Ihrem Anliegen. Wir zeigen Ihnen, was dazu notwendig ist."
+      }
+    }
+  },
+  "HELP": {
+    "TITLE": "Hilfe",
+    "OPEN": "Hilfe öffnen",
+    "CLOSE": "Hilfe schliessen"
+  },
+  "CHAT": {
+    "TITLE": "Status und Mitteilungen",
+    "OPEN": "Status und Mitteilungen öffnen"
+  },
+  "SEEK_REFERENDUM": {
+    "TITLE": "Meine Sammlungen",
+    "WITHOUT_DECREE_TITLE": "Sammlungen ohne Erlass",
+    "LIST_IN_COLLECTION_TITLE": "Referendumsfähige Erlasse",
+    "NO_DATA": "Keine Sammlungen vorhanden",
+    "CREATE": "Neue Sammlung erfassen",
+    "CREATE_WITHOUT_DECREE": "zukünftige Sammlung vorbereiten",
+    "SHOW": "Anzeigen",
+    "DOWNLOAD_ELECTRONIC_SIGNATURES_PROTOCOL": "Protokoll elektronische Unterschriften herunterladen",
+    "MAXIMUM_REFERENDUMS_REACHED": "Die maximale Limite an Sammlungen auf diesem Erlass wurde erreicht",
+    "DIALOG": {
+      "TITLE": "Referendum ergreifen",
+      "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
+      "DESCRIPTION_HINT": "Die Bezeichnung sollte einen direkten Zusammenhang mit dem Inhalt des Geschäfts haben",
+      "PAPER_SUBMISSION": {
+        "TITLE": "Haben Sie die Sammlung bereits auf dem Papierweg eingereicht und erfolgreich überprüfen lassen?",
+        "TEXT": "Ich habe die Sammlung bereits auf dem Papierweg eingereicht und erfolgreich überprüfen lassen.",
+        "NUMBER": "Nummer der Sammlung"
+      },
+      "ELECTRONIC_SUBMISSION": {
+        "TITLE": "Möchten Sie die Sammlung elektronisch erfassen und einreichen?",
+        "TEXT": "Ich möchte die Sammlung elektronisch erfassen und einreichen."
+      }
+    },
+    "DETAIL": {
+      "TITLE_PAPER_SUBMISSION": "Vorerfasste Sammlung \"{{description}}\" (Nummer {{number}})",
+      "TITLE_ELECTRONIC_SUBMISSION": "Sammlung \"{{description}}\" (vollelektronische Erfassung)",
+      "SELECT_DECREE": "Erlass auswählen",
+      "SELECT_DECREE_INFO": "Bitte wählen Sie den Erlass aus, gegen den Sie das Referendum ergreifen möchten! Ihre Sammlung muss sich spätestens beim Prüfen oder Einreichen auf einen Erlass beziehen!",
+      "REQUEST_INFORMAL_REVIEW": "Informelle Vorprüfung",
+      "SUBMIT": "Erfassung abschliessen",
+      "WITHDRAW": {
+        "TITLE": "Sammlung löschen",
+        "MSG": "Sind Sie sicher, dass Sie Ihre Sammlung löschen möchten?"
+      },
+      "NAV": {
+        "OVERVIEW": "Übersicht Sammlung",
+        "GENERAL_INFORMATION": "Allgemeine Angaben",
+        "SIGNATURE_LIST": "Unterschriftenliste",
+        "PERMISSIONS": "Berechtigungen"
+      },
+      "OVERVIEW": {
+        "TITLE": "Übersicht Sammlung",
+        "INFO_HEADER": "Hier befinden Sie sich auf der Übersicht über Ihre Sammlung.",
+        "INFO_1": "Im Abschnitt \"Allgemeine Angaben\" können Sie die Sammlung beschreiben.",
+        "INFO_2": "Für die Sammlung können Sie eine Unterschriftenliste hochladen oder eine Version generieren lassen.",
+        "INFO_3": "Bestimmen Sie, wer Lese- oder Schreibrechte auf Ihrer Sammlung hat."
+      },
+      "GENERAL_INFORMATION": {
+        "TITLE": "Allgemeine Angaben",
+        "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
+        "DESCRIPTION_HINT": "Die Bezeichnung sollte einen direkten Zusammenhang mit dem Inhalt des Geschäfts haben",
+        "REASON": "Begründung",
+        "ADDRESS": {
+          "COMMITTEE_OR_PERSON": "Komitee oder Person",
+          "STREET_OR_POST_OFFICE_BOX": "Strasse und Hausnummer oder Postfach",
+          "ZIP_CODE": "PLZ",
+          "LOCALITY": "Ort"
+        },
+        "MEMBERS_COMMITTEE": "Mitglieder Komitee",
+        "LINK": "Link auf Webseite",
+        "IMAGE": "Bild zur Sammlung",
+        "LOGO": "Logo der sammelnden Organisation",
+        "IMAGE_HINT": "Bitte Mindestbreite von 400px beachten."
+      },
+      "SELECT_DECREE_DIALOG": {
+        "TITLE": "Erlass auswählen",
+        "SELECT": "Auswählen",
+        "USER_ALREADY_HAS_REFERENDUM": "Sie haben bereits eine Sammlung für ein Referendum gegen diesen Erlass erfasst.",
+        "MAXIMUM_REFERENDUMS_REACHED": "Es wurde die maximale Anzahl Sammlungen für ein Referendum gegen diesen Erlass erfasst."
+      },
+      "VALIDATION": {
+        "TITLE": "Erfassung abschliessen und Referendum starten",
+        "INFO": "Für die endgültige Aufschaltung der Sammlung sind auf unserer Seite noch technische Vorbereitungen notwendig.\nDies kann einen Moment dauern, wir bitten daher um etwas Geduld.\nWenn die Vorbereitungsarbeiten abgeschlossen sind und sich die Sammlung innerhalb der Sammelfrist des Erlasses liegt, können Unterschriften gesammelt werden."
+      }
+    }
+  },
+  "LAUNCH_INITIATIVE": {
+    "TITLE": "Meine Initiativen",
+    "NO_DATA": "Keine Sammlungen vorhanden",
+    "CREATE": "Initiative lancieren",
+    "DOWNLOAD_ELECTRONIC_SIGNATURES_PROTOCOL": "Protokoll elektronische Unterschriften herunterladen",
+    "DIALOG": {
+      "TITLE": "Initiative lancieren",
+      "DOMAIN_OF_INFLUENCE_TYPE": "Ebene",
+      "SUB_TYPE": "Art der Initiative",
+      "MIN_SIGNATURE_COUNT": "Total nötig",
+      "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
+      "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
+      "DESCRIPTION_HINT": "Die Bezeichnung sollte einen direkten Zusammenhang mit dem Inhalt des Geschäfts haben",
+      "SHOW": "Anzeigen",
+      "PAPER_SUBMISSION": {
+        "TITLE": "Haben Sie die Initiative bereits auf dem Papierweg eingereicht und erfolgreich überprüfen lassen?",
+        "TEXT": "Ich habe die Initiative bereits auf dem Papierweg eingereicht und erfolgreich überprüfen lassen.",
+        "GOVERNMENT_DECISION_NUMBER": "Nummer des Regierungbeschlusses"
+      },
+      "ELECTRONIC_SUBMISSION": {
+        "TITLE": "Möchten Sie die Initiative elektronisch erfassen und einreichen?",
+        "TEXT": "Ich möchte die Initiative elektronisch erfassen und einreichen."
+      }
+    },
+    "DETAIL": {
+      "TITLE_PAPER_SUBMISSION": "Initiative \"{{description}}\" (Regierungsbeschluss {{governmentDecisionNumber}})",
+      "TITLE_ELECTRONIC_SUBMISSION": "Initiative \"{{description}}\" (vollelektronische Erfassung)",
+      "REQUEST_INFORMAL_REVIEW": "Informelle Vorprüfung",
+      "SUBMIT": "Initiative einreichen",
+      "REGISTER": "Initiative anmelden",
+      "WITHDRAW": {
+        "TITLE": "Initiative zurückziehen",
+        "MSG": "Sind Sie sicher, dass Sie diese Initiative zurückziehen wollen?"
+      },
+      "FLAG_FOR_REVIEW": "Zur Prüfung",
+      "NAV": {
+        "OVERVIEW": "Übersicht Initiative",
+        "GENERAL_INFORMATION": "Allgemeine Angaben",
+        "COMMITTEE": "Komitee",
+        "SIGNATURE_LIST": "Unterschriftenliste",
+        "PERMISSIONS": "Berechtigungen"
+      },
+      "OVERVIEW": {
+        "TITLE": "Übersicht Initiative",
+        "INFO_HEADER": "Hier befinden Sie sich auf der Übersicht über Ihre Initiative.",
+        "INFO_1": "Im Abschnitt \"Allgemeine Angaben\" können Sie die Initiative beschreiben.",
+        "INFO_2": "Das Komitee muss aus mindestens 15 Personen bestehen, die im Kanton stimmberechtigt sind.",
+        "INFO_3": "Für die Initiative können Sie eine Unterschriftenliste hochladen oder eine Version generieren lassen.",
+        "INFO_4": "Bestimmen Sie, wer Lese- oder Schreibrechte auf Ihrer Initiative hat."
+      },
+      "GENERAL_INFORMATION": {
+        "TITLE": "Allgemeine Angaben",
+        "SUB_TYPE": "Art der Initiative",
+        "MIN_SIGNATURE_COUNT": "Total nötig",
+        "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
+        "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
+        "DESCRIPTION_HINT": "Die Bezeichnung sollte einen direkten Zusammenhang mit dem Inhalt des Geschäfts haben",
+        "WORDING": "Wortlaut des Initiativbegehrens",
+        "REASON": "Begründung",
+        "ADDRESS": {
+          "COMMITTEE_OR_PERSON": "Komitee oder Person",
+          "STREET_OR_POST_OFFICE_BOX": "Strasse und Hausnummer oder Postfach",
+          "ZIP_CODE": "PLZ",
+          "LOCALITY": "Ort"
+        },
+        "LINK": "Link auf Webseite",
+        "MUNICIPALITY": "Gemeinde",
+        "IMAGE": "Bild zur Sammlung",
+        "LOGO": "Logo der sammelnden Organisation",
+        "IMAGE_HINT": "Bitte Mindestbreite von 400px beachten."
+      },
+      "COMMITTEE": {
+        "LISTS": {
+          "TITLE": "Komiteelisten",
+          "DOWNLOAD": "Vorlage für Komiteeliste herunterladen",
+          "UPLOAD": "Komiteeliste hochladen",
+          "GENERATING": "generieren…",
+          "UPLOADED": "Komiteeliste gespeichert.",
+          "REMOVE_CONFIRMATION": {
+            "TITLE": "Löschen",
+            "MSG": "Möchten Sie die Komiteeliste wirklich entfernen?"
+          }
+        },
+        "MEMBERS": {
+          "TITLE": "Komiteemitglieder",
+          "HINT": "{{requiredApprovedMembersCount}} Komiteemitglieder sind nötig ({{totalMembersCount}} erfasst / {{approvedMembersCount}} unterschrieben oder geprüft)",
+          "ADD": "Komiteemitglied erfassen",
+          "NO_DATA": "Es sind noch keine Komiteemitglieder erfasst.",
+          "FIRST_NAME": "Vorname",
+          "LAST_NAME": "Nachname",
+          "POLITICAL_FIRST_NAME": "Politischer Vorname",
+          "POLITICAL_LAST_NAME": "Politischer Nachname",
+          "DATE_OF_BIRTH": "Geburtsdatum",
+          "RESIDENCE": "Wohnort",
+          "POLITICAL_RESIDENCE": "Politischer Wohnort",
+          "EMAIL": "E-Mail-Adresse",
+          "STATE": "Status",
+          "POLITICAL_DUTY": "Politisches Amt",
+          "ROLE": "Berechtigung",
+          "SORTED": "Position gespeichert.",
+          "REQUEST_MEMBER_SIGNATURE": {
+            "LABEL": "Bestätigung",
+            "REQUEST": "Bestätigung soll beim Komiteemitglied angefordert werden",
+            "REQUEST_HINT": "Durch die Erfassung wird dem Komiteemitglied eine Anforderung zugestellt, die Teilnahme zu bestätigen.",
+            "NO_REQUEST": "Komiteemitglied ist bereits per Komiteeliste geprüft",
+            "NO_REQUEST_HINT": "Bitte laden Sie die entsprechende Komiteeliste hoch",
+            "RESEND": "Bestätigung erneut anfordern",
+            "RESEND_SUCCESS": "Bestätigung erneut angefordert"
+          },
+          "SIGNATURE_TYPE": {
+            "LABEL": "Bestätigungstyp",
+            "0": "AGOV",
+            "1": "Upload",
+            "2": "AGOV"
+          },
+          "ADD_DIALOG": {
+            "TITLE": "Neues Komiteemitglied erfassen",
+            "SAVE_AND_NEXT": "Speichern und nächstes Mitglied",
+            "SAVED": "Komiteemitglied gespeichert."
+          },
+          "APPROVAL_STATES": {
+            "1": "angefordert",
+            "2": "unterschrieben",
+            "3": "nicht akzeptiert",
+            "4": "geprüft",
+            "5": "abgelehnt"
+          },
+          "REMOVE_CONFIRMATION": {
+            "TITLE": "Löschen",
+            "MSG": "Möchten Sie das Mitglied wirklich entfernen?"
+          },
+          "APPROVAL": {
+            "TITLE": {
+              "NOT_FOUND": "Anfrage nicht gefunden",
+              "DEFAULT": "Bestätigung Teilnahme Komitee"
+            },
+            "TEXT": "Guten Tag, {{firstName}} {{lastName}}.\nSie wurden von {{invitedByName}} eingeladen, Ihre Teilnahme am Komitee für folgende Sammlung zu bestätigen.",
+            "IAM": {
+              "TITLE": "Bestätigung über AGOV",
+              "TEXT": "Besitzen Sie eine AGOV Identität mit Level 400? Dann können Sie Ihre Identät mit AGOV bestätigen.",
+              "ACTION": "Bestätigung über AGOV",
+              "ACCEPTED": "Komitee-Mitgliedschaft erfolgreich geprüft!"
+            },
+            "UPLOAD": {
+              "TITLE": "Bestätigung via Unterschrift",
+              "TEXT": "Sie können die Komiteemitgliedschaft durch eine händische Unterschrift bestätigen. Laden Sie die Vorlage herunter, füllen Sie das Dokument aus und laden sie dieses wieder hoch.",
+              "DOWNLOAD_TEMPLATE_ACTION": "Formular herunterladen",
+              "GENERATING": "generieren…",
+              "UPLOADING": "hochladen…",
+              "ACTION": "Formular mit Unterschrift hochladen",
+              "ACCEPTED": "Die Unterschrift wurde erfolgreich hochgeladen und wird geprüft."
+            },
+            "REJECT": {
+              "TITLE": "Ablehnen",
+              "TEXT": "Sie möchten nicht ein Komiteemitglied dieser Initiative sein? Dann können Sie diese Anfrage ablehnen.",
+              "ACTION": "Ablehnen",
+              "DONE": "Anfrage abgelehnt.",
+              "CONFIRM": {
+                "TITLE": "Ablehnen?",
+                "MESSAGE": "Möchten Sie die Anfrage wirklich ablehnen?"
+              }
+            },
+            "INITIATIVE_DETAIL": {
+              "TITLE": "Details zur Initiative"
+            },
+            "NOT_FOUND": "Die Anfrage konnte nicht gefunden werden. Möglicherweise ist die Anfrage abgelaufen oder wurde zurückgezogen."
+          }
+        }
+      },
+      "VALIDATION": {
+        "TITLE": "Erfassung abschliessen und Initiative einreichen",
+        "INFO": "Bitte beachten Sie, dass nach dem Abschliessen keine Änderungen mehr vorgenommen werden können."
+      }
+    }
+  },
+  "SIGN_COLLECTION": {
+    "TITLE": "Laufende Sammlungen",
+    "NO_DATA": "Auf dieser Ebene sind keine Sammlungen vorhanden",
+    "NO_DATA_MU": "Aktuell keine elektronischen Sammlungen in dieser Gemeinde",
+    "SIGN_ONLINE": "Online unterzeichnen",
+    "DOWNLOAD_SIGNATURE_LIST": "Download Unterschriftenliste",
+    "COMMITTEE_PREFIX": "Komitee: ",
+    "NOT_READY_HINT": "Die Sammlung befindet sich in der Vorbereitung",
+    "ALREADY_SIGNED": "Sie haben erfolgreich unterschrieben",
+    "SIGNING": "signieren…",
+    "SHOW_DETAILS": "Details anzeigen",
+    "LOGO_ALT": "Logo der Sammlung",
+    "IMAGE_ALT": "Bild der Sammlung",
+    "EXPIRED": "Die Sammelfrist ist abgelaufen, es kann nicht mehr unterschrieben werden.",
+    "SIGNATURE_SHEETS_SUBMITTED": "Die Sammlung wurde durch das Komitee beendet. Es kann nicht mehr unterschrieben werden."
+  },
+  "SIGN_INITIATIVE": {
+    "TITLE": "Initiative unterstützen",
+    "CAME_ABOUT": "Diese Initiative ist zustande gekommen.",
+    "CAME_NOT_ABOUT": "Diese Initiative ist nicht zustande gekommen. Begründung: {{reason}}"
+  },
+  "SIGN_REFERENDUM": {
+    "TITLE": "Referendum unterstützen",
+    "CAME_ABOUT": "Dieses Referendum ist zustande gekommen.",
+    "CAME_NOT_ABOUT": "Dieses Referendum ist nicht zustande gekommen. Begründung: {{reason}}"
+  },
+  "MUNICIPALITY_FILTER": {
+    "TITLE": "Laufende Sammlungen in Ihrer Gemeinde",
+    "PLACEHOLDER": "Bitte wählen Sie Ihre Gemeinde aus…",
+    "HINT": "Sie können nur kommunale Sammlungen der Gemeinde unterzeichnen, in der Sie stimmberechtigt sind."
+  },
+  "COLLECTION": {
+    "DETAIL": {
+      "GENERAL_INFORMATION": {
+        "IMAGE_DISCLAIMER": "Disclaimer: Durch das Hochladen von Bildern auf unsere Plattform bestätigen Sie, dass Sie die Rechte an den hochgeladenen Bildern besitzen oder die erforderliche Erlaubnis zur Nutzung und Veröffentlichung der Bilder haben. Sie stimmen zu, dass die hochgeladenen Bilder keine urheberrechtlich geschützten Inhalte, keine persönlichen Daten ohne Zustimmung und keine unangemessenen oder illegalen Inhalte enthalten. Wir behalten uns das Recht vor, hochgeladene Bilder zu überprüfen und gegebenenfalls zu entfernen, wenn sie gegen unsere Richtlinien verstoßen. Sie übernehmen die volle Verantwortung für die hochgeladenen Inhalte und entbinden unsere Plattform von jeglicher Haftung im Zusammenhang mit den hochgeladenen Bildern."
+      },
+      "PERMISSIONS": {
+        "TITLE": "Berechtigungen",
+        "INFO": "Sie müssen mindestens eine Stellvertretung erfassen mit Bearbeitungsrechten. Zusätzlich können Sie Personen erfassen, welche Leserechte haben. Die Berechtigungen selber sind für uns nicht sichtbar und werden nicht überprüft.",
+        "TABLE": {
+          "FIRST_NAME": "Vorname",
+          "LAST_NAME": "Name",
+          "EMAIL": "E-Mail-Adresse",
+          "ROLE": "Berechtigung",
+          "STATE": {
+            "TITLE": "AGOV-Bestätigung",
+            "1": "pendent",
+            "2": "geprüft",
+            "3": "abgelehnt"
+          },
+          "NO_DATA": "Keine Berechtigungen erfasst."
+        },
+        "RESEND": "Erneut anfordern",
+        "CREATE": "Neue Berechtigung erfassen",
+        "CREATED": "Neue Berechtigung erfasst.",
+        "SENT": "Anfrage per E-Mail versendet.",
+        "DIALOG": {
+          "TITLE": " Berechtigung erfassen",
+          "FIRST_NAME": "Vorname",
+          "LAST_NAME": "Name",
+          "EMAIL": "E-Mail-Adresse",
+          "ROLE": "Berechtigung"
+        },
+        "APPROVAL": {
+          "TITLE": {
+            "NOT_FOUND": "Berechtigungsanfrage nicht gefunden",
+            "1": "Bestätigung Verwaltung Initiative",
+            "2": "Bestätigung Verwaltung Referendum"
+          },
+          "TEXT": {
+            "1": "Guten Tag, {{data.firstName}} {{data.lastName}}.\nSie wurden von {{data.invitedByName}} dazu berechtigt, die folgende Initiative zu {{action}}.",
+            "2": "Guten Tag, {{data.firstName}} {{data.lastName}}.\nSie wurden von {{data.invitedByName}} dazu berechtigt, das folgende Referendum zu {{action}}."
+          },
+          "IAM": {
+            "TITLE": "Bestätigung über AGOV",
+            "TEXT": "Besitzen Sie eine AGOV Identität mit Level 100? Dann können Sie Ihre Identät mit AGOV bestätigen.",
+            "ACTION": "Bestätigung über AGOV",
+            "DONE": "Berechtigung akzeptiert.",
+            "CONFIRM": {
+              "TITLE": "Bestätigen?",
+              "MESSAGE": "Möchten Sie die Berechtigung wirklich bestätigen?"
+            }
+          },
+          "REJECT": {
+            "TITLE": "Ablehnen",
+            "TEXT": "Sie möchten den Zugriff ablehnen?",
+            "ACTION": "Ablehnen",
+            "DONE": "Berechtigung abgelehnt.",
+            "CONFIRM": {
+              "TITLE": "Ablehnen?",
+              "MESSAGE": "Möchten Sie die Berechtigung wirklich ablehnen?"
+            }
+          },
+          "NOT_FOUND": "Die Berechtigungsanfrage konnte nicht gefunden werden. Möglicherweise ist die Anfrage abgelaufen oder wurde zurückgezogen."
+        }
+      },
+      "SIGNATURE_SHEET": {
+        "TITLE": "Unterschriftenliste",
+        "GENERATE": {
+          "TRUE": "Unterschriftenliste automatisch generieren",
+          "FALSE": "Eigene Unterschriftenliste hochladen"
+        },
+        "GENERATE_NOW": "Jetzt generieren",
+        "GENERATE_NEW": "Erneut generieren",
+        "GENERATING": "generieren…",
+        "GENERATE_NOT_VALID": "Alle allgemeinen Angaben müssen ausgefüllt werden.",
+        "FILE_UPLOAD": {
+          "LABEL": "Unterschriftenliste",
+          "HINT": "PDF, max. 5MB"
+        },
+        "REMOVE_FILE_CONFIRMATION": {
+          "TITLE": "Löschen",
+          "MSG": "Möchten Sie die Unterschriftenliste wirklich entfernen?"
+        },
+        "OVERWRITE_FILE_CONFIRMATION": {
+          "TITLE": "Überschreiben",
+          "MSG": "Möchten Sie die Unterschriftenliste wirklich überschreiben?"
+        },
+        "UPLOADED": "Unterschriftenliste aktualisiert."
+      }
+    },
+    "VALIDATION": {
+      "SUBMIT": "Erfassung abschliessen",
+      "VALID": "Prüfung erfolgreich",
+      "INVALID": "Prüfung nicht erfolgreich",
+      "VALUES": {
+        "1_VALID": "Allgemeine Angaben: Die Angaben sind erfasst worden.",
+        "1_INVALID": "Allgemeine Angaben: Die Angaben fehlen.",
+        "2_VALID": "Berechtigungen: Es ist mindentens eine Stellvertretung vorhanden.",
+        "2_INVALID": "Berechtigungen: Es muss mindestens eine Stellvertretung vorhanden sein.",
+        "3_VALID": "Der Erlass wurde festgelegt",
+        "3_INVALID": "Es ist kein Erlass festgelegt.",
+        "4_VALID": "Komitee: Das Minimum an Komiteemitglieder wurde erfüllt.",
+        "4_INVALID": "Komitee: Es sind zu wenig Komiteemitglieder vorhanden.",
+        "5_VALID": "Komitee: Das Maximum an Komiteemitglieder wurde eingehalten.",
+        "5_INVALID": "Komitee: Es sind zu viele Komiteemitglieder vorhanden.",
+        "6_VALID": "Komitee: Eine Komiteeliste mit den unterschriebenen Mitgliedern wurde hochgeladen.",
+        "6_INVALID": "Komitee: Es wurde noch keine Komiteeliste mit den unterschriebenen Mitgliedern hochgeladen."
+      }
+    },
+    "FILTER": {
+      "EXPIRED": "In Prüfung",
+      "ENDED_CAME_ABOUT": "Zustande gekommen",
+      "ENDED_CAME_NOT_ABOUT": "Nicht zustande gekommen"
+    }
+  },
+  "ENDED_COLLECTIONS": {
+    "TITLE": "Beendete Sammlungen"
+  },
+  "ACCESSIBILITY": {
+    "TITLE": "Barrierefreiheitserklärung",
+    "INFO_1": "Diese Webseite für die Sammlung von Unterschriften ist mit der WCAG 2.1, Konformitätsstufe AA vereinbar.\nRückmeldungen zur Barrierefreiheit können über das nachstehende Feedback-Formular übermittelt werden.\nGerne dürfen Sie sich für Kontaktanfragen auch direkt per E-Mail unter ",
+    "INFO_2": "support@sg.ch",
+    "INFO_3": " an den Support der Staatskanzlei St.Gallen wenden.",
+    "FORM": {
+      "TITLE": "Feedback-Formular",
+      "INFO": "Gerne nehmen wir Ihre Rückmeldungen zur Optimierung unserer Webseite in Bezug auf die Barrierefreiheit entgegen.",
+      "FIRST_NAME": "Vorname",
+      "LAST_NAME": "Nachname",
+      "EMAIL": "E-Mail",
+      "PHONE": "Telefon",
+      "MESSAGE": "Meldung",
+      "SALUTATION": {
+        "1": "Herr",
+        "2": "Frau"
+      },
+      "CATEGORY": {
+        "TITLE": "Kategorie",
+        "1": "Problem",
+        "2": "Optimierungsvorschlag",
+        "3": "Anfrage",
+        "4": "Diverses"
+      },
+      "SEND": "Senden",
+      "RESET": "Zurücksetzen",
+      "SENT": "Die Meldung wurde erfolgreich übermittelt."
+    }
+  },
+  "ERROR_MESSAGES": {
+    "InitiativeNotFoundException": "Die Initiative konnte nicht gefunden werden.",
+    "InitiativeAlreadyInPreparationException": "Die Initiative befindet sich bereits in Erfassung.",
+    "InitiativeAdmissibilityDecisionRejectedException": "Die Initiative ist nicht zulässig und kann somit nicht erfasst werden.",
+    "SendUserNotificationFailedException": "Versenden fehlgeschlagen.",
+    "ReferendumNotFoundException": "Die Sammlung konnte nicht gefunden werden.",
+    "ReferendumAlreadyInPreparationException": "Die Sammlung befindet sich bereits in Erfassung.",
+    "UserHasAlreadyAReferendumOnDecreeException": "Sie dürfen maximal nur 1 Sammlung pro Erlass erstellen.",
+    "MaxReferendumsOnDecreeReachedException": "Die maximale Anzahl Sammlungen auf diesem Erlass ist erreicht.",
+    "CollectionPermissionAlreadyExistsException": "Es besteht bereits eine Berechtigung mit dieser E-Mail-Adresse.",
+    "InsufficientAcrException": "Das ACR-Level von AGOV reicht für diese Aktion nicht aus.",
+    "CollectionAlreadySignedException": "Die Sammlung wurde bereits unterschrieben.",
+    "DecreeAlreadySignedException": "Sie haben bereits eine andere Sammlung dieses Erlasses unterschrieben.",
+    "CollectionMaxElectronicSignatureCountReachedException": "Die maximale Anzahl elektronischer Unterschriften wurde bereits erreicht. Sie können weiterhin physisch unterschreiben.",
+    "DecreeMaxElectronicSignatureCountReachedException": "Die maximale Anzahl elektronischer Unterschriften wurde bereits erreicht. Sie können weiterhin physisch unterschreiben.",
+    "PersonOrVotingRightNotFoundException": "Kein Stimmrecht gefunden.",
+    "EmailDoesNotMatchException": "Die E-Mail der AGOV-Identität stimmt nicht mit der erwarteten E-Mail für diese Aktion überein.",
+    "InitiativeCommitteeMemberApprovalNoVotingRightException": "Komitee-Mitgliedschaft abgelehnt (kein Stimmrecht).",
+    "CannotAddOwnerPermissionException": "Es kann keine Berechtigung für den Ersteller der Sammlung hinzugefügt werden."
+  }
+}

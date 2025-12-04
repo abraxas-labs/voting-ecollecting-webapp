@@ -1,0 +1,21 @@
+<div class="page">
+  <div class="container m-3">
+    @if (notFound) {
+      <h1>{{ notFoundHeader | translate }}</h1>
+      <p class="error p-3">{{ notFoundDetail | translate }}</p>
+    } @else if (loading) {
+      <!-- show spinner only after 0.5s to prevent flickering -->
+      @defer (on timer(500ms)) {
+        <bc-spinner size="large"></bc-spinner>
+      }
+    } @else {
+      <h1>{{ header | translate }}</h1>
+      <p class="hint">{{ hint | translate }}</p>
+      <h2>{{ subHeader | translate }}</h2>
+      <ng-content select="[sub-header-content]"></ng-content>
+      <div class="card-container p-3">
+        <ng-content></ng-content>
+      </div>
+    }
+  </div>
+</div>

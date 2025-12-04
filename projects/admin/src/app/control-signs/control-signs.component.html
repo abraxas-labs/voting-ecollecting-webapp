@@ -1,0 +1,97 @@
+<vo-lib-page [contentLoading]="false">
+  <bc-segmented-control-group
+    size="small"
+    [items]="filters"
+    [(value)]="filter"
+    (valueChange)="loadData()"></bc-segmented-control-group>
+  @if (loading) {
+    <bc-spinner size="large" class="mt-2"></bc-spinner>
+  } @else {
+    <div class="flex flex-col gap-3 mt-3">
+      @for (group of groups; track group.domainOfInfluenceType) {
+        <vo-ecol-doi-type-card [doiType]="group.domainOfInfluenceType">
+          @if (group.domainOfInfluenceType === municipalityDoiType && municipalities && municipalities.length > 0) {
+            <vo-ecol-municipality-filter
+              [showHint]="false"
+              [domainOfInfluences]="municipalities"
+              [(selectedDomainOfInfluence)]="selectedMunicipality"
+              (selectedDomainOfInfluenceChange)="loadMunicipality()"></vo-ecol-municipality-filter>
+          }
+
+          <div class="flex flex-col gap-3 mt-3">
+            @for (initiative of group.initiatives; track initiative.collection.id) {
+              <vo-ecol-initiative-card [initiative]="initiative">
+                <p class="mt-2">
+                  <span>{{ 'CONTROL_SIGNS.DELETE_AS_OF' | translate }}</span>
+                  <span>{{ initiative.sensitiveDataExpiryDate | date: 'dd.MM.yyyy' }}</span>
+                </p>
+
+                <div class="flex gap-2 mt-2 items-center">
+                  @if (deletingId === initiative.id) {
+                    <bc-spinner></bc-spinner>
+                  }
+                  <bc-button
+                    [label]="'CONTROL_SIGNS.DELETE.ACTION' | translate"
+                    variant="tertiary"
+                    [disabled]="filter !== filterValues.COLLECTION_CONTROL_SIGN_FILTER_READY_TO_DELETE || !!deletingId"
+                    (buttonClick)="deleteInitiative(initiative, group)"
+                    icon="remove"></bc-button>
+                  <bc-button
+                    [label]="'CONTROL_SIGNS.SENSITIVE_DATA_EXPIRY_DATE.ACTION' | translate"
+                    variant="tertiary"
+                    (buttonClick)="setInitiativeSensitiveDataExpiryDate(initiative, group)"
+                    [disabled]="!!deletingId"
+                    icon="repeat"></bc-button>
+                </div>
+              </vo-ecol-initiative-card>
+            }
+
+            @for (decree of group.decrees; track decree.id) {
+              <vo-ecol-decree-card [decree]="decree" [showState]="true">
+                <p class="mt-2">
+                  <span>{{ 'CONTROL_SIGNS.DELETE_AS_OF' | translate }}</span>
+                  <span>{{ decree.sensitiveDataExpiryDate | date: 'dd.MM.yyyy' }}</span>
+                </p>
+
+                <div class="flex gap-2 mt-2 items-center">
+                  @if (deletingId === decree.id) {
+                    <bc-spinner></bc-spinner>
+                  }
+                  <bc-button
+                    [label]="'CONTROL_SIGNS.DELETE.ACTION' | translate"
+                    variant="tertiary"
+                    [disabled]="filter !== filterValues.COLLECTION_CONTROL_SIGN_FILTER_READY_TO_DELETE || !!deletingId"
+                    (buttonClick)="deleteDecree(decree, group)"
+                    icon="remove"></bc-button>
+                  <bc-button
+                    [label]="'CONTROL_SIGNS.SENSITIVE_DATA_EXPIRY_DATE.ACTION' | translate"
+                    variant="tertiary"
+                    (buttonClick)="setDecreeSensitiveDataExpiryDate(decree, group)"
+                    [disabled]="!!deletingId"
+                    icon="repeat"></bc-button>
+                </div>
+
+                <div class="flex flex-col gap-3 mt-3">
+                  @for (referendum of decree.collections; track referendum.collection.id) {
+                    <vo-ecol-referendum-card
+                      [referendum]="referendum"
+                      [decree]="decree"
+                      [showState]="false">
+                    </vo-ecol-referendum-card>
+                  }
+                </div>
+              </vo-ecol-decree-card>
+            }
+
+            @if (loading) {
+              <bc-spinner></bc-spinner>
+            } @else if (group.decrees.length === 0 && group.initiatives.length === 0 && (group.domainOfInfluenceType !== municipalityDoiType || !!selectedMunicipality)) {
+              <p class="no-data">{{ 'CONTROL_SIGNS.NO_DATA' | translate }}</p>
+            }
+          </div>
+        </vo-ecol-doi-type-card>
+      }
+    </div>
+  }
+</vo-lib-page>
+

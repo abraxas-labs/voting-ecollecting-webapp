@@ -1,0 +1,358 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "admin": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/admin",
+      "sourceRoot": "projects/admin/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": {
+              "base": "projects/admin/dist"
+            },
+            "index": "projects/admin/src/index.html",
+            "polyfills": ["zone.js"],
+            "tsConfig": "projects/admin/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+                "moment",
+                "moment/locale/de",
+                "deep-equal",
+                "file-saver",
+                "lodash",
+                "google-protobuf",
+                "grpc-web",
+                "google-protobuf/google/protobuf/empty_pb",
+                "google-protobuf/google/protobuf/timestamp_pb",
+                "deepmerge",
+                "jsrsasign"
+              ],
+            "assets": [
+              "projects/admin/src/favicon.ico",
+              "projects/admin/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@abraxas/base-components/src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@abraxas/voting-lib/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/ecollecting-lib/assets",
+                "output": "assets"
+              }
+            ],
+            "styles": [
+              "projects/admin/src/styles.scss"
+            ],
+            "loader": {
+              ".ttf": "file",
+              ".woff": "file",
+              ".woff2": "file"
+            },
+            "scripts": [],
+            "browser": "projects/admin/src/main.ts"
+          },
+          "configurations": {
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "local-sta": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/admin/src/environments/environment.ts",
+                  "with": "projects/admin/src/environments/environment.local-sta.ts"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/admin/src/environments/environment.ts",
+                  "with": "projects/admin/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": {
+                "styles": {
+                  "inlineCritical": false
+                }
+              },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "7mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": ""
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "admin:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "admin:build:production"
+            },
+            "local-sta": {
+              "buildTarget": "admin:build:local-sta"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/admin/src/**/*.ts",
+              "projects/admin/src/**/*.component.html"
+            ]
+          }
+        }
+      }
+    },
+    "citizen": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/citizen",
+      "sourceRoot": "projects/citizen/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": {
+              "base": "projects/citizen/dist"
+            },
+            "index": "projects/citizen/src/index.html",
+            "polyfills": ["zone.js"],
+            "tsConfig": "projects/citizen/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "moment",
+              "moment/locale/de",
+              "deep-equal",
+              "file-saver",
+              "lodash",
+              "google-protobuf",
+              "grpc-web",
+              "google-protobuf/google/protobuf/empty_pb",
+              "google-protobuf/google/protobuf/timestamp_pb",
+              "deepmerge",
+              "jsrsasign"
+            ],
+            "assets": [
+              "projects/citizen/src/favicon.ico",
+              "projects/citizen/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@abraxas/base-components/src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@abraxas/voting-lib/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/ecollecting-lib/assets",
+                "output": "assets"
+              }
+            ],
+            "styles": [
+              "projects/citizen/src/styles.scss"
+            ],
+            "loader": {
+              ".ttf": "file",
+              ".woff": "file",
+              ".woff2": "file"
+            },
+            "scripts": [],
+            "browser": "projects/citizen/src/main.ts"
+          },
+          "configurations": {
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "local-sta": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/citizen/src/environments/environment.ts",
+                  "with": "projects/citizen/src/environments/environment.local-sta.ts"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/citizen/src/environments/environment.ts",
+                  "with": "projects/citizen/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": {
+                "styles": {
+                  "inlineCritical": false
+                }
+              },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "7mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": ""
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "citizen:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "citizen:build:production"
+            },
+            "local-sta": {
+              "buildTarget": "citizen:build:local-sta"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/citizen/src/**/*.ts",
+              "projects/citizen/src/**/*.component.html"
+            ]
+          }
+        }
+      }
+    },
+    "ecollecting-lib": {
+      "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ecollecting-lib",
+      "sourceRoot": "projects/ecollecting-lib/src",
+      "prefix": "vo-ecol",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ecollecting-lib/tsconfig.lib.json",
+            "project": "projects/ecollecting-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ecollecting-lib/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ecollecting-lib/src/**/*.ts",
+              "projects/ecollecting-lib/src/**/*.component.html"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
+  }
+}

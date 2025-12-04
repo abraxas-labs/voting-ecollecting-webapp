@@ -1,0 +1,23 @@
+<div class="files">
+  <div class="file" [class.pl-3]="!loading" [class.pl-2]="loading" [class.pr-3]="!canRemove">
+
+    @if (loading) {
+      <bc-spinner class="mr-1"></bc-spinner>
+    }
+
+    @if (canOpen) {
+      <bc-link (buttonClick)="$event.preventDefault(); open.emit()">{{label}}</bc-link>
+    } @else {
+      {{label}}
+    }
+
+    @if (canRemove && !loading) {
+      <bc-icon-button
+        class="remove"
+        [icon]="'remove'"
+        (click)="remove.emit()"
+        [variant]="'tertiary'"
+        [ariaLabel]="'APP.DELETE' | translate"></bc-icon-button>
+    }
+  </div>
+</div>

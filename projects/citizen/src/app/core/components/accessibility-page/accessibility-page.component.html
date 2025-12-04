@@ -1,0 +1,86 @@
+<div class="page">
+  <div class="p-3">
+    <h1>{{ 'ACCESSIBILITY.TITLE' | translate }}</h1>
+    <p class="info">
+      <span>{{ 'ACCESSIBILITY.INFO_1' | translate }}</span>
+      <bc-link href="mailto:support@sg.ch">{{ 'ACCESSIBILITY.INFO_2' | translate }}</bc-link>
+      <span>{{ 'ACCESSIBILITY.INFO_3' | translate }}</span>
+    </p>
+    <h2>{{ 'ACCESSIBILITY.FORM.TITLE' | translate }}</h2>
+    <p class="info">{{ 'ACCESSIBILITY.FORM.INFO' | translate }}</p>
+
+    @if (sent) {
+      <bc-alert-bar [message]="'ACCESSIBILITY.FORM.SENT' | translate" [color]="'info'" [displayDismissAction]="false"></bc-alert-bar>
+    } @else {
+      <div class="flex flex-wrap flex-col gap-2" [formGroup]="form">
+        <bc-radio-button-group
+          [orientation]="'horizontal'"
+          [items]="salutationChoices"
+          [formControl]="form.controls.salutation"
+          subscriptSizing="dynamic"
+        ></bc-radio-button-group>
+        <div class="fields">
+          <bc-text
+            [formControl]="form.controls.firstName"
+            [label]="'ACCESSIBILITY.FORM.FIRST_NAME' | translate"
+            [showDefaultErrors]="true"
+            subscriptSizing="dynamic"
+          ></bc-text>
+          <bc-text
+            [formControl]="form.controls.lastName"
+            [label]="'ACCESSIBILITY.FORM.LAST_NAME' | translate"
+            [showDefaultErrors]="true"
+            subscriptSizing="dynamic"
+          ></bc-text>
+        </div>
+        <div class="fields">
+          <bc-text
+            [formControl]="form.controls.email"
+            [label]="'ACCESSIBILITY.FORM.EMAIL' | translate"
+            [showDefaultErrors]="true"
+            [required]="true"
+            subscriptSizing="dynamic"
+          ></bc-text>
+          <bc-text
+            [formControl]="form.controls.phone"
+            [label]="'ACCESSIBILITY.FORM.PHONE' | translate"
+            [showDefaultErrors]="true"
+            subscriptSizing="dynamic"
+          ></bc-text>
+        </div>
+        <bc-dropdown
+          [formControl]="form.controls.category"
+          [items]="categoryItems"
+          displayExpr="description"
+          valueExpr="value"
+          [label]="'ACCESSIBILITY.FORM.CATEGORY.TITLE' | translate"
+          [required]="true"
+          subscriptSizing="dynamic"
+        ></bc-dropdown>
+        <bc-textarea
+          [formControl]="form.controls.message"
+          [label]="'ACCESSIBILITY.FORM.MESSAGE' | translate"
+          [required]="true"
+          [showDefaultErrors]="true"
+          subscriptSizing="dynamic"
+        ></bc-textarea>
+        <div class="flex">
+          <vo-lib-inline-spinner [position]="'right'" [loading]="sending">
+            <bc-button
+              [variant]="'primary'"
+              (buttonClick)="send()"
+              [label]="'ACCESSIBILITY.FORM.SEND' | translate"
+              [disabled]="!form.valid || sending"
+            ></bc-button>
+            <bc-button
+              [variant]="'secondary'"
+              (buttonClick)="reset()"
+              [label]="'ACCESSIBILITY.FORM.RESET' | translate"
+              [disabled]="sending"
+            ></bc-button>
+          </vo-lib-inline-spinner>
+        </div>
+      </div>
+    }
+  </div>
+</div>

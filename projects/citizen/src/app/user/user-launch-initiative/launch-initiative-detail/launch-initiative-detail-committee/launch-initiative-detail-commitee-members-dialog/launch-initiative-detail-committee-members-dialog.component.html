@@ -1,0 +1,120 @@
+<vo-ecol-dialog
+  [header]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ADD_DIALOG.TITLE'"
+  [okText]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ADD_DIALOG.SAVE_AND_NEXT'"
+  (ok)="save(false)"
+  [canOk]="form.valid"
+  [showOk]="!readonly && !editing"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  @if (!readonly) {
+    <vo-lib-inline-spinner actions [loading]="savingAndClose" position="left">
+      <bc-button color="primary"
+                 [label]="(editing ? 'APP.SAVE' : 'APP.SAVE_AND_CLOSE') | translate"
+                 [variant]="editing ? 'primary' : 'secondary'"
+                 (buttonClick)="save(true)"
+                 [disabled]="!form.valid"></bc-button>
+    </vo-lib-inline-spinner>
+  }
+
+  <bc-text
+    #firstName
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate"
+    [formControl]="form.controls.firstName"
+    [required]="true"
+    [showDefaultErrors]="true"
+    subscriptSizing="dynamic"
+    [readonly]="readonly"
+  ></bc-text>
+  <bc-text
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate"
+    [formControl]="form.controls.lastName"
+    [required]="true"
+    [showDefaultErrors]="true"
+    subscriptSizing="dynamic"
+    [readonly]="readonly"
+  ></bc-text>
+  <bc-text
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.POLITICAL_FIRST_NAME' | translate"
+    [formControl]="form.controls.politicalFirstName"
+    [required]="false"
+    [showDefaultErrors]="true"
+    [placeholder]="form.value.firstName ?? ''"
+    optionalText=""
+    subscriptSizing="dynamic"
+    [readonly]="readonly"
+  ></bc-text>
+  <bc-text
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.POLITICAL_LAST_NAME' | translate"
+    [formControl]="form.controls.politicalLastName"
+    [required]="false"
+    [showDefaultErrors]="true"
+    optionalText=""
+    [placeholder]="form.value.lastName ?? ''"
+    subscriptSizing="dynamic"
+    [readonly]="readonly"
+  ></bc-text>
+  <bc-date
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate"
+    [formControl]="form.controls.dateOfBirth"
+    [required]="true"
+    subscriptSizing="dynamic"
+    [adjustFormControlErrors]="false"
+    [readonly]="readonly"></bc-date>
+  <bc-autocomplete
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.RESIDENCE' | translate"
+    [formControl]="form.controls.residence"
+    [items]="dialogData.domainOfInfluences"
+    [showOptionsOnSelected]="true"
+    [required]="true"
+    [readonly]="readonly"
+    (valueChange)="selectDoi($event)"
+    displayExpr="name"
+    subscriptSizing="dynamic"
+  ></bc-autocomplete>
+  <bc-autocomplete
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.POLITICAL_RESIDENCE' | translate"
+    [formControl]="form.controls.politicalResidence"
+    [items]="dialogData.domainOfInfluences"
+    [showOptionsOnSelected]="true"
+    [required]="false"
+    [readonly]="readonly"
+    [placeholder]="selectedDomainOfInfluence?.name ?? ''"
+    optionalText=""
+    displayExpr="name"
+    subscriptSizing="dynamic"
+  ></bc-autocomplete>
+  <bc-text
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.EMAIL' | translate"
+    [formControl]="form.controls.email"
+    [required]="!!form.value.requestMemberSignature || !!form.value.role"
+    [showDefaultErrors]="true"
+    subscriptSizing="dynamic"
+    [readonly]="readonly"
+  ></bc-text>
+  <bc-text
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.POLITICAL_DUTY' | translate"
+    [formControl]="form.controls.politicalDuty"
+    [showDefaultErrors]="true"
+    subscriptSizing="dynamic"
+    [readonly]="readonly"
+  ></bc-text>
+  <bc-radio-button-group
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ROLE' | translate"
+    [items]="roleChoices"
+    [formControl]="form.controls.role"
+    [orientation]="'horizontal'"
+    subscriptSizing="dynamic"
+    [disabled]="readonly"
+  ></bc-radio-button-group>
+  <bc-radio-button-group
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.LABEL' | translate"
+    [items]="requestMemberSignatureChoices"
+    [formControl]="form.controls.requestMemberSignature"
+    [orientation]="'vertical'"
+    [disabled]="readonly || !dialogData.initiative.collection.isElectronicSubmission"
+    subscriptSizing="dynamic"
+  ></bc-radio-button-group>
+  <mat-hint>{{'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.' + (form.value.requestMemberSignature ? 'REQUEST_HINT' : 'NO_REQUEST_HINT') | translate}}</mat-hint>
+</vo-ecol-dialog>

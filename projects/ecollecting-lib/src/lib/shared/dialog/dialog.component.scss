@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  gap: 2rem;
+}
+
+bc-icon {
+  cursor: pointer;
+}

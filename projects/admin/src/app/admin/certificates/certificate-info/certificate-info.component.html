@@ -1,0 +1,9 @@
+@if (showNotAfter) {
+  <bc-label [label]="'ADMIN.CERTS.NOT_AFTER' | translate"></bc-label>
+  <span>{{ certificate.notAfter | date: 'dd.MM.yyyy HH:mm:ss' }}</span>
+}
+
+<bc-label [label]="'ADMIN.CERTS.THUMBPRINT' | translate"></bc-label>
+<span>{{ certificate.thumbprint }}</span>
+<bc-label [label]="'ADMIN.CERTS.SUBJECT' | translate"></bc-label>
+<span>{{ certificate.subject }}</span>

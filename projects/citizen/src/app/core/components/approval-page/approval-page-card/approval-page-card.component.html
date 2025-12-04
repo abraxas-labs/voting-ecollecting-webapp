@@ -1,0 +1,14 @@
+<h3 class="mb-1">{{ header | translate }}</h3>
+@if (error) {
+  <p class="msg error">{{ error | translate }}</p>
+} @else if (success) {
+  <p class="msg success">{{ success | translate }}</p>
+} @else {
+  @if (hint) {
+    <p>{{ hint | translate }}</p>
+  }
+
+  <div class="actions">
+    <ng-content select="[actions]"></ng-content>
+  </div>
+}

@@ -1,0 +1,39 @@
+<vo-ecol-dialog
+  [header]="'COLLECTION.DETAIL.PERMISSIONS.DIALOG.TITLE'"
+  [okText]="'APP.CREATE'"
+  (ok)="save()"
+  [canOk]="form.valid"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <bc-text
+    [label]="'COLLECTION.DETAIL.PERMISSIONS.DIALOG.LAST_NAME' | translate"
+    [formControl]="form.controls.lastName"
+    [required]="true"
+    [showDefaultErrors]="true"
+    subscriptSizing="dynamic"
+  ></bc-text>
+  <bc-text
+    [label]="'COLLECTION.DETAIL.PERMISSIONS.DIALOG.FIRST_NAME' | translate"
+    [formControl]="form.controls.firstName"
+    [required]="true"
+    [showDefaultErrors]="true"
+    subscriptSizing="dynamic"
+  ></bc-text>
+  <bc-text
+    [label]="'COLLECTION.DETAIL.PERMISSIONS.DIALOG.EMAIL' | translate"
+    [formControl]="form.controls.email"
+    [required]="true"
+    [showDefaultErrors]="true"
+    subscriptSizing="dynamic"
+  ></bc-text>
+  <bc-radio-button-group
+    [label]="'COLLECTION.DETAIL.PERMISSIONS.DIALOG.ROLE' | translate"
+    [items]="roleChoices"
+    [formControl]="form.controls.role"
+    [orientation]="'vertical'"
+    [required]="true"
+    subscriptSizing="dynamic"
+  ></bc-radio-button-group>
+</vo-ecol-dialog>

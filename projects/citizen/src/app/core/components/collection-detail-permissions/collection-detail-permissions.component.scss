@@ -1,0 +1,14 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/table' as *;
+
+.content {
+  margin-top: 1rem;
+}
+
+::ng-deep .bc-column-last-name,
+::ng-deep .bc-column-first-name,
+::ng-deep .bc-column-email,
+::ng-deep .bc-column-accepted,
+::ng-deep .bc-column-role {
+  @include truncate-long-sortable-table-header();
+}

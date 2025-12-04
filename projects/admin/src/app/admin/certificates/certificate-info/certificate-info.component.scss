@@ -1,0 +1,26 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+:host {
+  @extend .p-2;
+
+  font-size: 13px; // same as bc-label
+  display: grid;
+  grid-auto-rows: min-content;
+  column-gap: 0.75rem;
+
+  bc-label ~ span {
+    @extend .mb-2;
+  }
+
+  &.two-col-layout {
+    grid-template-columns: auto 1fr;
+  }
+
+  span {
+    white-space: pre-line;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,83 @@
+<bc-expansion-panel
+  [header]="domainOfInfluence.name"
+  [expanded]="true">
+  <div header class="hint" [class.success]="message === 'saved'">
+    <p class="m-0">
+      @switch (message) {
+        @case ('saved') {
+          <bc-icon icon="checkmark"></bc-icon>
+          {{'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.SAVED' | translate}}
+        }
+        @case ('saving') {
+          {{'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.SAVING' | translate}}
+        }
+      }
+    </p>
+  </div>
+  <bc-text
+    [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.NAME' | translate"
+    subscriptSizing="dynamic"
+    [required]="true"
+    [showDefaultErrors]="true"
+    [error]="form.controls.name.touched && form.controls.name.invalid"
+    [formControl]="form.controls.name"></bc-text>
+  <bc-text
+    [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.STREET' | translate"
+    subscriptSizing="dynamic"
+    [required]="true"
+    [showDefaultErrors]="true"
+    [error]="form.controls.street.touched && form.controls.street.invalid"
+    [formControl]="form.controls.street"></bc-text>
+  <div class="flex gap-x-2">
+    <bc-text
+      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.ZIP_CODE' | translate"
+      subscriptSizing="dynamic"
+      [required]="true"
+      [showDefaultErrors]="true"
+      [error]="form.controls.zipCode.touched && form.controls.zipCode.invalid"
+      [formControl]="form.controls.zipCode"></bc-text>
+    <bc-text
+      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOCALITY' | translate"
+      subscriptSizing="dynamic"
+      [required]="true"
+      [showDefaultErrors]="true"
+      [error]="form.controls.locality.touched && form.controls.locality.invalid"
+      [formControl]="form.controls.locality"></bc-text>
+  </div>
+  <div class="flex gap-x-2">
+    <bc-text
+      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.PHONE' | translate"
+      subscriptSizing="dynamic"
+      [showDefaultErrors]="true"
+      [error]="form.controls.phone.touched && form.controls.phone.invalid"
+      [formControl]="form.controls.phone"></bc-text>
+    <bc-text
+      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.E_MAIL' | translate"
+      subscriptSizing="dynamic"
+      [showDefaultErrors]="true"
+      [error]="form.controls.email.touched && form.controls.email.invalid"
+      [formControl]="form.controls.email"></bc-text>
+  </div>
+  <bc-text
+    [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.WEBPAGE' | translate"
+    subscriptSizing="dynamic"
+    [showDefaultErrors]="true"
+    [error]="form.controls.webpage.touched && form.controls.webpage.invalid"
+    [formControl]="form.controls.webpage"></bc-text>
+
+  @if (domainOfInfluence.address === undefined) {
+    <p class="mt-2 no-data">{{'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.REQUIRED_DATA_NEEDED' | translate }}</p>
+  } @else {
+    <vo-ecol-image-upload
+      class="flex-1"
+      [imageSrc]="logo | async"
+      (imageChanged)="updateLogo($event)"
+      (imageDeleted)="deleteLogo()"
+      [required]="true"
+      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.TITLE' | translate"
+      [error]="updateLogoError"
+      [filename]="domainOfInfluence.logo?.name ?? ''"
+      [fileLoading]="logoLoading"
+    ></vo-ecol-image-upload>
+  }
+</bc-expansion-panel>

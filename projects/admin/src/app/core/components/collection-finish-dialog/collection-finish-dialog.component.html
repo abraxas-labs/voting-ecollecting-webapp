@@ -1,0 +1,82 @@
+<vo-ecol-dialog
+  [header]="'COLLECTION.FINISH_DIALOG.TITLE'"
+  [okText]="'COLLECTION.FINISH_DIALOG.FINISH'"
+  (ok)="finish()"
+  [canOk]="form.valid"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <p>
+    <span>{{ 'COLLECTION.FINISH_DIALOG.INFO_1' | translate: { minSignatureCount: dialogData.minSignatureCount | number } }}</span>
+    <b>{{ dialogData.totalCitizenCount | number }}</b>
+    <span>{{ 'COLLECTION.FINISH_DIALOG.INFO_2' | translate }}</span>
+  </p>
+  <bc-table [dataSource]="dataSource">
+    <ng-container [columnDef]="descriptionColumn">
+      <bc-header-cell *headerCellDef>
+        {{ 'COLLECTION.FINISH_DIALOG.TABLE.DESCRIPTION' | translate }}
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row">
+        <div truncateWithTooltip tooltip>{{ row.description }}</div>
+      </bc-data-cell>
+    </ng-container>
+    <ng-container [columnDef]="electronicAttestedColumn">
+      <bc-header-cell *headerCellDef class="text-right">
+        {{ 'COLLECTION.FINISH_DIALOG.TABLE.ELECTRONIC_ATTESTED' | translate }}
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row" class="text-right">
+        {{ row.electronicCitizenCount | number }}
+      </bc-data-cell>
+    </ng-container>
+    <ng-container [columnDef]="totalAttestedColumn">
+      <bc-header-cell *headerCellDef class="text-right">
+        {{ 'COLLECTION.FINISH_DIALOG.TABLE.TOTAL_ATTESTED' | translate }}
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row" class="text-right">
+        {{ row.totalCitizenCount | number }}
+      </bc-data-cell>
+    </ng-container>
+
+    <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+    <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+  </bc-table>
+  <div class="flex gap-2 my-2">
+    <bc-status-toggle
+      [label]="'COLLECTION.STATES.' + collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT | translate"
+      [active]="cameAbout"
+      (activeChange)="cameAbout = $event; cameNotAbout = false; updateValidators()"
+      [color]="'info'"
+    ></bc-status-toggle>
+    <bc-status-toggle
+      [label]="'COLLECTION.STATES.' + collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT | translate"
+      [active]="cameNotAbout"
+      (activeChange)="cameNotAbout = $event; cameAbout = false; updateValidators()"
+      [color]="'error'"
+    ></bc-status-toggle>
+  </div>
+
+  @if (cameAbout) {
+    <ng-container [ngTemplateOutlet]="sensitiveDataExpiryDateTemplate"></ng-container>
+  } @else if (cameNotAbout) {
+    <bc-radio-button-group
+      [label]="'COLLECTION.FINISH_DIALOG.CAME_NOT_ABOUT_REASON' | translate"
+      [orientation]="'vertical'"
+      [items]="cameNotAboutReasonChoices"
+      [formControl]="form.controls.cameNotAboutReason"
+      subscriptSizing="dynamic"
+    ></bc-radio-button-group>
+    <ng-container [ngTemplateOutlet]="sensitiveDataExpiryDateTemplate"></ng-container>
+  }
+
+  <ng-template #sensitiveDataExpiryDateTemplate>
+    <bc-date
+      [min]="now"
+      [label]="'COLLECTION.FINISH_DIALOG.SENSITIVE_DATA_EXPIRY_DATE' | translate"
+      [formControl]="form.controls.sensitiveDataExpiryDate"
+      [required]="true"
+      subscriptSizing="dynamic"
+      [adjustFormControlErrors]="false"
+    >
+    </bc-date>
+  </ng-template>
+</vo-ecol-dialog>

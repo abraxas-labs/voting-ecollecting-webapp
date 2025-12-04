@@ -1,0 +1,66 @@
+<div class="layout page">
+  @if (collection) {
+    <div class="layout-header">
+      <bc-sub-navigation-bar
+        [type]="'subpage'"
+        [border]="false"
+        (actionClick)="back()"
+      >
+        <h4 sub-navigation-title truncateWithTooltip
+            tooltip>{{ 'COLLECTION.TITLE' | translate: { description: collection.collection.description } | translate }}</h4>
+        <div></div>
+        <!-- placeholder which is forcing divider to be displayed -->
+      </bc-sub-navigation-bar>
+      <bc-divider [orientation]="'horizontal'"></bc-divider>
+    </div>
+
+    <div class="layout-content p-3 overflow-auto">
+      @if (collection.collection.userPermissions?.canAddSignatureSheet) {
+        <div class="flex items-center">
+          <h2>{{ 'COLLECTION.SIGNATURE_SHEETS.TITLE' | translate }}</h2>
+          <div class="grow"></div>
+          <bc-button (buttonClick)="new()"
+                     [label]="'COLLECTION.SIGNATURE_SHEETS.NEW' | translate"
+                     variant="tertiary"
+                     icon="plus"></bc-button>
+          <bc-button (buttonClick)="attest()"
+                     [label]="'COLLECTION.SIGNATURE_SHEETS.ATTEST' | translate"
+                     variant="tertiary"
+                     [disabled]="selected.length === 0 || isAttesting"
+                     icon="print"></bc-button>
+
+          @if (isAttesting) {
+            <bc-spinner></bc-spinner>
+          }
+        </div>
+
+        <app-signature-sheet-table
+          #createdTable
+          [collectionId]="collection.id"
+          [state]="sheetStates.COLLECTION_SIGNATURE_SHEET_STATE_CREATED"
+          (selectionChange)="selected = $event"></app-signature-sheet-table>
+      }
+
+      <div class="flex items-center" [class.mt-5]="collection.collection.userPermissions?.canAddSignatureSheet">
+        <h2>{{ 'COLLECTION.SIGNATURE_SHEETS.ATTESTED_TITLE' | translate }}</h2>
+        <div class="grow"></div>
+
+        <bc-button (buttonClick)="reattest()"
+                   [label]="'COLLECTION.SIGNATURE_SHEETS.REATTEST' | translate"
+                   variant="tertiary"
+                   [disabled]="selectedAttested.length === 0 || isReattesting"
+                   icon="print"></bc-button>
+
+        @if (isReattesting) {
+          <bc-spinner></bc-spinner>
+        }
+      </div>
+      <app-signature-sheet-table
+        #attestedTable
+        [collectionId]="collection.id"
+        [state]="sheetStates.COLLECTION_SIGNATURE_SHEET_STATE_ATTESTED"
+        [paged]="true"
+        (selectionChange)="selectedAttested = $event"></app-signature-sheet-table>
+    </div>
+  }
+</div>

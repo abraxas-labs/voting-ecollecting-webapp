@@ -1,0 +1,17 @@
+@switch (state) {
+  @case (collectionPeriodStates.COLLECTION_PERIOD_STATE_PUBLISHED) {
+    <bc-status-label class="self-center"
+                     size="large"
+                     [label]="('COLLECTION.PERIOD_STATES.' + collectionPeriodStates.COLLECTION_PERIOD_STATE_PUBLISHED) | translate: { days: collectionStartDate | dayDiff: now }"></bc-status-label>
+  }
+  @case (collectionPeriodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION) {
+    <bc-status-label class="self-center"
+                     size="large"
+                     [label]="('COLLECTION.PERIOD_STATES.' + collectionPeriodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION) | translate: { days: collectionEndDate | dayDiff: now }"></bc-status-label>
+  }
+  @default {
+    <bc-status-label class="self-center"
+                     size="large"
+                     [label]="('COLLECTION.PERIOD_STATES.' + collectionPeriodStates.COLLECTION_PERIOD_STATE_EXPIRED) | translate"></bc-status-label>
+  }
+}

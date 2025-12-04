@@ -1,0 +1,24 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+@use '@abraxas/voting-lib/style/color' as *;
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  @include sm-up() {
+    justify-content: unset;
+  }
+}
+
+bc-alert-bar ::ng-deep {
+  .alert-banner {
+    background-color: unset;
+    padding: 8px 0;
+  }
+
+  .banner-text {
+    color: $color-info;
+  }
+}

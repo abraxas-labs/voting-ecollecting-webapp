@@ -1,0 +1,115 @@
+@if (referendum && !loading) {
+  <bc-card class="m-3" [border]="false">
+    <bc-card-header>
+      <bc-card-title [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.TITLE' | translate"></bc-card-title>
+    </bc-card-header>
+    <bc-card-content class="flex flex-col gap-y-2">
+      <bc-text
+        [formControl]="form.controls.description"
+        [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.DESCRIPTION' | translate"
+        [hint]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.DESCRIPTION_HINT' | translate"
+        [required]="true"
+        [showDefaultErrors]="true"
+        [error]="form.controls.description.invalid"
+        [readonly]="!referendum.collection.userPermissions?.canEdit"
+        subscriptSizing="dynamic"
+      ></bc-text>
+      <bc-textarea
+        [formControl]="form.controls.reason"
+        [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.REASON' | translate"
+        [showDefaultErrors]="true"
+        [readonly]="!referendum.collection.userPermissions?.canEdit"
+        subscriptSizing="dynamic"
+      ></bc-textarea>
+      <bc-text
+        [formControl]="form.controls.address.controls.committeeOrPerson"
+        [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.ADDRESS.COMMITTEE_OR_PERSON' | translate"
+        [required]="true"
+        [showDefaultErrors]="true"
+        [error]="form.controls.address.controls.committeeOrPerson.invalid"
+        [readonly]="!referendum.collection.userPermissions?.canEdit"
+        subscriptSizing="dynamic"
+      ></bc-text>
+      <bc-text
+        [formControl]="form.controls.address.controls.streetOrPostOfficeBox"
+        [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.ADDRESS.STREET_OR_POST_OFFICE_BOX' | translate"
+        [required]="true"
+        [showDefaultErrors]="true"
+        [error]="form.controls.address.controls.streetOrPostOfficeBox.invalid"
+        [readonly]="!referendum.collection.userPermissions?.canEdit"
+        subscriptSizing="dynamic"
+      ></bc-text>
+      <div class="zip-code-locality-container">
+        <bc-text
+          [formControl]="form.controls.address.controls.zipCode"
+          [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.ADDRESS.ZIP_CODE' | translate"
+          [required]="true"
+          [showDefaultErrors]="true"
+          [error]="form.controls.address.controls.zipCode.invalid"
+          [readonly]="!referendum.collection.userPermissions?.canEdit"
+          subscriptSizing="dynamic"
+        ></bc-text>
+        <bc-text
+          [formControl]="form.controls.address.controls.locality"
+          [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.ADDRESS.LOCALITY' | translate"
+          [required]="true"
+          [showDefaultErrors]="true"
+          [error]="form.controls.address.controls.locality.invalid"
+          [readonly]="!referendum.collection.userPermissions?.canEdit"
+          subscriptSizing="dynamic"
+        ></bc-text>
+      </div>
+      <bc-textarea
+        [formControl]="form.controls.membersCommittee"
+        [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.MEMBERS_COMMITTEE' | translate"
+        [showDefaultErrors]="true"
+        [readonly]="!referendum.collection.userPermissions?.canEdit"
+        subscriptSizing="dynamic"
+      ></bc-textarea>
+      <bc-text
+        [formControl]="form.controls.link"
+        [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.LINK' | translate"
+        [showDefaultErrors]="true"
+        [readonly]="!referendum.collection.userPermissions?.canEdit"
+        subscriptSizing="dynamic"
+      ></bc-text>
+      <div class="flex flex-wrap gap-x-5 mt-1">
+        <vo-ecol-image-upload
+          class="flex-1"
+          [imageSrc]="image | async"
+          (imageChanged)="updateImage($event)"
+          (imageDeleted)="deleteImage()"
+          [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.IMAGE' | translate"
+          [hint]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.IMAGE_HINT' | translate"
+          [error]="updateImageError"
+          [filename]="referendum.collection.image?.name ?? ''"
+          [fileLoading]="imageLoading"
+          [canUpload]="referendum.collection.userPermissions?.canEdit ?? false"
+          [canDelete]="referendum.collection.userPermissions?.canEdit ?? false"
+        ></vo-ecol-image-upload>
+        <vo-ecol-image-upload
+          class="flex-1"
+          [imageSrc]="logo | async"
+          (imageChanged)="updateLogo($event)"
+          (imageDeleted)="deleteLogo()"
+          [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.LOGO' | translate"
+          [hint]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.IMAGE_HINT' | translate"
+          [error]="updateLogoError"
+          [filename]="referendum.collection.logo?.name ?? ''"
+          [fileLoading]="logoLoading"
+          [canUpload]="referendum.collection.userPermissions?.canEdit ?? false"
+          [canDelete]="referendum.collection.userPermissions?.canEdit ?? false"
+        ></vo-ecol-image-upload>
+      </div>
+      @if (referendum.collection.userPermissions?.canEdit) {
+        <p class="mt-3">{{ 'COLLECTION.DETAIL.GENERAL_INFORMATION.IMAGE_DISCLAIMER' | translate }}</p>
+      }
+    </bc-card-content>
+  </bc-card>
+}
+
+@if (loading) {
+  <div class="m-5">
+    <bc-spinner size="large"></bc-spinner>
+  </div>
+}

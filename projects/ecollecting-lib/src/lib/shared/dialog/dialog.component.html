@@ -1,0 +1,22 @@
+<bc-dialog>
+  <div header class="header">
+    @if (showDiscard) {
+      <bc-icon-button variant="tertiary" icon="cancel" (buttonClick)="discard.emit()" [ariaLabel]="'APP.CLOSE' | translate"></bc-icon-button>
+    }
+
+    {{ header | translate }}
+  </div>
+  <ng-content></ng-content>
+  <div buttons class="buttons">
+    @if (showDiscard) {
+      <bc-button color="primary" [label]="discardText | translate" variant="tertiary" (buttonClick)="discard.emit()"></bc-button>
+    }
+
+    <ng-content select="[actions]"></ng-content>
+    @if (showOk) {
+      <vo-lib-inline-spinner [loading]="saving" position="left">
+        <bc-button cdkFocusInitial [color]="okColor" [label]="okText | translate" variant="primary" (buttonClick)="ok.emit()" [disabled]="!canOk"></bc-button>
+      </vo-lib-inline-spinner>
+    }
+  </div>
+</bc-dialog>

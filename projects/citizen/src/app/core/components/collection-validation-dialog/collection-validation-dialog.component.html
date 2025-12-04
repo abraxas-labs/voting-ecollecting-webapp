@@ -1,0 +1,22 @@
+<vo-ecol-dialog
+  [header]="title | translate"
+  (ok)="ok()"
+  (discard)="close()"
+  [okText]="'COLLECTION.VALIDATION.SUBMIT' | translate"
+  [canOk]="validationSummary.isValid"
+>
+  <h4>{{ 'COLLECTION.VALIDATION.' + (validationSummary.isValid ? 'VALID' : 'INVALID') | translate }}</h4>
+  @for (validationResult of validationSummary.validationResults; track validationResult.validation) {
+    <div class="flex items-center gap-x-1 my-2">
+      @if (validationResult.isValid) {
+        <bc-icon [icon]="'checkmark'" [iconColor]="'success'"></bc-icon>
+      } @else {
+        <bc-icon [icon]="'exclamation-triangle-o'" [iconColor]="'error'"></bc-icon>
+      }
+      <span>
+        {{ 'COLLECTION.VALIDATION.VALUES.' + validationResult.validation + (validationResult.isValid ? '_VALID' : '_INVALID') | translate }}
+      </span>
+    </div>
+  }
+  <p class="info mt-3">{{ info | translate }}</p>
+</vo-ecol-dialog>

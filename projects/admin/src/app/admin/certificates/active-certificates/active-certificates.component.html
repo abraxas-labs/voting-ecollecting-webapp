@@ -1,0 +1,60 @@
+<h2>{{ 'ADMIN.CERTS.ACTIVE.TITLE' | translate }}</h2>
+@if (activeCertificate) {
+  <div class="container">
+    <app-active-certificate-card
+      [notAfter]="activeCertificate.activeCertificate.info.notAfter"
+      [numberOfDaysWarning]="14"
+      [numberOfDaysError]="5"
+      label="ADMIN.CERTS.ACTIVE.BACKUP_CERT_TITLE">
+      <bc-label [label]="'ADMIN.CERTS.NOT_AFTER' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.activeCertificate.info.notAfter | date: 'dd.MM.yyyy HH:mm:ss' }}</span>
+      <bc-label [label]="'ADMIN.CERTS.THUMBPRINT_CA' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.activeCertificate.caInfo.thumbprint }}</span>
+      <bc-label [label]="'ADMIN.CERTS.SUBJECT' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.activeCertificate.info.subject }}</span>
+      <bc-label [label]="'ADMIN.CERTS.THUMBPRINT' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.activeCertificate.info.thumbprint }}</span>
+      <bc-label [label]="'ADMIN.CERTS.IMPORTED_AT' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.activeCertificate.importedAt | date: 'dd.MM.yyyy HH:mm:ss' }}</span>
+      <bc-label [label]="'ADMIN.CERTS.IMPORTED_BY' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.activeCertificate.importedByName }}</span>
+      <bc-label [label]="'ADMIN.CERTS.LABEL' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.activeCertificate.label }}</span>
+      <bc-button footer
+                 icon="copy"
+                 variant="tertiary"
+                 (buttonClick)="copy(activeCertificate!.activeCertificate.info.thumbprint)"
+                 [label]="'ADMIN.CERTS.ACTIVE.COPY' | translate"></bc-button>
+      <bc-button footer
+                 class="ml-0"
+                 icon="plus"
+                 variant="tertiary"
+                 (buttonClick)="importNew()"
+                 [label]="'ADMIN.CERTS.ACTIVE.IMPORT' | translate"></bc-button>
+    </app-active-certificate-card>
+    <app-active-certificate-card
+      [notAfter]="activeCertificate.caCertificate.notAfter"
+      [numberOfDaysWarning]="180"
+      [numberOfDaysError]="90"
+      label="ADMIN.CERTS.ACTIVE.CA_CERT_TITLE">
+      <bc-label [label]="'ADMIN.CERTS.NOT_AFTER' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.caCertificate.notAfter | date: 'dd.MM.yyyy HH:mm:ss' }}</span>
+      <bc-label [label]="'ADMIN.CERTS.THUMBPRINT_CA' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.caCertificate.thumbprint }}</span>
+      <bc-button footer
+                 icon="copy"
+                 variant="tertiary"
+                 (buttonClick)="copy(activeCertificate!.caCertificate.thumbprint)"
+                 [label]="'ADMIN.CERTS.ACTIVE.COPY_CA' | translate"></bc-button>
+    </app-active-certificate-card>
+  </div>
+} @else if (notFound) {
+  <bc-error>{{ 'ADMIN.CERTS.NOT_FOUND' | translate }}</bc-error>
+  <bc-button icon="plus"
+             class="block mt-2"
+             variant="tertiary"
+             (buttonClick)="importNew()"
+             [label]="'ADMIN.CERTS.ACTIVE.IMPORT' | translate"></bc-button>
+} @else {
+  <bc-spinner></bc-spinner>
+}

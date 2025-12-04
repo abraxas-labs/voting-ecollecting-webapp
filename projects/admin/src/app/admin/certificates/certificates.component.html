@@ -1,0 +1,9 @@
+<h1>{{ 'ADMIN.CERTS.TITLE' | translate }}</h1>
+
+<div class="overflow-auto">
+  <app-active-certificates (certificateImported)="loadData()"></app-active-certificates>
+  <app-certificates-list
+    class="block mt-4"
+    [loading]="loading"
+    [certificates]="certificates"></app-certificates-list>
+</div>

@@ -1,0 +1,39 @@
+@if (initiative) {
+  <app-sign-page
+    [periodState]="initiative.collection.periodState"
+    [maxSignatures]="initiative.maxElectronicSignatureCount"
+    [collection]="initiative.collection"
+    [committee]="initiative.committeeDescription ?? ''"
+    navbarLabel="SIGN_INITIATIVE.TITLE"
+  >
+    <ng-container info>
+      <h1>{{ initiative.collection.description }}</h1>
+      <p>{{ initiative.wording }}</p>
+      <p class="font-bold mb-1">{{ initiative.collection.reason }}</p>
+
+      @if (initiative.collection.link) {
+        <bc-link class="wrap-break-word"
+                 target="_blank"
+                 [href]="initiative.collection.link">{{ initiative.collection.link }}</bc-link>
+      }
+      @if (initiative.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="'SIGN_INITIATIVE.CAME_ABOUT' | translate"
+        ></bc-alert-bar>
+      } @else if (initiative.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="
+            'SIGN_INITIATIVE.CAME_NOT_ABOUT'
+              | translate: { reason: 'COLLECTION.CAME_NOT_ABOUT_REASONS.' + initiative.cameNotAboutReason | translate }
+          "
+        ></bc-alert-bar>
+      }
+    </ng-container>
+  </app-sign-page>
+}

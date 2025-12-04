@@ -1,0 +1,126 @@
+<vo-lib-page [contentLoading]="loading">
+  <vo-ecol-collection-filter
+    [initialActiveFilterId]="initialFilterId"
+    [initialActiveSubFilterId]="initialSubFilterId"
+    [filters]="filters"
+    (filterChange)="filterChange($event)"></vo-ecol-collection-filter>
+  <div class="flex flex-col gap-3 mt-3">
+    @for (group of filteredGroups; track group.domainOfInfluenceType) {
+      <vo-ecol-doi-type-card [doiType]="group.domainOfInfluenceType">
+        @if (group.domainOfInfluenceType === municipalityDoiType) {
+          @if (municipalities.length > 1) {
+            <vo-ecol-municipality-filter
+              [domainOfInfluences]="municipalities"
+              [showHint]="false"
+              [(selectedDomainOfInfluence)]="selectedMunicipality"
+              (selectedDomainOfInfluenceChange)="applyFilter()"></vo-ecol-municipality-filter>
+          } @else if (municipalities.length === 1) {
+            <p class="municipality-name">{{ selectedMunicipality?.name }}</p>
+          }
+        }
+
+        @if (group.domainOfInfluenceType !== municipalityDoiType || selectedMunicipality) {
+          <div class="flex flex-col gap-2 mt-3">
+            @if (group.domainOfInfluenceType === municipalityDoiType && loadingMunicipalityInitiatives) {
+              <bc-spinner></bc-spinner>
+            } @else if (group.initiatives.length === 0) {
+              <p class="no-data">{{ 'INITIATIVE.NO_DATA' | translate }}</p>
+            } @else {
+              @for (initiative of group.initiatives; track initiative.collection?.id) {
+                <vo-ecol-initiative-card [initiative]="initiative" (cardClick)="open(initiative.id)" [showPeriodState]="false">
+                  <div class="mt-2 flex gap-3 items-center">
+                    <bc-button class="self-end"
+                               color="primary"
+                               variant="tertiary"
+                               (buttonClick)="open(initiative.id)"
+                               [label]="'INITIATIVE.SHOW' | translate"></bc-button>
+                    @if (initiative.collection.userPermissions?.canReadSignatureSheets) {
+                      <bc-button
+                        class="self-end"
+                        variant="tertiary"
+                        (buttonClick)="openSignatureSheets(initiative.id)"
+                        [label]="
+                                (initiative.collection.userPermissions?.canAddSignatureSheet
+                                  ? 'INITIATIVE.ADD_SIGNATURE_SHEET'
+                                  : 'INITIATIVE.SHOW_SIGNATURE_SHEETS'
+                                ) | translate
+                              "
+                      ></bc-button>
+                    }
+                    @if (initiative.collection.userPermissions?.canCheckSamples) {
+                      <bc-button
+                        class="self-end"
+                        variant="tertiary"
+                        (buttonClick)="checkSamples(initiative.id)"
+                        [label]="'INITIATIVE.CHECK_SAMPLES' | translate"
+                      ></bc-button>
+                    }
+                    @if (initiative.collection.userPermissions?.canSubmitSignatureSheets) {
+                      <bc-button
+                        class="self-end"
+                        variant="tertiary"
+                        (buttonClick)="submitSignatureSheets(initiative)"
+                        [label]="'INITIATIVE.SUBMIT_SIGNATURE_SHEETS' | translate"
+                      ></bc-button>
+                    }
+                    @if (initiative.collection.userPermissions?.canDeleteWithdrawn) {
+                      <bc-button class="self-end"
+                                 color="warn"
+                                 variant="tertiary"
+                                 (buttonClick)="delete(initiative.id, group)"
+                                 [label]="'INITIATIVE.DELETE' | translate"></bc-button>
+                    }
+                    <div class="grow"></div>
+                    @if (initiative.collection.informalReviewRequested && initiative.collection.userPermissions?.isRequestInformalReviewVisible) {
+                      <bc-alert-bar
+                        class="self-center"
+                        [color]="'warning'"
+                        [message]="'COLLECTION.INFORMAL_REVIEW_REQUESTED' | translate"
+                        [displayDismissAction]="false"
+                        [displayShowAction]="false"
+                      ></bc-alert-bar>
+                    }
+                    @if (initiative.collection.state === collectionStates.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED) {
+                      <bc-alert-bar
+                        class="self-center"
+                        [color]="'warning'"
+                        [message]="'COLLECTION.SIGNATURE_SHEETS_SUBMITTED' | translate"
+                        [displayDismissAction]="false"
+                        [displayShowAction]="false"
+                      ></bc-alert-bar>
+                    }
+
+                    @if (initiative.collection.userPermissions?.canGenerateDocuments || initiative.collection.userPermissions?.canFinish) {
+                      <div class="flex gap-2 mt-2 justify-end items-center">
+                        @if (initiative.collection.userPermissions?.canGenerateDocuments) {
+                          @if (generatingDocuments) {
+                            <bc-spinner></bc-spinner>
+                          }
+                          <bc-button
+                            variant="tertiary"
+                            [disabled]="generatingDocuments"
+                            (buttonClick)="generateDocuments(initiative)"
+                            [label]="'INITIATIVE.GENERATE_DOCUMENTS' | translate"
+                            [icon]="'file-pdf'"
+                          ></bc-button>
+                        }
+                        @if (initiative.collection.userPermissions?.canFinish) {
+                          <bc-button
+                            variant="tertiary"
+                            (buttonClick)="finish(initiative)"
+                            [label]="'INITIATIVE.FINISH' | translate"
+                            [icon]="'checkmark'"
+                          ></bc-button>
+                        }
+                      </div>
+                    }
+                  </div>
+                </vo-ecol-initiative-card>
+              }
+            }
+          </div>
+        }
+      </vo-ecol-doi-type-card>
+    }
+  </div>
+</vo-lib-page>

@@ -1,0 +1,45 @@
+<vo-ecol-dialog
+  [header]="data.title"
+  [okText]="'APP.YES'"
+  (ok)="setCollectionPeriod()"
+  [canOk]="form.valid || (!!data.collectionStartDate && !!data.collectionEndDate)"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  @if (!!data.collectionStartDate && !!data.collectionEndDate) {
+    <div class="flex gap-3">
+      <bc-readonly class="flex-1 nowrap" [label]="'INITIATIVE.COLLECTION_PERIOD_DIALOG.COLLECTION_START_DATE' | translate">
+        {{ data.collectionStartDate | date }}
+      </bc-readonly>
+      <bc-readonly [label]="'INITIATIVE.COLLECTION_PERIOD_DIALOG.COLLECTION_END_DATE' | translate">{{ data.collectionEndDate | date }}</bc-readonly>
+    </div>
+  } @else {
+    <bc-date
+      [label]="'INITIATIVE.COLLECTION_PERIOD_DIALOG.COLLECTION_START_DATE' | translate"
+      [required]="true"
+      [formControl]="form.controls.collectionStartDate"
+      [error]="form.controls.collectionStartDate.invalid"
+      [adjustFormControlErrors]="false"
+      subscriptSizing="dynamic"
+    >
+      @if (form.controls.collectionStartDate.errors?.['dateNotInFuture']) {
+        <bc-error>{{ 'INITIATIVE.COLLECTION_PERIOD_DIALOG.ERRORS.DATE_IN_FUTURE' | translate }}</bc-error>
+      }
+    </bc-date>
+    <bc-date
+      [label]="'INITIATIVE.COLLECTION_PERIOD_DIALOG.COLLECTION_END_DATE' | translate"
+      [required]="true"
+      [formControl]="form.controls.collectionEndDate"
+      [error]="form.controls.collectionEndDate.invalid"
+      [adjustFormControlErrors]="false"
+      subscriptSizing="dynamic"
+    >
+      @if (form.controls.collectionEndDate.errors?.['dateNotOlderThanStartDate']) {
+        <bc-error>{{ 'INITIATIVE.COLLECTION_PERIOD_DIALOG.ERRORS.DATE_OLDER_THAN_START_DATE' | translate }}</bc-error>
+      }
+    </bc-date>
+  }
+
+  <p class="mt-3">{{ data.message | translate }}</p>
+</vo-ecol-dialog>

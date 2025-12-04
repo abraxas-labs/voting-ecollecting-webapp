@@ -1,0 +1,25 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+:host {
+  display: block;
+}
+
+.nav-bar {
+  min-width: 0;
+}
+
+.layout-header {
+  position: fixed;
+  top: 60px; // app header height
+  z-index: 100; // navigation bar is displayed in front of the content
+  background-color: $color-white;
+  width: 100%;
+}
+
+.user-navigation {
+  max-width: 1440px; // keep in sync with .content-width class
+}
+
+.has-navigation {
+  margin-top: 68px; // navigation bar height
+}

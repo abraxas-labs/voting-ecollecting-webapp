@@ -1,0 +1,32 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+@use '../../../../../../../../ecollecting-lib/src/styles/gap' as *;
+
+.box {
+  padding: 1rem;
+  border-radius: 3px;
+  border: 1px solid $color-grey-6;
+}
+
+.generating {
+  display: flex;
+  align-items: center;
+
+  span {
+    @extend .ml-2;
+
+    font-style: italic;
+    color: $color-grey-1;
+  }
+}
+
+.files {
+  @extend .gap-1;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  vo-ecol-file-chip {
+    display: inline-block;
+  }
+}

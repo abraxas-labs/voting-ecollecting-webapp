@@ -1,0 +1,16 @@
+<bc-segmented-control-group
+  size="small"
+  width="100%"
+  [items]="filterControls"
+  [value]="activeFilter"
+  (valueChange)="setActiveFilter($event)"
+></bc-segmented-control-group>
+@if (subFilterControls.length) {
+  <bc-segmented-control-group
+    class="mt-3"
+    size="small"
+    [items]="subFilterControls"
+    [value]="activeSubFilter"
+    (valueChange)="setActiveSubFilter($event)"
+  ></bc-segmented-control-group>
+}

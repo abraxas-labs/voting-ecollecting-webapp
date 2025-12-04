@@ -1,0 +1,47 @@
+<bc-dialog>
+  <div header>
+    <bc-icon-button (buttonClick)="close()" variant="tertiary" icon="cancel" [ariaLabel]="'COLLECTION_MESSAGES.CLOSE' | translate"></bc-icon-button>
+    {{ 'COLLECTION_MESSAGES.TITLE' | translate }}
+  </div>
+  <div content class="mb-2">
+    <h3>{{ 'COLLECTION_MESSAGES.SUB_TITLE' | translate }}</h3>
+    <div class="messages">
+      @if (!loading) {
+        @for (message of messages; track message.id) {
+          <vo-ecol-collection-message [message]="message" class="mb-2"></vo-ecol-collection-message>
+        } @empty {
+          <p class="no-data m-0">{{ 'COLLECTION_MESSAGES.NO_DATA' | translate }}</p>
+        }
+      } @else {
+        <bc-spinner></bc-spinner>
+      }
+    </div>
+    <div class="grow"></div>
+    <hr />
+    <form [formGroup]="form">
+      @if (data.isRequestInformalReviewVisible && informalReviewRequested !== undefined) {
+        <bc-switch [label]="'COLLECTION_MESSAGES.REQUEST_INFORMAL_REVIEW' | translate"
+                   [(checked)]="informalReviewRequested"
+                   [disabled]="!informalReviewRequested && !data.canRequestInformalReview"
+                   (checkedChange)="requestInformalReview($event)"></bc-switch>
+      }
+      <bc-textarea [(value)]="newMessage"
+                   subscriptSizing="dynamic"
+                   [optionalText]="''"
+                   [formControl]="form.controls.message"
+                   [label]="'COLLECTION_MESSAGES.ADD' | translate"
+                   [showDefaultErrors]="true"
+                   [error]="form.controls.message.invalid"></bc-textarea>
+      <div class="actions mt-1">
+        <bc-button [label]="'COLLECTION_MESSAGES.CLOSE'| translate"
+                   (buttonClick)="close()"
+                   variant="tertiary"></bc-button>
+        <bc-button [label]="'COLLECTION_MESSAGES.SEND'| translate"
+                   (buttonClick)="send()"
+                   [disabled]="!newMessage || !form.valid"
+                   variant="primary"
+                   [icon]="'send'"></bc-button>
+      </div>
+    </form>
+  </div>
+</bc-dialog>

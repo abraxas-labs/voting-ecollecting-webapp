@@ -1,0 +1,155 @@
+<div class="layout">
+  @if (referendum) {
+    <div class="layout-header">
+      <bc-sub-navigation-bar
+        [type]="'subpage'"
+        [border]="false"
+        (actionClick)="back()"
+      >
+        <h4 sub-navigation-title truncateWithTooltip tooltip>{{ 'REFERENDUM.TITLE' | translate: { description: referendum.collection.description } | translate }}</h4>
+        <div></div>
+        <!-- placeholder which is forcing divider to be displayed -->
+      </bc-sub-navigation-bar>
+
+      @if (referendum.decree) {
+        <bc-card class="header-card" [backgroundColor]="'basic'" [border]="false">
+          <bc-card-header>
+            <bc-card-subtitle [label]="referendum.decree.description" truncateWithTooltip tooltip></bc-card-subtitle>
+          </bc-card-header>
+        </bc-card>
+      }
+
+      <bc-card class="header-card" [border]="false">
+        <bc-card-header>
+          <bc-card-title
+            [label]="
+              (referendum.collection.isElectronicSubmission
+                ? 'REFERENDUM.TITLE_ELECTRONIC_SUBMISSION'
+                : 'REFERENDUM.TITLE_PAPER_SUBMISSION'
+              ) | translate: { number: referendum.number }
+            "
+          ></bc-card-title>
+          <div class="flex w-full justify-end gap-3 p-2 items-center">
+            @if (referendum.collection.informalReviewRequested && referendum.collection.userPermissions?.isRequestInformalReviewVisible) {
+              <bc-alert-bar
+                class="self-center"
+                [color]="'warning'"
+                [message]="'COLLECTION.INFORMAL_REVIEW_REQUESTED' | translate"
+                [displayDismissAction]="false"
+                [displayShowAction]="false"
+              ></bc-alert-bar>
+            }
+            <div class="flex flex-col">
+              <bc-status-label
+                class="self-center"
+                size="large"
+                [label]="'COLLECTION.STATES.' + referendum.collection.state | translate"
+              ></bc-status-label>
+            </div>
+          </div>
+          @if (referendum.collection.userPermissions?.canEdit) {
+            <bc-card-actions class="mr-3">
+              <bc-icon-button icon="add-comment" (buttonClick)="openChat()"></bc-icon-button>
+            </bc-card-actions>
+          }
+        </bc-card-header>
+      </bc-card>
+      <bc-divider [orientation]="'horizontal'"></bc-divider>
+    </div>
+
+    <div class="layout-content">
+      <bc-card class="m-3" [border]="false">
+        <bc-card-header>
+          <bc-card-title [label]="'COLLECTION.GENERAL_INFORMATION.TITLE' | translate"></bc-card-title>
+        </bc-card-header>
+        <bc-card-content class="flex flex-col gap-2">
+          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.DESCRIPTION' | translate">
+            {{ referendum.collection.description }}
+          </bc-readonly>
+          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.REASON' | translate">
+            {{ referendum.collection.reason ? referendum.collection.reason : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}
+          </bc-readonly>
+          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.LINK' | translate">
+            @if (referendum.collection.link) {
+              <bc-link class="wrap-break-word" [href]="referendum.collection.link" [target]="'_blank'">{{ referendum.collection.link }}</bc-link>
+            } @else {
+              {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
+            }
+          </bc-readonly>
+          <div>
+            <bc-label [label]="'COLLECTION.GENERAL_INFORMATION.ADDRESS' | translate"></bc-label>
+            <p>{{ referendum.collection.address.committeeOrPerson }}</p>
+            <p>{{ referendum.collection.address.streetOrPostOfficeBox }}</p>
+            <p>{{ referendum.collection.address.zipCode }} {{ referendum.collection.address.locality }}</p>
+          </div>
+          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.MEMBERS_COMMITTEE' | translate">
+            {{ referendum.membersCommittee ? referendum.membersCommittee : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}
+          </bc-readonly>
+          <div class="flex flex-wrap gap-x-5 mt-1">
+            @if (image) {
+              <vo-ecol-image-upload
+                class="flex-1"
+                [imageSrc]="image | async"
+                (imageDeleted)="deleteImage()"
+                [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE' | translate"
+                [filename]="referendum.collection.image?.name ?? ''"
+                [fileLoading]="imageLoading"
+                [canUpload]="false"
+                [canDelete]="referendum.collection.userPermissions?.canEdit ?? false"
+              ></vo-ecol-image-upload>
+            } @else {
+              <bc-readonly class="flex-1" [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE_OPTIONAL' | translate">
+                {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
+              </bc-readonly>
+            }
+
+            @if (logo) {
+              <vo-ecol-image-upload
+                class="flex-1"
+                [imageSrc]="logo | async"
+                (imageDeleted)="deleteLogo()"
+                [label]="'COLLECTION.GENERAL_INFORMATION.LOGO' | translate"
+                [filename]="referendum.collection.logo?.name ?? ''"
+                [fileLoading]="logoLoading"
+                [canUpload]="false"
+                [canDelete]="referendum.collection.userPermissions?.canEdit ?? false"
+              ></vo-ecol-image-upload>
+            } @else {
+              <bc-readonly class="flex-1" [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE_OPTIONAL' | translate">
+                {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
+              </bc-readonly>
+            }
+          </div>
+        </bc-card-content>
+      </bc-card>
+      <bc-card class="m-3" [border]="false">
+        <bc-card-header>
+          <bc-card-title [label]="'COLLECTION.SIGNATURE_SHEET' | translate"></bc-card-title>
+        </bc-card-header>
+        <bc-card-content>
+          @if (referendum.collection.signatureSheetTemplate) {
+            <vo-ecol-file-chip
+              [loading]="deleting"
+              [label]="referendum.collection.signatureSheetTemplate.name"
+              [canRemove]="!referendum.collection.signatureSheetTemplateGenerated && (referendum.collection.userPermissions?.canEdit ?? false)"
+              (open)="openSignatureSheet()"
+              (remove)="deleteSignatureSheet()"
+            ></vo-ecol-file-chip>
+          } @else {
+            <p>{{ 'COLLECTION.NO_SIGNATURE_SHEET' | translate }}</p>
+          }
+        </bc-card-content>
+      </bc-card>
+      @if (referendum.collection.userPermissions?.canEdit) {
+        <bc-card class="m-3" [border]="false">
+          <bc-card-header>
+            <bc-card-title [label]="'COLLECTION.PERMISSIONS.TITLE' | translate"></bc-card-title>
+          </bc-card-header>
+          <bc-card-content>
+            <app-collection-permissions [collectionId]="referendum.id"></app-collection-permissions>
+          </bc-card-content>
+        </bc-card>
+      }
+    </div>
+  }
+</div>

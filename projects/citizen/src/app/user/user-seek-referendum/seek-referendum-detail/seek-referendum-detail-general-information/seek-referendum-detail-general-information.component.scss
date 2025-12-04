@@ -1,0 +1,8 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+.zip-code-locality-container {
+  @include md-up() {
+    display: flex;
+    gap: 1rem;
+  }
+}

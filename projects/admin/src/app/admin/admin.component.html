@@ -1,0 +1,54 @@
+<bc-nav-layout>
+  <bc-nav-drawer
+    [opened]="true"
+    [fixedInViewport]="true"
+    [fixedTopGap]="120"
+    [collapseBreakpoint]="768"
+    [expandable]="true"
+    [rounded]="true"
+    [autoFocus]="false"
+    [mode]="'side'"
+    [border]="'right'"
+    [disableClose]="true"
+  >
+    <bc-nav-item
+      *appHasRole="'Zertifikatsverwalter'"
+      [label]="'ADMIN.NAVIGATION.CERTS' | translate"
+      [link]="certificatesUrl"
+      target="self"
+      icon="access"
+      [active]="active === certificatesUrl"
+      (click)="active = certificatesUrl"
+    ></bc-nav-item>
+    <bc-nav-item
+      *appHasRole="'Stammdatenverwalter'"
+      [label]="'ADMIN.NAVIGATION.ADMISSIBILITY_DECISIONS' | translate"
+      [link]="admissibilityDecisionsUrl"
+      target="self"
+      icon="job-overview"
+      [active]="active === admissibilityDecisionsUrl"
+      (click)="active = admissibilityDecisionsUrl"
+    ></bc-nav-item>
+    <bc-nav-item
+      *appHasRole="'Stammdatenverwalter'"
+      [label]="'ADMIN.NAVIGATION.DECREES' | translate"
+      [link]="decreesUrl"
+      target="self"
+      icon="law"
+      [active]="active === decreesUrl"
+      (click)="active = decreesUrl"
+    ></bc-nav-item>
+    <bc-nav-item
+      *appHasRole="'Stammdatenverwalter'"
+      [label]="'ADMIN.NAVIGATION.SETTINGS' | translate"
+      [link]="settingsUrl"
+      target="self"
+      icon="gear"
+      [active]="active === settingsUrl"
+      (click)="active = settingsUrl"
+    ></bc-nav-item>
+  </bc-nav-drawer>
+  <div class="content m-4">
+    <router-outlet></router-outlet>
+  </div>
+</bc-nav-layout>

@@ -1,0 +1,27 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+.validation {
+  @extend .p-2;
+
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  border: 1px solid $color-grey-4;
+  font-size: 13px; // same as bc-label
+
+  &.ok {
+    background-color: $color-success-25;
+    color: $color-success;
+  }
+
+  &.warning {
+    background-color: $color-warning-25;
+    color: $color-warning;
+  }
+
+  &.error {
+    background-color: $color-error-25;
+    color: $color-error;
+  }
+}

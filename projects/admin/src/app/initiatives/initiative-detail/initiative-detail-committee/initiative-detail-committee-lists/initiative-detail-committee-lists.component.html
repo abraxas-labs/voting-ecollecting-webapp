@@ -1,0 +1,14 @@
+<bc-card class="m-3" [border]="false">
+  <bc-card-header>
+    <bc-card-title [label]="'INITIATIVE.COMMITTEE.LISTS.TITLE' | translate"></bc-card-title>
+  </bc-card-header>
+  <bc-card-content>
+    <div class="files">
+      @for (list of this.committee.committeeLists; track list.id) {
+        <vo-ecol-file-chip [label]="list.name" [canRemove]="false" (open)="openCommitteeList(list)"></vo-ecol-file-chip>
+      } @empty {
+        <p class="no-data m-0">{{'INITIATIVE.COMMITTEE.LISTS.NO_DATA' | translate}}</p>
+      }
+    </div>
+  </bc-card-content>
+</bc-card>

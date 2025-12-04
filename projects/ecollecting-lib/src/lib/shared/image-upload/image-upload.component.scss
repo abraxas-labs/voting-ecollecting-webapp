@@ -1,0 +1,17 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+::ng-deep bc-file-input .file-list-container {
+  display: none;
+}
+
+.remove {
+  margin-left: -2.25rem;
+}
+
+img {
+  max-width: 100%;
+}
+
+.error {
+  color: $color-error;
+}

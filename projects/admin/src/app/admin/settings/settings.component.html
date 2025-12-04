@@ -1,0 +1,12 @@
+@if (loading) {
+  <bc-spinner></bc-spinner>
+} @else {
+  <h1>{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.TITLE' | translate }}</h1>
+  @for (domainOfInfluence of domainOfInfluences; track domainOfInfluence.bfs) {
+    <app-domain-of-influence-settings
+      class="block my-2"
+      [domainOfInfluence]="domainOfInfluence"></app-domain-of-influence-settings>
+  } @empty {
+    <p class="no-data">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.NO_DATA' | translate }}</p>
+  }
+}

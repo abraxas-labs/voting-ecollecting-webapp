@@ -1,0 +1,58 @@
+<vo-ecol-dialog
+  [header]="'REFERENDUM.ADD_COLLECTION_DIALOG.TITLE'"
+  [okText]="'COMMON.SAVE'"
+  (ok)="save()"
+  [canOk]="form.valid"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <div class="content">
+    <bc-readonly [label]="'REFERENDUM.ADD_COLLECTION_DIALOG.DECREE_DESCRIPTION' | translate">
+      {{ data.decree.description }}
+    </bc-readonly>
+    <bc-readonly [label]="'REFERENDUM.ADD_COLLECTION_DIALOG.DOMAIN_OF_INFLUENCE_TYPE' | translate">
+      {{ 'DOMAIN_OF_INFLUENCE_TYPES.' + data.decree.domainOfInfluenceType | translate }}
+    </bc-readonly>
+    <bc-text
+      [formControl]="form.controls.description"
+      [label]="'REFERENDUM.ADD_COLLECTION_DIALOG.DESCRIPTION' | translate"
+      [required]="true"
+      [showDefaultErrors]="true"
+      [error]="form.controls.description.touched && form.controls.description.invalid"
+      subscriptSizing="dynamic"
+    ></bc-text>
+    <bc-text
+      [formControl]="form.controls.address.controls.committeeOrPerson"
+      [label]="'REFERENDUM.ADD_COLLECTION_DIALOG.ADDRESS.COMMITTEE_OR_PERSON' | translate"
+      [required]="true"
+      [showDefaultErrors]="true"
+      [error]="form.controls.address.controls.committeeOrPerson.touched && form.controls.address.controls.committeeOrPerson.invalid"
+      subscriptSizing="dynamic"
+    ></bc-text>
+    <bc-text
+      [formControl]="form.controls.address.controls.streetOrPostOfficeBox"
+      [label]="'REFERENDUM.ADD_COLLECTION_DIALOG.ADDRESS.STREET_OR_POST_OFFICE_BOX' | translate"
+      [required]="true"
+      [showDefaultErrors]="true"
+      [error]="form.controls.address.controls.streetOrPostOfficeBox.touched && form.controls.address.controls.streetOrPostOfficeBox.invalid"
+      subscriptSizing="dynamic"
+    ></bc-text>
+    <bc-text
+      [formControl]="form.controls.address.controls.zipCode"
+      [label]="'REFERENDUM.ADD_COLLECTION_DIALOG.ADDRESS.ZIP_CODE' | translate"
+      [required]="true"
+      [showDefaultErrors]="true"
+      [error]="form.controls.address.controls.zipCode.touched && form.controls.address.controls.zipCode.invalid"
+      subscriptSizing="dynamic"
+    ></bc-text>
+    <bc-text
+      [formControl]="form.controls.address.controls.locality"
+      [label]="'REFERENDUM.ADD_COLLECTION_DIALOG.ADDRESS.LOCALITY' | translate"
+      [required]="true"
+      [showDefaultErrors]="true"
+      [error]="form.controls.address.controls.locality.touched && form.controls.address.controls.locality.invalid"
+      subscriptSizing="dynamic"
+    ></bc-text>
+  </div>
+</vo-ecol-dialog>

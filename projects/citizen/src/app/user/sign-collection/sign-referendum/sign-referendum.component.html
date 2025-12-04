@@ -1,0 +1,48 @@
+@if (referendum && referendum.decree) {
+  <app-sign-page
+    navbarLabel="SIGN_REFERENDUM.TITLE"
+    [collection]="referendum.collection"
+    [periodState]="referendum.decree.periodState"
+    [maxSignatures]="referendum.decree.maxElectronicSignatureCount"
+    [committee]="referendum.membersCommittee"
+    [canSign]="!referendum.isOtherReferendumOfSameDecreeSigned"
+  >
+    <ng-container info>
+      <p>{{ referendum.decree.description }}</p>
+      <p>{{ referendum.collection.description }}</p>
+      <p class="font-bold mb-1">{{ referendum.collection.reason }}</p>
+
+      @if (referendum.collection.link) {
+        <bc-link class="wrap-break-word"
+                 target="_blank"
+                 [href]="referendum.collection.link">{{ referendum.collection.link }}</bc-link>
+      }
+
+      @if (referendum.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="'SIGN_REFERENDUM.CAME_ABOUT' | translate"
+        ></bc-alert-bar>
+      } @else if (referendum.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="
+            'SIGN_REFERENDUM.CAME_NOT_ABOUT'
+              | translate: { reason: 'COLLECTION.CAME_NOT_ABOUT_REASONS.' + referendum.decree.cameNotAboutReason | translate }
+          "
+        ></bc-alert-bar>
+      } @else if (referendum.isOtherReferendumOfSameDecreeSigned) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="'ERROR_MESSAGES.DecreeAlreadySignedException' | translate"
+        ></bc-alert-bar>
+      }
+    </ng-container>
+  </app-sign-page>
+}

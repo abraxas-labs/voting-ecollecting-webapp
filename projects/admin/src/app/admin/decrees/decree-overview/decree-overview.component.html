@@ -1,0 +1,18 @@
+@if (loading) {
+  <bc-spinner></bc-spinner>
+} @else {
+  <h1>{{ 'ADMIN.DECREE.TITLE' | translate }}</h1>
+  @if (!hideCreateButton) {
+    <bc-button
+      variant="tertiary"
+      [label]="'DECREE.CREATE' | translate"
+      icon="plus"
+      (buttonClick)="openDialog()"
+    ></bc-button>
+  }
+
+  <app-decree-table [decrees]="decrees"
+                    (decreeSelected)="openDialog($event)"
+                    (deleteDecree)="deleteDecree($event)"></app-decree-table>
+
+}

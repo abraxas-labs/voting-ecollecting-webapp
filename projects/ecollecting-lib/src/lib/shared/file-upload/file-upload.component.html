@@ -1,0 +1,48 @@
+<input #fileInput
+       type="file"
+       (change)="setFile(fileInput.files); fileInput.value = '';"
+       [accept]="allowedContentTypesAndExtensionsCommaSeparated">
+
+@switch (variant) {
+  @case ('dnd-zone') {
+    @if (label) {
+      <bc-label [optional]="optional" [label]="label | translate" [error]="error"></bc-label>
+    }
+
+    @if (!disabled) {
+      <div class="file-upload-container"
+           (click)="fileInput.click()"
+           [class.dragging]="isDragging">
+        <bc-button (buttonClick)="fileInput.click()"
+                   icon="upload"
+                   [label]="'FILE_UPLOAD.CHOOSE' | translate"
+                   [variant]="buttonVariant"></bc-button>
+        <div class="hints">
+          <p>{{ 'FILE_UPLOAD.TEXT' | translate }}</p>
+          @if (inlineHint) {
+            <p translate>{{ inlineHint | translate }}</p>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="placeholder"></div>
+    }
+
+    <ng-content></ng-content>
+
+    @if (filename) {
+      <vo-ecol-file-chip [label]="filename"
+                         [loading]="fileLoading"
+                         [canRemove]="canRemoveFile"
+                         [canOpen]="canOpenFile"
+                         (remove)="fileRemoved.emit()"
+                         (open)="openFile.emit()"></vo-ecol-file-chip>
+    }
+  }
+  @case ('simple-button') {
+    <bc-button (buttonClick)="fileInput.click()"
+               icon="upload"
+               [label]="label | translate"
+               [variant]="buttonVariant"></bc-button>
+  }
+}

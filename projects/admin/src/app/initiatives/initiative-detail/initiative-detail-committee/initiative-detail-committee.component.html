@@ -1,0 +1,9 @@
+@if (committee) {
+  <app-initiative-detail-committee-lists [committee]="committee" [initiative]="initiative"></app-initiative-detail-committee-lists>
+  <app-initiative-detail-committee-members
+    [committee]="committee"
+    [initiative]="initiative"
+  ></app-initiative-detail-committee-members>
+} @else {
+  <bc-spinner class="m-3"></bc-spinner>
+}

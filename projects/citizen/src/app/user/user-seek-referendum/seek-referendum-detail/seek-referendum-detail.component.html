@@ -1,0 +1,129 @@
+<div class="page-with-fixed-footer layout">
+  @if (referendum) {
+    <div class="layout-header">
+      <bc-sub-navigation-bar
+        [type]="'subpage'"
+        [border]="false"
+        [label]="
+      (referendum.collection.isElectronicSubmission
+        ? 'SEEK_REFERENDUM.DETAIL.TITLE_ELECTRONIC_SUBMISSION'
+        : 'SEEK_REFERENDUM.DETAIL.TITLE_PAPER_SUBMISSION'
+      ) | translate: { description: referendum.collection.description, number: referendum.number }
+    "
+        (actionClick)="back()"
+        [backBtnAriaLabel]="'APP.BACK' | translate"
+      >
+        <bc-icon-button icon="add-comment" (buttonClick)="openChat()" [ariaLabel]="'CHAT.OPEN' | translate"></bc-icon-button>
+        <bc-icon-button class="ml-2" icon="question-circle-o" (buttonClick)="openHelpMenu()" [ariaLabel]="'HELP.OPEN' | translate"></bc-icon-button>
+      </bc-sub-navigation-bar>
+
+      @if (referendum.decree) {
+        <bc-card class="header-card" [backgroundColor]="'basic'" [border]="false">
+          <bc-card-header>
+            <bc-card-subtitle [label]="referendum.decree.description" truncateWithTooltip tooltip></bc-card-subtitle>
+            @if (referendum.collection.userPermissions?.canEdit) {
+              <bc-icon-button class="ml-2 mr-3" [icon]="'edit'" variant="tertiary"
+                              (buttonClick)="selectDecree()" [ariaLabel]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE' | translate"></bc-icon-button>
+            }
+          </bc-card-header>
+        </bc-card>
+      } @else if (referendum.collection.userPermissions?.canEdit) {
+        <bc-card class="header-card" [backgroundColor]="'error'" [border]="false">
+          <bc-card-header>
+            <bc-card-subtitle [label]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_INFO' | translate" truncateWithTooltip
+                              tooltip></bc-card-subtitle>
+            <bc-card-actions class="mr-3">
+              <bc-button
+                class="nowrap"
+                [label]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE' | translate"
+                [color]="'warn'"
+                (buttonClick)="selectDecree()"
+              ></bc-button>
+            </bc-card-actions>
+          </bc-card-header>
+        </bc-card>
+      }
+    </div>
+
+    <bc-nav-layout class="layout-content">
+      <!-- The fixedToGap value is 180px when the navigation and decree bars are visible. It has a value of 120px if only the navigation bar is visible.   -->
+      <!-- fixedBottomGap = button footer height + app footer (74px) -->
+      <!-- collapseBreakpoint = medium break point https://getbootstrap.com/docs/5.3/layout/breakpoints/#available-breakpoints -->
+      <bc-nav-drawer
+        [opened]="true"
+        [fixedInViewport]="true"
+        [fixedTopGap]="referendum.decree || referendum.collection.userPermissions?.canEdit ? 180 : 120"
+        [fixedBottomGap]="footer.offsetHeight + 74"
+        [collapseBreakpoint]="768"
+        [expandable]="true"
+        [rounded]="true"
+        [autoFocus]="false"
+        [mode]="'side'"
+        [border]="'right'"
+        [disableClose]="true"
+      >
+        <bc-nav-item
+          [label]="'SEEK_REFERENDUM.DETAIL.NAV.OVERVIEW' | translate"
+          [icon]="'home'"
+          [link]="detailOverviewUrl"
+          [target]="'self'"
+          [active]="active === detailOverviewUrl"
+          (click)="active = detailOverviewUrl"
+        ></bc-nav-item>
+        <bc-nav-item
+          [label]="'SEEK_REFERENDUM.DETAIL.NAV.GENERAL_INFORMATION' | translate"
+          [icon]="'law'"
+          [link]="detailGeneralInformationUrl"
+          [target]="'self'"
+          [active]="active === detailGeneralInformationUrl"
+          (click)="active = detailGeneralInformationUrl"
+        ></bc-nav-item>
+        <bc-nav-item
+          [label]="'SEEK_REFERENDUM.DETAIL.NAV.SIGNATURE_LIST' | translate"
+          [icon]="'lists'"
+          [link]="detailSignatureSheetUrl"
+          [target]="'self'"
+          [active]="active === detailSignatureSheetUrl"
+          (click)="active = detailSignatureSheetUrl"
+        ></bc-nav-item>
+        <bc-nav-item
+          [label]="'SEEK_REFERENDUM.DETAIL.NAV.PERMISSIONS' | translate"
+          [icon]="'access'"
+          [link]="detailPermissionsUrl"
+          [target]="'self'"
+          [active]="active === detailPermissionsUrl"
+          (click)="active = detailPermissionsUrl"
+        ></bc-nav-item>
+      </bc-nav-drawer>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </bc-nav-layout>
+    <div #footer class="layout-footer footer-button-bar">
+      @if (referendum.collection.userPermissions?.isRequestInformalReviewVisible) {
+        <bc-button
+          icon="eye"
+          [label]="'SEEK_REFERENDUM.DETAIL.REQUEST_INFORMAL_REVIEW' | translate"
+          [disabled]="!referendum.collection.userPermissions?.canRequestInformalReview"
+          (buttonClick)="requestInformalReview()"
+        ></bc-button>
+      }
+      @if (referendum.collection.userPermissions?.isSubmitVisible) {
+        <bc-button
+          icon="clipboard"
+          [label]="'SEEK_REFERENDUM.DETAIL.SUBMIT' | translate"
+          [disabled]="!referendum.collection.userPermissions?.canSubmit"
+          (buttonClick)="submit()"
+        ></bc-button>
+      }
+      @if (referendum.collection.userPermissions?.canWithdraw) {
+        <bc-button
+          icon="trash"
+          color="warn"
+          [label]="'SEEK_REFERENDUM.DETAIL.WITHDRAW.TITLE' | translate"
+          (buttonClick)="withdraw()"
+        ></bc-button>
+      }
+    </div>
+  }
+</div>

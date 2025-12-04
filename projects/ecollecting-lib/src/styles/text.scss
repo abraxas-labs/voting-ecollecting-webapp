@@ -1,0 +1,29 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+.text-grey-2 {
+  color: $color-grey-2;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+.whitespace-pre-line {
+  white-space: pre-line;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.wrap-break-word {
+  overflow-wrap: break-word;
+}

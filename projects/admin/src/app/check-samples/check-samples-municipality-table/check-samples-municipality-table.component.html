@@ -1,0 +1,165 @@
+<bc-table sort filter [sortActive]="[{ id: municipalityNameColumn, direction: 'asc' }]" [dataSource]="dataSource" [sticky]="true">
+  <ng-container [columnDef]="bfsColumn">
+    <bc-header-cell sort filter filterType="text" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.BFS' | translate">{{ 'COLLECTION.CHECK_SAMPLES.TABLE.BFS' | translate }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.bfs }}</div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL' | translate }}
+    </bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="municipalityNameColumn">
+    <bc-header-cell sort filter filterType="text" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.MUNICIPALITY_NAME' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.MUNICIPALITY_NAME' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.municipalityName }}</div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef> </bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="totalSignatureSheetsCountColumn">
+    <bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SIGNATURE_SHEETS_COUNT' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SIGNATURE_SHEETS_COUNT' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+      <div truncateWithTooltip tooltip>{{ row.signatureSheetsCount.totalSignatureSheetsCount | number }}</div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef class="text-right">{{ footerTotalSignatureSheetsCount | number }}</bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="totalSubmittedOrConfirmedSignatureSheetsCountColumn">
+    <bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SUBMITTED_OR_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SUBMITTED_OR_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div class="flex justify-end gap-2">
+        @if (row.signatureSheetsCount.totalSubmittedOrConfirmedSignatureSheetsCount === row.signatureSheetsCount.totalSignatureSheetsCount) {
+          <bc-icon [icon]="'check-circle'" [iconColor]="'success'"></bc-icon>
+        }
+        <div truncateWithTooltip tooltip>{{ row.signatureSheetsCount.totalSubmittedOrConfirmedSignatureSheetsCount | number }}</div>
+      </div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef class="text-right">{{ footerTotalSubmittedOrConfirmedSignatureSheetsCount | number }}</bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="totalNotSubmittedSignatureSheetsCountColumn">
+    <bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_NOT_SUBMITTED_SIGNATURE_SHEETS_COUNT' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_NOT_SUBMITTED_SIGNATURE_SHEETS_COUNT' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+      <div truncateWithTooltip tooltip>{{ row.signatureSheetsCount.totalNotSubmittedSignatureSheetsCount | number }}</div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef class="text-right">{{ footerTotalNotSubmittedSignatureSheetsCount | number }}</bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="totalConfirmedSignatureSheetsCountColumn">
+    <bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+      <div truncateWithTooltip tooltip>{{ row.signatureSheetsCount.totalConfirmedSignatureSheetsCount | number }}</div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef class="text-right">{{ footerTotalConfirmedSignatureSheetsCount | number }}</bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="physicalCountInvalidColumn">
+    <bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_INVALID' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_INVALID' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+      <div truncateWithTooltip tooltip>{{ row.physicalCount.invalid | number }}</div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef class="text-right">{{ footerPhysicalCountInvalid | number }}</bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="physicalCountValidColumn">
+    <bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_VALID' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_VALID' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+      <div truncateWithTooltip tooltip>{{ row.physicalCount.valid | number }}</div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef class="text-right">{{ footerPhysicalCountValid | number }}</bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="electronicCitizenCountColumn">
+    <bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.ELECTRONIC_CITIZEN_COUNT' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.ELECTRONIC_CITIZEN_COUNT' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+      <div truncateWithTooltip tooltip>{{ row.electronicCitizenCount | number }}</div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef class="text-right">{{ footerElectronicCitizenCount | number }}</bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="totalValidCitizenCountColumn">
+    <bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_VALID_CITIZEN_COUNT' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_VALID_CITIZEN_COUNT' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+      <div truncateWithTooltip tooltip>{{ row.totalValidCitizenCount | number }}</div>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef class="text-right">{{ footerTotalValidCitizenCount | number }}</bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="isLockedColumn">
+    <bc-header-cell
+      sort
+      filter
+      [filterType]="'list'"
+      [filterItems]="isLockedFilterItems"
+      filterDisplayExpr="description"
+      filterValueExpr="value"
+      [arrowPosition]="'before'"
+      [align]="'right'"
+      *headerCellDef
+    >
+      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.IS_LOCKED.TITLE' | translate">{{
+        'COLLECTION.CHECK_SAMPLES.TABLE.IS_LOCKED.TITLE' | translate
+      }}</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+      <bc-status-label [label]="'COLLECTION.CHECK_SAMPLES.TABLE.IS_LOCKED.' + row.isLocked | translate"></bc-status-label>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef> </bc-footer-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="actionsColumn">
+    <bc-header-cell *headerCellDef></bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <bc-button [icon]="'ellipsis-v'" [variant]="'tertiary'" [matMenuTriggerFor]="menu"></bc-button>
+      <mat-menu #menu="matMenu">
+        <div mat-menu-item (click)="unlock(row)" [disabled]="!row.isLocked">{{ 'COLLECTION.CHECK_SAMPLES.TABLE.UNLOCK' | translate }}</div>
+        <div mat-menu-item (click)="lock(row)" [disabled]="row.isLocked">{{ 'COLLECTION.CHECK_SAMPLES.TABLE.LOCK' | translate }}</div>
+        <div mat-menu-item (click)="submitMunicipalitySignatureSheets(row)">{{ 'COLLECTION.CHECK_SAMPLES.TABLE.SUBMIT_SIGNATURE_SHEETS' | translate }}</div>
+      </mat-menu>
+    </bc-data-cell>
+    <bc-footer-cell *footerCellDef> </bc-footer-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: columns; let i = index" (click)="openMunicipality(row)" class="selectable"></bc-data-row>
+  <bc-footer-row *footerRowDef="let row; columns: columns; sticky: true; let i = index"></bc-footer-row>
+</bc-table>

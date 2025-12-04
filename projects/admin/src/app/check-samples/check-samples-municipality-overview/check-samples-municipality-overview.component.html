@@ -1,0 +1,44 @@
+<div class="layout page">
+  @if (collection) {
+    <div class="layout-header">
+      <bc-sub-navigation-bar [type]="'subpage'" [border]="false" (actionClick)="back()">
+        <bc-breadcrumbs sub-navigation-title>
+          <bc-breadcrumb-item [link]="'../../../'">{{
+            'COLLECTION.CHECK_SAMPLES.BREADCRUMBS.' +
+              (collection.collection.type === collectionTypes.COLLECTION_TYPE_REFERENDUM ? 'REFERENDUMS' : 'INITIATIVES') | translate
+          }}</bc-breadcrumb-item>
+          <bc-breadcrumb-item [link]="'../'">{{ 'COLLECTION.CHECK_SAMPLES.BREADCRUMBS.OVERVIEW' | translate }}</bc-breadcrumb-item>
+          <bc-breadcrumb-item>{{
+            'COLLECTION.CHECK_SAMPLES.BREADCRUMBS.MUNICIPALITY' | translate: { municipalityName: domainOfInfluence?.name }
+          }}</bc-breadcrumb-item>
+        </bc-breadcrumbs>
+        <div></div>
+        <!-- placeholder which is forcing divider to be displayed -->
+      </bc-sub-navigation-bar>
+      <bc-divider [orientation]="'horizontal'"></bc-divider>
+      <app-check-samples-header></app-check-samples-header>
+    </div>
+
+    <div class="layout-content m-3">
+      @if (loading || !signatureSheets) {
+        <bc-spinner class="m-3"></bc-spinner>
+      } @else {
+        <h2>{{ 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TITLE' | translate: { municipalityName: domainOfInfluence?.name } }}</h2>
+        <div class="flex justify-end">
+          <bc-button
+            [label]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.SUBMIT_ALL.TITLE' | translate"
+            [variant]="'secondary'"
+            (buttonClick)="submitAll()"
+          ></bc-button>
+        </div>
+        <div class="table-container">
+          <app-check-samples-signature-sheet-table
+            [collectionId]="collection.id"
+            [signatureSheets]="signatureSheets"
+            (collectionCountChanged)="collection.collection.attestedCollectionCount = $event"
+          ></app-check-samples-signature-sheet-table>
+        </div>
+      }
+    </div>
+  }
+</div>

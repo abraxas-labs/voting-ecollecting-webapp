@@ -1,0 +1,31 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+@forward '../../../../node_modules/normalize.css/normalize.css';
+@forward '@abraxas/voting-lib/style';
+@forward 'flex';
+@forward 'display';
+@forward 'text';
+@forward 'gap';
+@forward 'layout';
+@forward 'overflow';
+
+h1,
+h2 {
+  color: $color-primary;
+}
+
+.no-data {
+  font-style: italic;
+  color: $color-grey-2;
+}
+
+.content-width {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.large-content-width {
+  max-width: 1920px;
+}

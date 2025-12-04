@@ -1,0 +1,21 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+.files {
+  display: inline-block;
+
+  .file {
+    @extend .my-1;
+
+    column-gap: 0.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5rem;
+    background-color: $color-grey-6;
+
+    &.clickable {
+      cursor: pointer;
+    }
+  }
+}

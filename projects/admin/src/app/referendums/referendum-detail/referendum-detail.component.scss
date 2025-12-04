@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.layout-content {
+  overflow-y: auto;
+}
+
+.header-card bc-card-header {
+  min-height: 60px; // same height as app header for better UI
+}

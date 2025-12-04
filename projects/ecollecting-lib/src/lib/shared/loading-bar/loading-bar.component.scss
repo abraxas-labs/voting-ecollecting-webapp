@@ -1,0 +1,5 @@
+:host {
+  // use a constant height (equal to the loading bar) to prevent ui flickering
+  height: 4px;
+  display: block;
+}

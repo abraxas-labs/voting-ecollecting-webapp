@@ -1,0 +1,114 @@
+<vo-ecol-dialog
+  [header]="'LAUNCH_INITIATIVE.DIALOG.TITLE'"
+  [okText]="'APP.SAVE'"
+  (ok)="save()"
+  [canOk]="form.valid && (isElectronicSubmission || isPaperSubmission)"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <div class="flex flex-col mt-3">
+    <bc-label [label]="'LAUNCH_INITIATIVE.DIALOG.PAPER_SUBMISSION.TITLE' | translate"></bc-label>
+    <bc-radio-button
+      [(checked)]="isPaperSubmission"
+      (checkedChange)="isElectronicSubmission = !$event; updatePaperSubmissionValidators()"
+      [label]="'LAUNCH_INITIATIVE.DIALOG.PAPER_SUBMISSION.TEXT' | translate"
+      subscriptSizing="dynamic"
+    ></bc-radio-button>
+    <bc-text
+      [formControl]="form.controls.governmentDecisionNumber"
+      [label]="'LAUNCH_INITIATIVE.DIALOG.PAPER_SUBMISSION.GOVERNMENT_DECISION_NUMBER' | translate"
+      [required]="true"
+      [showDefaultErrors]="false"
+      [error]="form.controls.governmentDecisionNumber.invalid && form.controls.governmentDecisionNumber.dirty"
+      subscriptSizing="dynamic"
+    >
+      @for (error of form.controls.governmentDecisionNumber.errors ?? {} | keyvalue; track error) {
+        <bc-error>
+          {{ validationMessagesProvider.getMessage(error.key, { requiredLength: error.value?.requiredLength ?? 0 }) ?? error.value }}
+        </bc-error>
+      }
+    </bc-text>
+  </div>
+  <div class="flex flex-col mt-3">
+    <bc-label [label]="'LAUNCH_INITIATIVE.DIALOG.ELECTRONIC_SUBMISSION.TITLE' | translate"></bc-label>
+    <bc-radio-button
+      [(checked)]="isElectronicSubmission"
+      (checkedChange)="isPaperSubmission = !$event; updateElectronicSubmissionValidators()"
+      [label]="'LAUNCH_INITIATIVE.DIALOG.ELECTRONIC_SUBMISSION.TEXT' | translate"
+      subscriptSizing="dynamic"
+    ></bc-radio-button>
+    <bc-dropdown
+      [formControl]="form.controls.domainOfInfluenceType"
+      [items]="domainOfInfluenceTypeItems"
+      (valueChange)="domainOfInfluenceTypeChanged($event); updateElectronicSubmissionValidators()"
+      displayExpr="description"
+      valueExpr="value"
+      [label]="'LAUNCH_INITIATIVE.DIALOG.DOMAIN_OF_INFLUENCE_TYPE' | translate"
+      [required]="true"
+      subscriptSizing="dynamic"
+    ></bc-dropdown>
+    <div class="flex flex-wrap gap-x-3">
+      @if (
+        form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CH ||
+        form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CT
+        ) {
+        <bc-dropdown
+          class="subtype"
+          [formControl]="form.controls.subType"
+          [items]="filteredSubTypes"
+          (valueChange)="updateElectronicSubmissionValidators()"
+          displayExpr="description"
+          [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE' | translate"
+          [required]="true"
+          subscriptSizing="dynamic"
+        ></bc-dropdown>
+      } @else if (form.controls.domainOfInfluenceType.value === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU) {
+        <vo-ecol-municipality-filter
+          class="my-1 municipality"
+          [showHint]="false"
+          [control]="form.controls.bfs"
+          [domainOfInfluences]="domainOfInfluences"
+          (selectedDomainOfInfluenceChange)="selectedDomainOfInfluence = $event"
+        ></vo-ecol-municipality-filter>
+      }
+      @if (
+        (form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CH ||
+          form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CT) &&
+        form.value.subType
+        ) {
+        <div class="flex gap-3 subtype-values">
+          <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MIN_SIGNATURE_COUNT' | translate">
+            {{ form.value.subType.minSignatureCount | number }}
+          </bc-readonly>
+          <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
+            {{ form.value.subType.maxElectronicSignatureCount | number }}
+          </bc-readonly>
+        </div>
+      } @else if (
+        form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU &&
+        form.value.bfs
+        ) {
+        <div class="flex gap-3 municipality-values">
+          <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MIN_SIGNATURE_COUNT' | translate">
+            {{ (selectedDomainOfInfluence?.initiativeMinSignatureCount | number) ?? '' }}
+          </bc-readonly>
+          <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
+            {{ selectedDomainOfInfluenceMaxElectronicSignatureCount | number }}
+          </bc-readonly>
+        </div>
+      }
+    </div>
+    <bc-text
+      [formControl]="form.controls.description"
+      [label]="'LAUNCH_INITIATIVE.DIALOG.DESCRIPTION' | translate"
+      [hint]="'LAUNCH_INITIATIVE.DIALOG.DESCRIPTION_HINT' | translate"
+      [required]="true"
+      [showDefaultErrors]="true"
+      subscriptSizing="dynamic"
+    ></bc-text>
+    @if (error) {
+      <bc-alert-bar [color]="'error'" [message]="'ERROR_MESSAGES.' + error | translate" [displayDismissAction]="false"></bc-alert-bar>
+    }
+  </div>
+</vo-ecol-dialog>

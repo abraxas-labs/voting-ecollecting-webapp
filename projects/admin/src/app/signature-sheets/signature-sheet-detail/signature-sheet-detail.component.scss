@@ -1,0 +1,33 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+bc-readonly {
+  width: unset;
+}
+
+.info {
+  display: flex;
+  border-radius: 0.5rem;
+  background-color: $color-grey-6;
+  color: $color-grey-1;
+}
+
+.immutable-hint {
+  font-style: italic;
+  color: $color-grey-3;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+
+  .value {
+    text-align: right;
+    font-weight: bold;
+  }
+}
+
+app-signature-sheet-citizen-table {
+  display: block;
+  border-radius: 0.5rem;
+  background-color: $color-grey-7;
+}

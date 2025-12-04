@@ -1,0 +1,5 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+.doi-type-expansion-panel ::ng-deep.mat-expansion-panel {
+  background-color: $color-primary-10;
+}

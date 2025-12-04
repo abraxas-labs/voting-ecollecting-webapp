@@ -1,0 +1,188 @@
+<div class="layout">
+  @if (initiative) {
+    <div class="layout-header">
+      <bc-sub-navigation-bar
+        [type]="'subpage'"
+        [border]="false"
+        (actionClick)="back()"
+      >
+        <h4 sub-navigation-title truncateWithTooltip tooltip>{{ 'INITIATIVE.TITLE' | translate: { description: initiative.collection.description } | translate }}</h4>
+        <div></div>
+        <!-- placeholder which is forcing divider to be displayed -->
+      </bc-sub-navigation-bar>
+
+      <bc-card class="header-card" [border]="false">
+        <bc-card-header>
+          <bc-card-title
+            [label]="
+              (initiative.collection.isElectronicSubmission
+                ? 'INITIATIVE.TITLE_ELECTRONIC_SUBMISSION'
+                : 'INITIATIVE.TITLE_PAPER_SUBMISSION'
+              ) | translate: { governmentDecisionNumber: initiative.governmentDecisionNumber }
+            "
+          ></bc-card-title>
+          <div class="flex w-full justify-end gap-3 p-2 items-center">
+            @if (initiative.collection.informalReviewRequested && initiative.collection.userPermissions?.isRequestInformalReviewVisible) {
+              <bc-alert-bar
+                class="self-center"
+                [color]="'warning'"
+                [message]="'COLLECTION.INFORMAL_REVIEW_REQUESTED' | translate"
+                [displayDismissAction]="false"
+                [displayShowAction]="false"
+              ></bc-alert-bar>
+            }
+            <div class="flex flex-col">
+              <bc-status-label
+                class="self-center"
+                size="large"
+                [label]="'COLLECTION.STATES.' + initiative.collection.state | translate"
+              ></bc-status-label>
+            </div>
+          </div>
+          @if (initiative.collection.userPermissions?.canEdit) {
+            <bc-card-actions class="mr-3">
+              <bc-icon-button icon="add-comment" (buttonClick)="openChat()"></bc-icon-button>
+            </bc-card-actions>
+          }
+        </bc-card-header>
+      </bc-card>
+      <bc-divider [orientation]="'horizontal'"></bc-divider>
+    </div>
+
+    <div class="layout-content">
+      <bc-card class="m-3" [border]="false">
+        <bc-card-header>
+          <bc-card-title [label]="'COLLECTION.GENERAL_INFORMATION.TITLE' | translate"></bc-card-title>
+        </bc-card-header>
+        <bc-card-content class="flex flex-col gap-2">
+          <div class="flex gap-x-3">
+            <bc-readonly class="flex-1 nowrap" [label]="'INITIATIVE.GENERAL_INFORMATION.SUB_TYPE' | translate">
+              {{ initiative.subType?.description ?? 'INITIATIVE.GENERAL_INFORMATION.SUB_TYPE_DEFAULT' | translate }}
+            </bc-readonly>
+            <bc-readonly class="flex-1 nowrap" [label]="'INITIATIVE.GENERAL_INFORMATION.MIN_SIGNATURE_COUNT' | translate">
+              {{ initiative.minSignatureCount | number }}
+            </bc-readonly>
+            <bc-readonly [label]="'INITIATIVE.GENERAL_INFORMATION.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
+              {{ initiative.maxElectronicSignatureCount | number }}
+            </bc-readonly>
+          </div>
+
+          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.DESCRIPTION' | translate">
+            {{ initiative.collection.description }}
+          </bc-readonly>
+          <bc-readonly [label]="'INITIATIVE.GENERAL_INFORMATION.WORDING' | translate">
+            {{ initiative.wording }}
+          </bc-readonly>
+          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.REASON' | translate">
+            {{ initiative.collection.reason ? initiative.collection.reason : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}
+          </bc-readonly>
+          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.LINK' | translate">
+            @if (initiative.collection.link) {
+              <bc-link class="wrap-break-word" [href]="initiative.collection.link" [target]="'_blank'">{{ initiative.collection.link }}</bc-link>
+            } @else {
+              {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
+            }
+          </bc-readonly>
+          <div>
+            <bc-label [label]="'COLLECTION.GENERAL_INFORMATION.ADDRESS' | translate"></bc-label>
+            <p>{{ initiative.collection.address.committeeOrPerson }}</p>
+            <p>{{ initiative.collection.address.streetOrPostOfficeBox }}</p>
+            <p>{{ initiative.collection.address.zipCode }} {{ initiative.collection.address.locality }}</p>
+          </div>
+          <div class="flex flex-wrap gap-x-5 mt-1">
+            @if (image) {
+              <vo-ecol-image-upload
+                class="flex-1"
+                [imageSrc]="image | async"
+                (imageDeleted)="deleteImage()"
+                [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE' | translate"
+                [filename]="initiative.collection.image?.name ?? ''"
+                [fileLoading]="imageLoading"
+                [canUpload]="false"
+                [canDelete]="initiative.collection.userPermissions?.canEdit ?? false"
+              ></vo-ecol-image-upload>
+            } @else {
+              <bc-readonly class="flex-1" [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE_OPTIONAL' | translate">
+                {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
+              </bc-readonly>
+            }
+
+            @if (logo) {
+              <vo-ecol-image-upload
+                class="flex-1"
+                [imageSrc]="logo | async"
+                (imageDeleted)="deleteLogo()"
+                [label]="'COLLECTION.GENERAL_INFORMATION.LOGO' | translate"
+                [filename]="initiative.collection.logo?.name ?? ''"
+                [fileLoading]="logoLoading"
+                [canUpload]="false"
+                [canDelete]="initiative.collection.userPermissions?.canEdit ?? false"
+              ></vo-ecol-image-upload>
+            } @else {
+              <bc-readonly class="flex-1" [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE_OPTIONAL' | translate">
+                {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
+              </bc-readonly>
+            }
+          </div>
+        </bc-card-content>
+      </bc-card>
+      <bc-card class="m-3" [border]="false">
+        <bc-card-header>
+          <bc-card-title [label]="'COLLECTION.SIGNATURE_SHEET' | translate"></bc-card-title>
+        </bc-card-header>
+        <bc-card-content>
+          @if (initiative.collection.signatureSheetTemplate) {
+            <vo-ecol-file-chip
+              [loading]="deleting"
+              [label]="initiative.collection.signatureSheetTemplate.name"
+              [canRemove]="!initiative.collection.signatureSheetTemplateGenerated && (initiative.collection.userPermissions?.canEdit ?? false)"
+              (open)="openSignatureSheet()"
+              (remove)="deleteSignatureSheet()"
+            ></vo-ecol-file-chip>
+          } @else {
+            <p>{{ 'COLLECTION.NO_SIGNATURE_SHEET' | translate }}</p>
+          }
+        </bc-card-content>
+      </bc-card>
+      @if (initiative.collection.userPermissions?.canEdit) {
+        <app-initiative-detail-committee [initiative]="initiative"></app-initiative-detail-committee>
+        <bc-card class="m-3" [border]="false">
+          <bc-card-header>
+            <bc-card-title [label]="'COLLECTION.PERMISSIONS.TITLE' | translate"></bc-card-title>
+          </bc-card-header>
+          <bc-card-content>
+            <app-collection-permissions [collectionId]="initiative.id"></app-collection-permissions>
+          </bc-card-content>
+        </bc-card>
+      }
+    </div>
+
+    <div class="layout-footer">
+      @if (!updating) {
+        @if (initiative.collection.userPermissions?.canFinishCorrection) {
+          <bc-button
+            [icon]="'checkmark'"
+            [label]="'INITIATIVE.FINISH_CORRECTION.TITLE' | translate"
+            (buttonClick)="finishCorrection()"
+          ></bc-button>
+        }
+
+        @if (initiative.collection.userPermissions?.canSetCollectionPeriod) {
+          <bc-button [icon]="'checkmark'" [label]="'INITIATIVE.SET_COLLECTION_PERIOD.TITLE' | translate" (buttonClick)="setCollectionPeriod()"></bc-button>
+        }
+
+        @if (initiative.collection.userPermissions?.canEnable) {
+          <bc-button [icon]="'checkmark'" [label]="'INITIATIVE.ENABLE.TITLE' | translate" (buttonClick)="enable()"></bc-button>
+        }
+
+        @if (initiative.collection.userPermissions?.canReturnForCorrection) {
+          <bc-button [icon]="'undo'" [label]="'INITIATIVE.RETURN_FOR_CORRECTION.TITLE' | translate" (buttonClick)="returnForCorrection()"></bc-button>
+        }
+
+        <bc-button class="close-button" [icon]="'cancel'" [label]="'APP.CLOSE' | translate" (buttonClick)="back()"></bc-button>
+      } @else {
+        <bc-spinner></bc-spinner>
+      }
+    </div>
+  }
+</div>

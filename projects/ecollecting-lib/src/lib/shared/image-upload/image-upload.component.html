@@ -1,0 +1,28 @@
+<!-- class formfield is required for the styles to be applied to mat-hint. -->
+<div class="formfield">
+  <vo-ecol-file-upload [allowedContentTypes]="acceptedFileTypes"
+                       [label]="label"
+                       inlineHint="FILE_UPLOAD.IMAGE_HINT"
+                       [optional]="!required"
+                       [canRemoveFile]="false"
+                       [error]="error"
+                       [disabled]="!canUpload"
+                       [filename]="fileLoading ? filename : ''"
+                       [fileLoading]="fileLoading"
+                       [maxSizeInBytes]="maxSizeInBytes"
+                       (fileChanged)="imageChanged.emit($event)">
+    @if (hint && canUpload) {
+      <mat-hint [class.error]="error">{{ hint }}</mat-hint>
+    }
+  </vo-ecol-file-upload>
+</div>
+
+@if (imageSrc) {
+  <div class="flex mt-1">
+    <img [src]="imageSrc" alt="preview image" />
+    @if (canDelete) {
+      <bc-icon-button class="remove" [icon]="'remove'" (click)="imageDeleted.emit()"
+                      [variant]="'tertiary'" [ariaLabel]="'APP.DELETE' | translate"></bc-icon-button>
+    }
+  </div>
+}

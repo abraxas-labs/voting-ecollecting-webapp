@@ -1,0 +1,109 @@
+<h2>{{ 'ADMIN.CERTS.PAST.TITLE' | translate }}</h2>
+
+@if (loading) {
+  <bc-spinner></bc-spinner>
+}
+
+<bc-table sort [sortActive]="[{ id: importedAtColumn, direction: 'desc' }]" [dataSource]="dataSource">
+  <ng-container [columnDef]="notAfterColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span>
+        {{ 'ADMIN.CERTS.NOT_AFTER' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.info.notAfter | date: 'dd.MM.yyyy' }}</div>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="importedAtColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span [tooltip]="'ADMIN.CERTS.IMPORTED_AT' | translate">
+        {{ 'ADMIN.CERTS.IMPORTED_AT' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.importedAt | date: 'dd.MM.yyyy HH:mm:ss' }}</div>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="importedByColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span [tooltip]="'ADMIN.CERTS.IMPORTED_BY' | translate">
+        {{ 'ADMIN.CERTS.IMPORTED_BY' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.importedByName }}</div>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="subjectColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span [tooltip]="'ADMIN.CERTS.SUBJECT' | translate">
+        {{ 'ADMIN.CERTS.SUBJECT' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.info.subject }}</div>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="labelColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span [tooltip]="'ADMIN.CERTS.LABEL' | translate">
+        {{ 'ADMIN.CERTS.LABEL' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.label }}</div>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="checkColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span [tooltip]="'ADMIN.CERTS.CHECK' | translate">
+        {{ 'ADMIN.CERTS.CHECK' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <bc-status-label [label]="'ADMIN.CERTS.ACTIVE.CA_CERT_TITLE' | translate"
+                       [tooltip]="tooltipContent"></bc-status-label>
+      <ng-template #tooltipContent>
+        <app-certificate-info [showNotAfter]="false"
+                              [twoColumnLayout]="false"
+                              [certificate]="row.caInfo"></app-certificate-info>
+      </ng-template>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="thumbprintColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span [tooltip]="'ADMIN.CERTS.THUMBPRINT' | translate">
+        {{ 'ADMIN.CERTS.THUMBPRINT' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div [tooltip]="tooltipContent" class="truncate">{{ row.info.thumbprint }}</div>
+      <ng-template #tooltipContent>
+        <span class="break-all">{{ row.info.thumbprint }}</span>
+      </ng-template>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="actionsColumn">
+    <bc-header-cell *headerCellDef></bc-header-cell>
+    <bc-data-cell *dataCellDef="let element">
+      <div class="flex flex-wrap gap-1 justify-end">
+        <bc-icon-button (buttonClick)="copyThumbprint(element)" icon="copy" variant="tertiary"></bc-icon-button>
+      </div>
+    </bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+
+  <ng-template noDataRow>
+    <tr class="bc-row-data">
+      <td class="bc-cell" [colSpan]="columns.length">
+        @if (!loading) {
+          <span>{{ 'ADMIN.CERTS.PAST.NO_DATA' | translate }}</span>
+        }
+      </td>
+    </tr>
+  </ng-template>
+</bc-table>
+

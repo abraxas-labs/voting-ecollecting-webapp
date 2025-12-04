@@ -1,0 +1,65 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  max-width: 45rem;
+  border: 1px solid $color-grey-4;
+
+  &.ok {
+    background-color: $color-success-10;
+
+    .state {
+      color: $color-success;
+    }
+  }
+
+  &.warning {
+    background-color: $color-warning-10;
+
+    .state {
+      color: $color-warning;
+    }
+  }
+
+  &.error {
+    background-color: $color-error-10;
+
+    .state {
+      color: $color-error;
+    }
+  }
+
+  > * {
+    @extend .px-4;
+
+    &:first-child {
+      @extend .pt-3;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content {
+  @extend .py-2;
+
+  flex-grow: 1;
+  display: grid;
+  grid-auto-rows: min-content;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.75rem;
+}
+
+.footer {
+  @extend .py-2;
+
+  border-top: 1px solid $color-grey-4;
+}

@@ -1,0 +1,47 @@
+{
+  "root": true,
+  "plugins": ["license-header"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.*?.json"],
+        "createDefaultProgram": true
+      },
+      "extends": ["plugin:@angular-eslint/recommended"],
+      "rules": {
+        "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+        "license-header/header": ["error", "license-header.js"],
+        "@typescript-eslint/no-non-null-assertion": "off"
+      }
+    },
+    {
+      "files": ["*.component.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"]
+    },
+    {
+      "files": ["*.component.ts"],
+      "extends": ["plugin:@angular-eslint/template/process-inline-templates"]
+    }
+  ],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "@angular/material/snack-bar",
+            "importNames": ["MatSnackBar"],
+            "message": "Use the custom ToastService instead of MatSnackBar."
+          }
+        ],
+        "patterns": [
+          {
+            "group": ["**/../ecollecting-lib/**"],
+            "message": "Do not import from ecollecting-lib via relative path. Use the module instead."
+          }
+        ]
+      }
+    ]
+  }
+}

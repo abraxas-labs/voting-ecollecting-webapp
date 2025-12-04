@@ -1,0 +1,101 @@
+<vo-ecol-dialog
+  [header]="'DECREE.DIALOG.TITLE'"
+  [okText]="isNew ? 'APP.CREATE' : 'APP.SAVE'"
+  (ok)="save()"
+  [canOk]="canSave"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <div class="grid">
+    <bc-dropdown
+      class="col-span-2"
+      [value]="decree.domainOfInfluenceType"
+      (valueChange)="changeDomainOfInfluenceType($event)"
+      [items]="domainOfInfluenceTypeItems"
+      displayExpr="description"
+      valueExpr="value"
+      [label]="'DECREE.DIALOG.DOMAIN_OF_INFLUENCE_TYPE' | translate"
+      [required]="true"
+      subscriptSizing="dynamic"
+    ></bc-dropdown>
+    <bc-textarea
+      class="col-span-2"
+      [value]="decree.description"
+      (valueChange)="decree.description = $event; contentChanged()"
+      [label]="'DECREE.DIALOG.OFFICIAL_DESCRIPTION' | translate"
+      subscriptSizing="dynamic"
+      [required]="true"
+      [formControl]="form.controls.description"
+      [showDefaultErrors]="true"
+    ></bc-textarea>
+    <bc-date
+      [value]="(decree.collectionStartDate | date)!"
+      (valueChange)="updateCollectionStartDate($event)"
+      [label]="'DECREE.DIALOG.COLLECTION_START_DATE' | translate"
+      [required]="true"
+      [formControl]="form.controls.collectionStartDate"
+      [error]="form.controls.collectionStartDate.invalid"
+      [adjustFormControlErrors]="false"
+      subscriptSizing="dynamic"
+    >
+      @if (form.controls.collectionStartDate.errors?.['dateNotInFuture']) {
+        <bc-error>{{ 'DECREE.DIALOG.ERRORS.DATE_IN_FUTURE' | translate }}</bc-error>
+      }
+    </bc-date>
+    <bc-date
+      [value]="(decree.collectionEndDate | date)!"
+      (valueChange)="updateCollectionEndDate($event)"
+      [label]="'DECREE.DIALOG.COLLECTION_END_DATE' | translate"
+      [required]="true"
+      [formControl]="form.controls.collectionEndDate"
+      [error]="form.controls.collectionEndDate.invalid"
+      [adjustFormControlErrors]="false"
+      subscriptSizing="dynamic"
+    >
+      @if (form.controls.collectionEndDate.errors?.['dateNotOlderThanStartDate']) {
+        <bc-error>{{ 'DECREE.DIALOG.ERRORS.DATE_OLDER_THAN_START_DATE' | translate }}</bc-error>
+      }
+    </bc-date>
+    <bc-number
+      [value]="decree.minSignatureCount"
+      (valueChange)="changeMinSignatureCount($event)"
+      [label]="'DECREE.DIALOG.MIN_SIGNATURE_COUNT' | translate"
+      [readonly]="true"
+      [required]="true"
+      [formControl]="form.controls.minSignatureCount"
+      [showDefaultErrors]="true"
+      [error]="form.controls.minSignatureCount.invalid && form.controls.minSignatureCount.dirty"
+      subscriptSizing="dynamic"
+    ></bc-number>
+    <bc-number
+      [value]="decree.maxElectronicSignatureCount"
+      (valueChange)="decree.maxElectronicSignatureCount = $event!; contentChanged()"
+      [label]="'DECREE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate"
+      [readonly]="true"
+      [required]="true"
+      [formControl]="form.controls.maxElectronicSignatureCount"
+      [error]="form.controls.maxElectronicSignatureCount.invalid && form.controls.maxElectronicSignatureCount.dirty"
+      [showDefaultErrors]="true"
+      subscriptSizing="dynamic"
+    ></bc-number>
+    @if (
+      decree.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CT ||
+      decree.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU
+    ) {
+      <div class="col-span-2 link-container">
+        <bc-text
+          [label]="'DECREE.DIALOG.LINK' | translate"
+          [value]="decree.link"
+          (valueChange)="decree.link = $event; contentChanged()"
+          [formControl]="form.controls.link"
+          [showDefaultErrors]="true"
+          subscriptSizing="dynamic"
+        ></bc-text>
+        <a [href]="decree.link" target="_blank">
+          <bc-icon [icon]="'external-link'" iconColor="primary"></bc-icon>
+        </a>
+      </div>
+    }
+  </div>
+</vo-ecol-dialog>

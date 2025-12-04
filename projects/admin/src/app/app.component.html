@@ -1,0 +1,67 @@
+<bc-snackbar horizontalPosition="right" verticalPosition="top" [action]="'APP.CLOSE' | translate"></bc-snackbar>
+<div class="root layout">
+  @if (theme && !(route.snapshot | routeData: 'hideHeader')) {
+    <header class="layout-header">
+      @if (hasTenant) {
+        <bc-app-header-bar-iam
+          [link]="['/', theme]"
+          [title]="appTitle"
+          (tenantChanged)="switchTenant()"
+          [customLogoPath]="customLogo ?? ''"
+          logo="VO"
+        >
+          <vo-lib-environment-chip></vo-lib-environment-chip>
+        </bc-app-header-bar-iam>
+      } @else {
+        <bc-app-header-bar [link]="['/', theme]" [title]="appTitle" logo="VO"></bc-app-header-bar>
+      }
+    </header>
+    <main class="layout-content content-width" [class.large-content-width]="route.snapshot | routeData: 'largeView'">
+      <div class="layout">
+        @if (!loading && !(route.snapshot | routeData: 'hideNavigation')) {
+          <div class="layout-header mx-5 mt-3">
+            <bc-nav-bar [rounded]="true">
+              <bc-nav-bar-item [link]="['/', theme, referendumUrl]">
+                {{ 'APP.NAVIGATION.REFERENDUMS' | translate }}
+              </bc-nav-bar-item>
+              <bc-nav-bar-item [link]="['/', theme, initiativeUrl]">
+                {{ 'APP.NAVIGATION.INITIATIVES' | translate }}
+              </bc-nav-bar-item>
+              <bc-nav-bar-item [link]="['/', theme, controlSignUrl]" *appHasRole="'Kontrollzeichenlöscher'">
+                {{ 'APP.NAVIGATION.CONTROL_SIGNS' | translate }}
+              </bc-nav-bar-item>
+              <bc-nav-bar-item [link]="['/', theme, administrationUrl]" *appHasAnyRole="['Zertifikatsverwalter', 'Stammdatenverwalter']">
+                {{ 'APP.NAVIGATION.ADMINISTRATION' | translate }}
+              </bc-nav-bar-item>
+            </bc-nav-bar>
+          </div>
+        }
+        @if (!loading && hasTenant) {
+          <div class="layout-content">
+            <router-outlet></router-outlet>
+          </div>
+        } @else {
+          <div class="layout-content p-5">
+            @if (!loading) {
+              <p translate>APP.NO_PERMISSIONS</p>
+              <div>
+                <bc-button (buttonClick)="reload()" [label]="'APP.RELOAD' | translate"></bc-button>
+                <bc-button class="ml-2" (buttonClick)="logout()" [label]="'APP.LOGOUT' | translate"></bc-button>
+              </div>
+            } @else {
+              <h1>
+                <bc-spinner class="mr-1"></bc-spinner>
+                {{ 'COMMON.LOADING' | translate }}
+              </h1>
+            }
+          </div>
+        }
+      </div>
+    </main>
+  } @else if (theme) {
+    <div class="layout-content">
+      <router-outlet></router-outlet>
+    </div>
+  }
+
+</div>

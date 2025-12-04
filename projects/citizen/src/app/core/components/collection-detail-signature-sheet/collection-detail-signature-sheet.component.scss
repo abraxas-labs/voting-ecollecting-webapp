@@ -1,0 +1,27 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+.box {
+  @extend .p-3;
+  @extend .my-2;
+
+  border-radius: 0.5rem;
+  border: 1px solid $color-grey-5;
+}
+
+.generated-content {
+  display: flex;
+  justify-content: space-between;
+
+  .actions {
+    display: flex;
+    align-items: center;
+
+    .generating {
+      @extend .ml-2;
+
+      font-style: italic;
+      color: $color-grey-1;
+    }
+  }
+}

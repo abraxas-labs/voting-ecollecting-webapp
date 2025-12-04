@@ -1,0 +1,18 @@
+@use '@abraxas/voting-lib/style/table' as *;
+
+.bc-column-description {
+  width: 30%;
+}
+
+.bc-column-edit {
+  width: 6rem; // required width for 2 action buttons
+}
+
+::ng-deep .bc-column-collection-start-date,
+::ng-deep .bc-column-collection-end-date,
+::ng-deep .bc-column-min-signature-count,
+::ng-deep .bc-column-total-attested,
+::ng-deep .bc-column-max-electronic-signature-count,
+::ng-deep .bc-column-electronic-attested {
+  @include truncate-long-sortable-table-header();
+}

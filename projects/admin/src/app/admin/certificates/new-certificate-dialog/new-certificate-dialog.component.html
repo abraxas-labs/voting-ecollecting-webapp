@@ -1,0 +1,45 @@
+<vo-ecol-dialog
+  [header]="'ADMIN.CERTS.IMPORT.TITLE'"
+  [okText]="'ADMIN.CERTS.IMPORT.ACTION'"
+  (ok)="import()"
+  [canOk]="!!validation && validation.state !== 'Error' && !validating && !importing"
+  [saving]="importing"
+  (discard)="close()"
+  [formGroup]="form"
+>
+  <bc-alert-bar
+    color="info"
+    class="block mb-2"
+    [displayDismissAction]="false"
+    [message]="'ADMIN.CERTS.IMPORT.INFO' | translate"></bc-alert-bar>
+  <!-- a lot of browsers don't map pem files to mime type correctly, only filter by extension -->
+  <vo-ecol-file-upload
+    class="mb-2"
+    inlineHint="ADMIN.CERTS.IMPORT.CERTIFICATE_HINT"
+    label="ADMIN.CERTS.IMPORT.CERTIFICATE"
+    [allowedExtensions]="['.pem']"
+    [maxSizeInBytes]="maxSize"
+    [fileLoading]="validating"
+    [filename]="file?.name"
+    [canOpenFile]="false"
+    [canRemoveFile]="false"
+    (fileChanged)="fileSelected($event)"></vo-ecol-file-upload>
+
+  @if (validation) {
+    @if (validation.state !== 'Ok') {
+      <app-new-certificate-validation
+        class="block mb-2"
+        [validation]="validation"></app-new-certificate-validation>
+    }
+
+    <app-certificate-info
+      class="mb-2"
+      [certificate]="validation"></app-certificate-info>
+  }
+
+  <bc-text
+    [label]="'ADMIN.CERTS.IMPORT.LABEL' | translate"
+    [formControl]="form.controls.label"
+    subscriptSizing="dynamic"
+  ></bc-text>
+</vo-ecol-dialog>

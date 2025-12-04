@@ -1,0 +1,118 @@
+{
+  "APP": {
+    "LOGOUT": "Logout",
+    "RELOAD": "Neu laden",
+    "NO_PERMISSIONS": "Keine Berechtigung",
+    "CLOSE": "Schliessen",
+    "DISCARD": "Abbrechen",
+    "CREATE": "Erfassen",
+    "SAVE": "Speichern",
+    "SAVE_AND_CLOSE": "Speichern und schliessen",
+    "OK": "OK",
+    "YES": "Ja",
+    "SAVED": "Gespeichert",
+    "DELETED": "Gelöscht",
+    "CHANGES": {
+      "TITLE": "Änderungen",
+      "MSG": "Sind Sie sicher, dass Sie die Seite ohne zu Speichern verlassen wollen?"
+    },
+    "DELETE": {
+      "TITLE": "Löschen",
+      "MSG": "Sind Sie sicher, dass Sie diesen Eintrag löschen wollen?"
+    }
+  },
+  "DOMAIN_OF_INFLUENCE_TYPES": {
+    "1": "Bund",
+    "2": "Kanton",
+    "3": "Gemeinde"
+  },
+  "DECREES": {
+    "NO_DATA": "Keine Erlasse verfügbar"
+  },
+  "DECREE": {
+    "MIN_SIGNATURE_COUNT": "Total nötig",
+    "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
+    "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
+    "TOTAL_ATTESTED": "Total bescheinigt",
+    "COLLECTION_PERIOD": "Sammelfrist",
+    "STATES": {
+      "0": "undefiniert",
+      "1": "Zur Sammlung freigegeben",
+      "2": "Zustande gekommen",
+      "3": "Nicht Zustande gekommen"
+    }
+  },
+  "INITIATIVE": {
+    "MIN_SIGNATURE_COUNT": "Total nötig",
+    "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
+    "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
+    "TOTAL_ATTESTED": "Total bescheinigt",
+    "COLLECTION_PERIOD": "Sammelfrist"
+  },
+  "COLLECTION": {
+    "ADDRESS": "{{committeeOrPerson}}, {{streetOrPostOfficeBox}}, {{zipCode}} {{locality}}",
+    "STATES": {
+      "0": "undefiniert",
+      "1": "Vorerfasst",
+      "2": "in Erfassung",
+      "3": "zurückgezogen",
+      "4": "eingereicht",
+      "5": "nicht zulässig",
+      "6": "in Korrektur",
+      "7": "in Prüfung",
+      "8": "bereit für Anmeldung",
+      "9": "angemeldet",
+      "10": "Sammlung wird aufgeschaltet",
+      "11": "freigegeben",
+      "12": "Unterschriftenlisten eingereicht",
+      "13": "Zustande gekommen",
+      "14": "Nicht zustande gekommen"
+    },
+    "PERIOD_STATES": {
+      "1": "Sammelfrist startet in {{days}} Tagen",
+      "2": "Sammelfrist endet in {{days}} Tagen",
+      "3": "Sammlung beendet"
+    },
+    "CAME_NOT_ABOUT_REASONS": {
+      "1": "Die erforderliche Anzahl Unterschriften wurde nicht erreicht",
+      "2": "Es wurden keine Unterschriftenlisten eingereicht"
+    }
+  },
+  "IMAGE_UPLOAD": {
+    "TITLE": "Datei hochladen",
+    "HINT": "Dateien dursuchen"
+  },
+  "COLLECTION_PERMISSION_ROLES": {
+    "0": "Keine",
+    "1": "Leserecht",
+    "2": "Stellvertretung",
+    "3": "Eigentümer"
+  },
+  "COLLECTION_PERMISSION_ROLES_ACTION": {
+    "1": "lesen",
+    "2": "bearbeiten"
+  },
+  "COLLECTION_MESSAGES": {
+    "TITLE": "Status und Mitteilungen",
+    "SUB_TITLE": "Mitteilungsverlauf",
+    "NO_DATA": "Keine Mitteilungen vorhanden",
+    "ADD": "Mitteilung hinzufügen",
+    "CLOSE": "Schliessen",
+    "SEND": "Senden",
+    "REQUEST_INFORMAL_REVIEW": "Informelle Vorprüfung veranlassen",
+    "UNSAVED_CHANGES": {
+      "MESSAGE": "Sind Sie sicher, dass Sie die Nachricht nicht senden möchten?",
+      "SEND_AND_CLOSE": "Senden und schliessen",
+      "DISCARD": "Nachricht verwerfen"
+    }
+  },
+  "FILE_UPLOAD": {
+    "DATA_TYPE_NOT_ALLOWED_TITLE": "Dateityp nicht erlaubt",
+    "DATA_TYPE_NOT_ALLOWED_MESSAGE": "Der Dateityp der hochgeladenen Datei ist nicht erlaubt.",
+    "FILE_TOO_LARGE_TITLE": "Datei zu gross",
+    "FILE_TOO_LARGE_MESSAGE": "Die hochgeladene Datei ist zu gross",
+    "TEXT": "Dateien durchsuchen oder in dieses Feld ziehen",
+    "CHOOSE": "Datei hochladen",
+    "IMAGE_HINT": "Erlaubt sind JPG oder PNG (max. 3MB)."
+  }
+}

@@ -1,0 +1,29 @@
+<bc-card (cardClick)="cardClick.emit()" [clickable]="cardClick.observed">
+  <vo-ecol-collection-card-header
+    [collectionOrDecree]="initiative.collection"
+    [collectionStartDate]="initiative.collection.collectionStartDate"
+    [collectionEndDate]="initiative.collection.collectionEndDate"
+    [role]="role"
+    [showPeriodState]="showPeriodState"
+  ></vo-ecol-collection-card-header>
+  <bc-card-content>
+    <div class="container">
+      <span class="text-grey-2">{{ 'COLLECTION.ADDRESS' | translate: initiative.collection.address }}</span>
+      <div>
+        <bc-readonly class="collection-period" [label]="'INITIATIVE.COLLECTION_PERIOD' | translate">{{ initiative.collection.collectionStartDate | date }} - {{ initiative.collection.collectionEndDate | date }}</bc-readonly>
+        <bc-readonly [label]="'INITIATIVE.MIN_SIGNATURE_COUNT' | translate">{{ initiative.minSignatureCount | number }}</bc-readonly>
+        <bc-readonly [label]="'INITIATIVE.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{ initiative.maxElectronicSignatureCount | number }}</bc-readonly>
+
+        @if (initiative.collection.attestedCollectionCount !== undefined && initiative.collection.attestedCollectionCount.totalCitizenCount !== undefined) {
+          <bc-readonly [label]="'INITIATIVE.TOTAL_ATTESTED' | translate">{{ initiative.collection.attestedCollectionCount.totalCitizenCount | number }}</bc-readonly>
+        }
+
+        @if (initiative.collection.attestedCollectionCount !== undefined) {
+          <bc-readonly [label]="'INITIATIVE.ELECTRONIC_ATTESTED' | translate">{{ initiative.collection.attestedCollectionCount.electronicCitizenCount | number }}</bc-readonly>
+        }
+      </div>
+    </div>
+
+    <ng-content></ng-content>
+  </bc-card-content>
+</bc-card>

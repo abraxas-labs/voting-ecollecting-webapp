@@ -1,0 +1,31 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+:host {
+  padding-left: 12px;
+  padding-right: 8px;
+  padding-top: 8px;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  min-height: 2.25rem; // enforce same min-height with and without link
+
+  @include md-up() {
+    flex-wrap: unset;
+  }
+}
+
+.title {
+  font-weight: 700;
+}
+
+.status {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+
+  @include md-up() {
+    justify-content: flex-end;
+    flex-wrap: unset;
+  }
+}

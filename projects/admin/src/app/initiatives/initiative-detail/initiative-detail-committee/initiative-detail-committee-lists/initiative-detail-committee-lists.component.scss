@@ -1,0 +1,13 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+@use '../../../../../../../ecollecting-lib/src/styles/gap' as *;
+
+.files {
+  @extend .gap-1;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  vo-ecol-file-chip {
+    display: inline-block;
+  }
+}

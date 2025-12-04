@@ -1,0 +1,163 @@
+@if (!loading) {
+  <bc-table
+    sort
+    (sortChange)="applySort($event)"
+    filter
+    (filterChange)="applyFilter($event)"
+    #selection="selection"
+    selection
+    selectAll
+    [sortActive]="[{ id: numberColumn, direction: 'asc' }]"
+    (selectionChange)="select($event)"
+    [selectionMultiple]="true"
+    [dataSource]="page.items">
+
+    <ng-container [columnDef]="selectionColumn">
+      <bc-header-cell *headerCellDef>
+        <bc-checkbox
+          selectAll
+          [checked]="page.items.length > 0 && selection.isAllSelected()"
+          [indeterminate]="page.items.length > 0 && selection.isPartialSelected()"
+        ></bc-checkbox>
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row">
+        <bc-checkbox
+          [checked]="selection.isSelected(row)"
+          selectionToggle
+          [selectionToggleValue]="row"
+        ></bc-checkbox>
+      </bc-data-cell>
+    </ng-container>
+
+    <ng-container [columnDef]="numberColumn">
+      <bc-header-cell sort *headerCellDef>
+              <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.NUMBER' | translate">
+                {{ 'COLLECTION.SIGNATURE_SHEETS.NUMBER' | translate }}
+              </span>
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row" class="text-right">
+        {{ row.number | number }}
+      </bc-data-cell>
+    </ng-container>
+
+    <ng-container [columnDef]="dateColumn">
+      <bc-header-cell sort *headerCellDef>
+        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.RECEIVED_AT' | translate">
+          {{ 'COLLECTION.SIGNATURE_SHEETS.RECEIVED_AT' | translate }}
+        </span>
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row">
+        <div truncateWithTooltip tooltip>{{ row.receivedAt | date: 'dd.MM.yyyy' }}</div>
+      </bc-data-cell>
+    </ng-container>
+
+    <ng-container [columnDef]="attestedAtColumn">
+      <bc-header-cell *headerCellDef
+                      sort
+                      filter
+                      filterType="list"
+                      [filterItems]="attestedAtValues"
+                      filterDisplayExpr="label"
+                      filterValueExpr="value">
+        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.ATTESTED_TIMESTAMP' | translate">
+          {{ 'COLLECTION.SIGNATURE_SHEETS.ATTESTED_TIMESTAMP' | translate }}
+        </span>
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row">
+        <div truncateWithTooltip tooltip>{{ row.attestedAt | date: 'dd.MM.yyyy HH:mm' }}</div>
+      </bc-data-cell>
+    </ng-container>
+
+    <ng-container [columnDef]="modifiedByNameColumn">
+      <bc-header-cell sort *headerCellDef>
+        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.MODIFIED_BY_NAME' | translate">
+          {{ 'COLLECTION.SIGNATURE_SHEETS.MODIFIED_BY_NAME' | translate }}
+        </span>
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row">
+        <div truncateWithTooltip tooltip>{{ row.modifiedByName ?? row.createdByName }}</div>
+      </bc-data-cell>
+    </ng-container>
+
+    <ng-container [columnDef]="signatureCountTotalColumn">
+      <bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.COUNT.TOTAL' | translate">
+          {{ 'COLLECTION.SIGNATURE_SHEETS.COUNT.TOTAL' | translate }}
+        </span>
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row" class="text-right">
+        {{ row.count.total | number }}
+      </bc-data-cell>
+    </ng-container>
+
+    <ng-container [columnDef]="signatureCountValidColumn">
+      <bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.COUNT.VALID' | translate">
+          {{ 'COLLECTION.SIGNATURE_SHEETS.COUNT.VALID' | translate }}
+        </span>
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row" class="text-right">
+        {{ row.count.valid | number }}
+      </bc-data-cell>
+    </ng-container>
+
+    <ng-container [columnDef]="signatureCountInvalidColumn">
+      <bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.COUNT.INVALID' | translate">
+          {{ 'COLLECTION.SIGNATURE_SHEETS.COUNT.INVALID' | translate }}
+        </span>
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row" class="text-right">
+        {{ row.count.invalid | number }}
+      </bc-data-cell>
+    </ng-container>
+
+    <ng-container [columnDef]="actionsColumn">
+      <bc-header-cell *headerCellDef></bc-header-cell>
+      <bc-data-cell *dataCellDef="let row">
+        <div class="flex flex-wrap gap-1 justify-end">
+          <bc-icon-button (buttonClick)="open(row.id)"
+                          [icon]="state === states.COLLECTION_SIGNATURE_SHEET_STATE_ATTESTED ? 'search' : 'edit'"
+                          [tooltip]="'COLLECTION.SIGNATURE_SHEETS.OPEN.' + state | translate"
+                          variant="tertiary"></bc-icon-button>
+
+          @if (row.userPermissions.canDelete) {
+            <bc-icon-button (buttonClick)="delete(row.id)"
+                            [tooltip]="'APP.DELETE.TITLE' | translate"
+                            icon="trash"
+                            variant="tertiary"></bc-icon-button>
+          }
+
+        </div>
+      </bc-data-cell>
+    </ng-container>
+
+    <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+    <bc-data-row *dataRowDef="let row; columns: columns"
+                 selectionToggle
+                 #rowSelection="selectionToggle"
+                 [selectionToggleValue]="row"
+                 selectionRow
+                 [selectionRowValue]="row"
+                 (click)="rowSelection.toggle()"></bc-data-row>
+
+    <ng-template noDataRow>
+      <tr class="bc-row-data">
+        <td class="bc-cell" [colSpan]="columns.length">
+          <span class="no-data">
+            {{ 'COLLECTION.SIGNATURE_SHEETS.NO_DATA.' + state | translate }}
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+  </bc-table>
+
+  @if (paged) {
+    <vo-ecol-paginator
+      [page]="page"
+      (pageChange)="loadData($event)"></vo-ecol-paginator>
+  }
+
+} @else {
+  <bc-spinner></bc-spinner>
+}

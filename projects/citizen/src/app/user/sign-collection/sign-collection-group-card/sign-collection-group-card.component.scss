@@ -1,0 +1,12 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+bc-alert-bar ::ng-deep {
+  .alert-banner {
+    background-color: unset;
+    padding: 8px 0;
+  }
+
+  .banner-text {
+    color: $color-info;
+  }
+}

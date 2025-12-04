@@ -1,0 +1,104 @@
+<app-approval-page
+  [loading]="loading"
+  header="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.TITLE.DEFAULT"
+  [subHeader]="data?.description ?? ''"
+  [hint]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.TEXT' | translate: data"
+  [notFound]="notFound"
+  notFoundHeader="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.TITLE.NOT_FOUND"
+  notFoundDetail="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.NOT_FOUND">
+
+  @if (data) {
+    <div sub-header-content class="mb-3">
+      <bc-expansion-panel
+        class="initiative-details"
+        [header]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.INITIATIVE_DETAIL.TITLE' | translate">
+        <div class="content">
+          <h3>{{ data.description }}</h3>
+
+          @if (data.subType) {
+            <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE' | translate">{{ data.subType.description }}</bc-readonly>
+          }
+
+          @if (data.wording) {
+            <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.WORDING' | translate">{{ data.wording }}</bc-readonly>
+          }
+
+          @if (data.reason) {
+            <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.REASON' | translate">{{ data.reason }}</bc-readonly>
+          }
+        </div>
+      </bc-expansion-panel>
+    </div>
+  }
+
+  @if (!rejected) {
+    @if (!acceptedUpload) {
+      <app-approval-page-card
+        header="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.IAM.TITLE"
+        hint="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.IAM.TEXT"
+        [success]="acceptedIAM ? 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.IAM.ACCEPTED' : undefined"
+        [error]="error ? ('ERROR_MESSAGES.' + error | translate) : undefined">
+        <bc-button
+          actions
+          color="primary"
+          icon="id"
+          [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.IAM.ACTION' | translate"
+          (buttonClick)="accept()"></bc-button>
+      </app-approval-page-card>
+    }
+
+    @if (!acceptedIAM) {
+      <app-approval-page-card
+        header="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.TITLE"
+        hint="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.TEXT"
+        [success]="acceptedUpload ? 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.ACCEPTED' : undefined">
+        <div actions>
+          @if (generating) {
+            <div class="spinner-container">
+              <bc-spinner></bc-spinner>
+              <span
+                class="generating">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.GENERATING' | translate }}</span>
+            </div>
+          } @else {
+            <bc-button
+              color="primary"
+              icon="download"
+              [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.DOWNLOAD_TEMPLATE_ACTION' | translate"
+              (buttonClick)="downloadTemplate()"></bc-button>
+          }
+
+          @if (uploading) {
+            <div class="spinner-container">
+              <bc-spinner></bc-spinner>
+              <span
+                class="generating">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.UPLOADING' | translate }}</span>
+            </div>
+          } @else {
+            <vo-ecol-file-upload
+              [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.ACTION' | translate"
+              variant="simple-button"
+              buttonVariant="secondary"
+              (fileChanged)="uploadFile($event)"
+              [allowedContentTypes]="['application/pdf']"
+              [maxSizeInBytes]="maxFileSize"></vo-ecol-file-upload>
+          }
+        </div>
+      </app-approval-page-card>
+    }
+
+  }
+
+  @if (!acceptedUpload && !acceptedIAM) {
+    <app-approval-page-card
+      header="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.REJECT.TITLE"
+      hint="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.REJECT.TEXT"
+      [error]="rejected ? ('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.REJECT.DONE') : undefined">
+      <bc-button
+        actions
+        color="warn"
+        icon="stop"
+        [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.REJECT.ACTION' | translate"
+        (buttonClick)="reject()"></bc-button>
+    </app-approval-page-card>
+  }
+</app-approval-page>

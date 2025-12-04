@@ -1,0 +1,29 @@
+<div class="layout">
+  @if (!(route.snapshot | routeData: 'hideNavigation')) {
+    <div class="layout-header">
+      <div class="user-navigation">
+        <div class="flex justify-between items-center my-3 mr-3">
+          <bc-nav-bar class="nav-bar" [rounded]="true">
+            <bc-nav-bar-item [link]="[signCollectionUrl]">
+              {{ 'APP.NAVIGATION.SIGN_COLLECTION' | translate }}
+            </bc-nav-bar-item>
+            <bc-nav-bar-item [link]="[endedCollectionsUrl]">
+              {{ 'APP.NAVIGATION.ENDED_COLLECTIONS' | translate }}
+            </bc-nav-bar-item>
+            <bc-nav-bar-item [link]="[seekReferendumUrl]">
+              {{ 'APP.NAVIGATION.SEEK_REFERENDUM' | translate }}
+            </bc-nav-bar-item>
+            <bc-nav-bar-item [link]="[launchInitiativeUrl]">
+              {{ 'APP.NAVIGATION.LAUNCH_INITIATIVE' | translate }}
+            </bc-nav-bar-item>
+          </bc-nav-bar>
+          <bc-icon-button icon="question-circle-o" (buttonClick)="openHelpMenu()" [ariaLabel]="'HELP.OPEN' | translate"></bc-icon-button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="layout-content" [class.has-navigation]="!(route.snapshot | routeData: 'hideNavigation')">
+    <router-outlet></router-outlet>
+  </div>
+</div>

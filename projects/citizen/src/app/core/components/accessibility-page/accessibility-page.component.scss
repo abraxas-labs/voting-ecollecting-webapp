@@ -1,0 +1,15 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+.info {
+  white-space: pre-wrap;
+}
+
+.fields {
+  display: flex;
+  gap: 0.5rem 1rem;
+  flex-direction: column;
+
+  @include md-up() {
+    flex-direction: row;
+  }
+}

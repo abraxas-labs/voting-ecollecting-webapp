@@ -1,0 +1,21 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+[content] {
+  display: flex;
+  height: calc(100% - 1rem); // space to the bottom, since parent has overflow scroll...
+  flex-direction: column;
+
+  .messages {
+    overflow-y: auto;
+  }
+
+  hr {
+    color: $color-grey-5;
+    width: 100%;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: end;
+  }
+}

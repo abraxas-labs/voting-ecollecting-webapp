@@ -1,0 +1,37 @@
+<vo-ecol-doi-type-card [doiType]="doiType">
+  @if (doiType === municipalityDoiType && domainOfInfluences && domainOfInfluences.length > 0) {
+    <div class="mb-4">
+      <vo-ecol-municipality-filter
+        [domainOfInfluences]="domainOfInfluences"
+        [(selectedDomainOfInfluence)]="selectedDomainOfInfluence"
+        (selectedDomainOfInfluenceChange)="applyFilter()"
+      ></vo-ecol-municipality-filter>
+    </div>
+  }
+
+  @if (loading) {
+    <bc-spinner></bc-spinner>
+  }
+
+  <div class="flex flex-col gap-3 mt-3">
+    @for (decree of filteredDecrees; track decree.id) {
+      <vo-ecol-decree-card
+        [decree]="decree"
+        (cardClick)="cardClick.emit(decree)"
+        [selected]="selectedDecreeId === decree.id"
+        [clickable]="selectable && (originalSelectedDecreeId === decree.id || (!!decree.userPermissions?.canCreateReferendum && !decree.userPermissions?.hasMaximumReferendumsBeenReached))"
+        [disabled]="selectable && (originalSelectedDecreeId !== decree.id && (!decree.userPermissions?.canCreateReferendum || !!decree.userPermissions?.hasMaximumReferendumsBeenReached))"
+      >
+        @if (cardContent) {
+          <ng-container [ngTemplateOutlet]="cardContent"
+                        [ngTemplateOutletContext]="{ $implicit: decree }">
+          </ng-container>
+        }
+      </vo-ecol-decree-card>
+    } @empty {
+      @if ((doiType !== municipalityDoiType || !!selectedDomainOfInfluence) && !loading) {
+        <p class="no-data">{{ 'DECREES.NO_DATA' | translate }}</p>
+      }
+    }
+  </div>
+</vo-ecol-doi-type-card>

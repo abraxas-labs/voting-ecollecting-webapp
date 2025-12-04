@@ -1,0 +1,50 @@
+<div class="page-with-user-navigation">
+  @if (!loading) {
+    <h1>{{ 'LAUNCH_INITIATIVE.TITLE' | translate }}</h1>
+    <div class="flex justify-end">
+      <bc-button
+        color="primary"
+        variant="tertiary"
+        (buttonClick)="createInitiative()"
+        icon="plus"
+        [label]="'LAUNCH_INITIATIVE.CREATE' | translate"
+      ></bc-button>
+    </div>
+
+    <div class="flex flex-col gap-3 mt-2">
+      @for (initiative of initiatives; track initiative.id) {
+        <vo-ecol-initiative-card [initiative]="initiative" [role]="initiative.collection.userPermissions?.role" (cardClick)="open(initiative.id)" [showPeriodState]="false">
+          @if (initiative.collection.userPermissions) {
+            <div class="flex items-center gap-x-2">
+              <bc-button color="primary"
+                         variant="tertiary"
+                         (buttonClick)="open(initiative.id)"
+                         [label]="'LAUNCH_INITIATIVE.DIALOG.SHOW' | translate"></bc-button>
+
+              @if (initiative.collection.userPermissions.canDownloadElectronicSignaturesProtocol) {
+                <div class="flex items-center">
+                  <bc-button color="primary"
+                             variant="tertiary"
+                             [disabled]="!!isDownloadingElectronicSignaturesProtocolOfId"
+                             (buttonClick)="downloadElectronicSignaturesProtocol(initiative.id)"
+                             [label]="'LAUNCH_INITIATIVE.DOWNLOAD_ELECTRONIC_SIGNATURES_PROTOCOL' | translate"></bc-button>
+                  @if (isDownloadingElectronicSignaturesProtocolOfId === initiative.id) {
+                    <bc-spinner></bc-spinner>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </vo-ecol-initiative-card>
+      } @empty {
+        <p class="no-data m-0">{{'LAUNCH_INITIATIVE.NO_DATA' | translate}}</p>
+      }
+
+    </div>
+  } @else {
+    <h1>
+      <bc-spinner class="mr-1"></bc-spinner>
+      {{ 'COMMON.LOADING' | translate }}
+    </h1>
+  }
+</div>

@@ -1,0 +1,40 @@
+<vo-ecol-dialog
+  [header]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_DIALOG.TITLE'"
+  [okText]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_DIALOG.SELECT'"
+  (ok)="save()"
+  [canOk]="!!selectedDecreeId"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+>
+  @if (!loading) {
+    <div class="flex flex-col gap-3 mt-3">
+      @for (group of decreeGroups; track group.domainOfInfluenceType) {
+        <app-referendum-doi-type-card
+          [doiType]="group.domainOfInfluenceType"
+          [decrees]="group.decrees"
+          [cardContent]="decreeContent"
+          [selectable]="true"
+          (cardClick)="selectDecree($event)"
+          [selectedDecreeId]="selectedDecreeId"
+          [originalSelectedDecreeId]="originalSelectedDecreeId"
+          [includeReferendums]="false"
+        ></app-referendum-doi-type-card>
+      }
+    </div>
+  } @else {
+    <bc-spinner></bc-spinner>
+  }
+</vo-ecol-dialog>
+
+<ng-template #decreeContent let-decree>
+  <div class="flex flex-col gap-3 mt-3">
+    @for (referendum of decree.collections; track referendum.collection.id) {
+      <vo-ecol-referendum-card [referendum]="referendum" [decree]="decree" [role]="referendum.collection.userPermissions?.role"> </vo-ecol-referendum-card>
+    }
+  </div>
+  @if (originalSelectedDecreeId !== decree.id && decree.userPermissions?.hasMaximumReferendumsBeenReached) {
+    <bc-error class="mt-2">{{ 'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_DIALOG.MAXIMUM_REFERENDUMS_REACHED' | translate }}</bc-error>
+  } @else if (originalSelectedDecreeId !== decree.id && !decree.userPermissions?.canCreateReferendum) {
+    <bc-error class="mt-2">{{ 'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_DIALOG.USER_ALREADY_HAS_REFERENDUM' | translate }}</bc-error>
+  }
+</ng-template>

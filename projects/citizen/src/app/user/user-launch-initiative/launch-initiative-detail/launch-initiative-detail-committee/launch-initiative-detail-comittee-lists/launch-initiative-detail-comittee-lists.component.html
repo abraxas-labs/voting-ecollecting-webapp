@@ -1,0 +1,44 @@
+<bc-card class="m-3" [border]="false">
+  <bc-card-header>
+    <bc-card-title [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.TITLE' | translate"></bc-card-title>
+  </bc-card-header>
+  <bc-card-content>
+    <div class="box">
+      <div class="flex">
+        @if (downloadingTemplate) {
+          <div class="generating">
+            <bc-spinner></bc-spinner>
+            <span>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.GENERATING' | translate }}</span>
+          </div>
+        } @else {
+          <bc-button [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.DOWNLOAD' | translate"
+                     variant="tertiary"
+                     icon="download"
+                     (buttonClick)="downloadTemplate()"></bc-button>
+        }
+        @if (initiative.collection.userPermissions?.canEdit && !initiative.lockedFields?.committeeMembers) {
+          <vo-ecol-file-upload [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.UPLOAD' | translate"
+                               variant="simple-button"
+                               (fileChanged)="uploadFile($event)"
+                               [allowedContentTypes]="['application/pdf']"
+                               [maxSizeInBytes]="maxFileSize"></vo-ecol-file-upload>
+        }
+      </div>
+      <div class="files">
+        @if (uploadingFileName) {
+          <vo-ecol-file-chip [label]="uploadingFileName"
+                             [loading]="true"
+                             [canOpen]="false"
+                             [canRemove]="false"></vo-ecol-file-chip>
+        }
+
+        @for (list of this.committee.committeeLists; track list.id) {
+          <vo-ecol-file-chip [label]="list.name"
+                             [canRemove]="(initiative.collection.userPermissions?.canEdit ?? false) && !initiative.lockedFields?.committeeMembers"
+                             (open)="openCommitteeList(list)"
+                             (remove)="removeCommitteeList(list)"></vo-ecol-file-chip>
+        }
+      </div>
+    </div>
+  </bc-card-content>
+</bc-card>

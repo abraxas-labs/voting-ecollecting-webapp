@@ -1,0 +1,19 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+:host {
+  max-width: 30rem;
+}
+
+.applied-number-on-paper-info {
+  @extend .mb-2;
+  @extend .p-2;
+
+  color: $color-grey-3;
+  border-radius: 0.5rem;
+  background-color: $color-warning-10;
+
+  p {
+    @extend .mb-0;
+  }
+}

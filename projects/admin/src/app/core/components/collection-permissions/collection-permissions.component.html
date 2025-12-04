@@ -1,0 +1,43 @@
+<bc-table sort [sortMultiple]="true" [sortActive]="[{ id: fullNameColumn, direction: 'asc' }]" [dataSource]="dataSource">
+  <ng-container [columnDef]="fullNameColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span [tooltip]="'COLLECTION.PERMISSIONS.FULL_NAME' | translate">
+        {{ 'COLLECTION.PERMISSIONS.FULL_NAME' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.fullName }}</div>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="emailColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span [tooltip]="'COLLECTION.PERMISSIONS.EMAIL' | translate">
+        {{ 'COLLECTION.PERMISSIONS.EMAIL' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.email }}</div>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="roleColumn">
+    <bc-header-cell sort *headerCellDef>
+      <span [tooltip]="'COLLECTION.PERMISSIONS.ROLE' | translate">
+        {{ 'COLLECTION.PERMISSIONS.ROLE' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>
+        <bc-status-label [label]="'COLLECTION_PERMISSION_ROLES.' + row.role | translate"></bc-status-label>
+      </div>
+    </bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+
+  <ng-template noDataRow>
+    <tr class="bc-row-data">
+      <td class="bc-cell" [colSpan]="columns.length">{{ 'COLLECTION.PERMISSIONS.NO_DATA' | translate }}</td>
+    </tr>
+  </ng-template>
+</bc-table>

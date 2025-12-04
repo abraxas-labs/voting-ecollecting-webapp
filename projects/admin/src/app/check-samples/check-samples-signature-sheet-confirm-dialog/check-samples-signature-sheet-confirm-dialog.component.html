@@ -1,0 +1,19 @@
+<vo-ecol-dialog
+  [header]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DETAIL.SAVE.TITLE' | translate"
+  (ok)="saveAndNextList()"
+  (discard)="close()"
+  [saving]="savingAndNextList"
+  [canOk]="!savingAndNextList && !savingAndClose"
+  [okText]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DETAIL.SAVE.NEXT_LIST'"
+>
+  <vo-lib-inline-spinner actions [loading]="savingAndClose" position="left">
+    <bc-button
+      [label]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DETAIL.SAVE.TITLE' | translate"
+      [variant]="'secondary'"
+      (buttonClick)="saveAndClose()"
+      [disabled]="savingAndNextList || savingAndClose"
+    ></bc-button>
+  </vo-lib-inline-spinner>
+
+  <p class="whitespace-pre-line">{{ 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DETAIL.SAVE.MSG' | translate }}</p>
+</vo-ecol-dialog>

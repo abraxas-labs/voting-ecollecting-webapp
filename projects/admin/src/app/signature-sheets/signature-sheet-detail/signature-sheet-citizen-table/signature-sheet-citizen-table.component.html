@@ -1,0 +1,106 @@
+<bc-table
+  [dataSource]="dataSource">
+  <ng-container [columnDef]="officialNameColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.OFFICIAL_NAME' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      @if (row.registerId === loadingRegisterId) {
+        <bc-spinner></bc-spinner>
+      } @else {
+        {{ row.officialName }}
+      }
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="firstNameColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.FIRST_NAME' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">{{ row.firstName }}</bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="dateOfBirthColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.DATE_OF_BIRTH' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">{{ row.dateOfBirth | date: 'dd.MM.yyyy' }}</bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="residenceAddressStreetColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_STREET' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">{{ row.residenceAddressStreet }}</bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="residenceAddressHouseNumberColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_HOUSE_NUMBER' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">{{ row.residenceAddressHouseNumber }}</bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="stateColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.REVIEW_STATE' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      @if (row.reviewState) {
+        <bc-status-label
+          [type]="row.reviewState === reviewStates.Removed ? 'error-red' : (row.reviewState === reviewStates.Confirmed ? 'success-green' : 'normal-grey')"
+          [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.REVIEW_STATES.' + row.reviewState | translate"></bc-status-label>
+      }
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="actionsColumn">
+    <bc-header-cell *headerCellDef>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" align="right">
+      @if (canRemove) {
+        <bc-icon-button (buttonClick)="confirmAndRemove(row)"
+                        icon="trash"
+                        variant="tertiary"></bc-icon-button>
+      }
+      @if (canReview) {
+        @if (row.reviewState === reviewStates.Confirmed || row.reviewState === reviewStates.Removed) {
+          <bc-icon-button (buttonClick)="revert.emit(row)"
+                          icon="undo"
+                          variant="tertiary"></bc-icon-button>
+        } @else {
+          <bc-icon-button (buttonClick)="confirmAndRemove(row)"
+                          icon="trash"
+                          variant="tertiary"></bc-icon-button>
+          <bc-icon-button (buttonClick)="confirm.emit(row)"
+                          icon="checkmark"
+                          variant="tertiary"></bc-icon-button>
+        }
+      }
+    </bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: columns"></bc-data-row>
+  <ng-template noDataRow>
+    <tr class="bc-row-data">
+      <td class="bc-cell" [colSpan]="columns.length">
+        @if (loading) {
+          <div class="flex items-center">
+            <bc-spinner></bc-spinner>
+          </div>
+        } @else {
+          <span class="no-data">
+            {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.NONE_ADDED' | translate }}
+          </span>
+        }
+      </td>
+    </tr>
+  </ng-template>
+</bc-table>

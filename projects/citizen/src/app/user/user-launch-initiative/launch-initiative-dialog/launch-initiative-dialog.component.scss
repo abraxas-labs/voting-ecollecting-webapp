@@ -1,0 +1,27 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+bc-readonly {
+  white-space: nowrap;
+}
+
+.municipality {
+  width: 100%;
+}
+
+@include sm-up() {
+  .subtype {
+    flex: 1;
+  }
+
+  .subtype-values {
+    margin-top: 1.5rem;
+  }
+
+  .municipality {
+    flex: 1;
+  }
+
+  .municipality-values {
+    margin-top: 0.5rem;
+  }
+}

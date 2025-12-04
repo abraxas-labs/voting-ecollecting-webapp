@@ -1,0 +1,14 @@
+<bc-nav-bar [rounded]="true">
+  <bc-nav-bar-item [active]="true">
+    {{ 'APP.NAVIGATION.SIGN_COLLECTION' | translate }}
+  </bc-nav-bar-item>
+  <bc-nav-bar-item [link]="['..', 'user', endedCollectionsUrl]">
+    {{ 'APP.NAVIGATION.ENDED_COLLECTIONS' | translate }}
+  </bc-nav-bar-item>
+  <bc-nav-bar-item [link]="['..', 'user', seekReferendumUrl]">
+    {{ 'APP.NAVIGATION.SEEK_REFERENDUM' | translate }}
+  </bc-nav-bar-item>
+  <bc-nav-bar-item [link]="['..', 'user', launchInitiativeUrl]">
+    {{ 'APP.NAVIGATION.LAUNCH_INITIATIVE' | translate }}
+  </bc-nav-bar-item>
+</bc-nav-bar>

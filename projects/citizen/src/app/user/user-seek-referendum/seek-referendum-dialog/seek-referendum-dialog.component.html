@@ -1,0 +1,63 @@
+<vo-ecol-dialog
+  [header]="'SEEK_REFERENDUM.DIALOG.TITLE'"
+  [okText]="'APP.SAVE'"
+  (ok)="save()"
+  [canOk]="form.valid && (isElectronicSubmission || isPaperSubmission || !decreeId)"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <div class="content">
+    @if (!!decreeId) {
+      <div class="flex flex-col mt-3">
+        <bc-label [label]="'SEEK_REFERENDUM.DIALOG.PAPER_SUBMISSION.TITLE' | translate"></bc-label>
+        <bc-radio-button
+          [(checked)]="isPaperSubmission"
+          (checkedChange)="isElectronicSubmission = !$event; updatePaperSubmissionValidators()"
+          [label]="'SEEK_REFERENDUM.DIALOG.PAPER_SUBMISSION.TEXT' | translate"
+          subscriptSizing="dynamic"
+        ></bc-radio-button>
+        <bc-text
+          [formControl]="form.controls.number"
+          [label]="'SEEK_REFERENDUM.DIALOG.PAPER_SUBMISSION.NUMBER' | translate"
+          [required]="true"
+          [showDefaultErrors]="false"
+          [error]="form.controls.number.invalid && form.controls.number.dirty"
+          subscriptSizing="dynamic"
+        >
+          @for (error of form.controls.number.errors ?? {} | keyvalue; track error) {
+            <bc-error>
+              {{ validationMessagesProvider.getMessage(error.key, { requiredLength: error.value?.requiredLength ?? 0 }) ?? error.value }}
+            </bc-error>
+          }
+        </bc-text>
+      </div>
+      <div class="flex flex-col mt-3">
+        <bc-label [label]="'SEEK_REFERENDUM.DIALOG.ELECTRONIC_SUBMISSION.TITLE' | translate"></bc-label>
+        <bc-radio-button
+          [(checked)]="isElectronicSubmission"
+          (checkedChange)="isPaperSubmission = !$event; updateElectronicSubmissionValidators()"
+          [label]="'SEEK_REFERENDUM.DIALOG.ELECTRONIC_SUBMISSION.TEXT' | translate"
+          subscriptSizing="dynamic"
+        ></bc-radio-button>
+        <ng-container *ngTemplateOutlet="description"></ng-container>
+      </div>
+    } @else {
+      <ng-container *ngTemplateOutlet="description"></ng-container>
+    }
+    @if (error) {
+      <bc-alert-bar [color]="'error'" [message]="'ERROR_MESSAGES.' + error | translate" [displayDismissAction]="false"></bc-alert-bar>
+    }
+  </div>
+</vo-ecol-dialog>
+
+<ng-template #description>
+  <bc-text
+    [formControl]="form.controls.description"
+    [label]="'SEEK_REFERENDUM.DIALOG.DESCRIPTION' | translate"
+    [hint]="'SEEK_REFERENDUM.DIALOG.DESCRIPTION_HINT' | translate"
+    [required]="true"
+    [showDefaultErrors]="true"
+    subscriptSizing="dynamic"
+  ></bc-text>
+</ng-template>

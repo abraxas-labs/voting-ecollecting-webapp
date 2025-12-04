@@ -1,0 +1,50 @@
+<vo-ecol-dialog
+  [header]="'COLLECTION.SIGNATURE_SHEETS.EDIT_DIALOG.TITLE.' + (isNew ? 'CREATE' : 'EDIT') | translate"
+  (ok)="save()"
+  [canOk]="form.valid && form.dirty && formValue.appliedNumberOnPaper && !saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [saving]="saving"
+  [okText]="'COLLECTION.SIGNATURE_SHEETS.EDIT_DIALOG.' + (isNew ? 'CREATE' : 'EDIT') | translate"
+  [formGroup]="form"
+>
+  @if (info) {
+    <div class="flex mb-3">
+      <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.EDIT_DIALOG.BFS' | translate">
+        {{ info.bfs }}
+      </bc-readonly>
+      <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.EDIT_DIALOG.MUNICIPALITY' | translate">
+        {{ info.municipalityName }}
+      </bc-readonly>
+      <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.NUMBER' | translate">
+        {{ info.number | number }}
+      </bc-readonly>
+    </div>
+
+    @if (isNew) {
+      <div class="applied-number-on-paper-info">
+        <p>{{'COLLECTION.SIGNATURE_SHEETS.EDIT_DIALOG.APPLIED_ON_PAPER.INFO' | translate}}</p>
+        <bc-checkbox
+          [label]="'COLLECTION.SIGNATURE_SHEETS.EDIT_DIALOG.APPLIED_ON_PAPER.LABEL' | translate"
+          [formControl]="form.controls.appliedNumberOnPaper"
+          subscriptSizing="dynamic"
+        ></bc-checkbox>
+      </div>
+    }
+
+    <bc-date
+      [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.RECEIVED_AT' | translate"
+      [formControl]="form.controls.receivedAt"
+      [required]="true"
+      subscriptSizing="dynamic"
+      [adjustFormControlErrors]="false"></bc-date>
+    <bc-number
+      [label]="'COLLECTION.SIGNATURE_SHEETS.EDIT_DIALOG.SIGNATURES_COUNT_TOTAL' | translate"
+      [required]="true"
+      [formControl]="form.controls.signaturesCountTotal"
+      [error]="form.controls.signaturesCountTotal.invalid && form.controls.signaturesCountTotal.dirty"
+      subscriptSizing="dynamic"
+    ></bc-number>
+  } @else {
+    <bc-spinner></bc-spinner>
+  }
+</vo-ecol-dialog>

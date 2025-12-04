@@ -1,0 +1,28 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 90rem;
+
+  .hint {
+    white-space: pre-wrap;
+  }
+
+  .error {
+    border: 1px solid $color-error;
+    border-radius: 0.75rem;
+    background-color: $color-error-25;
+  }
+
+  .card-container {
+    border-radius: 0.75rem;
+    background-color: $color-primary-10;
+  }
+}

@@ -1,0 +1,42 @@
+<vo-ecol-dialog
+  [header]="'COLLECTION.COMMITTEE_ADDRESS.TITLE'"
+  [showDiscard]="false"
+  [okText]="'COMMON.SAVE'"
+  (ok)="save()"
+  [canOk]="form.valid"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <p class="hint">{{'COLLECTION.COMMITTEE_ADDRESS.HINT' | translate}}</p>
+  <bc-text
+    [formControl]="form.controls.committeeOrPerson"
+    [label]="'COLLECTION.COMMITTEE_ADDRESS.COMMITTEE_OR_PERSON' | translate"
+    [required]="true"
+    [error]="form.controls.committeeOrPerson.touched && form.controls.committeeOrPerson.invalid"
+    subscriptSizing="dynamic"
+  ></bc-text>
+  <bc-text
+    [formControl]="form.controls.streetOrPostOfficeBox"
+    [label]="'COLLECTION.COMMITTEE_ADDRESS.STREET_OR_POST_OFFICE_BOX' | translate"
+    [required]="true"
+    [error]="form.controls.streetOrPostOfficeBox.touched && form.controls.streetOrPostOfficeBox.invalid"
+    subscriptSizing="dynamic"
+  ></bc-text>
+  <div class="flex gap-3">
+    <bc-text
+      [formControl]="form.controls.zipCode"
+      [label]="'COLLECTION.COMMITTEE_ADDRESS.ZIP_CODE' | translate"
+      [required]="true"
+      [error]="form.controls.zipCode.touched && form.controls.zipCode.invalid"
+      subscriptSizing="dynamic"
+    ></bc-text>
+    <bc-text
+      [formControl]="form.controls.locality"
+      [label]="'COLLECTION.COMMITTEE_ADDRESS.LOCALITY' | translate"
+      [required]="true"
+      [error]="form.controls.locality.touched && form.controls.locality.invalid"
+      subscriptSizing="dynamic"
+    ></bc-text>
+  </div>
+</vo-ecol-dialog>

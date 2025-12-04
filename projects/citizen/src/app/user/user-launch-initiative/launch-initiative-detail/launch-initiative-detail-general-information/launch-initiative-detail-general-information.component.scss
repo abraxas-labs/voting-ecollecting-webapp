@@ -1,0 +1,22 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+bc-readonly {
+  white-space: nowrap;
+}
+
+@include sm-up() {
+  .subtype {
+    flex: 1;
+  }
+
+  .subtype-values {
+    margin-top: 1.25rem;
+  }
+}
+
+.zip-code-locality-container {
+  @include md-up() {
+    display: flex;
+    gap: 1rem;
+  }
+}

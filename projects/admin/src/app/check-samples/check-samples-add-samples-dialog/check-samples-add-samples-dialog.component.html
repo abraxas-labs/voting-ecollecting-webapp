@@ -1,0 +1,16 @@
+<vo-ecol-dialog
+  [header]="'COLLECTION.CHECK_SAMPLES.SAMPLES.ADD_DIALOG.TITLE'"
+  [okText]="'COLLECTION.CHECK_SAMPLES.SAMPLES.ADD_DIALOG.GENERATE'"
+  (ok)="save()"
+  [canOk]="form.valid && !saving"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <bc-number
+    [label]="'COLLECTION.CHECK_SAMPLES.SAMPLES.ADD_DIALOG.SIGNATURE_SHEETS_COUNT' | translate"
+    [formControl]="form.controls.signatureSheetsCount"
+    [required]="true"
+  >
+  </bc-number>
+</vo-ecol-dialog>

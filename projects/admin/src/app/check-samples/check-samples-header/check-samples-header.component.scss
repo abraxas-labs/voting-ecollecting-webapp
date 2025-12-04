@@ -1,0 +1,21 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+
+  bc-readonly {
+    width: unset;
+    min-width: 9rem;
+  }
+
+  .collection-period {
+    min-width: 13rem;
+  }
+}
+
+.header-card {
+  ::ng-deep .header-content-container {
+    justify-content: end;
+  }
+}

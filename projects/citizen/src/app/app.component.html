@@ -1,0 +1,62 @@
+<bc-snackbar horizontalPosition="right" verticalPosition="top" [action]="'APP.CLOSE' | translate"></bc-snackbar>
+
+@defer (on timer(200ms)) {
+  <!-- only display these after a delay of a couple ms to prevent flickering -->
+  @if (state === 'initializing' || state === 'authenticating') {
+    <header>
+      <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO">
+      </bc-app-header-bar>
+    </header>
+    <main class="content m-3 content-width">
+      <div class="flex gap-2">
+        <bc-spinner></bc-spinner>
+        <span>{{('APP.' + (state === 'initializing' ? 'INITIALIZING' : 'AUTHENTICATING')) | translate}}</span>
+      </div>
+    </main>
+  }
+}
+
+@defer (when state === 'initialized') {
+  @if (!(route.snapshot | routeData: 'hideHeader')) {
+    <div class="scroll-area">
+      <header>
+        <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO">
+          <div class="header-content">
+            <vo-lib-environment-chip></vo-lib-environment-chip>
+            @if (!auth.isAuthenticated) {
+              <bc-button
+                icon="user"
+                [label]="'APP.LOGIN' | translate"
+                variant="tertiary"
+                customColor="white"
+                (buttonClick)="login()"
+              ></bc-button>
+            }
+          </div>
+
+          @if (auth.isAuthenticated) {
+            <bc-account-panel userShow="initials"
+                              [userName]="auth.userProfile.name"
+                              [tenantName]="'eLogin'">
+              <div actions>
+                <bc-button [label]="'APP.LOGOUT' | translate" variant="tertiary" (buttonClick)="logout()"></bc-button>
+              </div>
+            </bc-account-panel>
+          }
+        </bc-app-header-bar>
+      </header>
+      <main class="content content-width">
+        <router-outlet></router-outlet>
+      </main>
+      <div class="footer">
+        <bc-link [href]="'https://www.sg.ch/f/impressum.html'" [target]="'_blank'">{{ 'APP.FOOTER.IMPRINT' | translate }}</bc-link>
+        <bc-link [href]="'https://www.sg.ch/f/datenschutz-sg-ch.html'" [target]="'_blank'">{{ 'APP.FOOTER.DATA_PROTECTION' | translate }}</bc-link>
+        <bc-link [routerLink]="['-', accessibilityUrl]">{{ 'APP.FOOTER.ACCESSIBILITY' | translate }}</bc-link>
+        <span>{{ 'APP.FOOTER.COPYRIGHT' | translate: { year: now.getFullYear() } }}</span>
+      </div>
+    </div>
+
+  } @else {
+    <router-outlet></router-outlet>
+  }
+}

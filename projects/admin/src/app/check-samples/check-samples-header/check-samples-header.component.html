@@ -1,0 +1,39 @@
+@if (collection) {
+  <bc-card [border]="false">
+    <bc-card-header class="header-card">
+      <bc-card-subtitle [label]="collection.collection.description"></bc-card-subtitle>
+      <div class="container m-3">
+        <bc-readonly class="collection-period" [label]="'COLLECTION.CHECK_SAMPLES.COLLECTION_PERIOD' | translate"
+          >{{ collection.collection.collectionStartDate | date }} - {{ collection.collection.collectionEndDate | date }}</bc-readonly
+        >
+        @if (collection | isReferendum; as referendum) {
+          @if (referendum.decree) {
+            <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MIN_SIGNATURE_COUNT' | translate">{{
+              referendum.decree.minSignatureCount | number
+            }}</bc-readonly>
+            <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{
+              referendum.decree.maxElectronicSignatureCount | number
+            }}</bc-readonly>
+          }
+        }
+        @if (collection | isInitiative; as initiative) {
+          <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MIN_SIGNATURE_COUNT' | translate">{{
+            initiative.minSignatureCount | number
+          }}</bc-readonly>
+          <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{
+            initiative.maxElectronicSignatureCount | number
+          }}</bc-readonly>
+        }
+        @if (collection.collection.attestedCollectionCount) {
+          <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.TOTAL_ATTESTED' | translate">{{
+            collection.collection.attestedCollectionCount.totalCitizenCount | number
+          }}</bc-readonly>
+          <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.ELECTRONIC_ATTESTED' | translate">{{
+            collection.collection.attestedCollectionCount.electronicCitizenCount | number
+          }}</bc-readonly>
+        }
+      </div>
+    </bc-card-header>
+  </bc-card>
+  <bc-divider [orientation]="'horizontal'"></bc-divider>
+}

@@ -1,0 +1,18 @@
+<div [ngClass]="validation.state | lowercase" class="validation">
+  @for (v of validation.validations; track v.validation) {
+    @if (v.state !== 'Ok') {
+      <div>
+        @switch (v.state) {
+          @case ('Error') {
+            <bc-icon icon="exclamation-triangle-o" iconColor="error"></bc-icon>
+          }
+          @case ('Warning') {
+            <bc-icon icon="exclamation-triangle-o" iconColor="warning"></bc-icon>
+          }
+        }
+
+        <span class="ml-2">{{'ADMIN.CERTS.IMPORT.VALIDATIONS.' + v.validation | translate}}</span>
+      </div>
+    }
+  }
+</div>

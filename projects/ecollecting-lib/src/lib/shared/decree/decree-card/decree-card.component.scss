@@ -1,0 +1,38 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+@use '@abraxas/voting-lib/style/color' as *;
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+
+  bc-readonly {
+    width: unset;
+    min-width: 9rem;
+  }
+
+  .collection-period {
+    min-width: 13rem;
+  }
+
+  @include lg-up() {
+    justify-content: flex-end;
+  }
+}
+
+.disabled {
+  ::ng-deep .mdc-card {
+    background-color: $color-grey-6;
+  }
+}
+
+.selected {
+  ::ng-deep .mdc-card {
+    background-color: $color-primary-25;
+  }
+}
+
+.clickable:hover {
+  ::ng-deep .mdc-card {
+    background-color: $color-primary-20;
+  }
+}

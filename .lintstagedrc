@@ -1,0 +1,18 @@
+{
+  "projects/ecollecting-lib/**/*.ts": [
+    "prettier --write",
+    "ng-lint-staged lint:ng --project ecollecting-lib --fix --"
+  ],
+  "projects/citizen/**/*.ts": [
+    "prettier --write",
+    "ng-lint-staged lint:ng --project citizen --fix --"
+  ],
+  "projects/admin/**/*.ts": [
+    "prettier --write",
+    "ng-lint-staged lint:ng --project admin --fix --"
+  ],
+  "**/*.scss": [
+    "prettier --write",
+    "stylelint"
+  ]
+}

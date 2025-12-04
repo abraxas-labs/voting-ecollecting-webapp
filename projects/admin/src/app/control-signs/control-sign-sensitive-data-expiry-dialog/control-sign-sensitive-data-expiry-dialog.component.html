@@ -1,0 +1,17 @@
+<vo-ecol-dialog
+  [header]="'CONTROL_SIGNS.SENSITIVE_DATA_EXPIRY_DATE.TITLE'"
+  [okText]="'COMMON.SAVE'"
+  (ok)="save()"
+  [canOk]="form.valid && !!form.value.sensitiveDataExpiryDate"
+  [saving]="saving"
+  (discard)="close()"
+  [formGroup]="form"
+>
+  <p>{{'CONTROL_SIGNS.SENSITIVE_DATA_EXPIRY_DATE.MSG' | translate}}</p>
+  <bc-date [min]="tomorrow"
+           [required]="true"
+           [formControl]="form.controls.sensitiveDataExpiryDate"
+           [error]="form.controls.sensitiveDataExpiryDate.touched && !!form.controls.sensitiveDataExpiryDate.errors"
+           [label]="'CONTROL_SIGNS.SENSITIVE_DATA_EXPIRY_DATE.DATE' | translate"
+           [adjustFormControlErrors]="false"></bc-date>
+</vo-ecol-dialog>

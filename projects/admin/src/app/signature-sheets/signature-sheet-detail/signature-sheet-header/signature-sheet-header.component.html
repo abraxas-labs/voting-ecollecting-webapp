@@ -1,0 +1,18 @@
+@if (collection && sheet) {
+  <div class="flex gap-4 p-3 items-center">
+    <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.COLLECTION' | translate"
+      >{{ collection.collection.description }}
+    </bc-readonly>
+    <ng-content select="[header-info]"></ng-content>
+    <div class="grow"></div>
+    <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.NUMBER' | translate">{{ sheet.number | number }} </bc-readonly>
+    <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.RECEIVED_AT' | translate"
+      >{{ sheet.receivedAt | date: 'dd.MM.yyyy' }}
+    </bc-readonly>
+    <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.SIGNATURES_COUNT_TOTAL' | translate"
+      >{{ sheet.count.total | number }}
+    </bc-readonly>
+    <ng-content select="[actions]"></ng-content>
+  </div>
+  <bc-divider [orientation]="'horizontal'"></bc-divider>
+}

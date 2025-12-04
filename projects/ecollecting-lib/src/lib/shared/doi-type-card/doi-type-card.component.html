@@ -1,0 +1,7 @@
+<bc-expansion-panel
+  class="doi-type-expansion-panel"
+  [header]="'DOMAIN_OF_INFLUENCE_TYPES.' + doiType | translate"
+  [expanded]="doiType !== domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CH"
+>
+  <ng-content></ng-content>
+</bc-expansion-panel>

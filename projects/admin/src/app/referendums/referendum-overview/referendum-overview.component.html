@@ -1,0 +1,151 @@
+<vo-lib-page [contentLoading]="loading">
+  <vo-ecol-collection-filter
+    [initialActiveFilterId]="initialFilterId"
+    [initialActiveSubFilterId]="initialSubFilterId"
+    [filters]="filters"
+    (filterChange)="filterChange($event)"
+  ></vo-ecol-collection-filter>
+  <div class="flex flex-col gap-3 mt-3">
+    @for (group of filteredDecreeGroups; track group.domainOfInfluenceType) {
+      <vo-ecol-doi-type-card [doiType]="group.domainOfInfluenceType">
+        @if (group.domainOfInfluenceType === municipalityDoiType) {
+          @if (municipalities.length > 1) {
+            <vo-ecol-municipality-filter
+              [domainOfInfluences]="municipalities"
+              [showHint]="false"
+              [(selectedDomainOfInfluence)]="selectedMunicipality"
+              (selectedDomainOfInfluenceChange)="applyFilter()"
+            ></vo-ecol-municipality-filter>
+          } @else if (municipalities.length === 1) {
+            <p class="municipality-name">{{ selectedMunicipality?.name }}</p>
+          }
+        }
+
+        @if (group.domainOfInfluenceType !== municipalityDoiType || selectedMunicipality) {
+          <div class="flex flex-col gap-3 mt-3">
+            @if (group.domainOfInfluenceType === municipalityDoiType && loadingMunicipalityReferendums) {
+              <bc-spinner></bc-spinner>
+            } @else if (group.decrees.length === 0) {
+              <p class="no-data">{{ 'REFERENDUM.NO_DATA' | translate }}</p>
+            } @else {
+              @for (decree of group.decrees; track decree.id) {
+                <vo-ecol-decree-card [decree]="decree" [showState]="true">
+                  <div class="flex flex-col gap-2 mt-3">
+                    @for (referendum of decree.collections; track referendum.collection.id) {
+                      <vo-ecol-referendum-card
+                        [referendum]="referendum"
+                        [decree]="decree"
+                        [clickable]="true"
+                        (cardClick)="open(referendum.id)"
+                      >
+                        <div class="mt-2 flex gap-3 items-center">
+                          <bc-button
+                            class="self-end"
+                            color="primary"
+                            variant="tertiary"
+                            (buttonClick)="open(referendum.id)"
+                            [label]="'REFERENDUM.SHOW' | translate"
+                          ></bc-button>
+                          @if (referendum.collection.userPermissions?.canAddSignatureSheet) {
+                            <bc-button
+                              class="self-end"
+                              variant="tertiary"
+                              (buttonClick)="addSignatureSheet(referendum.id)"
+                              [label]="
+                                (referendum.collection.state >= collectionStates.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED
+                                  ? 'REFERENDUM.SHOW_SIGNATURE_SHEETS'
+                                  : 'REFERENDUM.ADD_SIGNATURE_SHEET'
+                                ) | translate
+                              "
+                            ></bc-button>
+                          }
+                          @if (referendum.collection.userPermissions?.canCheckSamples) {
+                            <bc-button
+                              class="self-end"
+                              variant="tertiary"
+                              (buttonClick)="checkSamples(referendum.id)"
+                              [label]="'REFERENDUM.CHECK_SAMPLES' | translate"
+                            ></bc-button>
+                          }
+                          @if (referendum.collection.userPermissions?.canSubmitSignatureSheets) {
+                            <bc-button
+                              class="self-end"
+                              variant="tertiary"
+                              (buttonClick)="submitSignatureSheets(referendum)"
+                              [label]="'REFERENDUM.SUBMIT_SIGNATURE_SHEETS' | translate"
+                            ></bc-button>
+                          }
+                          @if (referendum.collection.userPermissions?.canDeleteWithdrawn) {
+                            <bc-button
+                              class="self-end"
+                              color="warn"
+                              variant="tertiary"
+                              (buttonClick)="delete(referendum.id, group, decree)"
+                              [label]="'REFERENDUM.DELETE' | translate"
+                            ></bc-button>
+                          }
+                          <div class="grow"></div>
+                          @if (referendum.collection.informalReviewRequested && referendum.collection.userPermissions?.isRequestInformalReviewVisible) {
+                            <bc-alert-bar
+                              class="self-center"
+                              [color]="'warning'"
+                              [message]="'COLLECTION.INFORMAL_REVIEW_REQUESTED' | translate"
+                              [displayDismissAction]="false"
+                              [displayShowAction]="false"
+                            ></bc-alert-bar>
+                          }
+                          @if (referendum.collection.state === collectionStates.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED) {
+                            <bc-alert-bar
+                              class="self-center"
+                              [color]="'warning'"
+                              [message]="'COLLECTION.SIGNATURE_SHEETS_SUBMITTED' | translate"
+                              [displayDismissAction]="false"
+                              [displayShowAction]="false"
+                            ></bc-alert-bar>
+                          }
+                        </div>
+                      </vo-ecol-referendum-card>
+                    }
+                  </div>
+                  @if (decree.userPermissions?.canGenerateDocuments || decree.userPermissions?.canFinish || decree.userPermissions?.canAddCollection) {
+                    <div class="flex gap-2 mt-2 items-center">
+                      @if (decree.userPermissions?.canAddCollection) {
+                        <bc-button
+                          variant="tertiary"
+                          (buttonClick)="addCollection(decree)"
+                          [label]="'REFERENDUM.ADD_COLLECTION' | translate"
+                          [icon]="'plus'"
+                        ></bc-button>
+                      }
+                      <div class="grow"></div>
+                      @if (decree.userPermissions?.canGenerateDocuments) {
+                        @if (generatingDocuments) {
+                          <bc-spinner></bc-spinner>
+                        }
+                        <bc-button
+                          variant="tertiary"
+                          [disabled]="generatingDocuments"
+                          (buttonClick)="generateDocuments(decree)"
+                          [label]="'REFERENDUM.GENERATE_DOCUMENTS' | translate"
+                          [icon]="'file-pdf'"
+                        ></bc-button>
+                      }
+                      @if (decree.userPermissions?.canFinish) {
+                        <bc-button
+                          variant="tertiary"
+                          (buttonClick)="finish(decree)"
+                          [label]="'REFERENDUM.FINISH' | translate"
+                          [icon]="'checkmark'"
+                        ></bc-button>
+                      }
+                    </div>
+                  }
+                </vo-ecol-decree-card>
+              }
+            }
+          </div>
+        }
+      </vo-ecol-doi-type-card>
+    }
+  </div>
+</vo-lib-page>

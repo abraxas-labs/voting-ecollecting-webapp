@@ -1,0 +1,48 @@
+<vo-ecol-dialog
+  [header]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.TITLE'"
+  [okText]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.APPROVE'"
+  (ok)="approve()"
+  [canOk]="!loading && !approving && !rejecting"
+  [saving]="approving"
+  (discard)="dialogRef.close()"
+>
+  <vo-lib-inline-spinner actions [position]="'left'" [loading]="rejecting">
+    <bc-button
+      [color]="'warn'"
+      [disabled]="loading || rejecting || approving"
+      [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.REJECT' | translate"
+      [variant]="'tertiary'"
+      (buttonClick)="reject()"
+    ></bc-button>
+  </vo-lib-inline-spinner>
+
+  @if (!loading) {
+    @if (verifyResponse) {
+      <div class="content">
+        <bc-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.LAST_NAME' | translate"></bc-label>
+        <span>{{ verifyResponse.lastName }}</span>
+        <bc-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.FIRST_NAME' | translate"></bc-label>
+        <span>{{ verifyResponse.firstName }}</span>
+        <bc-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.DATE_OF_BIRTH' | translate"></bc-label>
+        <span>{{ verifyResponse.dateOfBirth | date }}</span>
+        <bc-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.STREET_HOUSE_NUMBER' | translate"></bc-label>
+        <span>{{ verifyResponse.street }} {{ verifyResponse.houseNumber }}</span>
+        <bc-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.ZIP_CODE_LOCALITY' | translate"></bc-label>
+        <span>{{ verifyResponse.zipCode }} {{ verifyResponse.locality }}</span>
+        <bc-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.HAS_VOTING_RIGHT.TITLE' | translate"></bc-label>
+        <bc-status-label
+          [label]="
+          'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.HAS_VOTING_RIGHT.' + (verifyResponse.hasVotingRight ? 'TRUE' : 'FALSE') | translate
+        "
+          [type]="verifyResponse.hasVotingRight ? 'success-green' : 'error-red'"
+        ></bc-status-label>
+      </div>
+    } @else if (personNotFound) {
+      <p>{{ 'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.NOT_FOUND' | translate }}</p>
+    } @else if (noPermission) {
+      <p>{{ 'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.NO_PERMISSION' | translate }}</p>
+    }
+  } @else {
+    <bc-spinner></bc-spinner>
+  }
+</vo-ecol-dialog>

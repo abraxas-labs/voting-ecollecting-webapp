@@ -1,0 +1,109 @@
+<div class="page layout">
+  <bc-sub-navigation-bar class="layout-header" [type]="'subpage'" [border]="false" [label]="navbarLabel | translate" (actionClick)="back()" [backBtnAriaLabel]="'APP.BACK' | translate">
+    <div></div>
+    <!-- placeholder which is forcing divider to be displayed -->
+  </bc-sub-navigation-bar>
+
+  <div class="layout-content p-3 content gap-3">
+    <div class="info">
+      <ng-content select="[info]"></ng-content>
+
+      @if (error) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="error"
+          [displayDismissAction]="false"
+          [message]="'ERROR_MESSAGES.' + error | translate"
+        ></bc-alert-bar>
+      } @else if (
+        collection.state < states.COLLECTION_STATE_ENABLED_FOR_COLLECTION ||
+        periodState === periodStates.COLLECTION_PERIOD_STATE_PUBLISHED
+      ) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="'SIGN_COLLECTION.NOT_READY_HINT' | translate"
+        ></bc-alert-bar>
+      } @else if (collection.state === states.COLLECTION_STATE_ENABLED_FOR_COLLECTION && periodState === periodStates.COLLECTION_PERIOD_STATE_EXPIRED) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="'SIGN_COLLECTION.EXPIRED' | translate"
+        ></bc-alert-bar>
+      } @else if (collection.isSigned) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="'SIGN_COLLECTION.ALREADY_SIGNED' | translate"
+        ></bc-alert-bar>
+      } @else if ((maxSignatures ?? 0) <= (collection.attestedCollectionCount?.electronicCitizenCount ?? 0) && periodState === periodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="'ERROR_MESSAGES.CollectionMaxElectronicSignatureCountReachedException' | translate"
+        ></bc-alert-bar>
+      } @else if (collection.state === states.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED) {
+        <bc-alert-bar
+          class="block mt-3"
+          color="info"
+          [displayDismissAction]="false"
+          [message]="'SIGN_COLLECTION.SIGNATURE_SHEETS_SUBMITTED' | translate"
+        ></bc-alert-bar>
+      }
+      @if (
+        collection.state === states.COLLECTION_STATE_ENABLED_FOR_COLLECTION &&
+        (periodState === periodStates.COLLECTION_PERIOD_STATE_PUBLISHED ||
+        periodState === periodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION)
+      ) {
+        <div class="actions mt-3 flex gap-2">
+          @if (!signing) {
+            <bc-button
+              (buttonClick)="sign()"
+              variant="primary"
+              [disabled]="
+              !canSign ||
+              collection.isSigned ||
+              periodState !== periodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION ||
+              (maxSignatures ?? 0) <= (collection.attestedCollectionCount?.electronicCitizenCount ?? 0)
+            "
+              [label]="'SIGN_COLLECTION.SIGN_ONLINE' | translate"
+            ></bc-button>
+          } @else {
+            <div class="spinner">
+              <bc-spinner></bc-spinner>
+              <span>{{ 'SIGN_COLLECTION.SIGNING' | translate }}</span>
+            </div>
+          }
+
+          <!-- ml-0 to overwrite bc styles -->
+          <bc-button
+            (buttonClick)="downloadSignatureList()"
+            variant="secondary"
+            class="ml-0"
+            [label]="'SIGN_COLLECTION.DOWNLOAD_SIGNATURE_LIST' | translate"
+          ></bc-button>
+        </div>
+      }
+    </div>
+
+    <div>
+      @if (image) {
+        <img [src]="image | async" [alt]="'SIGN_COLLECTION.IMAGE_ALT' | translate" />
+      }
+    </div>
+
+    <div>
+      <span class="font-bold">{{ 'SIGN_COLLECTION.COMMITTEE_PREFIX' | translate }}</span>
+      <span>{{ committee }}</span>
+    </div>
+    <div>
+      @if (logo) {
+        <img [src]="logo | async" [alt]="'SIGN_COLLECTION.LOGO_ALT' | translate" />
+      }
+    </div>
+  </div>
+</div>

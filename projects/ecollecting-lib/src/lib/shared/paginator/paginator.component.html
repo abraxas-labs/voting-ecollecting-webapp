@@ -1,0 +1,8 @@
+<bc-paginator
+  showFirstLastButtons
+  [length]="page?.totalItemsCount ?? 0"
+  [pageIndex]="(page?.currentPage ?? defaultPage.page) - 1"
+  [pageSize]="(page ?? defaultPage).pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onPageChange($event)"
+></bc-paginator>

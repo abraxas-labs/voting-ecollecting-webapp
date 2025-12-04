@@ -1,0 +1,27 @@
+<h1>{{ 'ADMIN.ADMISSIBILITY_DECISIONS.TITLE' | translate }}</h1>
+
+<div class="overflow-auto">
+  @if (loading) {
+    <bc-spinner></bc-spinner>
+  } @else {
+    <div class="flex">
+      <bc-segmented-control-group
+        size="small"
+        [items]="filters"
+        [value]="filter"
+        (valueChange)="setFilter($event)"
+      ></bc-segmented-control-group>
+
+      <bc-button icon="plus"
+                 variant="tertiary"
+                 (buttonClick)="editOrNew()"
+                 [label]="'ADMIN.ADMISSIBILITY_DECISIONS.NEW' | translate"></bc-button>
+    </div>
+
+    <app-admissibility-decisions-table
+      [data]="filteredData"
+      (edit)="editOrNew($event)"
+      (delete)="delete($event)"
+      (openInitiative)="openInitiative($event.id)"></app-admissibility-decisions-table>
+  }
+</div>

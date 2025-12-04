@@ -1,0 +1,23 @@
+<bc-card [clickable]="clickable" (cardClick)="cardClick.emit()" [class.selected]="selected" [class.disabled]="disabled" [class.clickable]="clickable">
+  <vo-ecol-collection-card-header
+    [collectionOrDecree]="decree"
+    [showState]="showState"
+    [collectionStartDate]="decree.collectionStartDate"
+    [collectionEndDate]="decree.collectionEndDate"></vo-ecol-collection-card-header>
+  <bc-card-content>
+    <div class="container">
+      <bc-readonly class="collection-period" [label]="'DECREE.COLLECTION_PERIOD' | translate">{{ decree.collectionStartDate | date }} - {{ decree.collectionEndDate | date }}</bc-readonly>
+      <bc-readonly [label]="'DECREE.MIN_SIGNATURE_COUNT' | translate">{{ decree.minSignatureCount | number }}</bc-readonly>
+      <bc-readonly [label]="'DECREE.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{ decree.maxElectronicSignatureCount | number }}</bc-readonly>
+
+      @if (decree.attestedCollectionCount !== undefined && decree.attestedCollectionCount.totalCitizenCount !== undefined) {
+        <bc-readonly [label]="'DECREE.TOTAL_ATTESTED' | translate">{{decree.attestedCollectionCount.totalCitizenCount | number}}</bc-readonly>
+      }
+
+      @if (decree.attestedCollectionCount !== undefined) {
+        <bc-readonly [label]="'DECREE.ELECTRONIC_ATTESTED' | translate">{{ decree.attestedCollectionCount.electronicCitizenCount | number }}</bc-readonly>
+      }
+    </div>
+    <ng-content></ng-content>
+  </bc-card-content>
+</bc-card>

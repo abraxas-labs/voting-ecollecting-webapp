@@ -1,0 +1,74 @@
+@use 'sass:list';
+
+// helpers for the layout
+// the layout is split in 9 areas:
+
+// header-left    header-center    header-right
+// content-left   content-center   content-right
+// footer-left    footer-center    footer-right
+
+// usage:
+// apply .layout to the outer container
+// apply .layout-{area} and/or .layout-{position} to the content container
+// to span multiple areas use .layout-start-{area/position} and .layout-end-{area/position}
+
+// example:
+// <div class="layout">
+//   <h1 class="layout-header">MyTitle</h1>
+//   <div class="layout-start-left layout-end-center layout-content">MyContent</div>
+//   <div class="layout-right">My Sidebar</div>
+// </div>
+
+$areas: 'header', 'content', 'footer';
+$positions: 'left', 'center', 'right';
+$min-size: min-content;
+
+.layout {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  grid-template-columns: minmax($min-size, auto) minmax(0, 1fr) minmax($min-size, auto);
+  grid-template-rows: minmax($min-size, auto) minmax(0, 1fr) minmax($min-size, auto);
+
+  // by default each entry covers all areas & positions
+  > * {
+    grid-column: 1 / span list.length($positions);
+    grid-row: 1 / span list.length($areas);
+  }
+
+  .layout-unset {
+    grid-column: unset;
+    grid-row: unset;
+  }
+
+  @for $area-index from 1 through list.length($areas) {
+    $area: list.nth($areas, $area-index);
+    .layout-start-#{$area} {
+      grid-row-start: #{$area-index};
+    }
+
+    .layout-end-#{$area} {
+      grid-row-end: #{$area-index + 1};
+    }
+
+    .layout-#{$area} {
+      grid-row: #{$area-index} / #{$area-index + 1};
+    }
+  }
+
+  @for $position-index from 1 through list.length($positions) {
+    $position: list.nth($positions, $position-index);
+    .layout-start-#{$position} {
+      grid-column-start: #{$position-index};
+    }
+
+    .layout-end-#{$position} {
+      grid-column-end: #{$position-index + 1};
+    }
+
+    .layout-#{$position} {
+      grid-column: #{$position-index} / #{$position-index + 1};
+    }
+  }
+}

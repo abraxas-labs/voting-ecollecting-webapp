@@ -1,0 +1,22 @@
+@if (loading) {
+  <bc-spinner size="large"></bc-spinner>
+} @else {
+  @if (showExpired) {
+    <vo-ecol-collection-filter
+      [initialActiveFilterId]="initialFilterId"
+      [filters]="filters"
+      (filterChange)="filterChange($event)"
+    ></vo-ecol-collection-filter>
+  }
+  @for (group of filteredGroups; track group.domainOfInfluenceType) {
+    <app-sign-collection-group-card
+      [group]="group"
+      (groupChange)="groupChanged($event)"
+      [periodState]="
+        showExpired
+          ? collectionPeriodStates.COLLECTION_PERIOD_STATE_UNSPECIFIED
+          : collectionPeriodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION
+      "
+    ></app-sign-collection-group-card>
+  }
+}

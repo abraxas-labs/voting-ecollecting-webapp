@@ -1,0 +1,42 @@
+<span class="title">{{ collectionOrDecree.description }}</span>
+
+@if (collectionOrDecree.link) {
+  <a [href]="collectionOrDecree.link" target="_blank" class="mr-3">
+    <bc-icon-button variant="tertiary" icon="external-link"></bc-icon-button>
+  </a>
+} @else {
+  <div></div>
+}
+
+<div class="status">
+  @if (role) {
+    <bc-status-label
+      size="large"
+      icon="access"
+      [label]="'COLLECTION_PERMISSION_ROLES.' + role | translate"></bc-status-label>
+  }
+
+  @if (showState) {
+    @if (decree) {
+      @if (showPeriodState && decree.periodState && decree.state === decreeStates.DECREE_STATE_COLLECTION_APPLICABLE) {
+        <vo-ecol-collection-period-state-label [state]="decree.periodState"
+                                                [collectionEndDate]="collectionEndDate"
+                                                [collectionStartDate]="collectionStartDate"></vo-ecol-collection-period-state-label>
+      } @else {
+        <bc-status-label class="self-center"
+                         size="large"
+                         [label]="('DECREE.STATES.' + decree.state) | translate"></bc-status-label>
+      }
+    } @else if (collection) {
+      @if (showPeriodState && (collection.state === collectionStates.COLLECTION_STATE_ENABLED_FOR_COLLECTION || collection.state === collectionStates.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED)) {
+        <vo-ecol-collection-period-state-label [state]="collection.periodState"
+                                                [collectionEndDate]="collectionEndDate"
+                                                [collectionStartDate]="collectionStartDate"></vo-ecol-collection-period-state-label>
+      } @else {
+        <bc-status-label class="self-center"
+                         size="large"
+                         [label]="('COLLECTION.STATES.' + collection.state) | translate"></bc-status-label>
+      }
+    }
+  }
+</div>

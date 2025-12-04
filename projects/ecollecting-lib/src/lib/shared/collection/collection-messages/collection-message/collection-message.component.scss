@@ -1,0 +1,21 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+:host {
+  display: block;
+  border-radius: 0.3rem;
+  background-color: $color-grey-6;
+  padding: 0.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  color: $color-grey-2;
+  font-size: 0.8rem;
+}
+
+p {
+  word-break: auto-phrase;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}

@@ -1,0 +1,167 @@
+<bc-card class="m-3" [border]="false">
+  <bc-card-header>
+    <bc-card-title [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.TITLE' | translate"></bc-card-title>
+  </bc-card-header>
+  <bc-card-content>
+    @if (initiative && committee) {
+      <div>
+        <div class="members-header">
+          <p>
+            @if (committee.approvedMembersCountOk) {
+              <bc-icon [icon]="'check-circle'"
+                       [iconColor]="'success'"></bc-icon>
+            } @else {
+              <bc-icon [icon]="'exclamation-triangle-o'"
+                       [iconColor]="'warning'"></bc-icon>
+            }
+            {{
+              'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.HINT'
+                | translate
+                : {
+                  totalMembersCount: committee.totalMembersCount | number,
+                  approvedMembersCount: committee.approvedMembersCount | number,
+                  requiredApprovedMembersCount: committee.requiredApprovedMembersCount | number,
+                }
+            }}
+          </p>
+          @if(initiative.collection.userPermissions?.canEdit && !initiative.lockedFields?.committeeMembers) {
+            <bc-button icon="plus" variant="tertiary"
+                       [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ADD' | translate"
+                       (buttonClick)="add()"></bc-button>
+          }
+        </div>
+
+        <bc-table [dataSource]="dataSource"
+                  [fixedLayout]="false"
+                  [fixed]="false"
+                  cdkDropList
+                  (cdkDropListDropped)="sort($event)">
+          <ng-container [columnDef]="lastNameColumn">
+            <bc-header-cell *headerCellDef>
+            <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate }}
+            </span>
+            </bc-header-cell>
+            <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+              {{ row.politicalLastName }}
+            </bc-data-cell>
+          </ng-container>
+
+          <ng-container [columnDef]="firstNameColumn">
+            <bc-header-cell *headerCellDef>
+            <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate }}
+            </span>
+            </bc-header-cell>
+            <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+              {{ row.politicalFirstName }}
+            </bc-data-cell>
+          </ng-container>
+
+          <ng-container [columnDef]="dateOfBirthColumn">
+            <bc-header-cell *headerCellDef>
+            <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate }}
+            </span>
+            </bc-header-cell>
+            <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+              {{ row.dateOfBirth | date }}
+            </bc-data-cell>
+          </ng-container>
+
+          <ng-container [columnDef]="residenceColumn">
+            <bc-header-cell *headerCellDef>
+            <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.RESIDENCE' | translate">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.RESIDENCE' | translate }}
+            </span>
+            </bc-header-cell>
+            <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+              {{ row.politicalResidence }}
+            </bc-data-cell>
+          </ng-container>
+
+          <ng-container [columnDef]="emailColumn">
+            <bc-header-cell *headerCellDef>
+            <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.EMAIL' | translate">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.EMAIL' | translate }}
+            </span>
+            </bc-header-cell>
+            <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+              {{ row.email }}
+            </bc-data-cell>
+          </ng-container>
+
+          <ng-container [columnDef]="signatureTypeColumn">
+            <bc-header-cell *headerCellDef>
+            <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate }}
+            </span>
+            </bc-header-cell>
+            <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+              <bc-status-label [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.' + row.signatureType | translate"></bc-status-label>
+            </bc-data-cell>
+          </ng-container>
+
+          <ng-container [columnDef]="stateColumn">
+            <bc-header-cell *headerCellDef>
+            <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STATE' | translate">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STATE' | translate }}
+            </span>
+            </bc-header-cell>
+            <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+              <bc-status-label [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL_STATES.' + row.approvalState | translate"></bc-status-label>
+            </bc-data-cell>
+          </ng-container>
+
+          <ng-container [columnDef]="actionsColumn">
+            <bc-header-cell *headerCellDef></bc-header-cell>
+            <bc-data-cell *dataCellDef="let element" align="right">
+              @if (initiative.collection.userPermissions?.canEdit && !initiative.lockedFields?.committeeMembers) {
+                <bc-icon-button
+                  (buttonClick)="edit(element)"
+                  [disabled]="!element.canEdit"
+                  icon="edit"
+                  variant="tertiary"
+                  [ariaLabel]="'APP.EDIT' | translate"></bc-icon-button>
+                <bc-icon-button
+                  (buttonClick)="resend(element)"
+                  icon="repeat"
+                  variant="tertiary"
+                  [disabled]="element.approvalState !== approvalStates.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED || !element.memberSignatureRequested"
+                  [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.RESEND' | translate"
+                  [ariaLabel]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.RESEND' | translate"
+                ></bc-icon-button>
+                <bc-icon-button (buttonClick)="remove(element)"
+                                icon="trash"
+                                variant="tertiary"
+                                [ariaLabel]="'APP.DELETE' | translate"></bc-icon-button>
+              }
+            </bc-data-cell>
+          </ng-container>
+
+          <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+          <bc-data-row *dataRowDef="let row; columns: columns"
+                       cdkDrag
+                       [cdkDragDisabled]="!initiative.collection.userPermissions?.canEdit || !!initiative.lockedFields?.committeeMembers || dataSource.data.length <= 1"
+                       cdkDragLockAxis="y"
+                       cdkDragPreviewContainer="parent"
+                       [cdkDragData]="row">
+            <tr *cdkDragPreview class="drag-placeholder px-3 py-1">
+              <td [colSpan]="columns.length">
+                {{row.politicalLastName}} {{row.politicalFirstName}}
+              </td>
+            </tr>
+          </bc-data-row>
+
+          <ng-template noDataRow>
+            <tr class="bc-row-data">
+              <td class="bc-cell" [colSpan]="columns.length" translate>LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.NO_DATA</td>
+            </tr>
+          </ng-template>
+        </bc-table>
+      </div>
+    } @else {
+      <bc-spinner></bc-spinner>
+    }
+  </bc-card-content>
+</bc-card>

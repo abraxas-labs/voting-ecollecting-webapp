@@ -1,0 +1,64 @@
+@if (collection) {
+  <bc-card class="m-3" [border]="false">
+    <bc-card-header>
+      <bc-card-title [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.TITLE' | translate"></bc-card-title>
+    </bc-card-header>
+    <bc-card-content>
+      <mat-radio-group [disabled]="!collection.userPermissions?.canEditSignatureSheetTemplate"
+                       [(ngModel)]="collection.signatureSheetTemplateGenerated"
+                       (ngModelChange)="setGenerated($event)">
+        <div class="box">
+          <div class="generated-content">
+            <mat-radio-button [color]="'primary'" [value]="true">
+              {{'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATE.TRUE' | translate }}
+            </mat-radio-button>
+            @if (collection.signatureSheetTemplateGenerated) {
+              <div class="actions">
+                @if (isGeneratingPreview) {
+                  <bc-spinner></bc-spinner>
+                  <span class="generating">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATING' | translate }}</span>
+                } @else if (collection.userPermissions?.canDeleteSignatureSheetTemplate) {
+                  <bc-button variant="tertiary"
+                             [disabled]="!collection.userPermissions?.canGenerateSignatureSheetTemplatePreview"
+                             [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.' + (collection.signatureSheetTemplate ? 'GENERATE_NEW' : 'GENERATE_NOW') | translate"
+                             (buttonClick)="generatePreview()"></bc-button>
+                  @if (!collection.userPermissions?.canGenerateSignatureSheetTemplatePreview) {
+                    <bc-error>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATE_NOT_VALID' | translate}}</bc-error>
+                  }
+                }
+              </div>
+            }
+          </div>
+
+          @if (collection.signatureSheetTemplateGenerated && collection.signatureSheetTemplate) {
+            <vo-ecol-file-chip [label]="collection.signatureSheetTemplate.name"
+                               (open)="openFile()"
+                               [canRemove]="false"></vo-ecol-file-chip>
+          }
+        </div>
+        <div class="box">
+          <mat-radio-button [color]="'primary'" [value]="false">
+            {{'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATE.FALSE' | translate }}
+          </mat-radio-button>
+          @if (!collection.signatureSheetTemplateGenerated) {
+            <vo-ecol-file-upload
+              (fileChanged)="setFile($event)"
+              (fileRemoved)="removeFile()"
+              (openFile)="openFile()"
+              [fileLoading]="settingFile"
+              [allowedContentTypes]="['application/pdf']"
+              [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.FILE_UPLOAD.LABEL'"
+              [inlineHint]="'COLLECTION.DETAIL.SIGNATURE_SHEET.FILE_UPLOAD.HINT'"
+              [filename]="collection.signatureSheetTemplate?.name"
+              [canRemoveFile]="!!collection.userPermissions?.canDeleteSignatureSheetTemplate"
+              [disabled]="!collection.userPermissions?.canEditSignatureSheetTemplate"
+              [maxSizeInBytes]="maxSizeInBytes"
+            ></vo-ecol-file-upload>
+          }
+        </div>
+      </mat-radio-group>
+    </bc-card-content>
+  </bc-card>
+} @else {
+  <bc-spinner></bc-spinner>
+}

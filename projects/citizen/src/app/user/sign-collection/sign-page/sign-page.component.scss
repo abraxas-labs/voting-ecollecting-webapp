@@ -1,0 +1,53 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+.content {
+  display: grid;
+  overflow-y: auto;
+  max-width: 90rem;
+  margin-left: auto;
+  margin-right: auto;
+  grid-auto-rows: min-content;
+
+  @include sm-up() {
+    grid-template-columns: 3fr 1fr;
+  }
+}
+
+.info {
+  min-width: 15rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  flex-wrap: wrap;
+  justify-content: center;
+
+  @include sm-up() {
+    justify-content: unset;
+  }
+}
+
+p {
+  white-space: wrap;
+}
+
+img {
+  object-fit: scale-down;
+  align-self: flex-start;
+  max-width: 100%;
+}
+
+.spinner {
+  display: flex;
+  align-items: center;
+
+  span {
+    @extend .ml-2;
+
+    font-style: italic;
+    color: $color-grey-1;
+  }
+}

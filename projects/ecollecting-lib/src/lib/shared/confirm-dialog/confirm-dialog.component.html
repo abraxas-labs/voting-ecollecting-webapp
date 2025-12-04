@@ -1,0 +1,9 @@
+<vo-ecol-dialog
+  [header]="title | translate"
+  (ok)="ok()"
+  (discard)="close()"
+  [okText]="confirmText"
+  [discardText]="discardText"
+  [okColor]="confirmColor">
+  <p class="whitespace-pre-line"> {{ message | translate }}</p>
+</vo-ecol-dialog>

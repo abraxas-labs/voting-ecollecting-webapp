@@ -1,0 +1,121 @@
+<bc-card class="m-3" [border]="false">
+  <bc-card-header>
+    <bc-card-title [label]="'COLLECTION.DETAIL.PERMISSIONS.TITLE' | translate"></bc-card-title>
+  </bc-card-header>
+  <bc-card-content>
+    <p translate>COLLECTION.DETAIL.PERMISSIONS.INFO</p>
+    <div class="content">
+      <bc-table
+        sort
+        [sortMultiple]="true"
+        [sortActive]="[
+          { id: lastNameColumn, direction: 'asc' },
+          { id: firstNameColumn, direction: 'asc' },
+        ]"
+        [dataSource]="dataSource"
+        [fixedLayout]="false"
+        [fixed]="false">
+        <ng-container [columnDef]="lastNameColumn">
+          <bc-header-cell sort *headerCellDef>
+            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.LAST_NAME' | translate">
+              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.LAST_NAME' | translate }}
+            </span>
+          </bc-header-cell>
+          <bc-data-cell *dataCellDef="let row">
+            <div truncateWithTooltip tooltip>{{ row.iamLastName ? row.iamLastName : row.lastName }}</div>
+          </bc-data-cell>
+        </ng-container>
+        <ng-container [columnDef]="firstNameColumn">
+          <bc-header-cell sort *headerCellDef>
+            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.FIRST_NAME' | translate">
+              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.FIRST_NAME' | translate }}
+            </span>
+          </bc-header-cell>
+          <bc-data-cell *dataCellDef="let row">
+            <div truncateWithTooltip tooltip>{{ row.iamFirstName ? row.iamFirstName : row.firstName }}</div>
+          </bc-data-cell>
+        </ng-container>
+        <ng-container [columnDef]="emailColumn">
+          <bc-header-cell sort *headerCellDef>
+            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.EMAIL' | translate">
+              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.EMAIL' | translate }}
+            </span>
+          </bc-header-cell>
+          <bc-data-cell *dataCellDef="let row">
+            <div truncateWithTooltip tooltip>{{ row.email }}</div>
+          </bc-data-cell>
+        </ng-container>
+        <ng-container [columnDef]="roleColumn">
+          <bc-header-cell sort *headerCellDef>
+            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.ROLE' | translate">
+              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.ROLE' | translate }}
+            </span>
+          </bc-header-cell>
+          <bc-data-cell *dataCellDef="let row">
+            <div truncateWithTooltip tooltip>
+              <bc-status-label [label]="'COLLECTION_PERMISSION_ROLES.' + row.role | translate"></bc-status-label>
+            </div>
+          </bc-data-cell>
+        </ng-container>
+        <ng-container [columnDef]="acceptedColumn">
+          <bc-header-cell sort *headerCellDef>
+            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.STATE.TITLE' | translate">
+              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.STATE.TITLE' | translate }}
+            </span>
+          </bc-header-cell>
+          <bc-data-cell *dataCellDef="let row">
+            <div truncateWithTooltip tooltip>
+              <bc-status-label
+                [label]="
+                  'COLLECTION.DETAIL.PERMISSIONS.TABLE.STATE.' + row.state
+                    | translate
+                "
+              ></bc-status-label>
+            </div>
+          </bc-data-cell>
+          <ng-container [columnDef]="actionsColumn">
+            <bc-header-cell *headerCellDef></bc-header-cell>
+            <bc-data-cell *dataCellDef="let element">
+              @if (collection?.userPermissions?.canEditPermissions) {
+                <div class="flex flex-wrap gap-1 justify-end">
+                  <bc-icon-button
+                    [disabled]="element.email === currentUserEmail"
+                    (buttonClick)="delete(element.id)"
+                    icon="trash"
+                    variant="tertiary"
+                    [ariaLabel]="'APP.DELETE' | translate"></bc-icon-button>
+                  <bc-icon-button
+                    (buttonClick)="resend(element.id)"
+                    icon="repeat"
+                    variant="tertiary"
+                    [disabled]="element.state !== states.COLLECTION_PERMISSION_STATE_PENDING"
+                    [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.RESEND' | translate"
+                    [ariaLabel]="'COLLECTION.DETAIL.PERMISSIONS.RESEND' | translate"
+                  ></bc-icon-button>
+                </div>
+              }
+            </bc-data-cell>
+          </ng-container>
+        </ng-container>
+
+        <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+        <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+
+        <ng-template noDataRow>
+          <tr class="bc-row-data">
+            <td class="bc-cell" [colSpan]="columns.length" translate>COLLECTION.DETAIL.PERMISSIONS.TABLE.NO_DATA</td>
+          </tr>
+        </ng-template>
+      </bc-table>
+      @if (collection?.userPermissions?.canEditPermissions) {
+        <bc-button
+          class="mt-3"
+          [label]="'COLLECTION.DETAIL.PERMISSIONS.CREATE' | translate"
+          (buttonClick)="create()"
+          icon="plus"
+          variant="tertiary"
+        ></bc-button>
+      }
+    </div>
+  </bc-card-content>
+</bc-card>

@@ -1,0 +1,138 @@
+<vo-ecol-dialog
+  [header]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.TITLE'"
+  [okText]="'COMMON.SAVE'"
+  (ok)="save()"
+  [canOk]="form.valid && form.touched && (canEditGeneralInformation || canEditAdmissibilityDecision)"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  @if (loading) {
+    <bc-spinner></bc-spinner>
+  } @else {
+    <div class="flex flex-col gap-3">
+      <div class="flex flex-wrap gap-3">
+        <div class="card">
+          <h3>{{ 'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DATA' | translate }}</h3>
+          <bc-autocomplete
+            [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COLLECTION' | translate"
+            [items]="initiatives"
+            [value]="form.value.initiativeId"
+            [showOptionsOnSelected]="true"
+            [required]="!isNew"
+            [formControl]="form.controls.initiativeId"
+            (valueChange)="selectInitiative()"
+            [readonly]="!canEditInitiative"
+            displayExpr="description"
+            valueExpr="id"
+            subscriptSizing="dynamic"
+          ></bc-autocomplete>
+          @if (hasInitiative) {
+            <bc-readonly [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COLLECTION_STATE' | translate">
+              <bc-status-label class="py-2" [size]="'large'" [label]="('COLLECTION.STATES.' + selectedInitiativeState) | translate"></bc-status-label>
+            </bc-readonly>
+          }
+          <bc-dropdown
+            [formControl]="form.controls.domainOfInfluenceType"
+            [items]="domainOfInfluenceTypes"
+            displayExpr="description"
+            valueExpr="value"
+            (valueChange)="selectDoiType()"
+            [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DOI_TYPE' | translate"
+            [required]="true"
+            [readonly]="hasInitiative"
+            subscriptSizing="dynamic"
+          ></bc-dropdown>
+          <div class="flex gap-3">
+            <bc-text
+              [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DECISION_NR' | translate"
+              subscriptSizing="dynamic"
+              [required]="true"
+              [readonly]="!canEditGovernmentDecisionNumber"
+              [error]="form.controls.governmentDecisionNumber.touched && form.controls.governmentDecisionNumber.invalid"
+              [formControl]="form.controls.governmentDecisionNumber"></bc-text>
+            <bc-dropdown
+              [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DECISION' | translate"
+              [items]="admissibilityDecisionStates"
+              subscriptSizing="dynamic"
+              displayExpr="description"
+              valueExpr="value"
+              [required]="true"
+              [readonly]="!canEditAdmissibilityDecisionState"
+              [formControl]="form.controls.admissibilityDecisionState"></bc-dropdown>
+          </div>
+        </div>
+        <div class="card">
+          <div class="flex">
+            <h3>{{ 'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COMMITTEE_ADDRESS.TITLE' | translate }}</h3>
+          </div>
+          <bc-text
+            [formControl]="form.controls.address.controls.committeeOrPerson"
+            [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COMMITTEE_ADDRESS.COMMITTEE_OR_PERSON' | translate"
+            [required]="isAddressRequired"
+            [error]="form.controls.address.controls.committeeOrPerson.touched && form.controls.address.controls.committeeOrPerson.invalid"
+            [readonly]="!canEditGeneralInformation"
+            subscriptSizing="dynamic"
+          ></bc-text>
+          <bc-text
+            [formControl]="form.controls.address.controls.streetOrPostOfficeBox"
+            [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COMMITTEE_ADDRESS.STREET_OR_POST_OFFICE_BOX' | translate"
+            [required]="isAddressRequired"
+            [error]="form.controls.address.controls.streetOrPostOfficeBox.touched && form.controls.address.controls.streetOrPostOfficeBox.invalid"
+            [readonly]="!canEditGeneralInformation"
+            subscriptSizing="dynamic"
+          ></bc-text>
+          <div class="flex gap-3">
+            <bc-text
+              [formControl]="form.controls.address.controls.zipCode"
+              [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COMMITTEE_ADDRESS.ZIP_CODE' | translate"
+              [required]="isAddressRequired"
+              [error]="form.controls.address.controls.zipCode.touched && form.controls.address.controls.zipCode.invalid"
+              [readonly]="!canEditGeneralInformation"
+              subscriptSizing="dynamic"
+            ></bc-text>
+            <bc-text
+              [formControl]="form.controls.address.controls.locality"
+              [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COMMITTEE_ADDRESS.LOCALITY' | translate"
+              [required]="isAddressRequired"
+              [error]="form.controls.address.controls.locality.touched && form.controls.address.controls.locality.invalid"
+              [readonly]="!canEditGeneralInformation"
+              subscriptSizing="dynamic"
+            ></bc-text>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>{{ 'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DETAILS.TITLE' | translate }}</h3>
+        @if (hasSubType) {
+          <bc-dropdown
+            [formControl]="form.controls.subType"
+            [items]="filteredSubTypes"
+            displayExpr="description"
+            [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DETAILS.SUB_TYPE' | translate"
+            [required]="true"
+            [readonly]="!canEditGeneralInformation"
+            subscriptSizing="dynamic"
+          ></bc-dropdown>
+        }
+
+        <bc-text
+          [formControl]="form.controls.description"
+          [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DETAILS.DESCRIPTION.LABEL' | translate"
+          [required]="true"
+          [error]="form.controls.description.touched && form.controls.description.invalid"
+          [readonly]="!canEditGeneralInformation"
+          subscriptSizing="dynamic"
+        ></bc-text>
+        <bc-textarea
+          [formControl]="form.controls.wording"
+          [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DETAILS.WORDING.LABEL' | translate"
+          [required]="isWordingRequired"
+          [error]="form.controls.wording.touched && form.controls.wording.invalid"
+          [readonly]="!canEditGeneralInformation"
+          subscriptSizing="dynamic"
+        ></bc-textarea>
+      </div>
+    </div>
+  }
+</vo-ecol-dialog>

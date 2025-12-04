@@ -1,0 +1,31 @@
+<vo-ecol-dialog
+  [header]="'INITIATIVE.RETURN_FOR_CORRECTION.TITLE'"
+  [okText]="'APP.YES'"
+  (ok)="returnForCorrection()"
+  [canOk]="form.valid"
+  [saving]="saving"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <p class="mt-3">{{ 'INITIATIVE.RETURN_FOR_CORRECTION.MSG' | translate }}</p>
+
+  <app-initiative-return-for-correction-locked-field
+    [label]="'INITIATIVE.RETURN_FOR_CORRECTION.DESCRIPTION.LABEL'"
+    [tooltipLabel]="'INITIATIVE.RETURN_FOR_CORRECTION.DESCRIPTION.LOCKED_HINT.'"
+    (lockedChanged)="updateLockedField('description', $event)"
+  ></app-initiative-return-for-correction-locked-field>
+
+  <app-initiative-return-for-correction-locked-field
+    [label]="'INITIATIVE.RETURN_FOR_CORRECTION.WORDING.LABEL'"
+    [tooltipLabel]="'INITIATIVE.RETURN_FOR_CORRECTION.WORDING.LOCKED_HINT.'"
+    (lockedChanged)="updateLockedField('wording', $event)"
+  ></app-initiative-return-for-correction-locked-field>
+
+  <app-initiative-return-for-correction-locked-field
+    [label]="'INITIATIVE.RETURN_FOR_CORRECTION.COMMITTEE_MEMBERS.LABEL'"
+    [tooltipLabel]="'INITIATIVE.RETURN_FOR_CORRECTION.COMMITTEE_MEMBERS.LOCKED_HINT.'"
+    (lockedChanged)="updateLockedField('committeeMembers', $event)"
+  ></app-initiative-return-for-correction-locked-field>
+
+  <p class="mt-3">{{ 'INITIATIVE.RETURN_FOR_CORRECTION.CONFIRM' | translate }}</p>
+</vo-ecol-dialog>

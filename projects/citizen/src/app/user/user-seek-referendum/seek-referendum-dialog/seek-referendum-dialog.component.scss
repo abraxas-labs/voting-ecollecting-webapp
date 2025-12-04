@@ -1,0 +1,8 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+.content {
+  // The minimum width is set to prevent the dialog window from shrinking when a validation message is displayed.
+  @include md-up() {
+    min-width: 37rem;
+  }
+}

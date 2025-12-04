@@ -1,0 +1,46 @@
+<form (ngSubmit)="onSearch()" (reset)="reset()">
+  <bc-filter-text
+    optionalText=""
+    [operation]="filterOperationIds.STARTS_WITH"
+    [operations]="textFilterOperations"
+    [formControl]="form.controls.officialName"
+    [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.OFFICIAL_NAME' | translate"
+    [focusOnLoad]="true"></bc-filter-text>
+  <bc-filter-text
+    optionalText=""
+    [operation]="filterOperationIds.STARTS_WITH"
+    [operations]="textFilterOperations"
+    [formControl]="form.controls.firstName"
+    [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.FIRST_NAME' | translate"></bc-filter-text>
+  <bc-filter-date
+    optionalText=""
+    [operation]="filterOperationIds.EQUALS"
+    [operations]="dateFilterOperations"
+    [formControl]="form.controls.dateOfBirth"
+    [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.DATE_OF_BIRTH' | translate"></bc-filter-date>
+  <bc-filter-text
+    optionalText=""
+    [operation]="filterOperationIds.STARTS_WITH"
+    [operations]="textFilterOperations"
+    [formControl]="form.controls.residenceAddressStreet"
+    [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_STREET' | translate"></bc-filter-text>
+  <bc-filter-text
+    optionalText=""
+    [operation]="filterOperationIds.STARTS_WITH"
+    [operations]="textFilterOperations"
+    [formControl]="form.controls.residenceAddressHouseNumber"
+    [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_HOUSE_NUMBER' | translate"></bc-filter-text>
+  <div class="grow"></div>
+  <div class="actions">
+    <bc-button
+      variant="primary"
+      color="primary"
+      type="submit"
+      [disabled]="this.form.invalid"
+      [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.SEARCH' | translate"></bc-button>
+    <bc-button
+      type="reset"
+      variant="secondary"
+      [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.RESET' | translate"></bc-button>
+  </div>
+</form>

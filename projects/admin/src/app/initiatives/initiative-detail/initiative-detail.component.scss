@@ -1,0 +1,29 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/spacing' as *;
+@use '../../../../../ecollecting-lib/src/styles/gap' as *;
+
+:host {
+  display: block;
+  height: calc(100vh - 60px); // 60px header height
+}
+
+.layout-content {
+  overflow-y: auto;
+}
+
+.header-card bc-card-header {
+  min-height: 60px; // same height as app header for better UI
+}
+
+.layout-footer {
+  @extend .p-3;
+  @extend .gap-3;
+
+  display: flex;
+  align-items: center;
+  border-top: 1px solid $color-grey-5;
+}
+
+.close-button {
+  margin-left: auto;
+}

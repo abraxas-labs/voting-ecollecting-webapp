@@ -1,0 +1,10 @@
+<div class="flex items-baseline">
+  <bc-icon-button
+    (buttonClick)="toggleLocked()"
+    [icon]="isLocked ? 'lock' : 'unlock'"
+    [color]="isLocked ? 'primary' : 'warn'"
+    [tooltip]="tooltipLabel + isLocked | translate"
+    variant="tertiary"
+  ></bc-icon-button>
+  <span>{{ label | translate }}</span>
+</div>

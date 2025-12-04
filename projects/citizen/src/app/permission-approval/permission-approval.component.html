@@ -1,0 +1,33 @@
+<app-approval-page
+  [loading]="loading"
+  [header]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.TITLE.' + data?.collectionType | translate"
+  [subHeader]="data?.collectionDescription ?? ''"
+  [hint]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.TEXT.' + data?.collectionType | translate: { data, action: 'COLLECTION_PERMISSION_ROLES_ACTION.' + data?.role | translate }"
+  [notFound]="notFound"
+  notFoundHeader="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.TITLE.NOT_FOUND"
+  notFoundDetail="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.NOT_FOUND">
+  @if (!rejected) {
+    <app-approval-page-card
+      header="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.IAM.TITLE"
+      hint="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.IAM.TEXT"
+      [error]="error ? ('ERROR_MESSAGES.' + error | translate) : undefined">
+      <bc-button
+        actions
+        color="primary"
+        icon="id"
+        [label]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.IAM.ACTION' | translate"
+        (buttonClick)="accept()"></bc-button>
+    </app-approval-page-card>
+  }
+  <app-approval-page-card
+    header="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.TITLE"
+    hint="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.TEXT"
+    [error]="rejected ? ('COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.DONE') : undefined">
+    <bc-button
+      actions
+      color="warn"
+      icon="stop"
+      [label]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.ACTION' | translate"
+      (buttonClick)="reject()"></bc-button>
+  </app-approval-page-card>
+</app-approval-page>

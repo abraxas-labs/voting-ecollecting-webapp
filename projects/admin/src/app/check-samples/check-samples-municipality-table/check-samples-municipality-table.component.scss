@@ -1,0 +1,76 @@
+@use '@abraxas/voting-lib/style/table' as *;
+
+::ng-deep .bc-column-bfs,
+::ng-deep .bc-column-municipality-name,
+::ng-deep .bc-column-total-signature-sheets-count,
+::ng-deep .bc-column-total-submitted-or-confirmed-signature-sheets-count,
+::ng-deep .bc-column-total-not-submitted-signature-sheets-count,
+::ng-deep .bc-column-total-confirmed-signature-sheets-count,
+::ng-deep .bc-column-physical-count-invalid,
+::ng-deep .bc-column-physical-count-valid,
+::ng-deep .bc-column-electronic-citizen-count,
+::ng-deep .bc-column-total-valid-citizen-count,
+::ng-deep .bc-column-is-locked {
+  @include truncate-long-simple-sortable-table-header();
+
+  // small filter without filter icon and remove icon
+  .mat-mdc-form-field-icon-suffix {
+    display: none;
+  }
+
+  .mat-mdc-form-field-icon-prefix {
+    display: none;
+  }
+}
+
+.bc-column-actions {
+  width: 3rem;
+}
+
+.bc-column-bfs {
+  width: 5rem;
+}
+
+.bc-column-total-signature-sheets-count {
+  width: 6.5rem;
+}
+
+.bc-column-total-submitted-or-confirmed-signature-sheets-count {
+  width: 9rem;
+}
+
+.bc-column-total-not-submitted-signature-sheets-count {
+  width: 8.5rem;
+}
+
+.bc-column-total-confirmed-signature-sheets-count {
+  width: 6rem;
+}
+
+.bc-column-physical-count-invalid {
+  width: 11rem;
+}
+
+.bc-column-physical-count-valid {
+  width: 10rem;
+}
+
+.bc-column-electronic-citizen-count {
+  width: 6.5rem;
+}
+
+.bc-column-total-valid-citizen-count {
+  width: 6rem;
+}
+
+.bc-column-is-locked {
+  width: 7rem;
+}
+
+::ng-deep bc-header-cell {
+  z-index: 100; // without this, the action button would be visible in the header during scrolling
+}
+
+.selectable {
+  cursor: pointer;
+}

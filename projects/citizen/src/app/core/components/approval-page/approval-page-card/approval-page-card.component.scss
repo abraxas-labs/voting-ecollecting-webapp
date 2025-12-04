@@ -1,0 +1,35 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+:host {
+  display: block;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: $color-white;
+}
+
+:host(:not(:first-of-type)) {
+  margin-top: 1rem;
+}
+
+.msg {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+
+  &.error {
+    color: $color-error;
+  }
+
+  &.success {
+    color: $color-success;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hint {
+  white-space: pre-wrap;
+}

@@ -1,0 +1,122 @@
+<bc-table
+  [dataSource]="candidates.items">
+  <ng-container [columnDef]="signatureColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.SIGNATURE' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div class="flex items-center">
+        <bc-checkbox
+          [checked]="!!row.existingSignature"
+          (checkedChange)="add.emit(row)"
+          [disabled]="!canAdd || !!row.existingSignature || !row.person.isVotingAllowed || !!loadingRegisterId"
+        ></bc-checkbox>
+        @if (loadingRegisterId === row.person.registerId) {
+          <bc-spinner></bc-spinner>
+        } @else if (row.existingSignature?.electronic === true) {
+          <bc-status-label
+            [tooltip]="tooltipContent"
+            foregroundColor="light"
+            [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.SIGNATURE_INFO.ELECTRONIC' | translate"
+            backgroundColor="#008334"></bc-status-label>
+          <ng-template #tooltipContent>
+            <span>
+              {{ row.existingSignature.collectionDateTime | date: 'dd.MM.yyyy HH:mm' }}
+              <br />
+              {{ row.existingSignature.collectionDescription }}
+            </span>
+          </ng-template>
+        } @else if (row.existingSignature) {
+          <bc-status-label
+            [tooltip]="tooltipContent"
+            foregroundColor="light"
+            [label]="row.existingSignature.bfs + ' - ' + row.existingSignature.signatureSheetNumber"
+            [backgroundColor]="!row.existingSignature.isInSameMunicipality ? '#9f0000' : row.existingSignature.isOnSameSheet ? '#008334' : '#8c8c8c'"></bc-status-label>
+          <ng-template #tooltipContent>
+            <span>
+              {{ row.existingSignature.collectionDateTime | date: 'dd.MM.yyyy' }}
+              <br />
+              {{ row.existingSignature.collectionDescription }}
+            </span>
+          </ng-template>
+        }
+      </div>
+    </bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="officialNameColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.OFFICIAL_NAME' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">{{ row.person.officialName }}</bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="firstNameColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.FIRST_NAME' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">{{ row.person.firstName }}</bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="dateOfBirthColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.DATE_OF_BIRTH' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">{{ row.person.dateOfBirth | date: 'dd.MM.yyyy' }}</bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="residenceAddressStreetColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_STREET' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">{{ row.person.residenceAddressStreet }}</bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="residenceAddressHouseNumberColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_HOUSE_NUMBER' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">{{ row.person.residenceAddressHouseNumber }}</bc-data-cell>
+  </ng-container>
+  <ng-container [columnDef]="isVotingAllowedColumn">
+    <bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.IS_VOTING_ALLOWED.TITLE' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <bc-status-label
+        width="3rem"
+        [tooltipDisabled]="row.person.isVotingAllowed"
+        [tooltip]="('COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.IS_VOTING_ALLOWED.REASON.' + (!row.person.isBirthDateValidForVotingRights ? 'AGE' : !row.person.isNationalityValidForVotingRights ? 'NATIONALITY' : 'OTHER')) | translate"
+        [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.IS_VOTING_ALLOWED.' + row.person.isVotingAllowed | translate"
+        [foregroundColor]="row.person.isVotingAllowed ? 'dark' : 'light'"
+        [backgroundColor]="row.person.isVotingAllowed ? '#e8f4ed' : '#c60000'"></bc-status-label>
+    </bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: columns"
+               (click)="add.emit(row)"
+               [class.selectable]="canAdd && !row.existingSignature && row.person.isVotingAllowed && !loadingRegisterId"></bc-data-row>
+  <ng-template noDataRow>
+    <tr class="bc-row-data">
+      <td class="bc-cell" [colSpan]="columns.length">
+          <span class="no-data">
+            {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.NONE_FOUND' | translate }}
+          </span>
+      </td>
+    </tr>
+  </ng-template>
+</bc-table>
+<vo-ecol-paginator
+  [pageSizeOptions]="[10]"
+  [page]="candidates"
+  (pageChange)="pageChange.emit($event)"></vo-ecol-paginator>

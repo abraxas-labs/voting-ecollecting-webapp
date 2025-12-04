@@ -1,0 +1,21 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+.grid {
+  display: grid;
+  justify-content: flex-end;
+  grid-template-columns: 13rem 9rem 9rem;
+}
+
+.municipality-name {
+  font-style: italic;
+  color: $color-grey-3;
+}
+
+bc-alert-bar::ng-deep .alert-banner {
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+bc-button {
+  margin: 0;
+}

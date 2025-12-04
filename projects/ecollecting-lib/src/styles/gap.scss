@@ -1,0 +1,17 @@
+@use '@abraxas/voting-lib/style/spacing' as *;
+
+$mode: 'gap';
+
+@each $sizeShort, $size in $sizes {
+  .#{$mode}-x-#{$sizeShort} {
+    column-#{$mode}: $size;
+  }
+
+  .#{$mode}-y-#{$sizeShort} {
+    row-#{$mode}: $size;
+  }
+
+  .#{$mode}-#{$sizeShort} {
+    #{$mode}: $size;
+  }
+}

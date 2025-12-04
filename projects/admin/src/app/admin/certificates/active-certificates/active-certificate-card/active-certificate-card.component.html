@@ -1,0 +1,25 @@
+<div class="header">
+  <span class="font-bold">{{ label | translate }}</span>
+  <div class="state">
+    @switch (state) {
+      @case ('error') {
+        <bc-icon icon="exclamation-triangle-o" iconColor="error"></bc-icon>
+      }
+      @case ('warning') {
+        <bc-icon icon="exclamation-triangle-o" iconColor="warning"></bc-icon>
+      }
+      @default {
+        <bc-icon icon="check-circle" iconColor="success"></bc-icon>
+      }
+    }
+    <span class="ml-1">{{ (daysRemaining <= 0 ? 'ADMIN.CERTS.ACTIVE.DAYS_REMAINING_0' : 'ADMIN.CERTS.ACTIVE.DAYS_REMAINING') | translate: { daysRemaining: daysRemaining | number } }}</span>
+  </div>
+</div>
+
+<div class="content">
+  <ng-content></ng-content>
+</div>
+
+<div class="footer">
+  <ng-content select="[footer]"></ng-content>
+</div>

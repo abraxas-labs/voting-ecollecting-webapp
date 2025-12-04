@@ -1,0 +1,124 @@
+<div class="page-with-fixed-footer layout">
+  @if (initiative) {
+    <bc-sub-navigation-bar
+      class="layout-header"
+      [type]="'subpage'"
+      [border]="false"
+      [label]="
+      (initiative.collection.isElectronicSubmission
+        ? 'LAUNCH_INITIATIVE.DETAIL.TITLE_ELECTRONIC_SUBMISSION'
+        : 'LAUNCH_INITIATIVE.DETAIL.TITLE_PAPER_SUBMISSION'
+      ) | translate: { description: initiative.collection.description, governmentDecisionNumber: initiative.governmentDecisionNumber }
+    "
+      (actionClick)="back()"
+      [backBtnAriaLabel]="'APP.BACK' | translate"
+    >
+      <bc-icon-button icon="add-comment" (buttonClick)="openChat()" [ariaLabel]="'CHAT.OPEN' | translate"></bc-icon-button>
+      <bc-icon-button class="ml-2" icon="question-circle-o" (buttonClick)="openHelpMenu()" [ariaLabel]="'HELP.OPEN' | translate"></bc-icon-button>
+    </bc-sub-navigation-bar>
+    <bc-nav-layout class="layout-content">
+      <!-- fixedToGap = 120 is app header height (60px) + user navigation height (60px) -->
+      <!-- fixedBottomGap = button footer height + app footer (74px) -->
+      <!-- collapseBreakpoint = medium break point https://getbootstrap.com/docs/5.3/layout/breakpoints/#available-breakpoints -->
+      <bc-nav-drawer
+        [opened]="true"
+        [fixedInViewport]="true"
+        [fixedTopGap]="120"
+        [fixedBottomGap]="footer.offsetHeight + 74"
+        [collapseBreakpoint]="768"
+        [expandable]="true"
+        [rounded]="true"
+        [autoFocus]="false"
+        [mode]="'side'"
+        [border]="'right'"
+        [disableClose]="true"
+      >
+        <bc-nav-item
+          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.OVERVIEW' | translate"
+          [icon]="'home'"
+          [link]="initiativeDetailOverviewUrl"
+          [target]="'self'"
+          [active]="active === initiativeDetailOverviewUrl"
+          (click)="active = initiativeDetailOverviewUrl"
+        ></bc-nav-item>
+        <bc-nav-item
+          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.GENERAL_INFORMATION' | translate"
+          [icon]="'law'"
+          [link]="initiativeDetailGeneralInformationUrl"
+          [target]="'self'"
+          [active]="active === initiativeDetailGeneralInformationUrl"
+          (click)="active = initiativeDetailGeneralInformationUrl"
+        ></bc-nav-item>
+        <bc-nav-item
+          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.COMMITTEE' | translate"
+          [icon]="'users'"
+          [link]="initiativeDetailCommitteeUrl"
+          [target]="'self'"
+          [active]="active === initiativeDetailCommitteeUrl"
+          (click)="active = initiativeDetailCommitteeUrl"
+        ></bc-nav-item>
+        <bc-nav-item
+          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.SIGNATURE_LIST' | translate"
+          [icon]="'lists'"
+          [link]="initiativeDetailSignatureSheetUrl"
+          [target]="'self'"
+          [active]="active === initiativeDetailSignatureSheetUrl"
+          (click)="active = initiativeDetailSignatureSheetUrl"
+        ></bc-nav-item>
+        <bc-nav-item
+          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.PERMISSIONS' | translate"
+          [icon]="'access'"
+          [link]="initiativeDetailPermissionsUrl"
+          [target]="'self'"
+          [active]="active === initiativeDetailPermissionsUrl"
+          (click)="active = initiativeDetailPermissionsUrl"
+        ></bc-nav-item>
+      </bc-nav-drawer>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </bc-nav-layout>
+    <div #footer class="layout-footer footer-button-bar">
+      @if (initiative.collection.userPermissions?.isRequestInformalReviewVisible) {
+        <bc-button
+          icon="eye"
+          [label]="'LAUNCH_INITIATIVE.DETAIL.REQUEST_INFORMAL_REVIEW' | translate"
+          [disabled]="!initiative.collection.userPermissions?.canRequestInformalReview"
+          (buttonClick)="requestInformalReview()"
+        ></bc-button>
+      }
+      @if (initiative.collection.userPermissions?.isSubmitVisible) {
+        <bc-button
+          icon="file-apply-docs"
+          [label]="'LAUNCH_INITIATIVE.DETAIL.SUBMIT' | translate"
+          [disabled]="!initiative.collection.userPermissions?.canSubmit"
+          (buttonClick)="submit()"
+        ></bc-button>
+      }
+      @if (initiative.collection.userPermissions?.isFlagForReviewVisible) {
+        <bc-button
+          icon="eye"
+          [label]="'LAUNCH_INITIATIVE.DETAIL.FLAG_FOR_REVIEW' | translate"
+          [disabled]="!initiative.collection.userPermissions?.canFlagForReview"
+          (buttonClick)="flagForReview()"
+        ></bc-button>
+      }
+      @if (initiative.collection.userPermissions?.canRegister) {
+        <bc-button
+          icon="clipboard"
+          [label]="'LAUNCH_INITIATIVE.DETAIL.REGISTER' | translate"
+          (buttonClick)="register()"
+        ></bc-button>
+      }
+      @if (initiative.collection.userPermissions?.canWithdraw) {
+        <bc-button
+          icon="trash"
+          color="warn"
+          [label]="'LAUNCH_INITIATIVE.DETAIL.WITHDRAW.TITLE' | translate"
+          (buttonClick)="withdraw()"
+        ></bc-button>
+      }
+    </div>
+  }
+
+</div>
