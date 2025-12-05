@@ -153,9 +153,9 @@ export class SignatureSheetDetailComponent implements OnDestroy {
         page: 1,
         pageSize: 10,
       };
-    } else if (!filter) {
-      filter = this.lastUsedFilter;
     }
+
+    filter ??= this.lastUsedFilter;
 
     if (!filter) {
       throw new Error('filter is required');

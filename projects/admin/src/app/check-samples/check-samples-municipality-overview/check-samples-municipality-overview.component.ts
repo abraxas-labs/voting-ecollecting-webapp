@@ -23,7 +23,6 @@ import { Referendum } from '../../core/models/referendum.model';
 import { CheckSamplesHeaderComponent } from '../check-samples-header/check-samples-header.component';
 import { CollectionSignatureSheet } from '../../core/models/collection.model';
 import { CollectionSignatureSheetState } from '@abraxas/voting-ecollecting-proto/admin';
-import { CollectionSignatureSheetService } from '../../core/services/collection-signature-sheet.service';
 import { ConfirmDialogComponent, ConfirmDialogData, DomainOfInfluence } from 'ecollecting-lib';
 import { CheckSamplesSignatureSheetTableComponent } from '../check-samples-signature-sheet-table/check-samples-signature-sheet-table.component';
 import { CollectionMunicipalityService } from '../../core/services/collection-municipality.service';

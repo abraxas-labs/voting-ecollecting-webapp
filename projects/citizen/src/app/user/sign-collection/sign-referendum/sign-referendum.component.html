@@ -8,12 +8,13 @@
     [canSign]="!referendum.isOtherReferendumOfSameDecreeSigned"
   >
     <ng-container info>
-      <p>{{ referendum.decree.description }}</p>
-      <p>{{ referendum.collection.description }}</p>
-      <p class="font-bold mb-1">{{ referendum.collection.reason }}</p>
+      <p class="font-bold">{{ referendum.decree.description }}</p>
+      <h1>{{ referendum.collection.description }}</h1>
+      <p>{{ referendum.collection.reason }}</p>
 
       @if (referendum.collection.link) {
         <bc-link class="wrap-break-word"
+                 font="Body2"
                  target="_blank"
                  [href]="referendum.collection.link">{{ referendum.collection.link }}</bc-link>
       }

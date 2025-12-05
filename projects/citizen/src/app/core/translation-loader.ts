@@ -10,6 +10,7 @@ import { from, Observable } from 'rxjs';
 import deAppTranslations from '../../assets/i18n/de.json';
 // eslint-disable-next-line no-restricted-imports
 import deEcollectingLibTranslations from '../../../../ecollecting-lib/assets/ecollecting-lib/i18n/de.json';
+// eslint-disable-next-line no-restricted-imports
 import deLibTranslations from '../../../../../node_modules/@abraxas/voting-lib/assets/voting-lib/i18n/de.json';
 
 export class TranslationLoader implements TranslateLoader {

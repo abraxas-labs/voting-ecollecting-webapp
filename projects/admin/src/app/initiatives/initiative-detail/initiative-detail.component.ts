@@ -138,7 +138,7 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
     } satisfies InitiativeCollectionPeriodDialogData);
     const result = (await firstValueFrom(dialogRef.afterClosed())) as InitiativeCollectionPeriodDialogResult;
 
-    if (!result || !result.collectionStartDate || !result.collectionEndDate) {
+    if (!result?.collectionStartDate || !result?.collectionEndDate) {
       return;
     }
 

@@ -103,7 +103,7 @@ export class InitiativeDetailCommitteeMembersComponent implements OnChanges {
     } satisfies InitiativeDetailCommitteeMembersVerifyDialogData);
 
     const result = await firstValueFrom(dialogRef.afterClosed());
-    if (!result || !result.approvalState) {
+    if (!result?.approvalState) {
       return;
     }
 

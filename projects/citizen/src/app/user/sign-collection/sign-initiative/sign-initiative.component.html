@@ -9,10 +9,11 @@
     <ng-container info>
       <h1>{{ initiative.collection.description }}</h1>
       <p>{{ initiative.wording }}</p>
-      <p class="font-bold mb-1">{{ initiative.collection.reason }}</p>
+      <p>{{ initiative.collection.reason }}</p>
 
       @if (initiative.collection.link) {
         <bc-link class="wrap-break-word"
+                 font="Body2"
                  target="_blank"
                  [href]="initiative.collection.link">{{ initiative.collection.link }}</bc-link>
       }

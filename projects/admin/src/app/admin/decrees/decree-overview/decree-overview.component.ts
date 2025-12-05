@@ -15,7 +15,6 @@ import { DecreeTableComponent } from '../decree-table/decree-table.component';
 import { DomainOfInfluenceService } from '../../../core/services/domain-of-influence.service';
 import { VotingLibModule } from '@abraxas/voting-lib';
 import { firstValueFrom } from 'rxjs';
-import { CollectionPeriodState } from '@abraxas/voting-ecollecting-proto';
 import { DomainOfInfluence } from '../../../core/models/domain-of-influence.model';
 
 @Component({
@@ -52,8 +51,6 @@ export class DecreeOverviewComponent implements OnInit {
     }
 
     const updatedDecree = result.decree;
-    this.updateMissingProps(updatedDecree);
-
     const index = this.decrees.findIndex(c => c.id === updatedDecree.id);
     if (index === -1) {
       this.decrees = [...this.decrees, updatedDecree];
@@ -90,21 +87,6 @@ export class DecreeOverviewComponent implements OnInit {
       this.domainOfInfluenceTree = await this.domainOfInfluenceService.list(true);
     } finally {
       this.loading = false;
-    }
-  }
-
-  private updateMissingProps(decree: Decree): void {
-    if (!decree.collectionStartDate || !decree.collectionEndDate) {
-      return;
-    }
-
-    const now = new Date();
-    if (decree.collectionStartDate > now) {
-      decree.periodState = CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED;
-    } else if (decree.collectionStartDate <= now && decree.collectionEndDate >= now) {
-      decree.periodState = CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION;
-    } else {
-      decree.periodState = CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED;
     }
   }
 }

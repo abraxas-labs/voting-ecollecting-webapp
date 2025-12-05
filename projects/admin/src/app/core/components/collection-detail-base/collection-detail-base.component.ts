@@ -65,7 +65,7 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
   }
 
   public async openSignatureSheet(): Promise<void> {
-    if (!this.collection || !this.collection.signatureSheetTemplate) {
+    if (!this.collection?.signatureSheetTemplate) {
       return;
     }
 
@@ -73,7 +73,7 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
   }
 
   public async deleteSignatureSheet(): Promise<void> {
-    if (!this.collection || !this.collection.signatureSheetTemplate) {
+    if (!this.collection?.signatureSheetTemplate) {
       return;
     }
 

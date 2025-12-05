@@ -19,7 +19,7 @@
 
 @if (imageSrc) {
   <div class="flex mt-1">
-    <img [src]="imageSrc" alt="preview image" />
+    <img [src]="imageSrc" alt="preview" />
     @if (canDelete) {
       <bc-icon-button class="remove" [icon]="'remove'" (click)="imageDeleted.emit()"
                       [variant]="'tertiary'" [ariaLabel]="'APP.DELETE' | translate"></bc-icon-button>

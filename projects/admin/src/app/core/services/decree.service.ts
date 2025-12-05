@@ -10,6 +10,7 @@ import {
   CameAboutDecreeRequest,
   CameNotAboutDecreeRequest,
   CreateDecreeRequest,
+  CreateDecreeResponse,
   DecreeServiceClient,
   DeleteDecreeRequest,
   DeletePublishedDecreeRequest,
@@ -39,7 +40,7 @@ export class DecreeService {
     this.restApiUrl = `${environment.restApiEndpoint}/decrees`;
   }
 
-  public async create(decree: Decree): Promise<string> {
+  public async create(decree: Decree): Promise<CreateDecreeResponse.AsObject> {
     const resp = await lastValueFrom(
       this.client.create(
         new CreateDecreeRequest({
@@ -49,7 +50,7 @@ export class DecreeService {
         }),
       ),
     );
-    return resp.id;
+    return resp.toObject();
   }
 
   public async list(): Promise<Decree[]> {

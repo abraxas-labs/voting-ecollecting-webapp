@@ -17,7 +17,6 @@ import {
   ListCollectionMessagesRequest,
   ListCollectionPermissionsRequest,
   ListCollectionsForDeletionRequest,
-  SecondFactorTransaction,
   SetCommitteeAddressRequest,
   SubmitSignatureSheetsRequest,
 } from '@abraxas/voting-ecollecting-proto/admin';
@@ -44,7 +43,6 @@ import {
 } from '../models/collection.model';
 import { CollectionType, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { CollectionsGroup, mapCollectionsGroupToModel } from '../models/collections-group.model';
-import { Timestamp } from '@ngx-grpc/well-known-types';
 
 @Injectable({
   providedIn: 'root',

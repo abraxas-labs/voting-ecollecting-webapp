@@ -130,7 +130,8 @@ export class DecreeEditDialogComponent extends BaseDialogWithUnsavedChangesCheck
       this.saving = true;
 
       if (this.isNew) {
-        this.decree.id = await this.decreeService.create(this.decree);
+        const result = await this.decreeService.create(this.decree);
+        Object.assign(this.decree, result);
       } else {
         await this.decreeService.update(this.decree);
       }

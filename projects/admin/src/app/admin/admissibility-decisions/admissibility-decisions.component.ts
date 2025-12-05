@@ -79,7 +79,7 @@ export class AdmissibilityDecisionsComponent implements OnInit {
       value,
     }));
 
-    this.filter = (persistentStorage.getItem(filterKey) || 'ACTIVE') as Filter;
+    this.filter = (persistentStorage.getItem(filterKey) ?? 'ACTIVE') as Filter;
     if (!filters.includes(this.filter)) {
       this.filter = 'ACTIVE';
     }

@@ -159,7 +159,7 @@ export function mapToCollectionSignatureSheet(sheet: CollectionSignatureSheetPro
     ...sheet.toObject(),
     receivedAt: sheet.receivedAt!.toDate(),
     attestedAt: sheet.attestedAt?.toDate(),
-    modifiedByName: !sheet.modifiedByName ? undefined : sheet.modifiedByName,
+    modifiedByName: sheet.modifiedByName ?? undefined,
     userPermissions: sheet.userPermissions?.toObject(),
   } as CollectionSignatureSheet;
 }

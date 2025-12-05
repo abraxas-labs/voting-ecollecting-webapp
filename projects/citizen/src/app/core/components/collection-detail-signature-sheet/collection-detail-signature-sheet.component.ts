@@ -108,7 +108,7 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
   }
 
   public async openFile(): Promise<void> {
-    if (!this.collection || !this.collection.signatureSheetTemplate) {
+    if (!this.collection?.signatureSheetTemplate) {
       return;
     }
 

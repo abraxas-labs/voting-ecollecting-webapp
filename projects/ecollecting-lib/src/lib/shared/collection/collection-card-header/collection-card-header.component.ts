@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CardModule, IconButtonModule, ReadonlyModule, StatusLabelModule } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Collection } from '../../models/collection.model';

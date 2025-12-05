@@ -1,19 +1,19 @@
-# VotingEcollectingWebapp
+# VOTING E-Collecting WebApp (Frontend)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8.
+This repository contains the source code of the frontend system of `VOTING E-Collecting`.
 
-## Development server
+## Documentation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+The documentation for this system is part of the supplied source code.
 
-## Code scaffolding
+## Changelog
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Detailed explanations of the changes per release can be found in [CHANGELOG.md](./CHANGELOG.md).
 
-## Build
+## Code of Conduct
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+This project uses the [Code of Conduct](./CODE_OF_CONDUCT.md) to define expected conduct in our community for `VOTING E-Collecting`.
 
-## Further help
+## License
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+See the [license-file](./LICENSE) for how the software ist provided by the copyright holders and contributors.
