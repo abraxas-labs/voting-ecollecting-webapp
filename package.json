@@ -22,7 +22,7 @@
   "dependencies": {
     "@abraxas/base-components": "20.19.5",
     "@abraxas/voting-ecollecting-proto": "1.96.2",
-    "@abraxas/voting-lib": "0.0.1-dev.664",
+    "@abraxas/voting-lib": "5.11.5",
     "@angular/animations": "20.3.13",
     "@angular/common": "20.3.13",
     "@angular/compiler": "20.3.13",
