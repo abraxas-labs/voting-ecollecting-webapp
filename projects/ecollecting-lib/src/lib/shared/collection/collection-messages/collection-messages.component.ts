@@ -8,23 +8,17 @@ import { AfterViewInit, Component, ElementRef, HostListener, inject, OnDestroy, 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { COLLECTION_MESSAGES_SERVICE_TOKEN } from '../../../core/collection-messages.service';
 import { CollectionMessage } from '../../models/collection-message.model';
-import {
-  ButtonModule,
-  DialogModule,
-  DialogService,
-  IconButtonModule,
-  SpinnerModule,
-  SwitchModule,
-  TextareaModule,
-} from '@abraxas/base-components';
+import { ButtonModule, DialogModule, IconButtonModule, SpinnerModule, SwitchModule, TextareaModule } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CollectionMessageComponent } from './collection-message/collection-message.component';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AUTHENTICATION_SERVICE_TOKEN } from '../../../core/authentication.service';
-import { ConfirmDialogComponent, ConfirmDialogData } from '../../confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogService } from '../../../core/confirm-dialog.service';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AsyncInputValidators } from '@abraxas/voting-lib';
 import { CollectionType } from '@abraxas/voting-ecollecting-proto';
+
+export const SHOW_CHAT_QUERY_PARAM = 'showChat';
 
 export interface CollectionMessagesComponentData {
   collectionId: string;
@@ -59,7 +53,7 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
   private readonly messagesService = inject(COLLECTION_MESSAGES_SERVICE_TOKEN);
   private readonly auth = inject(AUTHENTICATION_SERVICE_TOKEN);
   private readonly dialogRef = inject<MatDialogRef<CollectionMessagesComponent, CollectionMessagesComponentResult>>(MatDialogRef);
-  private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly formBuilder = inject(NonNullableFormBuilder);
 
   public loading = false;
@@ -141,6 +135,19 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
   }
 
   public async requestInformalReview(requestInformalReview: boolean): Promise<void> {
+    const ok =
+      !requestInformalReview ||
+      (await this.confirmDialogService.confirm({
+        title: 'COLLECTION_MESSAGES.REQUEST_INFORMAL_REVIEW_CONFIRM.TITLE',
+        message: 'COLLECTION_MESSAGES.REQUEST_INFORMAL_REVIEW_CONFIRM.MESSAGE',
+        confirmText: 'APP.YES',
+        discardText: 'APP.DISCARD',
+      }));
+    if (!ok) {
+      this.informalReviewRequested = false;
+      return;
+    }
+
     const message = await this.messagesService.updateRequestInformalReview(this.data.collectionId, requestInformalReview);
     this.messages = [...this.messages, message];
   }
@@ -150,14 +157,14 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
       return;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.CHANGES.TITLE',
       message: 'COLLECTION_MESSAGES.UNSAVED_CHANGES.MESSAGE',
       confirmText: 'COLLECTION_MESSAGES.UNSAVED_CHANGES.SEND_AND_CLOSE',
       discardText: 'COLLECTION_MESSAGES.UNSAVED_CHANGES.DISCARD',
-    } satisfies ConfirmDialogData);
+    });
 
-    if (await firstValueFrom(dialogRef.afterClosed())) {
+    if (ok) {
       // don't await the result and close the dialog
       this.send();
     }

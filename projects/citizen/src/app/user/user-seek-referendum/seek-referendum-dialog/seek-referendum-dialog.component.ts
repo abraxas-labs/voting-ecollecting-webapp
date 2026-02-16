@@ -81,7 +81,7 @@ export class SeekReferendumDialogComponent extends BaseDialogWithUnsavedChangesC
       this.saving = true;
 
       const id = this.isPaperSubmission
-        ? await this.referendumService.setInPreparation(values.number)
+        ? await this.referendumService.setInPreparation(values.secureIdNumber)
         : await this.referendumService.create(values.description, this.decreeId);
 
       this.dialogRef.close({ id });
@@ -102,13 +102,18 @@ export class SeekReferendumDialogComponent extends BaseDialogWithUnsavedChangesC
 
   public updatePaperSubmissionValidators(): void {
     if (this.isPaperSubmission) {
-      this.form.controls.number.enable();
-      this.form.controls.number.setValidators([Validators.required, Validators.maxLength(50)]);
+      this.form.controls.secureIdNumber.enable();
+      this.form.controls.secureIdNumber.setValidators([
+        Validators.required,
+        Validators.minLength(12),
+        Validators.maxLength(12),
+        Validators.pattern(/^[A-Z0-9]{12}$/),
+      ]);
     } else {
-      this.form.controls.number.disable();
-      this.form.controls.number.clearValidators();
+      this.form.controls.secureIdNumber.disable();
+      this.form.controls.secureIdNumber.clearValidators();
     }
-    this.form.controls.number.updateValueAndValidity();
+    this.form.controls.secureIdNumber.updateValueAndValidity();
   }
 
   public updateElectronicSubmissionValidators(): void {
@@ -134,12 +139,7 @@ export class SeekReferendumDialogComponent extends BaseDialogWithUnsavedChangesC
           asyncValidators: [AsyncInputValidators.complexSlText],
         },
       ),
-      number: this.formBuilder.control(
-        { value: '', disabled: true },
-        {
-          asyncValidators: [AsyncInputValidators.simpleSlText],
-        },
-      ),
+      secureIdNumber: this.formBuilder.control({ value: '', disabled: true }),
     });
   }
 
@@ -148,7 +148,7 @@ export class SeekReferendumDialogComponent extends BaseDialogWithUnsavedChangesC
     const message = this.translate.instant(key);
     const errors: any = {};
     errors[errorType] = message;
-    this.form.controls.number.setErrors(errors);
+    this.form.controls.secureIdNumber.setErrors(errors);
   }
 }
 
@@ -162,5 +162,5 @@ export interface SeekReferendumDialogResult {
 
 export interface Form {
   description: FormControl<string>;
-  number: FormControl<string>;
+  secureIdNumber: FormControl<string>;
 }

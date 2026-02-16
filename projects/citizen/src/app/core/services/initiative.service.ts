@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   AcceptCommitteeMembershipRequest,
   AddCommitteeMemberRequest,
@@ -25,6 +25,7 @@ import {
   SetInitiativeInPreparationRequest,
   SignInitiativeRequest,
   SubmitInitiativeRequest,
+  UpdateCommitteeMemberPoliticalDutyRequest,
   UpdateCommitteeMemberRequest,
   UpdateCommitteeMemberSortRequest,
   UpdateInitiativeRequest,
@@ -87,11 +88,11 @@ export class InitiativeService implements EntityGetter<Initiative> {
     return resp.id;
   }
 
-  public async setInPreparation(governmentDecisionNumber: string): Promise<string> {
+  public async setInPreparation(secureIdNumber: string): Promise<string> {
     const resp = await lastValueFrom(
       this.client.setInPreparation(
         new SetInitiativeInPreparationRequest({
-          governmentDecisionNumber,
+          secureIdNumber,
         }),
       ),
     );
@@ -194,6 +195,18 @@ export class InitiativeService implements EntityGetter<Initiative> {
     );
   }
 
+  public async updateCommitteeMemberPoliticalDuty(initiativeId: string, id: string, politicalDuty: string): Promise<void> {
+    await lastValueFrom(
+      this.client.updateCommitteeMemberPoliticalDuty(
+        new UpdateCommitteeMemberPoliticalDutyRequest({
+          initiativeId,
+          id,
+          politicalDuty,
+        }),
+      ),
+    );
+  }
+
   public async resendCommitteeMemberInvitation(initiativeId: string, id: string): Promise<void> {
     await lastValueFrom(
       this.client.resendCommitteeMemberInvitation(
@@ -269,10 +282,7 @@ export class InitiativeService implements EntityGetter<Initiative> {
 }
 
 export interface AddInitiativeCommitteeMemberRequest
-  extends Omit<
-    InitiativeCommitteeMember,
-    'id' | 'approvalState' | 'signatureType' | 'memberSignatureRequested' | 'canEdit' | 'residence' | 'politicalResidence'
-  > {
+  extends Omit<InitiativeCommitteeMember, 'id' | 'approvalState' | 'signatureType' | 'memberSignatureRequested' | 'canEdit' | 'residence'> {
   requestMemberSignature: boolean;
 }
 

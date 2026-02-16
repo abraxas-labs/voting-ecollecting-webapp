@@ -9,6 +9,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LanguageService } from '../language.service';
+import { isUrlWithinBase } from '../utils/url.utils';
 
 const languageHeader = 'x-language';
 
@@ -17,10 +18,10 @@ const languageHeader = 'x-language';
 })
 export class HttpLanguageInterceptor implements HttpInterceptor {
   private readonly languageService = inject(LanguageService);
-  private readonly restApiUrl = inject(REST_API_URL);
+  private readonly restApiUrl = inject(REST_API_URL) ?? '';
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!this.restApiUrl || !req.url.includes(this.restApiUrl)) {
+    if (!isUrlWithinBase(req.url, this.restApiUrl)) {
       return next.handle(req);
     }
 

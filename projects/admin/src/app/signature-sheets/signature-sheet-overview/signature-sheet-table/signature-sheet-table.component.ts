@@ -4,18 +4,19 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   CheckboxModule,
-  DialogService,
   Filter,
   FilterDirective,
   IconButtonModule,
   SelectionChange,
+  SelectionDirective,
   Sort,
   SortDirective,
   SpinnerModule,
+  StatusLabelModule,
   TableModule,
   TooltipModule,
   TruncateWithTooltipModule,
@@ -24,8 +25,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { CollectionSignatureSheet } from '../../../core/models/collection.model';
 import { CollectionSignatureSheetState, ListSignatureSheetsSort } from '@abraxas/voting-ecollecting-proto/admin';
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
   defaultPageable,
   emptyPage,
   Page,
@@ -35,7 +35,6 @@ import {
   ToastService,
 } from 'ecollecting-lib';
 import { SortDirection } from '@abraxas/voting-ecollecting-proto';
-import { firstValueFrom } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionSignatureSheetService } from '../../../core/services/collection-signature-sheet.service';
 
@@ -57,20 +56,19 @@ interface LabeledValue<T> {
     IconButtonModule,
     CheckboxModule,
     PaginatorComponent,
+    StatusLabelModule,
   ],
-  providers: [DialogService],
   templateUrl: './signature-sheet-table.component.html',
   styleUrls: ['./signature-sheet-table.component.scss'],
 })
 export class SignatureSheetTableComponent implements OnInit {
   private readonly datePipe = inject(DatePipe);
   private readonly collectionSignatureSheetService = inject(CollectionSignatureSheetService);
-  private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
-  protected readonly states = CollectionSignatureSheetState;
   protected readonly attestedAtFormat = 'dd.MM.yyyy HH:mm';
 
   protected readonly selectionColumn = 'selection';
@@ -81,6 +79,7 @@ export class SignatureSheetTableComponent implements OnInit {
   protected readonly signatureCountTotalColumn = 'signatureCountTotal';
   protected readonly signatureCountValidColumn = 'signatureCountValid';
   protected readonly signatureCountInvalidColumn = 'signatureCountInvalid';
+  protected readonly stateColumn = 'state';
   protected readonly actionsColumn = 'actions';
 
   protected columns: string[] = [
@@ -92,6 +91,7 @@ export class SignatureSheetTableComponent implements OnInit {
     this.signatureCountTotalColumn,
     this.signatureCountValidColumn,
     this.signatureCountInvalidColumn,
+    this.stateColumn,
     this.actionsColumn,
   ];
 
@@ -108,6 +108,9 @@ export class SignatureSheetTableComponent implements OnInit {
   @ViewChild(SortDirective, { static: true })
   public sort!: SortDirective;
 
+  @ViewChild(SelectionDirective)
+  public selection!: SelectionDirective<CollectionSignatureSheet>;
+
   @Input({ required: true })
   public collectionId!: string;
 
@@ -115,7 +118,10 @@ export class SignatureSheetTableComponent implements OnInit {
   public paged: boolean = false;
 
   @Input({ required: true })
-  public state!: CollectionSignatureSheetState;
+  public states!: CollectionSignatureSheetState[];
+
+  @Input()
+  public canEdit: boolean = false;
 
   @Output()
   public selectionChange: EventEmitter<CollectionSignatureSheet[]> = new EventEmitter<CollectionSignatureSheet[]>();
@@ -132,13 +138,14 @@ export class SignatureSheetTableComponent implements OnInit {
     [this.signatureCountTotalColumn]: ListSignatureSheetsSort.LIST_SIGNATURE_SHEETS_SORT_COUNT_TOTAL,
     [this.signatureCountValidColumn]: ListSignatureSheetsSort.LIST_SIGNATURE_SHEETS_SORT_COUNT_VALID,
     [this.signatureCountInvalidColumn]: ListSignatureSheetsSort.LIST_SIGNATURE_SHEETS_SORT_COUNT_INVALID,
+    [this.stateColumn]: ListSignatureSheetsSort.LIST_SIGNATURE_SHEETS_SORT_STATE,
   };
 
   public async ngOnInit(): Promise<void> {
     try {
       this.loading = true;
 
-      if (this.state === CollectionSignatureSheetState.COLLECTION_SIGNATURE_SHEET_STATE_CREATED) {
+      if (this.canEdit) {
         this.columns = this.columns.filter(x => x !== this.attestedAtColumn);
       } else {
         await this.loadAttestedAtFilter();
@@ -153,13 +160,19 @@ export class SignatureSheetTableComponent implements OnInit {
   public remove(sheets: CollectionSignatureSheet[]): void {
     const ids = sheets.map(x => x.id);
     this.page.items = this.page.items.filter(x => !ids.includes(x.id));
+    for (const sheet of sheets) {
+      this.selection.toggleSelection(sheet);
+    }
   }
 
-  public async add(sheets: CollectionSignatureSheet[]): Promise<void> {
-    this.remove(sheets);
-    this.page.items = [...sheets, ...this.page.items];
-    await this.loadAttestedAtFilter();
-    await this.loadData();
+  public async reload(): Promise<void> {
+    try {
+      this.loading = true;
+      await this.loadAttestedAtFilter();
+      await this.loadData();
+    } finally {
+      this.loading = false;
+    }
   }
 
   protected select(data: SelectionChange<CollectionSignatureSheet>): void {
@@ -204,14 +217,13 @@ export class SignatureSheetTableComponent implements OnInit {
   }
 
   protected async delete(id: string): Promise<void> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 
@@ -230,7 +242,7 @@ export class SignatureSheetTableComponent implements OnInit {
 
     this.page = await this.collectionSignatureSheetService.list(
       this.collectionId,
-      [this.state],
+      this.states,
       this.attestedAtFilters,
       this.sortMember,
       this.sortDirection,

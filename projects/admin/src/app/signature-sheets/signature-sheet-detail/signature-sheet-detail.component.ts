@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import {
   ButtonModule,
   DialogService,
@@ -22,7 +22,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Referendum } from '../../core/models/referendum.model';
 import { Initiative } from '../../core/models/initiative.model';
-import { firstValueFrom, lastValueFrom, Subscription } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
 import { CollectionSignatureSheet, CollectionSignatureSheetCandidate } from '../../core/models/collection.model';
 import {
@@ -30,8 +30,7 @@ import {
   SignatureSheetEditDialogData,
 } from '../signature-sheet-edit-dialog/signature-sheet-edit-dialog.component';
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
   createComparer,
   emptyPage,
   insertSorted,
@@ -76,6 +75,7 @@ export class SignatureSheetDetailComponent implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly collectionSignatureSheetService = inject(CollectionSignatureSheetService);
 
@@ -123,14 +123,13 @@ export class SignatureSheetDetailComponent implements OnDestroy {
       return;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 

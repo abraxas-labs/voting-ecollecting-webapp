@@ -18,5 +18,7 @@
       </span>
     </div>
   }
-  <p class="info mt-3">{{ info | translate }}</p>
+  @if (validationSummary.isValid) {
+    <p class="info mt-3">{{ info | translate }}</p>
+  }
 </vo-ecol-dialog>

@@ -9,6 +9,8 @@ import { GrpcEvent, GrpcMessage, GrpcRequest } from '@ngx-grpc/common';
 import { GrpcHandler, GrpcInterceptor } from '@ngx-grpc/core';
 import { Observable } from 'rxjs';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { environment } from '../../../environments/environment';
+import { isUrlWithinBase } from 'ecollecting-lib';
 
 const authorizationKey = 'Authorization';
 const bearerPrefix = 'Bearer ';
@@ -20,6 +22,11 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
   private readonly authService = inject(OAuthService);
 
   public intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
+    const target = request.client.getSettings().host + request.path;
+    if (!isUrlWithinBase(target, environment.grpcApiEndpoint)) {
+      return next.handle(request);
+    }
+
     const accessToken = this.authService.getAccessToken();
 
     if (accessToken) {

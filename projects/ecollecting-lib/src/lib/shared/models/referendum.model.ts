@@ -11,6 +11,5 @@ export interface Referendum {
   id: string;
   decree?: SimpleDecree;
   collection: Collection;
-  number: string;
   membersCommittee: string;
 }

@@ -3,7 +3,7 @@
     {
       "files": ["*.ts"],
       "rules": {
-        "@angular-eslint/directive-selector": ["error", { "type": "attribute", "prefix": "vo-ecol", "style": "camelCase" }],
+        "@angular-eslint/directive-selector": ["error", { "type": "attribute", "prefix": "voEcol", "style": "camelCase" }],
         "@angular-eslint/component-selector": ["error", { "type": "element", "prefix": "vo-ecol", "style": "kebab-case" }]
       }
     }

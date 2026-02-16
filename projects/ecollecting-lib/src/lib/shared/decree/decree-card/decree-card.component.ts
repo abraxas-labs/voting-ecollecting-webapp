@@ -34,6 +34,9 @@ export class DecreeCardComponent {
   public showState = false;
 
   @Input()
+  public showType = false;
+
+  @Input()
   public selected = false;
 
   @Input()

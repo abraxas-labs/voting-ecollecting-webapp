@@ -4,19 +4,11 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input, inject } from '@angular/core';
-import { ButtonModule, CardModule, DialogService, SpinnerModule } from '@abraxas/base-components';
+import { Component, inject, Input } from '@angular/core';
+import { ButtonModule, CardModule, SpinnerModule } from '@abraxas/base-components';
 import { Initiative, InitiativeCommittee } from '../../../../../core/models/initiative.model';
-import { firstValueFrom } from 'rxjs';
 import { InitiativeService } from '../../../../../core/services/initiative.service';
-import {
-  ConfirmDialogComponent,
-  ConfirmDialogData,
-  FileChipComponent,
-  FileUploadComponent,
-  ToastService,
-  StoredFile,
-} from 'ecollecting-lib';
+import { ConfirmDialogService, FileChipComponent, FileUploadComponent, StoredFile, ToastService } from 'ecollecting-lib';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -28,7 +20,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class LaunchInitiativeDetailComitteeListsComponent {
   private readonly initiativeService = inject(InitiativeService);
   private readonly toast = inject(ToastService);
-  private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
 
   @Input({ required: true })
   public initiative!: Initiative;
@@ -101,13 +93,11 @@ export class LaunchInitiativeDetailComitteeListsComponent {
   }
 
   private async confirmRemoveList(): Promise<boolean> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    return this.confirmDialogService.confirm({
       title: 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.REMOVE_CONFIRMATION.TITLE',
       message: 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.REMOVE_CONFIRMATION.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    return firstValueFrom(dialogRef.afterClosed());
+    });
   }
 }

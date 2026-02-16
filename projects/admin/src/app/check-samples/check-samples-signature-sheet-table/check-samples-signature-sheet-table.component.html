@@ -112,7 +112,7 @@
       }}</span>
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let row">
-      <div truncateWithTooltip tooltip>{{ row.modifiedByName }}</div>
+      <div truncateWithTooltip tooltip>{{ row.modifiedByName || row.createdByName }}</div>
     </bc-data-cell>
     <bc-footer-cell *footerCellDef> </bc-footer-cell>
   </ng-container>

@@ -14,7 +14,7 @@
   "DECREE": {
     "CREATE": "Erlass erfassen",
     "DIALOG": {
-      "TITLE": "Referendumgsfähiger Erlass",
+      "TITLE": "Referendumsfähiger Erlass",
       "DOMAIN_OF_INFLUENCE_TYPE": "Ebene",
       "OFFICIAL_DESCRIPTION": "Offizielle Bezeichnung",
       "COLLECTION_START_DATE": "Sammelfrist ab",
@@ -29,11 +29,12 @@
     },
     "TABLE": {
       "DOMAIN_OF_INFLUENCE_TYPE": "Ebene",
+      "DOMAIN_OF_INFLUENCE_NAME": "Name",
       "DESCRIPTION": "Referendumsbegehren",
       "COLLECTION_START_DATE": "Start Sammelfrist",
       "COLLECTION_END_DATE": "Ende Sammelfrist",
       "SIGNATURES_ATTESTED": "Unterschriften bescheinigt",
-      "MIN_SIGNATURE_COUNT": "Total nötig",
+      "MIN_SIGNATURE_COUNT": "Total Erforderlich",
       "TOTAL_ATTESTED": "Total bescheinigt",
       "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
       "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
@@ -50,7 +51,7 @@
     }
   },
   "INITIATIVE": {
-    "TITLE": "Initiative ({{description}})",
+    "TITLE": "Initiative \"{{description}}\"",
     "TITLE_ELECTRONIC_SUBMISSION": "Vollelektronische Erfassung",
     "TITLE_PAPER_SUBMISSION": "Regierungsbeschluss ({{governmentDecisionNumber}})",
     "SHOW": "Anzeigen",
@@ -111,7 +112,7 @@
     "GENERAL_INFORMATION": {
       "SUB_TYPE": "Art der Initiative",
       "SUB_TYPE_DEFAULT": "Volksinitiative",
-      "MIN_SIGNATURE_COUNT": "Total nötig",
+      "MIN_SIGNATURE_COUNT": "Total Erforderlich",
       "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
       "WORDING": "Wortlaut des Initiativbegehrens"
     },
@@ -131,12 +132,15 @@
         "DATE_OF_BIRTH": "Geburtsdatum",
         "RESIDENCE": "Wohnort",
         "POLITICAL_RESIDENCE": "Politischer Wohnort",
-        "EMAIL": "E-Mail-Adresse",
+        "STREET": "Strasse",
+        "HOUSE_NUMBER": "Haus-Nr.",
+        "ZIP_CODE": "PLZ",
         "STATE": "Status",
         "POLITICAL_DUTY": "Politisches Amt",
         "ROLE": "Berechtigung",
         "VERIFY": "Prüfen",
         "RESET": "Komiteemitglied wurde zurückgesetzt.",
+        "REJECTED_OR_EXPIRED": "Abgelehnte Komiteemitglieder",
         "SIGNATURE_TYPE": {
           "LABEL": "Bestätigungstyp",
           "0": "AGOV",
@@ -148,7 +152,8 @@
           "2": "unterschrieben",
           "3": "nicht akzeptiert",
           "4": "geprüft",
-          "5": "abgelehnt"
+          "5": "abgelehnt",
+          "6": "Einladung abgelaufen"
         },
         "VERIFY_DIALOG": {
           "TITLE": "Stimmrecht zu Person prüfen",
@@ -174,9 +179,9 @@
     }
   },
   "REFERENDUM": {
-    "TITLE": "Sammlung ({{description}})",
+    "TITLE": "Sammlung \"{{description}}\"",
     "TITLE_ELECTRONIC_SUBMISSION": "Vollelektronische Erfassung",
-    "TITLE_PAPER_SUBMISSION": "Vorerfasste Sammlung ({{number}})",
+    "TITLE_PAPER_SUBMISSION": "Vorerfasste Sammlung \"{{description}}\" (Nummer {{secureIdNumber}})",
     "STATE": "Status Referendum",
     "SHOW": "Anzeigen",
     "DELETE": "Entfernen",
@@ -202,11 +207,12 @@
     }
   },
   "COLLECTION": {
-    "TITLE": "Sammlung ({{description}})",
+    "TITLE": "Sammlung \"{{description}}\"",
     "SIGNATURE_SHEET": "Unterschriftenliste",
     "NO_SIGNATURE_SHEET": "Keine Unterschriftenliste vorhanden.",
     "INFORMAL_REVIEW_REQUESTED": "Informelle Vorprüfung verlangt",
     "SIGNATURE_SHEETS_SUBMITTED": "Sammlung bereits eingereicht. Keine Bescheinigungen mehr möglich.",
+    "MUNICIPALITY_UNLOCKED": "Zur Nacherfassung",
     "GENERAL_INFORMATION": {
       "TITLE": "Allgemeine Angaben",
       "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
@@ -258,21 +264,23 @@
       "ATTEST": "Druck Bescheinigungen",
       "REATTEST": "Nachdruck Bescheinigungen",
       "NO_DATA": {
-        "1": "Es ist keine erfasste Liste vorhanden",
-        "2": "Es ist keine bescheinigte Liste vorhanden"
+        "CREATED": "Es ist keine erfasste Liste vorhanden",
+        "ATTESTED": "Es ist keine bescheinigte Liste vorhanden"
       },
       "NUMBER": "Listen-Nr.",
       "RECEIVED_AT": "Datum",
       "ATTESTED_TIMESTAMP": "Bescheinigt am",
       "MODIFIED_BY_NAME": "Zuletzt bearbeitet durch",
+      "STATE": "Status",
+      "MODIFIED_BY_SUPERIOR_AUTHORITY": "korrigiert",
       "COUNT": {
         "TOTAL": "Total Unterschriften",
         "VALID": "Gültige Unterschriften",
         "INVALID": "Ungültige Unterschriften"
       },
       "OPEN": {
-        "1": "Bearbeiten",
-        "2": "Anzeigen"
+        "EDIT": "Bearbeiten",
+        "SHOW": "Anzeigen"
       },
       "EDIT_DIALOG": {
         "TITLE": {
@@ -294,6 +302,10 @@
         "TITLE": "Unterschriftenliste erfassen",
         "DECREE": "Erlass",
         "COLLECTION": "Sammlung",
+        "MODIFIED_BY_SUPERIOR_AUTHORITY": {
+          "TITLE": "Korrigiert",
+          "MSG": "Korrektur durch Oberbehörde erfolgt."
+        },
         "NUMBER": "Listen-Nr.",
         "RECEIVED_AT": "Eingangsdatum",
         "SIGNATURES_COUNT_TOTAL": "Unterschriften total",
@@ -390,7 +402,7 @@
       },
       "COLLECTION_PERIOD": "Sammelfrist",
       "SIGNATURES_ATTESTED": "Unterschriften bescheinigt",
-      "MIN_SIGNATURE_COUNT": "Total nötig",
+      "MIN_SIGNATURE_COUNT": "Total Erforderlich",
       "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
       "TOTAL_ATTESTED": "Total bescheinigt",
       "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
@@ -411,9 +423,9 @@
         "IS_LOCKED": {
           "TITLE": "Status",
           "true": "gesperrt",
-          "false": "zur Korrektur"
+          "false": "zur Nacherfassung"
         },
-        "UNLOCK": "Gemeinde zur Korrektur zurück",
+        "UNLOCK": "Gemeinde zur Nacherfassung zurück",
         "LOCK": "Gemeinde sperren",
         "SUBMIT_SIGNATURE_SHEETS": "Alle Listen als eingereicht markieren",
         "TOTAL": "Total",
@@ -452,9 +464,10 @@
             "MSG": "Möchten Sie wirklich alle Änderungen verwerfen?"
           },
           "SAVE": {
-            "TITLE": "Bestätigen und schliessen",
+            "TITLE": "Bestätigen",
             "MSG": "Möchten Sie wirklich die Liste mit allen Änderungen bestätigen?",
-            "NEXT_LIST": "Bestätigen und nächste Liste"
+            "NEXT_LIST": "Bestätigen und nächste Liste",
+            "SAVE_AND_CLOSE": "Bestätigen und schließen"
           },
           "INFO": "Bitte überprüfen Sie die Unterschriftenliste. Sie können Änderungen direkt vornehmen.",
           "SEARCH_HINT": "Verwenden Sie folgende Suche, zusätzliche Personen der Unterschriftenliste zu erfassen (Stichdatum der Suche: {{receivedAt}})",
@@ -503,7 +516,7 @@
       "TITLE": "Einstellungen",
       "NO_DATA": "Kein Zugriff auf Wahlkreise",
       "NAME": "Name",
-      "STREET": "Strasse und Hausnr. oder Postfach",
+      "STREET": "Strasse und Hausnummer oder Postfach",
       "ZIP_CODE": "PLZ",
       "LOCALITY": "Ort",
       "PHONE": "Telefon",
@@ -525,6 +538,7 @@
         "ACTIVE": "aktive Beschlüsse"
       },
       "DOI_TYPE": "Ebene",
+      "DOI_TYPE_NAME": "Name",
       "SUB_TYPE": "Art der Initiative",
       "SUB_TYPE_DEFAULT": "Volksinitiative",
       "DESCRIPTION": "Bezeichnung der Initiative",
@@ -541,6 +555,7 @@
         "DATA": "Kopfdaten",
         "DECISION_NR": "Beschluss Nr.",
         "DECISION": "Zulässigkeitsbescheid",
+        "SECURE_ID_NUMBER": "Sammlung-Nr.",
         "COMMITTEE_ADDRESS": {
           "TITLE": "Komiteeadresse",
           "COMMITTEE_OR_PERSON": "Komitee oder Person",
@@ -650,6 +665,7 @@
     "CollectionAlreadySignedException": "Die Sammlung wurde von der Person bereits unterschrieben.",
     "DecreeAlreadySignedException": "Von der Person wurde bereits eine andere Sammlung dieses Erlasses unterschrieben.",
     "TooManyCollectionSignatureSheetSamplesException": "Es gibt nicht genügend Unterschriftenlisten.",
-    "AddressMissingForAttestException": "Ihre Adressinformationen sind noch nicht hinterlegt. Bitte führen Sie diese zuerst unter 'Administration' > 'Einstellungen' nach."
+    "AddressMissingForAttestException": "Ihre Adressinformationen sind noch nicht hinterlegt. Bitte führen Sie diese zuerst unter 'Administration' > 'Einstellungen' nach.",
+    "DuplicatedGovernmentDecisionNumberException": "Die von Ihnen eingegebene Beschlussnummer existiert bereits auf einem anderen Zulässigkeitsbeschluss. Dieselbe Nummer darf nicht auf mehreren Beschlüssen verwendet werden."
   }
 }

@@ -23,7 +23,7 @@ import {
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ConfirmDialogComponent, ConfirmDialogData, FileChipComponent, ImageUploadComponent } from 'ecollecting-lib';
+import { FileChipComponent, ImageUploadComponent } from 'ecollecting-lib';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Collection } from '../../core/models/collection.model';
 import { CollectionDetailPermissionsComponent } from '../../core/components/collection-permissions/collection-permissions.component';
@@ -74,7 +74,6 @@ import {
 })
 export class InitiativeDetailComponent extends AbstractCollectionDetailBase implements OnDestroy {
   private readonly initiativeService = inject(InitiativeService);
-
   protected readonly collectionStates: typeof CollectionState = CollectionState;
   protected initiative?: Initiative;
 
@@ -100,14 +99,13 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
       return;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'INITIATIVE.FINISH_CORRECTION.TITLE',
       message: 'INITIATIVE.FINISH_CORRECTION.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 
@@ -118,6 +116,7 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
 
       if (this.initiative.collection.userPermissions) {
         this.initiative.collection.userPermissions.canFinishCorrection = false;
+        this.initiative.collection.userPermissions.canReturnForCorrection = false;
       }
     } finally {
       this.updating = false;
@@ -191,6 +190,7 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
     this.initiative.collection.state = CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION;
     if (this.initiative.collection.userPermissions) {
       this.initiative.collection.userPermissions.canReturnForCorrection = false;
+      this.initiative.collection.userPermissions.canFinishCorrection = false;
     }
   }
 }

@@ -21,10 +21,10 @@ export class DefaultRedirectGuard implements CanActivate {
   public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean | UrlTree> {
     const roles = (await this.auth.getRoles()) as Role[];
 
-    if (roles.includes('Zertifikatsverwalter')) {
-      return this.router.createUrlTree(['-', administrationUrl, certificatesUrl]);
-    } else if (roles.includes('Stammdatenverwalter')) {
+    if (roles.includes('Stammdatenverwalter')) {
       return this.router.createUrlTree(['-', administrationUrl, decreesUrl]);
+    } else if (roles.includes('Zertifikatsverwalter')) {
+      return this.router.createUrlTree(['-', administrationUrl, certificatesUrl]);
     }
 
     return this.router.createUrlTree(['-', '404']);

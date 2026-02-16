@@ -4,13 +4,15 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { UserProfile } from '../models/user-profile.model';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService as SharedAuthenticationService, storage, storageKeyPrefix } from 'ecollecting-lib';
+import { AuthServiceClient } from '@abraxas/voting-ecollecting-proto/citizen';
+import { Empty } from '@ngx-grpc/well-known-types';
 
 const urlStateKey = storageKeyPrefix + 'auth_path';
 const forceLoginKey = storageKeyPrefix + 'force_login';
@@ -21,6 +23,7 @@ const forceLoginKey = storageKeyPrefix + 'force_login';
 export class AuthenticationService implements SharedAuthenticationService {
   private readonly oauthService = inject(OAuthService);
   private readonly router = inject(Router);
+  private readonly authServiceClient = inject(AuthServiceClient);
 
   private authenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _userProfile?: UserProfile;
@@ -47,6 +50,7 @@ export class AuthenticationService implements SharedAuthenticationService {
 
     if (storage.getItem(forceLoginKey) != 'true' && this.oauthService.hasValidAccessToken()) {
       try {
+        await this.trackLogin();
         await this.loadUserProfile();
         this.authenticated$.next(true);
         await this.tryNavigateToStoredUrl();
@@ -66,6 +70,7 @@ export class AuthenticationService implements SharedAuthenticationService {
     if (!validToken) {
       return false;
     }
+    await this.trackLogin();
 
     await this.loadUserProfile();
     this.authenticated$.next(true);
@@ -167,5 +172,9 @@ export class AuthenticationService implements SharedAuthenticationService {
 
     await this.router.navigateByUrl(urlState);
     storage.removeItem(urlStateKey);
+  }
+
+  private async trackLogin(): Promise<void> {
+    await firstValueFrom(this.authServiceClient.trackLogin(new Empty()));
   }
 }

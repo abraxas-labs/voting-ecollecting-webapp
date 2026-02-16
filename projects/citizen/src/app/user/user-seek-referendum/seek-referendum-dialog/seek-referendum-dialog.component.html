@@ -18,14 +18,14 @@
           subscriptSizing="dynamic"
         ></bc-radio-button>
         <bc-text
-          [formControl]="form.controls.number"
-          [label]="'SEEK_REFERENDUM.DIALOG.PAPER_SUBMISSION.NUMBER' | translate"
+          [formControl]="form.controls.secureIdNumber"
+          [label]="'SEEK_REFERENDUM.DIALOG.PAPER_SUBMISSION.SECURE_ID_NUMBER' | translate"
           [required]="true"
           [showDefaultErrors]="false"
-          [error]="form.controls.number.invalid && form.controls.number.dirty"
+          [error]="form.controls.secureIdNumber.invalid && form.controls.secureIdNumber.dirty"
           subscriptSizing="dynamic"
         >
-          @for (error of form.controls.number.errors ?? {} | keyvalue; track error) {
+          @for (error of form.controls.secureIdNumber.errors ?? {} | keyvalue; track error) {
             <bc-error>
               {{ validationMessagesProvider.getMessage(error.key, { requiredLength: error.value?.requiredLength ?? 0 }) ?? error.value }}
             </bc-error>

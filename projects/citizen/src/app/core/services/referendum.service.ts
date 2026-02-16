@@ -34,8 +34,8 @@ export class ReferendumService implements EntityGetter<Referendum> {
     return resp.id;
   }
 
-  public async setInPreparation(referendumNumber: string): Promise<string> {
-    const resp = await lastValueFrom(this.client.setInPreparation(new SetReferendumInPreparationRequest({ referendumNumber })));
+  public async setInPreparation(secureIdNumber: string): Promise<string> {
+    const resp = await lastValueFrom(this.client.setInPreparation(new SetReferendumInPreparationRequest({ secureIdNumber })));
     return resp.id;
   }
 

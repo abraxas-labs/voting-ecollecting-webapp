@@ -5,12 +5,9 @@
  */
 
 import { Directive, inject, OnInit } from '@angular/core';
-import { DialogService } from '@abraxas/base-components';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
   generateSecureRandomString,
   getGrpcErrorOrThrow,
   isGrpcNotFoundError,
@@ -28,7 +25,7 @@ export abstract class ApprovalPageBaseComponent<T> implements OnInit {
   protected readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthenticationService);
-  private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
 
   protected data?: T;
   protected notFound = false;
@@ -100,14 +97,13 @@ export abstract class ApprovalPageBaseComponent<T> implements OnInit {
 
   protected abstract loadDataByToken(token: string): Promise<T>;
 
-  protected async confirm(action: 'IAM' | 'REJECT'): Promise<boolean> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+  private async confirm(action: 'IAM' | 'REJECT'): Promise<boolean> {
+    return this.confirmDialogService.confirm({
       title: `${this.i18nGroup}.${action}.CONFIRM.TITLE`,
       message: `${this.i18nGroup}.${action}.CONFIRM.MESSAGE`,
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-    return firstValueFrom(dialogRef.afterClosed());
+    });
   }
 
   private async continueAccept(state: string): Promise<void> {

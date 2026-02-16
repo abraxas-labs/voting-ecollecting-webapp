@@ -37,7 +37,8 @@
         <app-signature-sheet-table
           #createdTable
           [collectionId]="collection.id"
-          [state]="sheetStates.COLLECTION_SIGNATURE_SHEET_STATE_CREATED"
+          [states]="[sheetStates.COLLECTION_SIGNATURE_SHEET_STATE_CREATED]"
+          [canEdit]="true"
           (selectionChange)="selected = $event"></app-signature-sheet-table>
       }
 
@@ -58,7 +59,12 @@
       <app-signature-sheet-table
         #attestedTable
         [collectionId]="collection.id"
-        [state]="sheetStates.COLLECTION_SIGNATURE_SHEET_STATE_ATTESTED"
+        [states]="[
+          sheetStates.COLLECTION_SIGNATURE_SHEET_STATE_ATTESTED,
+          sheetStates.COLLECTION_SIGNATURE_SHEET_STATE_SUBMITTED,
+          sheetStates.COLLECTION_SIGNATURE_SHEET_STATE_CONFIRMED,
+        ]"
+        [canEdit]="false"
         [paged]="true"
         (selectionChange)="selectedAttested = $event"></app-signature-sheet-table>
     </div>

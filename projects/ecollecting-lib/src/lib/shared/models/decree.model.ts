@@ -23,6 +23,7 @@ export interface Decree {
   attestedCollectionCount?: CollectionCount;
   state: DecreeState;
   cameNotAboutReason?: CollectionCameNotAboutReason;
+  domainOfInfluenceName: string;
 }
 
 export interface SimpleDecree {

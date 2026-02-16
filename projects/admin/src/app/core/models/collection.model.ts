@@ -18,7 +18,7 @@ import {
 import { Collection as CollectionShared } from 'projects/ecollecting-lib/src/lib/shared/models/collection.model';
 import { CollectionPermissionRole } from '@abraxas/voting-ecollecting-proto';
 import { mapToPerson, Person } from './person.model';
-import { CollectionCount } from 'ecollecting-lib';
+import { CollectionCount, fromProtoDate } from 'ecollecting-lib';
 
 export { CollectionProto };
 
@@ -44,6 +44,7 @@ export interface CollectionSignatureSheet {
   };
   userPermissions?: CollectionSignatureSheetUserPermission;
   state: CollectionSignatureSheetState;
+  modifiedBySuperiorAuthority: boolean;
 }
 
 export interface CollectionSignatureSheetCandidate {
@@ -120,6 +121,7 @@ export interface CollectionMunicipality {
 
 export interface Collection extends CollectionShared {
   userPermissions?: CollectionUserPermissions;
+  secureIdNumber?: string;
 }
 
 export interface SubmitSignatureSheetsResponse {
@@ -135,8 +137,8 @@ export interface SubmitCollectionMunicipalitySignatureSheetsResponse
 export function mapCollectionToModel(collectionProto: CollectionProto): Collection {
   return {
     ...collectionProto.toObject(),
-    collectionStartDate: collectionProto.collectionStartDate?.toDate(),
-    collectionEndDate: collectionProto.collectionEndDate?.toDate(),
+    collectionStartDate: fromProtoDate(collectionProto.collectionStartDate),
+    collectionEndDate: fromProtoDate(collectionProto.collectionEndDate),
   } as Collection;
 }
 
@@ -157,9 +159,9 @@ export function mapToCollectionSignatureSheets(sheets: CollectionSignatureSheetP
 export function mapToCollectionSignatureSheet(sheet: CollectionSignatureSheetProto): CollectionSignatureSheet {
   return {
     ...sheet.toObject(),
-    receivedAt: sheet.receivedAt!.toDate(),
+    receivedAt: fromProtoDate(sheet.receivedAt),
     attestedAt: sheet.attestedAt?.toDate(),
-    modifiedByName: sheet.modifiedByName ?? undefined,
+    modifiedByName: sheet.modifiedByName,
     userPermissions: sheet.userPermissions?.toObject(),
   } as CollectionSignatureSheet;
 }

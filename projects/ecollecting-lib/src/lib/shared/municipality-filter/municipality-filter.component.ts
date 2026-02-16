@@ -48,7 +48,12 @@ export class MunicipalityFilterComponent<T extends DomainOfInfluence = DomainOfI
     }
   }
 
-  public selectDoi(bfs: string): void {
+  public selectDoi(bfs?: string): void {
+    if (!bfs) {
+      this.selectedDomainOfInfluenceChange.emit(undefined);
+      return;
+    }
+
     const doi = this.domainOfInfluences?.find(d => d.bfs === bfs);
     if (doi && doi !== this.selectedDomainOfInfluence) {
       this.selectedDomainOfInfluence = doi;

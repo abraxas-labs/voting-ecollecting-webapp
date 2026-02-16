@@ -7,8 +7,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
   BaseDialogWithUnsavedChangesCheckComponent,
-  ConfirmDialogComponent,
-  ConfirmDialogData,
   DeepRequired,
   DialogComponent,
   EnumItemDescriptionUtils,
@@ -36,7 +34,6 @@ import { InitiativeService } from '../../../core/services/initiative.service';
 import { Initiative } from '../../../core/models/initiative.model';
 import { AdmissibilityDecisionState } from '@abraxas/voting-ecollecting-proto/admin';
 import { DomainOfInfluenceService } from '../../../core/services/domain-of-influence.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admissibility-decision-dialog',
@@ -219,15 +216,14 @@ export class AdmissibilityDecisionDialogComponent
             this.dialogData.initiative?.admissibilityDecisionState !== values.admissibilityDecisionState &&
             !this.canEditGeneralInformation
           ) {
-            const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+            const ok = await this.confirmDialogService.confirm({
               title: 'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.CONFIRM_ADMISSIBILITY_DECISION_STATE.TITLE',
               message:
                 'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.CONFIRM_ADMISSIBILITY_DECISION_STATE.' + values.admissibilityDecisionState,
               confirmText: 'APP.YES',
               discardText: 'APP.DISCARD',
-            } satisfies ConfirmDialogData);
-
-            if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+            });
+            if (!ok) {
               return;
             }
           }
@@ -314,7 +310,7 @@ export class AdmissibilityDecisionDialogComponent
       initiativeId: this.formBuilder.control(undefined),
       governmentDecisionNumber: this.formBuilder.control('', {
         validators: [Validators.maxLength(50), Validators.required],
-        asyncValidators: [AsyncInputValidators.simpleSlText],
+        asyncValidators: [AsyncInputValidators.complexSlText],
       }),
       admissibilityDecisionState: this.formBuilder.control(undefined, {
         validators: [Validators.required],

@@ -32,15 +32,22 @@ export interface Initiative extends Omit<InitiativeShared, 'collection'> {
 
 export interface InitiativeCommittee {
   committeeLists: StoredFile[];
-  committeeMembers: InitiativeCommitteeMember[];
+  activeCommitteeMembers: InitiativeCommitteeMember[];
+  rejectedOrExpiredCommitteeMembers: InitiativeCommitteeMember[];
   approvedMembersCountOk: boolean;
   approvedMembersCount: number;
   totalMembersCount: number;
   requiredApprovedMembersCount: number;
 }
 
-export interface InitiativeCommitteeMember extends Omit<InitiativeCommitteeMemberProto.AsObject, 'dateOfBirth'> {
+export interface InitiativeCommitteeMember extends Omit<InitiativeCommitteeMemberProto.AsObject, 'dateOfBirth' | 'userPermissions'> {
   dateOfBirth: Date;
+  userPermissions?: InitiativeCommitteeMemberUserPermissions;
+}
+
+export interface InitiativeCommitteeMemberUserPermissions {
+  canReset: boolean;
+  canVerify: boolean;
 }
 
 export interface VerifyInitiativeCommitteeMemberResponse
@@ -73,7 +80,8 @@ export function mapInitiativeToModel(initiativeProto: InitiativeProto): Initiati
 export function mapInitiativeCommittee(committee: InitiativeCommitteeProto): InitiativeCommittee {
   return {
     ...committee.toObject(),
-    committeeMembers: committee.committeeMembers?.map(m => mapInitiativeCommitteeMember(m)),
+    activeCommitteeMembers: committee.activeCommitteeMembers?.map(m => mapInitiativeCommitteeMember(m)),
+    rejectedOrExpiredCommitteeMembers: committee.rejectedOrExpiredCommitteeMembers?.map(m => mapInitiativeCommitteeMember(m)),
   } as InitiativeCommittee;
 }
 

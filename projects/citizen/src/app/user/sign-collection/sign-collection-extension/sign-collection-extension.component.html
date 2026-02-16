@@ -21,7 +21,7 @@
   @if (collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT) {
     <ng-content select="[cameNotAboutReason]"></ng-content>
   } @else if (collection.isSigned) {
-    <bc-alert-bar [displayDismissAction]="false" [message]="'SIGN_COLLECTION.ALREADY_SIGNED' | translate"></bc-alert-bar>
+    <bc-alert-bar [displayDismissAction]="false" [message]="('SIGN_COLLECTION.ALREADY_SIGNED.' + collection.signatureType) | translate"></bc-alert-bar>
   } @else if (
     collection.periodState === collectionPeriodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION &&
     collection.state === collectionStates.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED

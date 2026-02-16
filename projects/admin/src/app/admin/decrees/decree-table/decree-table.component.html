@@ -24,6 +24,14 @@
       <bc-status-label [label]="'DOMAIN_OF_INFLUENCE.TYPES.' + row.domainOfInfluenceType | translate"></bc-status-label>
     </bc-data-cell>
   </ng-container>
+  <ng-container [columnDef]="domainOfInfluenceNameColumn">
+    <bc-header-cell *headerCellDef filter filterType="text" sort>
+      <span translate truncateWithTooltip tooltip>DECREE.TABLE.DOMAIN_OF_INFLUENCE_NAME</span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      {{ row.domainOfInfluenceName }}
+    </bc-data-cell>
+  </ng-container>
   <ng-container [columnDef]="descriptionColumn">
     <bc-header-cell *headerCellDef filter filterType="text" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.DESCRIPTION</span>

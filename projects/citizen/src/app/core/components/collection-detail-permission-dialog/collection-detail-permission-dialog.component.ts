@@ -6,8 +6,8 @@
 
 import { Component, inject } from '@angular/core';
 import { RadioButton, RadioButtonModule, TextModule } from '@abraxas/base-components';
-import { TranslatePipe } from '@ngx-translate/core';
-import { BaseDialogWithUnsavedChangesCheckComponent, DialogComponent, EnumItemDescriptionUtils } from 'ecollecting-lib';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { BaseDialogWithUnsavedChangesCheckComponent, DialogComponent } from 'ecollecting-lib';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CollectionPermissionRole, CollectionPermissionState } from '@abraxas/voting-ecollecting-proto';
 import { AsyncInputValidators } from '@abraxas/voting-lib';
@@ -26,6 +26,7 @@ export class CollectionDetailPermissionDialogComponent extends BaseDialogWithUns
 > {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly collectionService = inject(CollectionService);
+  private readonly i18n = inject(TranslateService);
 
   protected form!: FormGroup<Form>;
   protected saving: boolean = false;
@@ -35,18 +36,20 @@ export class CollectionDetailPermissionDialogComponent extends BaseDialogWithUns
 
   constructor() {
     super();
-    const enumItemDescriptionUtils = inject(EnumItemDescriptionUtils);
     const dialogData = inject<CollectionDetailPermissionDialogData>(MAT_DIALOG_DATA);
 
     this.collectionId = dialogData.collectionId;
 
-    this.roleChoices = enumItemDescriptionUtils
-      .getArrayWithDescriptions<CollectionPermissionRole>(CollectionPermissionRole, 'COLLECTION_PERMISSION_ROLES.')
-      .filter(x => x.value !== CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_OWNER)
-      .map(item => ({
-        value: item.value,
-        displayText: item.description,
-      }));
+    this.roleChoices = [
+      {
+        value: CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_DEPUTY,
+        displayText: this.i18n.instant('COLLECTION_PERMISSION_ROLES.' + CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_DEPUTY),
+      },
+      {
+        value: CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_READER,
+        displayText: this.i18n.instant('COLLECTION_PERMISSION_ROLES.' + CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_READER),
+      },
+    ];
 
     this.buildForm();
   }
@@ -69,6 +72,9 @@ export class CollectionDetailPermissionDialogComponent extends BaseDialogWithUns
           ...values,
           collectionId: this.collectionId,
           state: CollectionPermissionState.COLLECTION_PERMISSION_STATE_PENDING,
+          userPermissions: {
+            canResend: true,
+          },
         }),
       });
     } finally {

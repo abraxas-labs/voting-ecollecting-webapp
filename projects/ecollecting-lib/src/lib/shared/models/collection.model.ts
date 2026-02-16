@@ -6,6 +6,7 @@
 
 import { CollectionPeriodState, CollectionState, CollectionType } from '@abraxas/voting-ecollecting-proto';
 import { StoredFile } from './file.model';
+import { CollectionSignatureType } from '@abraxas/voting-ecollecting-proto/citizen';
 
 export interface Collection {
   id: string;
@@ -23,6 +24,7 @@ export interface Collection {
   informalReviewRequested: boolean;
   attestedCollectionCount?: CollectionCount;
   isSigned?: boolean;
+  signatureType?: CollectionSignatureType;
   signAcceptedAcrs?: string[];
   collectionStartDate?: Date;
   collectionEndDate?: Date;

@@ -7,7 +7,7 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { DividerModule, ReadonlyModule } from '@abraxas/base-components';
+import { DividerModule, ReadonlyModule, StatusLabelModule, TooltipModule } from '@abraxas/base-components';
 import { Referendum } from '../../../core/models/referendum.model';
 import { Initiative } from '../../../core/models/initiative.model';
 import { Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ import { CollectionSignatureSheet } from '../../../core/models/collection.model'
 @Component({
   selector: 'app-signature-sheet-header',
   templateUrl: './signature-sheet-header.component.html',
-  imports: [TranslatePipe, DecimalPipe, DatePipe, ReadonlyModule, DividerModule],
+  imports: [TranslatePipe, DecimalPipe, DatePipe, ReadonlyModule, DividerModule, StatusLabelModule, TooltipModule],
   styleUrls: ['./signature-sheet-header.component.scss'],
 })
 export class SignatureSheetHeaderComponent implements OnDestroy {

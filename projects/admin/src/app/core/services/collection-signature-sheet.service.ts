@@ -35,7 +35,7 @@ import {
   UpdateSignatureSheetRequest,
 } from '@abraxas/voting-ecollecting-proto/admin';
 import { lastValueFrom, map, Observable } from 'rxjs';
-import { mapToPage, openBlobInNewTab, Page, Pageable } from 'ecollecting-lib';
+import { mapToPage, openBlobInNewTab, Page, Pageable, toProtoDate } from 'ecollecting-lib';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import {
@@ -113,7 +113,7 @@ export class CollectionSignatureSheetService {
         new AddSignatureSheetRequest({
           collectionId,
           number,
-          receivedAt: Timestamp.fromDate(date),
+          receivedAt: toProtoDate(date),
           signatureCountTotal,
         }),
       ),
@@ -128,7 +128,7 @@ export class CollectionSignatureSheetService {
         new UpdateSignatureSheetRequest({
           collectionId,
           signatureSheetId,
-          receivedAt: Timestamp.fromDate(date),
+          receivedAt: toProtoDate(date),
           signatureCountTotal,
         }),
       ),

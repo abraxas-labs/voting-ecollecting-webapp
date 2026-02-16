@@ -113,8 +113,8 @@ export class InitiativeService {
       this.client.setCollectionPeriod(
         new SetCollectionPeriodInitiativeRequest({
           id,
-          collectionStartDate: Timestamp.fromDate(collectionStartDate),
-          collectionEndDate: Timestamp.fromDate(collectionEndDate),
+          collectionStartDate: toProtoDate(collectionStartDate),
+          collectionEndDate: toProtoDate(collectionEndDate),
         }),
       ),
     );
@@ -125,8 +125,8 @@ export class InitiativeService {
       this.client.enable(
         new EnableInitiativeRequest({
           id,
-          collectionStartDate: collectionStartDate ? Timestamp.fromDate(collectionStartDate) : undefined,
-          collectionEndDate: collectionEndDate ? Timestamp.fromDate(collectionEndDate) : undefined,
+          collectionStartDate: collectionStartDate ? toProtoDate(collectionStartDate) : undefined,
+          collectionEndDate: collectionEndDate ? toProtoDate(collectionEndDate) : undefined,
         }),
       ),
     );

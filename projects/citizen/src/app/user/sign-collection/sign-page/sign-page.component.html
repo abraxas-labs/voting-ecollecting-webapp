@@ -37,7 +37,7 @@
           class="block mt-3"
           color="info"
           [displayDismissAction]="false"
-          [message]="'SIGN_COLLECTION.ALREADY_SIGNED' | translate"
+          [message]="('SIGN_COLLECTION.ALREADY_SIGNED.' + collection.signatureType) | translate"
         ></bc-alert-bar>
       } @else if ((maxSignatures ?? 0) <= (collection.attestedCollectionCount?.electronicCitizenCount ?? 0) && periodState === periodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION) {
         <bc-alert-bar

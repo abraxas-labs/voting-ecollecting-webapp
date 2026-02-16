@@ -45,6 +45,7 @@ export class SignatureSheetEditDialogComponent
   protected saving = false;
 
   protected readonly isNew: boolean;
+  protected readonly today = new Date();
 
   constructor() {
     super();

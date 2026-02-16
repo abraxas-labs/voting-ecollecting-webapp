@@ -28,6 +28,7 @@
       [required]="true"
       [formControl]="form.controls.description"
       [showDefaultErrors]="true"
+      [rows]="8"
     ></bc-textarea>
     <bc-date
       [value]="(decree.collectionStartDate | date)!"
@@ -92,9 +93,13 @@
           [showDefaultErrors]="true"
           subscriptSizing="dynamic"
         ></bc-text>
-        <a [href]="decree.link" target="_blank">
-          <bc-icon [icon]="'external-link'" iconColor="primary"></bc-icon>
-        </a>
+        <bc-link
+          [href]="decree.link"
+          target="_blank"
+          [state]="form.controls.link.valid && decree.link ? 'default' : 'disabled'">
+          <bc-icon [icon]="'external-link'"
+                   [iconColor]="form.controls.link.valid && decree.link ? 'primary' : 'basic'"></bc-icon>
+        </bc-link>
       </div>
     }
   </div>

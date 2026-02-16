@@ -52,7 +52,7 @@
         <bc-link [href]="'https://www.sg.ch/f/impressum.html'" [target]="'_blank'">{{ 'APP.FOOTER.IMPRINT' | translate }}</bc-link>
         <bc-link [href]="'https://www.sg.ch/f/datenschutz-sg-ch.html'" [target]="'_blank'">{{ 'APP.FOOTER.DATA_PROTECTION' | translate }}</bc-link>
         <bc-link [routerLink]="['-', accessibilityUrl]">{{ 'APP.FOOTER.ACCESSIBILITY' | translate }}</bc-link>
-        <span>{{ 'APP.FOOTER.COPYRIGHT' | translate: { year: now.getFullYear() } }}</span>
+        <span truncateWithTooltip tooltip>{{ 'APP.FOOTER.COPYRIGHT' | translate: { year: now.getFullYear() } }}</span>
       </div>
     </div>
 

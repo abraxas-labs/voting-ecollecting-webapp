@@ -139,7 +139,7 @@ export class SignatureSheetOverviewComponent implements OnDestroy {
 
     if (move) {
       this.createdTable.remove(sheets);
-      await this.attestedTable.add(sheets);
+      await this.attestedTable.reload();
     }
   }
 

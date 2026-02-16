@@ -8,7 +8,7 @@
       (referendum.collection.isElectronicSubmission
         ? 'SEEK_REFERENDUM.DETAIL.TITLE_ELECTRONIC_SUBMISSION'
         : 'SEEK_REFERENDUM.DETAIL.TITLE_PAPER_SUBMISSION'
-      ) | translate: { description: referendum.collection.description, number: referendum.number }
+      ) | translate: { description: referendum.collection.description }
     "
         (actionClick)="back()"
         [backBtnAriaLabel]="'APP.BACK' | translate"
@@ -68,7 +68,6 @@
           [link]="detailOverviewUrl"
           [target]="'self'"
           [active]="active === detailOverviewUrl"
-          (click)="active = detailOverviewUrl"
         ></bc-nav-item>
         <bc-nav-item
           [label]="'SEEK_REFERENDUM.DETAIL.NAV.GENERAL_INFORMATION' | translate"
@@ -76,7 +75,6 @@
           [link]="detailGeneralInformationUrl"
           [target]="'self'"
           [active]="active === detailGeneralInformationUrl"
-          (click)="active = detailGeneralInformationUrl"
         ></bc-nav-item>
         <bc-nav-item
           [label]="'SEEK_REFERENDUM.DETAIL.NAV.SIGNATURE_LIST' | translate"
@@ -84,7 +82,6 @@
           [link]="detailSignatureSheetUrl"
           [target]="'self'"
           [active]="active === detailSignatureSheetUrl"
-          (click)="active = detailSignatureSheetUrl"
         ></bc-nav-item>
         <bc-nav-item
           [label]="'SEEK_REFERENDUM.DETAIL.NAV.PERMISSIONS' | translate"
@@ -92,7 +89,6 @@
           [link]="detailPermissionsUrl"
           [target]="'self'"
           [active]="active === detailPermissionsUrl"
-          (click)="active = detailPermissionsUrl"
         ></bc-nav-item>
       </bc-nav-drawer>
       <div class="content">
@@ -113,6 +109,7 @@
           icon="clipboard"
           [label]="'SEEK_REFERENDUM.DETAIL.SUBMIT' | translate"
           [disabled]="!referendum.collection.userPermissions?.canSubmit"
+          [loading]="submitting"
           (buttonClick)="submit()"
         ></bc-button>
       }

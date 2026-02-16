@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import {
   ButtonModule,
   CardModule,
@@ -16,8 +16,8 @@ import {
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom, Subscription } from 'rxjs';
-import { ConfirmDialogComponent, ConfirmDialogData, FileChipComponent, FileUploadComponent, ToastService } from 'ecollecting-lib';
+import { Subscription } from 'rxjs';
+import { ConfirmDialogService, FileChipComponent, FileUploadComponent, ToastService } from 'ecollecting-lib';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { CollectionService } from '../../services/collection.service';
@@ -44,6 +44,7 @@ import { Collection } from '../../models/collection.model';
 })
 export class CollectionDetailSignatureSheetComponent implements OnDestroy {
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly collectionService = inject(CollectionService);
   private readonly toast = inject(ToastService);
 
@@ -72,14 +73,13 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
     }
 
     if (this.collection.signatureSheetTemplate) {
-      const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+      const ok = await this.confirmDialogService.confirm({
         title: 'COLLECTION.DETAIL.SIGNATURE_SHEET.OVERWRITE_FILE_CONFIRMATION.TITLE',
         message: 'COLLECTION.DETAIL.SIGNATURE_SHEET.OVERWRITE_FILE_CONFIRMATION.MSG',
         confirmText: 'APP.YES',
         discardText: 'APP.DISCARD',
-      } satisfies ConfirmDialogData);
-
-      if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+      });
+      if (!ok) {
         return;
       }
     }
@@ -144,14 +144,12 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
   }
 
   public async confirmRemoveFile(): Promise<boolean> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    return this.confirmDialogService.confirm({
       title: 'COLLECTION.DETAIL.SIGNATURE_SHEET.REMOVE_FILE_CONFIRMATION.TITLE',
       message: 'COLLECTION.DETAIL.SIGNATURE_SHEET.REMOVE_FILE_CONFIRMATION.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    return firstValueFrom(dialogRef.afterClosed());
+    });
   }
 
   public async generatePreview(): Promise<void> {

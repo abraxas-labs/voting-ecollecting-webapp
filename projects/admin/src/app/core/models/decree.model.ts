@@ -29,8 +29,8 @@ export function mapDecreeToModel(decreeProto: DecreeProto, includeCollections: b
   const collections = includeCollections ? decreeProto.collections?.map(x => mapReferendumToModel(x)) : [];
   return {
     ...decreeProto.toObject(),
-    collectionStartDate: decreeProto.collectionStartDate?.toDate(),
-    collectionEndDate: decreeProto.collectionEndDate?.toDate(),
+    collectionStartDate: fromProtoDate(decreeProto.collectionStartDate),
+    collectionEndDate: fromProtoDate(decreeProto.collectionEndDate),
     sensitiveDataExpiryDate: fromProtoDate(decreeProto.sensitiveDataExpiryDate),
     collections: collections,
   } as Decree;

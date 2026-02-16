@@ -41,6 +41,8 @@
       <span class="detail">{{ activeCertificate.caCertificate.notAfter | date: 'dd.MM.yyyy HH:mm:ss' }}</span>
       <bc-label [label]="'ADMIN.CERTS.THUMBPRINT_CA' | translate"></bc-label>
       <span class="detail">{{ activeCertificate.caCertificate.thumbprint }}</span>
+      <bc-label [label]="'ADMIN.CERTS.SUBJECT' | translate"></bc-label>
+      <span class="detail">{{ activeCertificate.caCertificate.subject }}</span>
       <bc-button footer
                  icon="copy"
                  variant="tertiary"

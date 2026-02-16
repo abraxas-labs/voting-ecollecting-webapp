@@ -26,7 +26,7 @@
               (referendum.collection.isElectronicSubmission
                 ? 'REFERENDUM.TITLE_ELECTRONIC_SUBMISSION'
                 : 'REFERENDUM.TITLE_PAPER_SUBMISSION'
-              ) | translate: { number: referendum.number }
+              ) | translate: { description: referendum.collection.description, secureIdNumber: referendum.collection.secureIdNumber }
             "
           ></bc-card-title>
           <div class="flex w-full justify-end gap-3 p-2 items-center">
@@ -64,10 +64,10 @@
         </bc-card-header>
         <bc-card-content class="flex flex-col gap-2">
           <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.DESCRIPTION' | translate">
-            {{ referendum.collection.description }}
+            <span class="user-text">{{ referendum.collection.description }}</span>
           </bc-readonly>
           <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.REASON' | translate">
-            {{ referendum.collection.reason ? referendum.collection.reason : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}
+            <span class="user-text">{{ referendum.collection.reason ? referendum.collection.reason : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}</span>
           </bc-readonly>
           <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.LINK' | translate">
             @if (referendum.collection.link) {
@@ -115,7 +115,7 @@
                 [canDelete]="referendum.collection.userPermissions?.canEdit ?? false"
               ></vo-ecol-image-upload>
             } @else {
-              <bc-readonly class="flex-1" [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE_OPTIONAL' | translate">
+              <bc-readonly class="flex-1" [label]="'COLLECTION.GENERAL_INFORMATION.LOGO_OPTIONAL' | translate">
                 {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
               </bc-readonly>
             }

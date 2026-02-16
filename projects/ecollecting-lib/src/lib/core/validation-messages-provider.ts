@@ -17,6 +17,7 @@ export class ValidationMessagesProvider extends LibValidationMessagesProvider {
     this.setTranslation(Language.DE, {
       minlength: 'Die Mindestlänge beträgt {{requiredLength}} Zeichen',
       maxlength: 'Die maximale Länge beträgt {{requiredLength}} Zeichen',
+      pattern: 'Das Format ist nicht korrekt',
     });
   }
 }

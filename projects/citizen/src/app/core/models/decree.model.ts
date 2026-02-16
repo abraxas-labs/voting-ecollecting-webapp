@@ -5,7 +5,7 @@
  */
 
 import { Decree as DecreeProto, DecreeGroup as DecreeGroupProto } from '@abraxas/voting-ecollecting-proto/citizen';
-import { Decree as DecreeShared } from 'ecollecting-lib';
+import { Decree as DecreeShared, fromProtoDate } from 'ecollecting-lib';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { mapReferendumToModel, Referendum } from './referendum.model';
 
@@ -30,8 +30,8 @@ export function mapDecreeToModel(decreeProto: DecreeProto, includeCollections: b
   const collections = includeCollections ? decreeProto.collections?.map(x => mapReferendumToModel(x)) : [];
   return {
     ...decreeProto.toObject(),
-    collectionStartDate: decreeProto.collectionStartDate?.toDate(),
-    collectionEndDate: decreeProto.collectionEndDate?.toDate(),
+    collectionStartDate: fromProtoDate(decreeProto.collectionStartDate),
+    collectionEndDate: fromProtoDate(decreeProto.collectionEndDate),
     collections: collections,
   } as Decree;
 }

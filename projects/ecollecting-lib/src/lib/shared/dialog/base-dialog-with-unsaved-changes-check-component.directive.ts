@@ -4,16 +4,17 @@
  * For license information see LICENSE file.
  */
 
-import { Directive, HostListener, OnDestroy, inject } from '@angular/core';
+import { Directive, HostListener, inject, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DialogService } from '@abraxas/base-components';
-import { ConfirmDialogComponent, ConfirmDialogData } from '../confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogService } from '../../core/confirm-dialog.service';
 
 @Directive()
 export abstract class BaseDialogWithUnsavedChangesCheckComponent<T, R = any> implements OnDestroy {
   protected dialogRef = inject<MatDialogRef<T, R>>(MatDialogRef);
   protected dialogService = inject(DialogService);
+  protected confirmDialogService = inject(ConfirmDialogService);
 
   private backdropClickSubscription: Subscription;
 
@@ -51,13 +52,12 @@ export abstract class BaseDialogWithUnsavedChangesCheckComponent<T, R = any> imp
       return false;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.CHANGES.TITLE',
       message: 'APP.CHANGES.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-    const result = await firstValueFrom(dialogRef.afterClosed());
-    return !result;
+    });
+    return !ok;
   }
 }

@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, HostListener, inject, OnDestroy } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, ViewChild } from '@angular/core';
 import {
   ButtonModule,
   DialogService,
@@ -28,8 +28,7 @@ import { SignatureSheetHeaderComponent } from '../../signature-sheets/signature-
 import { SignatureSheetCitizenTableComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-citizen-table/signature-sheet-citizen-table.component';
 import { SignatureSheetPersonSearchComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-person-search/signature-sheet-person-search.component';
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
   createComparer,
   emptyPage,
   insertSorted,
@@ -77,6 +76,7 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnDestroy {
   private readonly collectionSignatureSheetService = inject(CollectionSignatureSheetService);
   private readonly toast = inject(ToastService);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
 
   protected collection?: Referendum | Initiative;
   protected sheet?: CollectionSignatureSheet;
@@ -90,6 +90,10 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnDestroy {
   private lastUsedFilter?: PersonFilterData;
   private addedPersonRegisterIds: string[] = [];
   private originalSheet?: CollectionSignatureSheet;
+  private originalCitizens?: Person[];
+
+  @ViewChild(SignatureSheetPersonSearchComponent)
+  protected personSearchComponent?: SignatureSheetPersonSearchComponent;
 
   constructor() {
     this.routeSubscription = this.route.data.subscribe(({ collection, sheet }) => this.loadData(collection, sheet));
@@ -277,6 +281,14 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnDestroy {
     this.sheet.count.invalid += delta;
   }
 
+  protected resetChanges(): void {
+    this.sheet = cloneDeep(this.originalSheet);
+    this.citizens = cloneDeep(this.originalCitizens ?? []);
+    this.personSearchComponent?.reset();
+    this.personCandidatesPage = emptyPage<CollectionSignatureSheetCandidate>();
+    this.addedPersonRegisterIds = [];
+  }
+
   private updateCandidatesWithTemporarilyExistingSignature(): void {
     if (!this.collection || !this.sheet) {
       return;
@@ -309,6 +321,7 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnDestroy {
     this.loadingCitizens = true;
     try {
       this.citizens = await this.collectionSignatureSheetService.listCitizens(collection.id, sheet.id);
+      this.originalCitizens = cloneDeep(this.citizens);
     } finally {
       this.loadingCitizens = false;
     }
@@ -319,14 +332,13 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnDestroy {
       return false;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const result = await this.confirmDialogService.confirm({
       title: 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DETAIL.RESET_CHANGES.TITLE',
       message: 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DETAIL.RESET_CHANGES.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
+    });
 
-    const result = await firstValueFrom(dialogRef.afterClosed());
     return !result;
   }
 

@@ -21,7 +21,6 @@ import {
   UpdateDecreeRequest,
 } from '@abraxas/voting-ecollecting-proto/admin';
 import { lastValueFrom, Observable } from 'rxjs';
-import { Timestamp } from '@ngx-grpc/well-known-types';
 import { CollectionCameNotAboutReason } from '@abraxas/voting-ecollecting-proto';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -45,8 +44,8 @@ export class DecreeService {
       this.client.create(
         new CreateDecreeRequest({
           ...decree,
-          collectionStartDate: Timestamp.fromDate(decree.collectionStartDate!),
-          collectionEndDate: Timestamp.fromDate(decree.collectionEndDate!),
+          collectionStartDate: toProtoDate(decree.collectionStartDate!),
+          collectionEndDate: toProtoDate(decree.collectionEndDate!),
         }),
       ),
     );
@@ -63,8 +62,8 @@ export class DecreeService {
       this.client.update(
         new UpdateDecreeRequest({
           ...decree,
-          collectionStartDate: Timestamp.fromDate(decree.collectionStartDate!),
-          collectionEndDate: Timestamp.fromDate(decree.collectionEndDate!),
+          collectionStartDate: toProtoDate(decree.collectionStartDate!),
+          collectionEndDate: toProtoDate(decree.collectionEndDate!),
         }),
       ),
     );

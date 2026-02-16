@@ -13,18 +13,24 @@
         class="initiative-details"
         [header]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.INITIATIVE_DETAIL.TITLE' | translate">
         <div class="content">
-          <h3>{{ data.description }}</h3>
+          <h3 class="user-text">{{ data.description }}</h3>
 
           @if (data.subType) {
-            <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE' | translate">{{ data.subType.description }}</bc-readonly>
+            <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE' | translate">
+              <span class="user-text">{{ data.subType.description }}</span>
+            </bc-readonly>
           }
 
           @if (data.wording) {
-            <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.WORDING' | translate">{{ data.wording }}</bc-readonly>
+            <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.WORDING' | translate">
+              <span class="user-text">{{ data.wording }}</span>
+            </bc-readonly>
           }
 
           @if (data.reason) {
-            <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.REASON' | translate">{{ data.reason }}</bc-readonly>
+            <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.REASON' | translate">
+              <span class="user-text">{{ data.reason }}</span>
+            </bc-readonly>
           }
         </div>
       </bc-expansion-panel>

@@ -21,8 +21,8 @@
   "private": true,
   "dependencies": {
     "@abraxas/base-components": "20.19.5",
-    "@abraxas/voting-ecollecting-proto": "1.96.2",
-    "@abraxas/voting-lib": "5.11.5",
+    "@abraxas/voting-ecollecting-proto": "1.99.8",
+    "@abraxas/voting-lib": "5.12.0",
     "@angular/animations": "20.3.13",
     "@angular/common": "20.3.13",
     "@angular/compiler": "20.3.13",

@@ -1,4 +1,4 @@
-<span class="title">{{ collectionOrDecree.description }}</span>
+<span class="title user-text">{{ collectionOrDecree.description }}</span>
 
 @if (collectionOrDecree.link) {
   <a [href]="collectionOrDecree.link" target="_blank" class="mr-3">
@@ -9,6 +9,20 @@
 }
 
 <div class="status">
+  @if (showType) {
+    <bc-status-label
+      size="large"
+      [backgroundColor]="'#b3dac2'"
+      [label]="
+        collection?.type === collectionTypes.COLLECTION_TYPE_INITIATIVE
+          ? subType
+            ? subType.description
+            : ('COLLECTION.TYPE.INITIATIVE' | translate)
+          : ('COLLECTION.TYPE.REFERENDUM' | translate)
+      "
+    ></bc-status-label>
+  }
+
   @if (role) {
     <bc-status-label
       size="large"

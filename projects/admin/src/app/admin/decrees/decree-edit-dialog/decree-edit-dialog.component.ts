@@ -16,6 +16,7 @@ import {
   ErrorModule,
   IconButtonModule,
   IconModule,
+  LinkModule,
   NumberModule,
   TextareaModule,
   TextModule,
@@ -23,7 +24,7 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule, DatePipe } from '@angular/common';
-import { AsyncInputValidators } from '@abraxas/voting-lib';
+import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
 import { cloneDeep, isEqual } from 'lodash';
 import {
   AbstractControl,
@@ -55,6 +56,7 @@ import { DomainOfInfluence } from '../../../core/models/domain-of-influence.mode
     DialogComponent,
     IconModule,
     ReactiveFormsModule,
+    LinkModule,
   ],
   providers: [DecreeService, DialogService],
 })
@@ -267,8 +269,7 @@ export class DecreeEditDialogComponent extends BaseDialogWithUnsavedChangesCheck
         validators: [Validators.required, Validators.min(0), Validators.max(100000)],
       }),
       link: this.formBuilder.control(this.decree.link, {
-        validators: [Validators.minLength(1), Validators.maxLength(2000)],
-        asyncValidators: [AsyncInputValidators.complexSlText],
+        validators: [Validators.minLength(1), Validators.maxLength(2000), InputValidators.httpsUrl],
       }),
     });
   }

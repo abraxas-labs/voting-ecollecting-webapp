@@ -2,12 +2,15 @@
 <!-- This is needed for bc-autocomplete to work with displayExpr inside of ngFor loops, otherwise the control would always be reset.  -->
 @if (control) {
   <bc-autocomplete
+    [label]="'MUNICIPALITY_FILTER.TITLE' | translate"
+    optionalText=""
     [hint]="showHint ? ('MUNICIPALITY_FILTER.HINT' | translate) : ''"
     [placeholder]="'MUNICIPALITY_FILTER.PLACEHOLDER' | translate"
     [value]="selectedDomainOfInfluence?.bfs"
     (valueChange)="selectDoi($event)"
     [items]="domainOfInfluences ?? []"
     [showOptionsOnSelected]="true"
+    [clearable]="true"
     [formControl]="control"
     displayExpr="name"
     valueExpr="bfs"
@@ -15,12 +18,15 @@
   ></bc-autocomplete>
 } @else {
   <bc-autocomplete
+    optionalText=""
+    [label]="'MUNICIPALITY_FILTER.TITLE' | translate"
     [hint]="showHint ? ('MUNICIPALITY_FILTER.HINT' | translate) : ''"
     [placeholder]="'MUNICIPALITY_FILTER.PLACEHOLDER' | translate"
     [ngModel]="selectedDomainOfInfluence"
-    (ngModelChange)="selectDoi($event.bfs)"
+    (ngModelChange)="selectDoi($event?.bfs)"
     [items]="domainOfInfluences ?? []"
     [showOptionsOnSelected]="true"
+    [clearable]="true"
     displayExpr="name"
     subscriptSizing="dynamic"
   ></bc-autocomplete>

@@ -11,10 +11,17 @@ import {
 } from '@abraxas/voting-ecollecting-proto/citizen';
 import { Collection as CollectionShared } from 'projects/ecollecting-lib/src/lib/shared/models/collection.model';
 import { CollectionPermissionRole, CollectionType } from '@abraxas/voting-ecollecting-proto';
+import { fromProtoDate } from 'ecollecting-lib';
 
 export { CollectionProto, CollectionPermissionProto, CollectionUserPermissionsProto };
 
-export type CollectionPermission = CollectionPermissionProto.AsObject;
+export interface CollectionPermission extends Omit<CollectionPermissionProto.AsObject, 'userPermissions'> {
+  userPermissions?: CollectionPermissionUserPermissions;
+}
+
+export interface CollectionPermissionUserPermissions {
+  canResend: boolean;
+}
 
 export interface PendingCollectionPermission {
   collectionId: string;
@@ -48,6 +55,7 @@ export interface CollectionUserPermissions {
   canDeleteAdmissibilityDecision: boolean;
   canDownloadElectronicSignaturesProtocol: boolean;
   canEditSubType: boolean;
+  canDownloadCommitteeList: boolean;
 }
 
 export interface Collection extends CollectionShared {
@@ -57,7 +65,7 @@ export interface Collection extends CollectionShared {
 export function mapCollectionToModel(collectionProto: CollectionProto): Collection {
   return {
     ...collectionProto.toObject(),
-    collectionStartDate: collectionProto.collectionStartDate?.toDate(),
-    collectionEndDate: collectionProto.collectionEndDate?.toDate(),
+    collectionStartDate: fromProtoDate(collectionProto.collectionStartDate),
+    collectionEndDate: fromProtoDate(collectionProto.collectionEndDate),
   } as Collection;
 }

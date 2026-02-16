@@ -14,6 +14,7 @@
           <bc-button [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.DOWNLOAD' | translate"
                      variant="tertiary"
                      icon="download"
+                     [disabled]="!initiative.collection.userPermissions?.canDownloadCommitteeList"
                      (buttonClick)="downloadTemplate()"></bc-button>
         }
         @if (initiative.collection.userPermissions?.canEdit && !initiative.lockedFields?.committeeMembers) {
@@ -24,21 +25,23 @@
                                [maxSizeInBytes]="maxFileSize"></vo-ecol-file-upload>
         }
       </div>
-      <div class="files">
-        @if (uploadingFileName) {
-          <vo-ecol-file-chip [label]="uploadingFileName"
-                             [loading]="true"
-                             [canOpen]="false"
-                             [canRemove]="false"></vo-ecol-file-chip>
-        }
+      @if (initiative.collection.userPermissions?.canDownloadCommitteeList) {
+        <div class="files">
+          @if (uploadingFileName) {
+            <vo-ecol-file-chip [label]="uploadingFileName"
+                               [loading]="true"
+                               [canOpen]="false"
+                               [canRemove]="false"></vo-ecol-file-chip>
+          }
 
-        @for (list of this.committee.committeeLists; track list.id) {
-          <vo-ecol-file-chip [label]="list.name"
-                             [canRemove]="(initiative.collection.userPermissions?.canEdit ?? false) && !initiative.lockedFields?.committeeMembers"
-                             (open)="openCommitteeList(list)"
-                             (remove)="removeCommitteeList(list)"></vo-ecol-file-chip>
-        }
-      </div>
+          @for (list of this.committee.committeeLists; track list.id) {
+            <vo-ecol-file-chip [label]="list.name"
+                               [canRemove]="(initiative.collection.userPermissions?.canEdit ?? false) && !initiative.lockedFields?.committeeMembers"
+                               (open)="openCommitteeList(list)"
+                               (remove)="removeCommitteeList(list)"></vo-ecol-file-chip>
+          }
+        </div>
+      }
     </div>
   </bc-card-content>
 </bc-card>

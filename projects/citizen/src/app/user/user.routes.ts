@@ -7,6 +7,7 @@
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { UserNavigationComponent } from './user-navigation/user-navigation.component';
 import { IsAuthenticatedGuard } from '../core/guards/is-authenticated.guard';
+import { hasUnsavedChangesGuard } from '../core/guards/has-unsaved-changes.guard';
 import { InitiativeService } from '../core/services/initiative.service';
 import { ReferendumService } from '../core/services/referendum.service';
 import { inject } from '@angular/core';
@@ -86,6 +87,7 @@ export const routes: Routes = [
           },
           {
             path: detailGeneralInformationUrl,
+            canDeactivate: [hasUnsavedChangesGuard],
             loadComponent: () =>
               import(
                 './user-seek-referendum/seek-referendum-detail/seek-referendum-detail-general-information/seek-referendum-detail-general-information.component'
@@ -142,6 +144,7 @@ export const routes: Routes = [
           },
           {
             path: detailGeneralInformationUrl,
+            canDeactivate: [hasUnsavedChangesGuard],
             loadComponent: () =>
               import(
                 './user-launch-initiative/launch-initiative-detail/launch-initiative-detail-general-information/launch-initiative-detail-general-information.component'

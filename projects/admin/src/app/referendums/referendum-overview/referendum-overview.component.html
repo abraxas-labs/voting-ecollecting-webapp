@@ -95,13 +95,23 @@
                             ></bc-alert-bar>
                           }
                           @if (referendum.collection.state === collectionStates.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED) {
-                            <bc-alert-bar
-                              class="self-center"
-                              [color]="'warning'"
-                              [message]="'COLLECTION.SIGNATURE_SHEETS_SUBMITTED' | translate"
-                              [displayDismissAction]="false"
-                              [displayShowAction]="false"
-                            ></bc-alert-bar>
+                            @if (referendum.collection.userPermissions?.canAddSignatureSheet) {
+                              <bc-alert-bar
+                                class="self-center"
+                                [color]="'error'"
+                                [message]="'COLLECTION.MUNICIPALITY_UNLOCKED' | translate"
+                                [displayDismissAction]="false"
+                                [displayShowAction]="false"
+                              ></bc-alert-bar>
+                            } @else if (referendum.collection.userPermissions?.canReadSignatureSheets) {
+                              <bc-alert-bar
+                                class="self-center"
+                                [color]="'warning'"
+                                [message]="'COLLECTION.SIGNATURE_SHEETS_SUBMITTED' | translate"
+                                [displayDismissAction]="false"
+                                [displayShowAction]="false"
+                              ></bc-alert-bar>
+                            }
                           }
                         </div>
                       </vo-ecol-referendum-card>
@@ -119,12 +129,12 @@
                       }
                       <div class="grow"></div>
                       @if (decree.userPermissions?.canGenerateDocuments) {
-                        @if (generatingDocuments) {
+                        @if (generatingDocumentIds.has(decree.id)) {
                           <bc-spinner></bc-spinner>
                         }
                         <bc-button
                           variant="tertiary"
-                          [disabled]="generatingDocuments"
+                          [disabled]="generatingDocumentIds.has(decree.id)"
                           (buttonClick)="generateDocuments(decree)"
                           [label]="'REFERENDUM.GENERATE_DOCUMENTS' | translate"
                           [icon]="'file-pdf'"

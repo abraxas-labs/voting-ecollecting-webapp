@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import {
   ButtonModule,
   CardModule,
@@ -20,7 +20,7 @@ import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { CollectionService } from '../../services/collection.service';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ConfirmDialogComponent, ConfirmDialogData, ToastService } from 'ecollecting-lib';
+import { ConfirmDialogService, ToastService } from 'ecollecting-lib';
 import { CollectionDetailPermissionDialogComponent } from '../collection-detail-permission-dialog/collection-detail-permission-dialog.component';
 import { Collection, CollectionPermission } from '../../models/collection.model';
 import { CollectionPermissionState } from '@abraxas/voting-ecollecting-proto';
@@ -44,6 +44,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class CollectionDetailPermissionsComponent implements AfterViewInit, OnDestroy {
   private readonly collectionService = inject(CollectionService);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toastService = inject(ToastService);
   private readonly authService = inject(AuthenticationService);
 
@@ -113,15 +114,13 @@ export class CollectionDetailPermissionsComponent implements AfterViewInit, OnDe
   }
 
   public async delete(id: string): Promise<void> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-    const result = await firstValueFrom(dialogRef.afterClosed());
-
-    if (!result) {
+    });
+    if (!ok) {
       return;
     }
 
@@ -129,8 +128,9 @@ export class CollectionDetailPermissionsComponent implements AfterViewInit, OnDe
     this.dataSource.data = this.dataSource.data.filter(x => x.id !== id);
   }
 
-  public async resend(id: string): Promise<void> {
-    await this.collectionService.resendPermission(id);
+  public async resend(permission: CollectionPermission): Promise<void> {
+    await this.collectionService.resendPermission(permission.id);
+    permission.state = CollectionPermissionState.COLLECTION_PERMISSION_STATE_PENDING;
     this.toastService.success('COLLECTION.DETAIL.PERMISSIONS.SENT');
   }
 }

@@ -98,6 +98,9 @@ export class CheckSamplesSignatureSheetTableComponent implements AfterViewInit {
   @Output()
   public collectionCountChanged: EventEmitter<CollectionCount> = new EventEmitter();
 
+  @Output()
+  public sheetStateChanged: EventEmitter<void> = new EventEmitter();
+
   @ViewChild(SortDirective, { static: true })
   public sort!: SortDirective;
 
@@ -132,6 +135,7 @@ export class CheckSamplesSignatureSheetTableComponent implements AfterViewInit {
     this.updateFooterTotals();
     this.toast.success('COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.SUBMITTED');
     this.collectionCountChanged.emit(result.collectionCount!);
+    this.sheetStateChanged.emit();
   }
 
   protected async unsubmit(signatureSheet: CollectionSignatureSheet): Promise<void> {
@@ -143,6 +147,7 @@ export class CheckSamplesSignatureSheetTableComponent implements AfterViewInit {
     this.updateFooterTotals();
     this.toast.success('COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.UNSUBMITTED');
     this.collectionCountChanged.emit(result.collectionCount!);
+    this.sheetStateChanged.emit();
   }
 
   protected async discard(signatureSheet: CollectionSignatureSheet): Promise<void> {
@@ -153,6 +158,7 @@ export class CheckSamplesSignatureSheetTableComponent implements AfterViewInit {
     signatureSheet.modifiedByName = userProfile.info.name;
     this.updateFooterTotals();
     this.toast.success('COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DISCARDED');
+    this.sheetStateChanged.emit();
   }
 
   protected async restore(signatureSheet: CollectionSignatureSheet): Promise<void> {
@@ -163,6 +169,7 @@ export class CheckSamplesSignatureSheetTableComponent implements AfterViewInit {
     signatureSheet.modifiedByName = userProfile.info.name;
     this.updateFooterTotals();
     this.toast.success('COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.RESTORED');
+    this.sheetStateChanged.emit();
   }
 
   protected async openSignatureSheet(signatureSheet: CollectionSignatureSheet): Promise<void> {

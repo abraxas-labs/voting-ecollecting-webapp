@@ -1,0 +1,128 @@
+<bc-table [dataSource]="dataSource">
+  <ng-container [columnDef]="lastNameColumn">
+    <bc-header-cell *headerCellDef>
+            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.LAST_NAME' | translate">
+              {{ 'INITIATIVE.COMMITTEE.MEMBERS.LAST_NAME' | translate }}
+            </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.politicalLastName }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="firstNameColumn">
+    <bc-header-cell *headerCellDef>
+            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.FIRST_NAME' | translate">
+              {{ 'INITIATIVE.COMMITTEE.MEMBERS.FIRST_NAME' | translate }}
+            </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.politicalFirstName }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="dateOfBirthColumn">
+    <bc-header-cell *headerCellDef>
+            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate">
+              {{ 'INITIATIVE.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate }}
+            </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.dateOfBirth | date }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="streetColumn">
+    <bc-header-cell *headerCellDef>
+            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.STREET' | translate">
+              {{ 'INITIATIVE.COMMITTEE.MEMBERS.STREET' | translate }}
+            </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.street }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="houseNumberColumn">
+    <bc-header-cell *headerCellDef>
+            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate">
+              {{ 'INITIATIVE.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate }}
+            </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.houseNumber }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="zipCodeColumn">
+    <bc-header-cell *headerCellDef>
+            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.ZIP_CODE' | translate">
+              {{ 'INITIATIVE.COMMITTEE.MEMBERS.ZIP_CODE' | translate }}
+            </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.zipCode }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="residenceColumn">
+    <bc-header-cell *headerCellDef>
+            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.RESIDENCE' | translate">
+              {{ 'INITIATIVE.COMMITTEE.MEMBERS.RESIDENCE' | translate }}
+            </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.politicalResidence }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="signatureTypeColumn">
+    <bc-header-cell *headerCellDef>
+            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate">
+              {{ 'INITIATIVE.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate }}
+            </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      <bc-status-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.SIGNATURE_TYPE.' + row.signatureType | translate"></bc-status-label>
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="stateColumn">
+    <bc-header-cell *headerCellDef>
+            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.STATE' | translate">
+              {{ 'INITIATIVE.COMMITTEE.MEMBERS.STATE' | translate }}
+            </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      <bc-status-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.APPROVAL_STATES.' + row.approvalState | translate"></bc-status-label>
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="actionsColumn">
+    <bc-header-cell *headerCellDef></bc-header-cell>
+    <bc-data-cell *dataCellDef="let element" align="right">
+      @if (!readonly) {
+        @if (element.userPermissions?.canReset) {
+          <bc-icon-button (buttonClick)="resetClicked.emit(element)" [icon]="'undo'" [variant]="'tertiary'"></bc-icon-button>
+        }
+        @if (element.userPermissions?.canVerify) {
+          <bc-button
+            [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY' | translate"
+            [variant]="'tertiary'"
+            (buttonClick)="verifyClicked.emit(element)"
+          >
+          </bc-button>
+        }
+      }
+    </bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row *dataRowDef="let row; columns: columns"></bc-data-row>
+
+  <ng-template noDataRow>
+    <tr class="bc-row-data">
+      <td class="bc-cell" [colSpan]="columns.length" translate>INITIATIVE.COMMITTEE.MEMBERS.NO_DATA</td>
+    </tr>
+  </ng-template>
+</bc-table>

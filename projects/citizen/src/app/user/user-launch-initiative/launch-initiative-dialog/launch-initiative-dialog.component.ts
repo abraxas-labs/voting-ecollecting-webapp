@@ -108,18 +108,18 @@ export class LaunchInitiativeDialogComponent
 
       const id = this.isElectronicSubmission
         ? await this.initiativeService.create(values.domainOfInfluenceType, values.description, values.subType?.id, values.bfs)
-        : await this.initiativeService.setInPreparation(values.governmentDecisionNumber);
+        : await this.initiativeService.setInPreparation(values.secureIdNumber);
 
       this.dialogRef.close({
         id: id,
       });
     } catch (e) {
       if (isGrpcError(e, initiativeNotFoundException)) {
-        this.setErrorOnGovernmentDecisionNumberField(initiativeNotFoundException);
+        this.setErrorOnSecureIdNumber(initiativeNotFoundException);
       } else if (isGrpcError(e, initiativeAlreadyInPreparationException)) {
-        this.setErrorOnGovernmentDecisionNumberField(initiativeAlreadyInPreparationException);
+        this.setErrorOnSecureIdNumber(initiativeAlreadyInPreparationException);
       } else if (isGrpcError(e, initiativeAdmissibilityDecisionRejectedException)) {
-        this.setErrorOnGovernmentDecisionNumberField(initiativeAdmissibilityDecisionRejectedException);
+        this.setErrorOnSecureIdNumber(initiativeAdmissibilityDecisionRejectedException);
       } else if (isGrpcError(e, insufficientAcrException)) {
         this.error = insufficientAcrException;
       } else {
@@ -132,13 +132,18 @@ export class LaunchInitiativeDialogComponent
 
   public updatePaperSubmissionValidators(): void {
     if (this.isPaperSubmission) {
-      this.form.controls.governmentDecisionNumber.enable();
-      this.form.controls.governmentDecisionNumber.setValidators([Validators.required, Validators.maxLength(50)]);
+      this.form.controls.secureIdNumber.enable();
+      this.form.controls.secureIdNumber.setValidators([
+        Validators.required,
+        Validators.minLength(12),
+        Validators.maxLength(12),
+        Validators.pattern(/^[A-Z0-9]{12}$/),
+      ]);
     } else {
-      this.form.controls.governmentDecisionNumber.disable();
-      this.form.controls.governmentDecisionNumber.clearValidators();
+      this.form.controls.secureIdNumber.disable();
+      this.form.controls.secureIdNumber.clearValidators();
     }
-    this.form.controls.governmentDecisionNumber.updateValueAndValidity();
+    this.form.controls.secureIdNumber.updateValueAndValidity();
   }
 
   public updateElectronicSubmissionValidators(): void {
@@ -176,7 +181,7 @@ export class LaunchInitiativeDialogComponent
       this.form.controls.description.disable();
       this.form.controls.description.clearValidators();
     }
-    this.form.controls.governmentDecisionNumber.updateValueAndValidity();
+    this.form.controls.secureIdNumber.updateValueAndValidity();
   }
 
   public get selectedDomainOfInfluenceMaxElectronicSignatureCount(): string {
@@ -210,22 +215,17 @@ export class LaunchInitiativeDialogComponent
           asyncValidators: [AsyncInputValidators.complexSlText],
         },
       ),
-      governmentDecisionNumber: this.formBuilder.control(
-        { value: '', disabled: true },
-        {
-          asyncValidators: [AsyncInputValidators.simpleSlText],
-        },
-      ),
+      secureIdNumber: this.formBuilder.control({ value: '', disabled: true }),
       bfs: this.formBuilder.control({ value: '', disabled: true }),
     });
   }
 
-  private setErrorOnGovernmentDecisionNumberField(errorType: string): void {
+  private setErrorOnSecureIdNumber(errorType: string): void {
     const key = `ERROR_MESSAGES.${errorType}`;
     const message = this.translate.instant(key);
     const errors: any = {};
     errors[errorType] = message;
-    this.form.controls.governmentDecisionNumber.setErrors(errors);
+    this.form.controls.secureIdNumber.setErrors(errors);
   }
 }
 
@@ -237,6 +237,6 @@ export interface Form {
   domainOfInfluenceType: FormControl<DomainOfInfluenceType | undefined>;
   subType: FormControl<InitiativeSubType | undefined>;
   description: FormControl<string>;
-  governmentDecisionNumber: FormControl<string>;
+  secureIdNumber: FormControl<string>;
   bfs: FormControl<string>;
 }

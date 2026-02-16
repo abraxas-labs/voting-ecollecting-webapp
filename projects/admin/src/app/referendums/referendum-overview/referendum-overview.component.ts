@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { VotingLibModule } from '@abraxas/voting-lib';
 import {
   AlertBarModule,
@@ -22,8 +22,7 @@ import {
   CollectionFilter,
   CollectionFilterComponent,
   CollectionMainFilter,
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
   DecreeCardComponent,
   DoiTypeCardComponent,
   MunicipalityFilterComponent,
@@ -54,6 +53,7 @@ import {
   ReferendumNewDialogResult,
 } from '../referendum-new-dialog/referendum-new-dialog.component';
 import { DomainOfInfluence } from '../../core/models/domain-of-influence.model';
+import { environment } from '../../../environments/environment';
 
 const filterStorageKey = storageKeyPrefix + 'referendum-filter';
 const subFilterStorageKey = storageKeyPrefix + 'referendum-sub-filter';
@@ -88,32 +88,30 @@ export class ReferendumOverviewComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly doiService = inject(DomainOfInfluenceService);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly decreeService = inject(DecreeService);
+  private readonly collectingFilterId = 'COLLECTING';
+  private readonly collectionDoneFilterId = 'COLLECTION_DONE';
+  private readonly allFilterId = 'ALL';
+  private readonly archiveFilterId = 'ARCHIVE';
+  private readonly preparingFilterId = 'PREPARING';
+  private readonly tasksFilterId = 'TASKS';
 
   protected readonly municipalityDoiType = DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU;
   protected readonly collectionStates = CollectionState;
-  protected readonly filters: CollectionMainFilter[] = [
+  protected filters: CollectionMainFilter[] = [
     {
-      id: 'PREPARING',
-      states: [CollectionState.COLLECTION_STATE_PRE_RECORDED, CollectionState.COLLECTION_STATE_IN_PREPARATION],
-      autoSubFilters: true,
-    },
-    {
-      id: 'TASKS',
-      states: [CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION, CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED],
-      autoSubFilters: true,
-    },
-    {
-      id: 'COLLECTING',
+      id: this.collectingFilterId,
       periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED, CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION],
     },
     {
-      id: 'COLLECTION_DONE',
+      id: this.collectionDoneFilterId,
       periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED],
     },
     {
-      id: 'ALL',
+      id: this.allFilterId,
+      periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED, CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION],
       states: [
         CollectionState.COLLECTION_STATE_PRE_RECORDED,
         CollectionState.COLLECTION_STATE_IN_PREPARATION,
@@ -129,7 +127,7 @@ export class ReferendumOverviewComponent implements OnInit {
       ],
     },
     {
-      id: 'ARCHIVE',
+      id: this.archiveFilterId,
       states: [
         CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT,
         CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT,
@@ -147,13 +145,30 @@ export class ReferendumOverviewComponent implements OnInit {
 
   protected municipalities: DomainOfInfluence[] = [];
   protected selectedMunicipality?: DomainOfInfluence;
-  protected generatingDocuments = false;
+  protected generatingDocumentIds: Set<string> = new Set();
 
   protected initialFilterId = persistentStorage.getItem(filterStorageKey) ?? 'ALL';
   protected initialSubFilterId = persistentStorage.getItem(subFilterStorageKey) ?? 'ALL';
   protected initialBfsFilter = persistentStorage.getItem(bfsFilterStorageKey);
 
   public async ngOnInit(): Promise<void> {
+    const doiTypes = await this.doiService.listOwnTypes();
+    if (environment.enableMunicipalityReviewProcess || !doiTypes.includes(DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU)) {
+      this.filters = [
+        {
+          id: this.preparingFilterId,
+          states: [CollectionState.COLLECTION_STATE_PRE_RECORDED, CollectionState.COLLECTION_STATE_IN_PREPARATION],
+          autoSubFilters: true,
+        },
+        {
+          id: this.tasksFilterId,
+          states: [CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION, CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED],
+          autoSubFilters: true,
+        },
+        ...this.filters,
+      ];
+    }
+
     await this.loadData();
   }
 
@@ -171,14 +186,13 @@ export class ReferendumOverviewComponent implements OnInit {
   }
 
   protected async delete(referendumId: string, group: DecreeGroup, decree: Decree): Promise<void> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 
@@ -246,10 +260,10 @@ export class ReferendumOverviewComponent implements OnInit {
 
   protected async generateDocuments(decree: Decree): Promise<void> {
     try {
-      this.generatingDocuments = true;
+      this.generatingDocumentIds.add(decree.id);
       await this.decreeService.downloadDocuments(decree.id);
     } finally {
-      this.generatingDocuments = false;
+      this.generatingDocumentIds.delete(decree.id);
     }
   }
 
@@ -328,6 +342,13 @@ export class ReferendumOverviewComponent implements OnInit {
 
   private async applyMunicipalityFilter(): Promise<void> {
     if (!this.selectedMunicipality) {
+      persistentStorage.removeItem(bfsFilterStorageKey);
+      const filteredMunicipalityGroup = this.filteredDecreeGroups.find(x => x.domainOfInfluenceType === this.municipalityDoiType);
+      if (!filteredMunicipalityGroup) {
+        return;
+      }
+
+      filteredMunicipalityGroup.decrees = [];
       return;
     }
 
@@ -351,6 +372,15 @@ export class ReferendumOverviewComponent implements OnInit {
   }
 
   private removeEmptyDecrees(): void {
+    if (
+      !this.filter ||
+      this.filter.id === this.allFilterId ||
+      this.filter.id === this.collectionDoneFilterId ||
+      this.filter.id === this.collectingFilterId
+    ) {
+      return;
+    }
+
     for (const group of this.filteredDecreeGroups) {
       group.decrees = group.decrees.filter(g => g.collections!.length > 0);
     }

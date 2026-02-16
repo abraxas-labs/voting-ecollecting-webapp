@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   CardModule,
   DropdownModule,
@@ -17,17 +17,23 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CollectionAddress, ImageUploadComponent, InitiativeSubType, newObjectUrlObservableForBlob } from 'ecollecting-lib';
+import {
+  CollectionAddress,
+  DomainOfInfluence,
+  ImageUploadComponent,
+  InitiativeSubType,
+  newObjectUrlObservableForBlob,
+} from 'ecollecting-lib';
 import { Initiative } from '../../../../core/models/initiative.model';
 import { InitiativeService } from '../../../../core/services/initiative.service';
 import { DomainOfInfluenceService } from '../../../../core/services/domain-of-influence.service';
-import { AsyncInputValidators } from '@abraxas/voting-lib';
+import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
 import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { CollectionService } from '../../../../core/services/collection.service';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { DomainOfInfluence } from '../../../../core/models/domain-of-influence.model';
+import { HasUnsavedChanges } from '../../../../core/guards/has-unsaved-changes.guard';
 
 @Component({
   selector: 'app-launch-initiative-detail-general-information',
@@ -48,7 +54,7 @@ import { DomainOfInfluence } from '../../../../core/models/domain-of-influence.m
     AsyncPipe,
   ],
 })
-export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit, OnDestroy {
+export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit, OnDestroy, HasUnsavedChanges {
   private readonly initiativeService = inject(InitiativeService);
   private readonly domainOfInfluenceService = inject(DomainOfInfluenceService);
   private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -71,6 +77,7 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
 
   public image?: Observable<SafeResourceUrl>;
   public logo?: Observable<SafeResourceUrl>;
+  public showValidationErrors = false;
 
   private routeSubscription?: Subscription;
 
@@ -105,7 +112,16 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
       this.initiative.collection.address = values.address as Required<typeof values.address>;
       this.initiative.collection.link = values.link;
       this.initiative.subType = values.subType;
+
+      this.form.markAsPristine();
+      this.form.markAsUntouched();
     });
+  }
+
+  @HostListener('window:beforeunload')
+  public beforeUnload(): boolean {
+    this.showValidationErrors = true;
+    return !this.hasUnsavedChanges;
   }
 
   public async ngOnInit(): Promise<void> {
@@ -115,6 +131,10 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
 
   public ngOnDestroy(): void {
     this.routeSubscription?.unsubscribe();
+  }
+
+  public get hasUnsavedChanges(): boolean {
+    return this.form.dirty;
   }
 
   public async save(
@@ -295,8 +315,7 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
         }),
       }),
       link: this.formBuilder.control('', {
-        validators: [Validators.maxLength(2_000)],
-        asyncValidators: [AsyncInputValidators.complexSlText],
+        validators: [Validators.maxLength(2_000), InputValidators.httpsUrl],
       }),
     });
   }

@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { filter, firstValueFrom, startWith, Subscription } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
@@ -29,8 +29,8 @@ import {
   CollectionMessagesComponent,
   CollectionMessagesComponentData,
   CollectionMessagesComponentResult,
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
+  SHOW_CHAT_QUERY_PARAM,
 } from 'ecollecting-lib';
 import { CollectionService } from '../../../core/services/collection.service';
 import { CollectionState, CollectionType } from '@abraxas/voting-ecollecting-proto';
@@ -51,6 +51,7 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly collectionService = inject(CollectionService);
   private readonly initiativeService = inject(InitiativeService);
 
@@ -66,10 +67,18 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
   public active = detailOverviewUrl;
 
   private routeSubscription: Subscription;
+  private queryParamsSubscription: Subscription;
   private routerEventsSubscription: Subscription;
 
   constructor() {
-    this.routeSubscription = this.route.data.subscribe(async ({ initiative }) => (this.initiative = initiative));
+    this.routeSubscription = this.route.data.subscribe(async ({ initiative }) => {
+      this.initiative = initiative;
+    });
+    this.queryParamsSubscription = this.route.queryParamMap.subscribe(params => {
+      if (params.has(SHOW_CHAT_QUERY_PARAM)) {
+        void this.openChat();
+      }
+    });
     this.routerEventsSubscription = this.router.events
       .pipe(
         filter(evt => evt instanceof NavigationEnd),
@@ -88,6 +97,7 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
+    this.queryParamsSubscription.unsubscribe();
     this.routerEventsSubscription.unsubscribe();
   }
 
@@ -126,6 +136,16 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
       return;
     }
 
+    const ok = await this.confirmDialogService.confirm({
+      title: 'COLLECTION_MESSAGES.REQUEST_INFORMAL_REVIEW_CONFIRM.TITLE',
+      message: 'COLLECTION_MESSAGES.REQUEST_INFORMAL_REVIEW_CONFIRM.MESSAGE',
+      confirmText: 'APP.YES',
+      discardText: 'APP.DISCARD',
+    });
+    if (!ok) {
+      return;
+    }
+
     await this.collectionService.updateRequestInformalReview(this.initiative.id, true);
     await this.openChat();
   }
@@ -135,14 +155,13 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
       return;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'LAUNCH_INITIATIVE.DETAIL.WITHDRAW.TITLE',
       message: 'LAUNCH_INITIATIVE.DETAIL.WITHDRAW.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 

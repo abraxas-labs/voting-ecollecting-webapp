@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { VotingLibModule } from '@abraxas/voting-lib';
 import {
   AlertBarModule,
@@ -23,8 +23,7 @@ import {
   CollectionFilter,
   CollectionFilterComponent,
   CollectionMainFilter,
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
   DoiTypeCardComponent,
   DomainOfInfluence,
   InitiativeCardComponent,
@@ -46,6 +45,7 @@ import {
   CollectionFinishDialogData,
   CollectionFinishDialogResult,
 } from '../../core/components/collection-finish-dialog/collection-finish-dialog.component';
+import { environment } from '../../../environments/environment';
 
 const filterStorageKey = storageKeyPrefix + 'initiative-filter';
 const subFilterStorageKey = storageKeyPrefix + 'initiative-sub-filter';
@@ -79,31 +79,11 @@ export class InitiativeOverviewComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly doiService = inject(DomainOfInfluenceService);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
 
   protected readonly collectionStates = CollectionState;
-  protected readonly filters: CollectionMainFilter[] = [
-    {
-      id: 'PREPARING',
-      states: [
-        CollectionState.COLLECTION_STATE_PRE_RECORDED,
-        CollectionState.COLLECTION_STATE_IN_PREPARATION,
-        CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION,
-        CollectionState.COLLECTION_STATE_READY_FOR_REGISTRATION,
-      ],
-      autoSubFilters: true,
-    },
-    {
-      id: 'TASKS',
-      states: [
-        CollectionState.COLLECTION_STATE_SUBMITTED,
-        CollectionState.COLLECTION_STATE_UNDER_REVIEW,
-        CollectionState.COLLECTION_STATE_REGISTERED,
-        CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION,
-        CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED,
-      ],
-      autoSubFilters: true,
-    },
+  protected filters: CollectionMainFilter[] = [
     {
       id: 'COLLECTING',
       periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED, CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION],
@@ -140,7 +120,7 @@ export class InitiativeOverviewComponent implements OnInit {
   ];
 
   protected loading = false;
-  protected generatingDocuments = false;
+  protected generatingDocumentIds: Set<string> = new Set();
   protected loadingMunicipalityInitiatives = false;
   protected groups: InitiativeGroup[] = [];
   protected filteredGroups: InitiativeGroup[] = [];
@@ -156,6 +136,34 @@ export class InitiativeOverviewComponent implements OnInit {
   protected initialBfsFilter = persistentStorage.getItem(bfsFilterStorageKey);
 
   public async ngOnInit(): Promise<void> {
+    const doiTypes = await this.doiService.listOwnTypes();
+    if (environment.enableMunicipalityReviewProcess || !doiTypes.includes(DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU)) {
+      this.filters = [
+        {
+          id: 'PREPARING',
+          states: [
+            CollectionState.COLLECTION_STATE_PRE_RECORDED,
+            CollectionState.COLLECTION_STATE_IN_PREPARATION,
+            CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION,
+            CollectionState.COLLECTION_STATE_READY_FOR_REGISTRATION,
+          ],
+          autoSubFilters: true,
+        },
+        {
+          id: 'TASKS',
+          states: [
+            CollectionState.COLLECTION_STATE_SUBMITTED,
+            CollectionState.COLLECTION_STATE_UNDER_REVIEW,
+            CollectionState.COLLECTION_STATE_REGISTERED,
+            CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION,
+            CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED,
+          ],
+          autoSubFilters: true,
+        },
+        ...this.filters,
+      ];
+    }
+
     await this.loadData();
   }
 
@@ -172,14 +180,13 @@ export class InitiativeOverviewComponent implements OnInit {
   }
 
   protected async delete(initiativeId: string, group: InitiativeGroup): Promise<void> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 
@@ -236,10 +243,10 @@ export class InitiativeOverviewComponent implements OnInit {
 
   protected async generateDocuments(initiative: Initiative): Promise<void> {
     try {
-      this.generatingDocuments = true;
+      this.generatingDocumentIds.add(initiative.id);
       await this.initiativeService.downloadDocuments(initiative.id);
     } finally {
-      this.generatingDocuments = false;
+      this.generatingDocumentIds.delete(initiative.id);
     }
   }
 
@@ -283,6 +290,13 @@ export class InitiativeOverviewComponent implements OnInit {
 
   private async applyMunicipalityFilter(): Promise<void> {
     if (!this.selectedMunicipality) {
+      persistentStorage.removeItem(bfsFilterStorageKey);
+      const filteredMunicipalityGroup = this.filteredGroups.find(x => x.domainOfInfluenceType === this.municipalityDoiType);
+      if (!filteredMunicipalityGroup) {
+        return;
+      }
+
+      filteredMunicipalityGroup.initiatives = [];
       return;
     }
 

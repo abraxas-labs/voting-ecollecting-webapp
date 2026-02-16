@@ -6,3 +6,15 @@ mat-hint {
   font-size: 13px;
   font-weight: 400;
 }
+
+.custom-height {
+  ::ng-deep .mat-mdc-dialog-content {
+    max-height: unset !important;
+  }
+
+  ::ng-deep bc-dialog > div {
+    display: flex;
+    flex-direction: column;
+    height: 98vh;
+  }
+}

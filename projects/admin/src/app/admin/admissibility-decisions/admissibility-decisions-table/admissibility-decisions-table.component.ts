@@ -30,6 +30,7 @@ import { AdmissibilityDecisionState } from '@abraxas/voting-ecollecting-proto/ad
 })
 export class AdmissibilityDecisionsTableComponent implements AfterViewInit {
   protected readonly domainOfInfluenceTypeColumn = 'domainOfInfluenceType';
+  protected readonly domainOfInfluenceNameColumn = 'domainOfInfluenceName';
   protected readonly subTypeColumn = 'subType';
   protected readonly descriptionColumn = 'description';
   protected readonly collectionStartDateColumn = 'collectionStartDate';
@@ -39,6 +40,7 @@ export class AdmissibilityDecisionsTableComponent implements AfterViewInit {
 
   protected readonly columns = [
     this.domainOfInfluenceTypeColumn,
+    this.domainOfInfluenceNameColumn,
     this.subTypeColumn,
     this.descriptionColumn,
     this.collectionStartDateColumn,

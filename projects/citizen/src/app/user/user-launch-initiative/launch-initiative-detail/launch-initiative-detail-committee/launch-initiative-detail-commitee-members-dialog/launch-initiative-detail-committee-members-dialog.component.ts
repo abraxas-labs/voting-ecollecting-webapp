@@ -15,7 +15,7 @@ import {
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AsyncInputValidators, VotingLibModule } from '@abraxas/voting-lib';
+import { AsyncInputValidators, InputValidators, VotingLibModule } from '@abraxas/voting-lib';
 import {
   AutocompleteModule,
   ButtonModule,
@@ -35,7 +35,7 @@ import { MatHint } from '@angular/material/form-field';
 import { InitiativeService } from '../../../../../core/services/initiative.service';
 
 @Component({
-  selector: 'app-launch-initiative-detail-commitee-members-dialog',
+  selector: 'app-launch-initiative-detail-committee-members-dialog',
   imports: [
     DialogComponent,
     TranslatePipe,
@@ -59,8 +59,9 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
 
   protected saving = false;
   protected savingAndClose = false;
-  protected readonly = false;
-  protected editing = false;
+  protected canEdit = true;
+  protected canEditPoliticalDuty = true;
+  protected isNew = true;
 
   @ViewChild('firstName')
   protected firstNameInput!: TextComponent;
@@ -94,14 +95,12 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
 
     this.buildForm();
 
-    this.readonly = !this.dialogData.initiative.collection.userPermissions?.canEdit;
-
     if (this.dialogData.member) {
-      this.editing = true;
-      this.readonly ||= !this.dialogData.member.canEdit;
+      this.isNew = false;
+      this.canEdit = !!this.dialogData.member.userPermissions?.canEdit;
+      this.canEditPoliticalDuty = !!this.dialogData.member.userPermissions?.canEditPoliticalDuty;
 
       const residence = this.dialogData.domainOfInfluences?.find(d => d.bfs === this.dialogData.member!.bfs);
-      const politicalResidence = this.dialogData.domainOfInfluences?.find(d => d.bfs === this.dialogData.member!.politicalBfs);
 
       this.form.patchValue({
         role: this.dialogData.member.role,
@@ -111,8 +110,11 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
         politicalLastName: this.dialogData.member.politicalLastName,
         email: this.dialogData.member.email,
         dateOfBirth: this.dialogData.member.dateOfBirth,
+        street: this.dialogData.member.street,
+        houseNumber: this.dialogData.member.houseNumber,
+        zipCode: this.dialogData.member.zipCode,
         residence,
-        politicalResidence,
+        politicalResidence: this.dialogData.member.politicalResidence,
         politicalDuty: this.dialogData.member.politicalDuty,
         requestMemberSignature: this.dialogData.member.memberSignatureRequested,
       });
@@ -135,10 +137,10 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
       values.dateOfBirth = new Date(values.dateOfBirth);
       this.enrichPoliticalValues(values);
 
-      if (this.editing) {
-        await this.updateCommitteeMember(values);
-      } else {
+      if (this.isNew) {
         await this.addCommitteeMember(values);
+      } else {
+        await this.updateCommitteeMember(values);
       }
 
       this.toast.success('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ADD_DIALOG.SAVED');
@@ -166,14 +168,23 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
     }
   }
 
+  protected updateValidators(): void {
+    if (!!this.form.value.requestMemberSignature || !!this.form.value.role) {
+      this.form.controls.email.setValidators([Validators.required, Validators.email]);
+    } else {
+      this.form.controls.email.setValidators([Validators.email]);
+    }
+
+    this.form.controls.email.updateValueAndValidity();
+  }
+
   private async addCommitteeMember(values: Required<typeof this.form.value>): Promise<void> {
     const id = await this.initiativeService.addCommitteeMember(this.dialogData.initiative.id, {
       ...values,
       bfs: values.residence.bfs,
-      politicalBfs: values.politicalResidence.bfs,
+      politicalResidence: values.politicalResidence,
     });
     const residence = this.dialogData.domainOfInfluences?.find(d => d.bfs === values.residence.bfs)?.name ?? '';
-    const politicalResidence = this.dialogData.domainOfInfluences?.find(d => d.bfs === values.politicalResidence.bfs)?.name ?? '';
     const newMember: InitiativeCommitteeMember = {
       id,
       ...values,
@@ -184,36 +195,48 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
       signatureType: values.requestMemberSignature
         ? InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UNSPECIFIED
         : InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UPLOADED_SIGNATURE,
-      canEdit: true,
       bfs: values.residence.bfs,
-      politicalBfs: values.politicalResidence.bfs,
+      politicalResidence: values.politicalResidence,
       residence,
-      politicalResidence,
+      userPermissions: {
+        canEdit: true,
+        canEditPoliticalDuty: true,
+        canResend: values.requestMemberSignature,
+      },
     };
     this.dialogData.onSave(newMember);
   }
 
   private async updateCommitteeMember(values: Required<typeof this.form.value>): Promise<void> {
-    await this.initiativeService.updateCommitteeMember({
-      ...values,
-      initiativeId: this.dialogData.initiative.id,
-      id: this.dialogData.member!.id,
-      bfs: values.residence.bfs,
-      politicalBfs: values.politicalResidence.bfs,
-    });
-    Object.assign(this.dialogData.member!, values);
-    this.dialogData.member!.memberSignatureRequested = values.requestMemberSignature;
-    this.dialogData.member!.approvalState = values.requestMemberSignature
-      ? InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED
-      : InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_SIGNED;
-    this.dialogData.member!.signatureType = values.requestMemberSignature
-      ? InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UNSPECIFIED
-      : InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UPLOADED_SIGNATURE;
-    this.dialogData.member!.canEdit = true;
-    this.dialogData.member!.bfs = values.residence.bfs;
-    this.dialogData.member!.residence = values.residence.name;
-    this.dialogData.member!.politicalBfs = values.politicalResidence.bfs;
-    this.dialogData.member!.politicalResidence = values.politicalResidence.name;
+    if (this.canEdit) {
+      await this.initiativeService.updateCommitteeMember({
+        ...values,
+        initiativeId: this.dialogData.initiative.id,
+        id: this.dialogData.member!.id,
+        bfs: values.residence.bfs,
+        politicalResidence: values.politicalResidence,
+      });
+      Object.assign(this.dialogData.member!, values);
+      this.dialogData.member!.memberSignatureRequested = values.requestMemberSignature;
+      this.dialogData.member!.approvalState = values.requestMemberSignature
+        ? InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED
+        : InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_SIGNED;
+      this.dialogData.member!.signatureType = values.requestMemberSignature
+        ? InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UNSPECIFIED
+        : InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UPLOADED_SIGNATURE;
+      this.dialogData.member!.bfs = values.residence.bfs;
+      this.dialogData.member!.residence = values.residence.name;
+      this.dialogData.member!.politicalResidence = values.politicalResidence;
+    } else if (this.canEditPoliticalDuty) {
+      await this.initiativeService.updateCommitteeMemberPoliticalDuty(
+        this.dialogData.initiative.id,
+        this.dialogData.member!.id,
+        values.politicalDuty,
+      );
+    } else {
+      throw new Error('No permission to edit committee member.');
+    }
+
     this.dialogData.onSave(this.dialogData.member!);
   }
 
@@ -227,7 +250,7 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
     }
 
     if (!values.politicalResidence) {
-      values.politicalResidence = values.residence;
+      values.politicalResidence = values.residence.name;
     }
   }
 
@@ -252,12 +275,23 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
       dateOfBirth: this.formBuilder.control(null!, {
         validators: [Validators.required],
       }),
+      street: this.formBuilder.control('', {
+        validators: [Validators.required, Validators.maxLength(150)],
+        asyncValidators: [AsyncInputValidators.complexSlText],
+      }),
+      houseNumber: this.formBuilder.control('', {
+        validators: [Validators.required, Validators.maxLength(30), InputValidators.alphaNumWhite],
+      }),
+      zipCode: this.formBuilder.control('', {
+        validators: [Validators.required, Validators.maxLength(15)],
+        asyncValidators: [AsyncInputValidators.complexSlText],
+      }),
       residence: this.formBuilder.control(undefined, {
         validators: [Validators.required],
       }),
       politicalResidence: this.formBuilder.control(undefined),
       email: this.formBuilder.control('', {
-        validators: [Validators.email],
+        validators: [Validators.required, Validators.email],
       }),
       politicalDuty: this.formBuilder.control('', {
         validators: [Validators.maxLength(50)],
@@ -282,8 +316,11 @@ interface Form {
   politicalLastName: FormControl<string>;
   politicalFirstName: FormControl<string>;
   dateOfBirth: FormControl<Date>;
+  street: FormControl<string>;
+  houseNumber: FormControl<string>;
+  zipCode: FormControl<string>;
   residence: FormControl<DomainOfInfluence | undefined>;
-  politicalResidence: FormControl<DomainOfInfluence | undefined>;
+  politicalResidence: FormControl<string | undefined>;
   email: FormControl<string>;
   politicalDuty: FormControl<string>;
   role: FormControl<CollectionPermissionRole>;

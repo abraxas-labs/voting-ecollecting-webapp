@@ -81,24 +81,34 @@
                       ></bc-alert-bar>
                     }
                     @if (initiative.collection.state === collectionStates.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED) {
-                      <bc-alert-bar
-                        class="self-center"
-                        [color]="'warning'"
-                        [message]="'COLLECTION.SIGNATURE_SHEETS_SUBMITTED' | translate"
-                        [displayDismissAction]="false"
-                        [displayShowAction]="false"
-                      ></bc-alert-bar>
+                      @if (initiative.collection.userPermissions?.canAddSignatureSheet) {
+                        <bc-alert-bar
+                          class="self-center"
+                          [color]="'error'"
+                          [message]="'COLLECTION.MUNICIPALITY_UNLOCKED' | translate"
+                          [displayDismissAction]="false"
+                          [displayShowAction]="false"
+                        ></bc-alert-bar>
+                      } @else if (initiative.collection.userPermissions?.canReadSignatureSheets) {
+                        <bc-alert-bar
+                          class="self-center"
+                          [color]="'warning'"
+                          [message]="'COLLECTION.SIGNATURE_SHEETS_SUBMITTED' | translate"
+                          [displayDismissAction]="false"
+                          [displayShowAction]="false"
+                        ></bc-alert-bar>
+                      }
                     }
 
                     @if (initiative.collection.userPermissions?.canGenerateDocuments || initiative.collection.userPermissions?.canFinish) {
                       <div class="flex gap-2 mt-2 justify-end items-center">
                         @if (initiative.collection.userPermissions?.canGenerateDocuments) {
-                          @if (generatingDocuments) {
+                          @if (generatingDocumentIds.has(initiative.id)) {
                             <bc-spinner></bc-spinner>
                           }
                           <bc-button
                             variant="tertiary"
-                            [disabled]="generatingDocuments"
+                            [disabled]="generatingDocumentIds.has(initiative.id)"
                             (buttonClick)="generateDocuments(initiative)"
                             [label]="'INITIATIVE.GENERATE_DOCUMENTS' | translate"
                             [icon]="'file-pdf'"

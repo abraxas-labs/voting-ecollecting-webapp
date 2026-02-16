@@ -4,20 +4,19 @@
  * For license information see LICENSE file.
  */
 
-import { Directive, OnInit, inject } from '@angular/core';
+import { Directive, inject, OnInit } from '@angular/core';
 import { Collection } from '../../models/collection.model';
 import {
   CollectionMessagesComponent,
   CollectionMessagesComponentData,
   CollectionMessagesComponentResult,
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
 } from 'ecollecting-lib';
-import { firstValueFrom, Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '@abraxas/base-components';
 import { CollectionService } from '../../services/collection.service';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Directive()
 export abstract class AbstractCollectionDetailBase implements OnInit {
@@ -25,7 +24,7 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
   protected readonly dialogService = inject(DialogService);
   private readonly router = inject(Router);
   private readonly collectionService = inject(CollectionService);
-
+  protected readonly confirmDialogService = inject(ConfirmDialogService);
   protected deleting = false;
   protected imageLoading = false;
   protected logoLoading = false;
@@ -77,14 +76,13 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
       return;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 
@@ -102,14 +100,13 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
       return;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 
@@ -127,14 +124,13 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
       return;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 

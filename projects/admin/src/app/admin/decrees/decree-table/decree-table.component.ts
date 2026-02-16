@@ -39,6 +39,7 @@ import { EnumItemDescriptionUtils } from 'ecollecting-lib';
 })
 export class DecreeTableComponent implements AfterViewInit {
   protected readonly domainOfInfluenceTypeColumn = 'domainOfInfluenceType';
+  protected readonly domainOfInfluenceNameColumn = 'domainOfInfluenceName';
   protected readonly descriptionColumn = 'description';
   protected readonly collectionStartDateColumn = 'collectionStartDate';
   protected readonly collectionEndDateColumn = 'collectionEndDate';
@@ -50,16 +51,17 @@ export class DecreeTableComponent implements AfterViewInit {
   protected readonly editColumn = 'edit';
 
   public readonly columns = [
-    'domainOfInfluenceType',
-    'description',
-    'collectionStartDate',
-    'collectionEndDate',
-    'minSignatureCount',
-    'totalAttested',
-    'maxElectronicSignatureCount',
-    'electronicAttested',
-    'state',
-    'edit',
+    this.domainOfInfluenceTypeColumn,
+    this.domainOfInfluenceNameColumn,
+    this.descriptionColumn,
+    this.collectionStartDateColumn,
+    this.collectionEndDateColumn,
+    this.minSignatureCountColumn,
+    this.totalAttestedColumn,
+    this.maxElectronicSignatureCountColumn,
+    this.electronicAttestedColumn,
+    this.stateColumn,
+    this.editColumn,
   ];
 
   @Input()

@@ -1,0 +1,154 @@
+<bc-table [dataSource]="dataSource" [fixedLayout]="false" [fixed]="false" cdkDropList (cdkDropListDropped)="sortChanged.emit($event)">
+  <ng-container [columnDef]="lastNameColumn">
+    <bc-header-cell *headerCellDef>
+      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.politicalLastName }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="firstNameColumn">
+    <bc-header-cell *headerCellDef>
+      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.politicalFirstName }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="dateOfBirthColumn">
+    <bc-header-cell *headerCellDef>
+      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.dateOfBirth | date }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="streetColumn">
+    <bc-header-cell *headerCellDef>
+      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STREET' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STREET' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.street }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="houseNumberColumn">
+    <bc-header-cell *headerCellDef>
+      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.houseNumber }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="zipCodeColumn">
+    <bc-header-cell *headerCellDef>
+      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ZIP_CODE' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ZIP_CODE' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.zipCode }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="residenceColumn">
+    <bc-header-cell *headerCellDef>
+      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.RESIDENCE' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.RESIDENCE' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      {{ row.politicalResidence }}
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="signatureTypeColumn">
+    <bc-header-cell *headerCellDef>
+      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      <bc-status-label
+        [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.' + row.signatureType | translate"
+      ></bc-status-label>
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="stateColumn">
+    <bc-header-cell *headerCellDef>
+      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STATE' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STATE' | translate }}
+      </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+      <bc-status-label
+        [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL_STATES.' + row.approvalState | translate"
+      ></bc-status-label>
+    </bc-data-cell>
+  </ng-container>
+
+  <ng-container [columnDef]="actionsColumn">
+    <bc-header-cell *headerCellDef></bc-header-cell>
+    <bc-data-cell *dataCellDef="let element" align="right">
+      @if ((element.userPermissions?.canEdit || element.userPermissions?.canEditPoliticalDuty) && !readonly) {
+        <bc-icon-button
+          (buttonClick)="editClicked.emit(element)"
+          [disabled]="!element.userPermissions?.canEdit && !element.userPermissions?.canEditPoliticalDuty"
+          icon="edit"
+          variant="tertiary"
+          [ariaLabel]="'APP.EDIT' | translate"
+        ></bc-icon-button>
+        <bc-icon-button
+          (buttonClick)="resendClicked.emit(element)"
+          icon="repeat"
+          variant="tertiary"
+          [disabled]="!element.userPermissions?.canResend"
+          [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.RESEND' | translate"
+          [ariaLabel]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.RESEND' | translate"
+        ></bc-icon-button>
+        <bc-icon-button
+          (buttonClick)="removedClicked.emit(element)"
+          [disabled]="!canRemove"
+          icon="trash"
+          variant="tertiary"
+          [ariaLabel]="'APP.DELETE.TITLE' | translate"
+        ></bc-icon-button>
+      }
+    </bc-data-cell>
+  </ng-container>
+
+  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
+  <bc-data-row
+    *dataRowDef="let row; columns: columns"
+    cdkDrag
+    [cdkDragDisabled]="readonly || dragDisabled || dataSource.data.length <= 1"
+    cdkDragLockAxis="y"
+    cdkDragPreviewContainer="parent"
+    [cdkDragData]="row"
+  >
+    <tr *cdkDragPreview class="drag-placeholder px-3 py-1">
+      <td [colSpan]="columns.length">{{ row.politicalLastName }} {{ row.politicalFirstName }}</td>
+    </tr>
+  </bc-data-row>
+
+  <ng-template noDataRow>
+    <tr class="bc-row-data">
+      <td class="bc-cell" [colSpan]="columns.length">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.NO_DATA' | translate }}</td>
+    </tr>
+  </ng-template>
+</bc-table>

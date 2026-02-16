@@ -9,7 +9,7 @@
 >
   <div class="content">
     <bc-readonly [label]="'REFERENDUM.ADD_COLLECTION_DIALOG.DECREE_DESCRIPTION' | translate">
-      {{ data.decree.description }}
+      <span class="user-text">{{ data.decree.description }}</span>
     </bc-readonly>
     <bc-readonly [label]="'REFERENDUM.ADD_COLLECTION_DIALOG.DOMAIN_OF_INFLUENCE_TYPE' | translate">
       {{ 'DOMAIN_OF_INFLUENCE_TYPES.' + data.decree.domainOfInfluenceType | translate }}

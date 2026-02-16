@@ -37,6 +37,9 @@ export class InitiativeCardComponent {
   @Input()
   public showPeriodState: boolean = true;
 
+  @Input()
+  public showType: boolean = false;
+
   @Output()
   public cardClick: EventEmitter<void> = new EventEmitter<void>();
 }

@@ -17,8 +17,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CollectionControlSignFilter } from '@abraxas/voting-ecollecting-proto/admin';
 import { CollectionService } from '../core/services/collection.service';
 import {
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
   DecreeCardComponent,
   DoiTypeCardComponent,
   InitiativeCardComponent,
@@ -26,11 +25,11 @@ import {
   ReferendumCardComponent,
   ToastService,
 } from 'ecollecting-lib';
+import { DatePipe } from '@angular/common';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
+import { firstValueFrom } from 'rxjs';
 import { DomainOfInfluenceService } from '../core/services/domain-of-influence.service';
 import { CollectionsGroup } from '../core/models/collections-group.model';
-import { DatePipe } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
 import { ControlSignSensitiveDataExpiryDialogComponent } from './control-sign-sensitive-data-expiry-dialog/control-sign-sensitive-data-expiry-dialog.component';
 import { SecondFactorTransactionService, VotingLibModule } from '@abraxas/voting-lib';
 import { DomainOfInfluence } from '../core/models/domain-of-influence.model';
@@ -64,6 +63,7 @@ export class ControlSignsComponent implements OnInit {
   private readonly decreeService = inject(DecreeService);
   private readonly collectionService = inject(CollectionService);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly secondFactorTransactionService = inject(SecondFactorTransactionService);
   private readonly toast = inject(ToastService);
 
@@ -165,15 +165,14 @@ export class ControlSignsComponent implements OnInit {
 
   protected async deleteInitiative(initiative: Initiative, group: CollectionsGroup): Promise<void> {
     try {
-      const confirmDialogRef = this.dialogService.open(ConfirmDialogComponent, {
+      const ok = await this.confirmDialogService.confirm({
         title: 'APP.DELETE.TITLE',
         message: 'CONTROL_SIGNS.DELETE.MSG',
         confirmText: 'CONTROL_SIGNS.DELETE.CONFIRM',
         discardText: 'APP.DISCARD',
         confirmColor: 'warn',
-      } satisfies ConfirmDialogData);
-
-      if (!(await firstValueFrom(confirmDialogRef.afterClosed()))) {
+      });
+      if (!ok) {
         return;
       }
 
@@ -202,15 +201,14 @@ export class ControlSignsComponent implements OnInit {
 
   protected async deleteDecree(decree: Decree, group: CollectionsGroup): Promise<void> {
     try {
-      const confirmDialogRef = this.dialogService.open(ConfirmDialogComponent, {
+      const ok = await this.confirmDialogService.confirm({
         title: 'APP.DELETE.TITLE',
         message: 'CONTROL_SIGNS.DELETE.MSG',
         confirmText: 'CONTROL_SIGNS.DELETE.CONFIRM',
         discardText: 'APP.DISCARD',
         confirmColor: 'warn',
-      } satisfies ConfirmDialogData);
-
-      if (!(await firstValueFrom(confirmDialogRef.afterClosed()))) {
+      });
+      if (!ok) {
         return;
       }
 

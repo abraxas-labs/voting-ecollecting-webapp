@@ -7,9 +7,9 @@
     navbarLabel="SIGN_INITIATIVE.TITLE"
   >
     <ng-container info>
-      <h1>{{ initiative.collection.description }}</h1>
-      <p>{{ initiative.wording }}</p>
-      <p>{{ initiative.collection.reason }}</p>
+      <h1 class="user-text">{{ initiative.collection.description }}</h1>
+      <p class="user-text">{{ initiative.wording }}</p>
+      <p class="user-text">{{ initiative.collection.reason }}</p>
 
       @if (initiative.collection.link) {
         <bc-link class="wrap-break-word"

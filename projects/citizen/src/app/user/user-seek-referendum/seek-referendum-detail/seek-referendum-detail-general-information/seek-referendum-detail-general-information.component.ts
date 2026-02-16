@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, HostListener } from '@angular/core';
 import {
   CardModule,
   DropdownModule,
@@ -17,7 +17,7 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImageUploadComponent, newObjectUrlObservableForBlob, CollectionAddress } from 'ecollecting-lib';
-import { AsyncInputValidators } from '@abraxas/voting-lib';
+import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
 import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
@@ -25,6 +25,7 @@ import { CollectionService } from '../../../../core/services/collection.service'
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ReferendumService } from '../../../../core/services/referendum.service';
 import { Referendum } from '../../../../core/models/referendum.model';
+import { HasUnsavedChanges } from '../../../../core/guards/has-unsaved-changes.guard';
 
 @Component({
   selector: 'app-seek-referendum-detail-general-information',
@@ -44,7 +45,7 @@ import { Referendum } from '../../../../core/models/referendum.model';
     AsyncPipe,
   ],
 })
-export class SeekReferendumDetailGeneralInformationComponent implements OnInit, OnDestroy {
+export class SeekReferendumDetailGeneralInformationComponent implements OnInit, OnDestroy, HasUnsavedChanges {
   private readonly referendumService = inject(ReferendumService);
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly collectionService = inject(CollectionService);
@@ -61,6 +62,7 @@ export class SeekReferendumDetailGeneralInformationComponent implements OnInit, 
 
   public image?: Observable<SafeResourceUrl>;
   public logo?: Observable<SafeResourceUrl>;
+  public showValidationErrors = false;
 
   private routeSubscription?: Subscription;
 
@@ -93,7 +95,16 @@ export class SeekReferendumDetailGeneralInformationComponent implements OnInit, 
       this.referendum.collection.address = values.address as Required<typeof values.address>;
       this.referendum.membersCommittee = values.membersCommittee;
       this.referendum.collection.link = values.link;
+
+      this.form.markAsPristine();
+      this.form.markAsUntouched();
     });
+  }
+
+  @HostListener('window:beforeunload')
+  public beforeUnload(): boolean {
+    this.showValidationErrors = true;
+    return !this.hasUnsavedChanges;
   }
 
   public async ngOnInit(): Promise<void> {
@@ -103,6 +114,10 @@ export class SeekReferendumDetailGeneralInformationComponent implements OnInit, 
 
   public ngOnDestroy(): void {
     this.routeSubscription?.unsubscribe();
+  }
+
+  public get hasUnsavedChanges(): boolean {
+    return this.form.dirty;
   }
 
   public async save(
@@ -258,12 +273,11 @@ export class SeekReferendumDetailGeneralInformationComponent implements OnInit, 
         }),
       }),
       membersCommittee: this.formBuilder.control('', {
-        validators: [Validators.maxLength(1_000)],
+        validators: [Validators.maxLength(2_000)],
         asyncValidators: [AsyncInputValidators.complexMlText],
       }),
       link: this.formBuilder.control('', {
-        validators: [Validators.maxLength(2_000)],
-        asyncValidators: [AsyncInputValidators.complexSlText],
+        validators: [Validators.maxLength(2_000), InputValidators.httpsUrl],
       }),
     });
   }

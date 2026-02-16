@@ -8,11 +8,13 @@
       >
         <h4 sub-navigation-title truncateWithTooltip
             tooltip>{{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.TITLE' | translate }}</h4>
-        <bc-button
-          (buttonClick)="new()"
-          variant="tertiary"
-          [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.NEXT' | translate"
-          icon="arrow-right"></bc-button>
+        @if (collection.collection.userPermissions?.canAddSignatureSheet && sheet.userPermissions?.canEdit) {
+          <bc-button
+            (buttonClick)="new()"
+            variant="tertiary"
+            [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.NEXT' | translate"
+            icon="arrow-right"></bc-button>
+        }
         @if (sheet.userPermissions?.canDelete) {
           <bc-button
             (buttonClick)="delete()"

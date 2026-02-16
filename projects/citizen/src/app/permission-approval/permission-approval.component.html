@@ -10,7 +10,12 @@
     <app-approval-page-card
       header="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.IAM.TITLE"
       hint="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.IAM.TEXT"
+      [success]="accepted ? 'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.IAM.ACCEPTED' : undefined"
       [error]="error ? ('ERROR_MESSAGES.' + error | translate) : undefined">
+      @if (accepted) {
+        <bc-link [routerLink]="collectionLink">{{'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.IAM.OPEN' | translate}}</bc-link>
+      }
+
       <bc-button
         actions
         color="primary"
@@ -19,15 +24,17 @@
         (buttonClick)="accept()"></bc-button>
     </app-approval-page-card>
   }
-  <app-approval-page-card
-    header="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.TITLE"
-    hint="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.TEXT"
-    [error]="rejected ? ('COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.DONE') : undefined">
-    <bc-button
-      actions
-      color="warn"
-      icon="stop"
-      [label]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.ACTION' | translate"
-      (buttonClick)="reject()"></bc-button>
-  </app-approval-page-card>
+  @if (!accepted) {
+    <app-approval-page-card
+      header="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.TITLE"
+      hint="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.TEXT"
+      [error]="rejected ? ('COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.DONE') : undefined">
+      <bc-button
+        actions
+        color="warn"
+        icon="stop"
+        [label]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.ACTION' | translate"
+        (buttonClick)="reject()"></bc-button>
+    </app-approval-page-card>
+  }
 </app-approval-page>

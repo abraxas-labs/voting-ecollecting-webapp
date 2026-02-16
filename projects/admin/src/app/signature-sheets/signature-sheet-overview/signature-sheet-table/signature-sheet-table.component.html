@@ -75,7 +75,7 @@
         </span>
       </bc-header-cell>
       <bc-data-cell *dataCellDef="let row">
-        <div truncateWithTooltip tooltip>{{ row.modifiedByName ?? row.createdByName }}</div>
+        <div truncateWithTooltip tooltip>{{ row.modifiedByName || row.createdByName }}</div>
       </bc-data-cell>
     </ng-container>
 
@@ -112,14 +112,39 @@
       </bc-data-cell>
     </ng-container>
 
+    <ng-container [columnDef]="stateColumn">
+      <bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.STATE' | translate">
+          {{ 'COLLECTION.SIGNATURE_SHEETS.STATE' | translate }}
+        </span>
+      </bc-header-cell>
+      <bc-data-cell *dataCellDef="let row" class="text-right">
+        <bc-status-label
+          [label]="
+            (row.modifiedBySuperiorAuthority
+              ? 'COLLECTION.SIGNATURE_SHEETS.MODIFIED_BY_SUPERIOR_AUTHORITY'
+              : 'COLLECTION.SIGNATURE_SHEETS.STATES.' + row.state
+            ) | translate
+          "
+        ></bc-status-label>
+      </bc-data-cell>
+    </ng-container>
+
     <ng-container [columnDef]="actionsColumn">
       <bc-header-cell *headerCellDef></bc-header-cell>
       <bc-data-cell *dataCellDef="let row">
         <div class="flex flex-wrap gap-1 justify-end">
-          <bc-icon-button (buttonClick)="open(row.id)"
-                          [icon]="state === states.COLLECTION_SIGNATURE_SHEET_STATE_ATTESTED ? 'search' : 'edit'"
-                          [tooltip]="'COLLECTION.SIGNATURE_SHEETS.OPEN.' + state | translate"
-                          variant="tertiary"></bc-icon-button>
+          @if (canEdit) {
+            <bc-icon-button (buttonClick)="open(row.id)"
+                            [icon]="'edit'"
+                            [tooltip]="'COLLECTION.SIGNATURE_SHEETS.OPEN.EDIT' | translate"
+                            variant="tertiary"></bc-icon-button>
+          } @else {
+            <bc-icon-button (buttonClick)="open(row.id)"
+                            [icon]="'search'"
+                            [tooltip]="'COLLECTION.SIGNATURE_SHEETS.OPEN.SHOW' | translate"
+                            variant="tertiary"></bc-icon-button>
+          }
 
           @if (row.userPermissions.canDelete) {
             <bc-icon-button (buttonClick)="delete(row.id)"
@@ -145,7 +170,7 @@
       <tr class="bc-row-data">
         <td class="bc-cell" [colSpan]="columns.length">
           <span class="no-data">
-            {{ 'COLLECTION.SIGNATURE_SHEETS.NO_DATA.' + state | translate }}
+            {{ 'COLLECTION.SIGNATURE_SHEETS.NO_DATA.' + (canEdit ? 'CREATED' : 'ATTESTED') | translate }}
           </span>
         </td>
       </tr>

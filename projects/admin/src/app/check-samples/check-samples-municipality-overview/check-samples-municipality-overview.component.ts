@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   BreadcrumbItemModule,
   BreadcrumbsModule,
@@ -16,14 +16,14 @@ import {
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CollectionType } from '@abraxas/voting-ecollecting-proto';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Initiative } from '../../core/models/initiative.model';
 import { Referendum } from '../../core/models/referendum.model';
 import { CheckSamplesHeaderComponent } from '../check-samples-header/check-samples-header.component';
 import { CollectionSignatureSheet } from '../../core/models/collection.model';
 import { CollectionSignatureSheetState } from '@abraxas/voting-ecollecting-proto/admin';
-import { ConfirmDialogComponent, ConfirmDialogData, DomainOfInfluence } from 'ecollecting-lib';
+import { ConfirmDialogService, DomainOfInfluence } from 'ecollecting-lib';
 import { CheckSamplesSignatureSheetTableComponent } from '../check-samples-signature-sheet-table/check-samples-signature-sheet-table.component';
 import { CollectionMunicipalityService } from '../../core/services/collection-municipality.service';
 
@@ -48,6 +48,7 @@ export class CheckSamplesMunicipalityOverviewComponent implements OnInit, OnDest
   protected readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly collectionMunicipalityService = inject(CollectionMunicipalityService);
 
   protected readonly collectionTypes = CollectionType;
@@ -55,6 +56,7 @@ export class CheckSamplesMunicipalityOverviewComponent implements OnInit, OnDest
   protected loading = false;
   protected domainOfInfluence?: DomainOfInfluence;
   protected signatureSheets?: CollectionSignatureSheet[];
+  protected canSubmitAllSignatureSheets = false;
 
   private routeSubscription: Subscription;
 
@@ -82,14 +84,13 @@ export class CheckSamplesMunicipalityOverviewComponent implements OnInit, OnDest
       return;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.SUBMIT_ALL.TITLE',
       message: 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.SUBMIT_ALL.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 
@@ -110,6 +111,15 @@ export class CheckSamplesMunicipalityOverviewComponent implements OnInit, OnDest
       signatureSheet.userPermissions.canDiscard = false;
       signatureSheet.userPermissions.canUnsubmit = true;
     }
+    this.canSubmitAllSignatureSheets = false;
+  }
+
+  protected updateCanSubmitAllSignatureSheets(): void {
+    if (!this.signatureSheets) {
+      return;
+    }
+
+    this.canSubmitAllSignatureSheets = this.signatureSheets.some(x => x.userPermissions?.canSubmit === true);
   }
 
   private async loadData(): Promise<void> {
@@ -120,6 +130,7 @@ export class CheckSamplesMunicipalityOverviewComponent implements OnInit, OnDest
     try {
       this.loading = true;
       this.signatureSheets = await this.collectionMunicipalityService.listSignatureSheets(this.collection.id, this.domainOfInfluence.bfs);
+      this.updateCanSubmitAllSignatureSheets();
     } finally {
       this.loading = false;
     }

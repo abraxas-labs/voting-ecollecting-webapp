@@ -9,6 +9,8 @@ import { Injectable, inject } from '@angular/core';
 import { GrpcEvent, GrpcMessage, GrpcRequest } from '@ngx-grpc/common';
 import { GrpcHandler, GrpcInterceptor } from '@ngx-grpc/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { isUrlWithinBase } from 'ecollecting-lib';
 
 const authorizationKey = 'Authorization';
 const bearerPrefix = 'Bearer ';
@@ -25,6 +27,11 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
   private readonly authStorage = inject(AuthStorageService);
 
   public intercept<Q extends GrpcMessage, S extends GrpcMessage>(request: GrpcRequest<Q, S>, next: GrpcHandler): Observable<GrpcEvent<S>> {
+    const target = request.client.getSettings().host + request.path;
+    if (!isUrlWithinBase(target, environment.grpcApiEndpoint)) {
+      return next.handle(request);
+    }
+
     const accessToken = this.authStorage.getItem(accessTokenStorageField) ?? noAccessTokenPresent();
     // We need to overwrite the authorization explicitly. Otherwise the retry via observable doesn't work, since the
     // existing metadata contains stale authorization data.

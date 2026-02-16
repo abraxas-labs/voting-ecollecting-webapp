@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SegmentedControl, SegmentedControlGroupModule } from '@abraxas/base-components';
 import { CollectionPeriodState, CollectionState } from '@abraxas/voting-ecollecting-proto';
@@ -14,7 +14,7 @@ import { CollectionPeriodState, CollectionState } from '@abraxas/voting-ecollect
   templateUrl: './collection-filter.component.html',
   imports: [TranslateModule, SegmentedControlGroupModule],
 })
-export class CollectionFilterComponent implements OnInit {
+export class CollectionFilterComponent implements OnChanges {
   private readonly i18n = inject(TranslateService);
 
   @Output()
@@ -35,7 +35,7 @@ export class CollectionFilterComponent implements OnInit {
   protected activeFilter!: CollectionMainFilter;
   protected activeSubFilter?: CollectionSubFilter;
 
-  public ngOnInit(): void {
+  public ngOnChanges() {
     for (const filter of Object.values(this.filters)) {
       if (!filter.autoSubFilters) {
         continue;

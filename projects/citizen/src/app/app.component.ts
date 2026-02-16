@@ -18,6 +18,8 @@ import {
   SnackbarComponent,
   SnackbarModule,
   SpinnerModule,
+  TooltipModule,
+  TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { Title } from '@angular/platform-browser';
 import { firstValueFrom, Subscription } from 'rxjs';
@@ -40,6 +42,8 @@ import { accessibilityUrl } from './app.routes';
     SnackbarModule,
     SpinnerModule,
     LinkModule,
+    TooltipModule,
+    TruncateWithTooltipModule,
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {

@@ -97,6 +97,7 @@ export class DecreeDoiTypeCardComponent implements OnInit, OnChanges {
     }
 
     if (this.selectedDomainOfInfluence === undefined) {
+      persistentStorage.removeItem(bfsFilterStorageKey);
       this.filteredDecrees = [];
       return;
     }

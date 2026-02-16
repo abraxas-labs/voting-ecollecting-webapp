@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { filter, firstValueFrom, startWith, Subscription } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
@@ -25,9 +25,9 @@ import {
   CollectionMessagesComponent,
   CollectionMessagesComponentData,
   CollectionMessagesComponentResult,
-  ConfirmDialogComponent,
-  ConfirmDialogData,
+  ConfirmDialogService,
   newSimpleDecree,
+  SHOW_CHAT_QUERY_PARAM,
 } from 'ecollecting-lib';
 import { CollectionState, CollectionType } from '@abraxas/voting-ecollecting-proto';
 import { Referendum } from '../../../core/models/referendum.model';
@@ -64,6 +64,7 @@ export class SeekReferendumDetailComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly referendumService = inject(ReferendumService);
   private readonly collectionService = inject(CollectionService);
 
@@ -74,12 +75,21 @@ export class SeekReferendumDetailComponent implements OnDestroy {
 
   public referendum?: Referendum;
   public active = detailOverviewUrl;
+  public submitting = false;
 
   private routeSubscription: Subscription;
+  private queryParamsSubscription: Subscription;
   private routerEventsSubscription: Subscription;
 
   constructor() {
-    this.routeSubscription = this.route.data.subscribe(async ({ referendum }) => (this.referendum = referendum));
+    this.routeSubscription = this.route.data.subscribe(async ({ referendum }) => {
+      this.referendum = referendum;
+    });
+    this.queryParamsSubscription = this.route.queryParamMap.subscribe(params => {
+      if (params.has(SHOW_CHAT_QUERY_PARAM)) {
+        void this.openChat();
+      }
+    });
     this.routerEventsSubscription = this.router.events
       .pipe(
         filter(evt => evt instanceof NavigationEnd),
@@ -98,6 +108,7 @@ export class SeekReferendumDetailComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
+    this.queryParamsSubscription.unsubscribe();
     this.routerEventsSubscription.unsubscribe();
   }
 
@@ -136,6 +147,16 @@ export class SeekReferendumDetailComponent implements OnDestroy {
       return;
     }
 
+    const ok = await this.confirmDialogService.confirm({
+      title: 'COLLECTION_MESSAGES.REQUEST_INFORMAL_REVIEW_CONFIRM.TITLE',
+      message: 'COLLECTION_MESSAGES.REQUEST_INFORMAL_REVIEW_CONFIRM.MESSAGE',
+      confirmText: 'APP.YES',
+      discardText: 'APP.DISCARD',
+    });
+    if (!ok) {
+      return;
+    }
+
     await this.collectionService.updateRequestInformalReview(this.referendum.id, true);
     await this.openChat();
   }
@@ -145,14 +166,13 @@ export class SeekReferendumDetailComponent implements OnDestroy {
       return;
     }
 
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'SEEK_REFERENDUM.DETAIL.WITHDRAW.TITLE',
       message: 'SEEK_REFERENDUM.DETAIL.WITHDRAW.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 
@@ -177,7 +197,13 @@ export class SeekReferendumDetailComponent implements OnDestroy {
       return;
     }
 
-    await this.referendumService.submit(this.referendum.id);
+    try {
+      this.submitting = true;
+      await this.referendumService.submit(this.referendum.id);
+    } finally {
+      this.submitting = false;
+    }
+
     await this.router.navigate(['..'], { relativeTo: this.route });
   }
 

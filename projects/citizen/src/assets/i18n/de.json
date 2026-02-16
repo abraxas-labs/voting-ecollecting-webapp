@@ -21,10 +21,12 @@
       "ACCESSIBILITY": "Barrierefreiheit",
       "COPYRIGHT": "© {{year}} Portal Kanton St.Gallen"
     },
-    "DELETE": "Löschen",
     "EDIT": "Bearbeiten",
-    "CLOSE": "Schliessen",
-    "BACK": "Zurück"
+    "BACK": "Zurück",
+    "INVALID_FORM_VALUES": {
+      "TITLE": "Fehlerhafte Eingaben",
+      "MSG": "Es gibt noch Textfelder mit fehlerhaften Eingaben. Wenn Sie die Seite verlassen, gehen die Eingaben verloren.\nWollen Sie die Seite trotzdem verlassen?"
+    }
   },
   "AUTH": {
     "LOGIN_FAILED": {
@@ -79,7 +81,7 @@
       "PAPER_SUBMISSION": {
         "TITLE": "Haben Sie die Sammlung bereits auf dem Papierweg eingereicht und erfolgreich überprüfen lassen?",
         "TEXT": "Ich habe die Sammlung bereits auf dem Papierweg eingereicht und erfolgreich überprüfen lassen.",
-        "NUMBER": "Nummer der Sammlung"
+        "SECURE_ID_NUMBER": "Nummer der Sammlung"
       },
       "ELECTRONIC_SUBMISSION": {
         "TITLE": "Möchten Sie die Sammlung elektronisch erfassen und einreichen?",
@@ -87,7 +89,7 @@
       }
     },
     "DETAIL": {
-      "TITLE_PAPER_SUBMISSION": "Vorerfasste Sammlung \"{{description}}\" (Nummer {{number}})",
+      "TITLE_PAPER_SUBMISSION": "Vorerfasste Sammlung \"{{description}}\"",
       "TITLE_ELECTRONIC_SUBMISSION": "Sammlung \"{{description}}\" (vollelektronische Erfassung)",
       "SELECT_DECREE": "Erlass auswählen",
       "SELECT_DECREE_INFO": "Bitte wählen Sie den Erlass aus, gegen den Sie das Referendum ergreifen möchten! Ihre Sammlung muss sich spätestens beim Prüfen oder Einreichen auf einen Erlass beziehen!",
@@ -148,7 +150,7 @@
       "TITLE": "Initiative lancieren",
       "DOMAIN_OF_INFLUENCE_TYPE": "Ebene",
       "SUB_TYPE": "Art der Initiative",
-      "MIN_SIGNATURE_COUNT": "Total nötig",
+      "MIN_SIGNATURE_COUNT": "Total Erforderlich",
       "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
       "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
       "DESCRIPTION_HINT": "Die Bezeichnung sollte einen direkten Zusammenhang mit dem Inhalt des Geschäfts haben",
@@ -156,7 +158,7 @@
       "PAPER_SUBMISSION": {
         "TITLE": "Haben Sie die Initiative bereits auf dem Papierweg eingereicht und erfolgreich überprüfen lassen?",
         "TEXT": "Ich habe die Initiative bereits auf dem Papierweg eingereicht und erfolgreich überprüfen lassen.",
-        "GOVERNMENT_DECISION_NUMBER": "Nummer des Regierungbeschlusses"
+        "SECURE_ID_NUMBER": "Nummer der Sammlung"
       },
       "ELECTRONIC_SUBMISSION": {
         "TITLE": "Möchten Sie die Initiative elektronisch erfassen und einreichen?",
@@ -192,7 +194,7 @@
       "GENERAL_INFORMATION": {
         "TITLE": "Allgemeine Angaben",
         "SUB_TYPE": "Art der Initiative",
-        "MIN_SIGNATURE_COUNT": "Total nötig",
+        "MIN_SIGNATURE_COUNT": "Total Erforderlich",
         "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
         "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
         "DESCRIPTION_HINT": "Die Bezeichnung sollte einen direkten Zusammenhang mit dem Inhalt des Geschäfts haben",
@@ -234,11 +236,15 @@
           "DATE_OF_BIRTH": "Geburtsdatum",
           "RESIDENCE": "Wohnort",
           "POLITICAL_RESIDENCE": "Politischer Wohnort",
+          "STREET": "Strasse",
+          "HOUSE_NUMBER": "Haus-Nr.",
+          "ZIP_CODE": "PLZ",
           "EMAIL": "E-Mail-Adresse",
           "STATE": "Status",
           "POLITICAL_DUTY": "Politisches Amt",
           "ROLE": "Berechtigung",
           "SORTED": "Position gespeichert.",
+          "REJECTED_OR_EXPIRED": "Abgelehnte Komiteemitglieder",
           "REQUEST_MEMBER_SIGNATURE": {
             "LABEL": "Bestätigung",
             "REQUEST": "Bestätigung soll beim Komiteemitglied angefordert werden",
@@ -264,7 +270,8 @@
             "2": "unterschrieben",
             "3": "nicht akzeptiert",
             "4": "geprüft",
-            "5": "abgelehnt"
+            "5": "abgelehnt",
+            "6": "Einladung abgelaufen"
           },
           "REMOVE_CONFIRMATION": {
             "TITLE": "Löschen",
@@ -280,7 +287,11 @@
               "TITLE": "Bestätigung über AGOV",
               "TEXT": "Besitzen Sie eine AGOV Identität mit Level 400? Dann können Sie Ihre Identät mit AGOV bestätigen.",
               "ACTION": "Bestätigung über AGOV",
-              "ACCEPTED": "Komitee-Mitgliedschaft erfolgreich geprüft!"
+              "ACCEPTED": "Komitee-Mitgliedschaft erfolgreich geprüft!",
+              "CONFIRM": {
+                "TITLE": "Annehmen?",
+                "MESSAGE": "Möchten Sie die Anfrage wirklich annehmen?"
+              }
             },
             "UPLOAD": {
               "TITLE": "Bestätigung via Unterschrift",
@@ -304,7 +315,7 @@
             "INITIATIVE_DETAIL": {
               "TITLE": "Details zur Initiative"
             },
-            "NOT_FOUND": "Die Anfrage konnte nicht gefunden werden. Möglicherweise ist die Anfrage abgelaufen oder wurde zurückgezogen."
+            "NOT_FOUND": "Die Anfrage konnte nicht gefunden werden. Möglicherweise wurde die Anfrage bereits akzeptiert oder abgelehnt, oder sie ist abgelaufen oder wurde zurückgezogen."
           }
         }
       },
@@ -322,13 +333,24 @@
     "DOWNLOAD_SIGNATURE_LIST": "Download Unterschriftenliste",
     "COMMITTEE_PREFIX": "Komitee: ",
     "NOT_READY_HINT": "Die Sammlung befindet sich in der Vorbereitung",
-    "ALREADY_SIGNED": "Sie haben erfolgreich unterschrieben",
+    "ALREADY_SIGNED": {
+      "1": "Sie haben das Begehren bereits erfolgreich elektronisch unterzeichnet.",
+      "2": "Sie haben das Begehren bereits erfolgreich physisch unterzeichnet."
+    },
     "SIGNING": "signieren…",
     "SHOW_DETAILS": "Details anzeigen",
     "LOGO_ALT": "Logo der Sammlung",
     "IMAGE_ALT": "Bild der Sammlung",
     "EXPIRED": "Die Sammelfrist ist abgelaufen, es kann nicht mehr unterschrieben werden.",
-    "SIGNATURE_SHEETS_SUBMITTED": "Die Sammlung wurde durch das Komitee beendet. Es kann nicht mehr unterschrieben werden."
+    "SIGNATURE_SHEETS_SUBMITTED": "Die Sammlung wurde durch das Komitee beendet. Es kann nicht mehr unterschrieben werden.",
+    "CONFIRM": {
+      "TITLE": "Bestätigung erforderlich",
+      "MESSAGES": {
+        "1": "Sie sind im Begriff, das Begehren zu unterzeichnen. Geleistete Unterschriften können nicht mehr zurückgezogen werden. Wollen Sie fortfahren?\nDas Initiativkomitee ist berechtigt, die Initiative vorbehaltlos und gesamthaft mit einfacher Mehrheit seiner Mitglieder, die zum Zeitpunkt des Rückzugs in kantonalen Angelegenheiten stimmberechtigt sind, zurückzuziehen (Art. 55 Abs. 1 des Gesetzes über Referendum und Initiative [sGS 125.1; abgekürzt RIG]).\nWer das Ergebnis einer Unterschriftensammlung für ein Initiativbegehren fälscht (Art. 282 des Schweizerischen Strafgesetzbuches [311.0; abgekürzt StGB]) oder wer bei der Unterschriftensammlung besticht oder sich bestechen lässt (Art. 281 StGB), macht sich strafbar.",
+        "2": "Sie sind im Begriff, das Begehren zu unterzeichnen. Geleistete Unterschriften können nicht mehr zurückgezogen werden. Wollen Sie fortfahren?\nWer das Ergebnis einer Unterschriftensammlung für ein Referendumsbegehren fälscht (Art. 282 des Schweizerischen Strafgesetzbuches [311.0; abgekürzt StGB]) oder wer bei der Unterschriftensammlung besticht oder sich bestechen lässt (Art. 281 StGB), macht sich strafbar."
+      },
+      "CONFIRM": "Bestätigen"
+    }
   },
   "SIGN_INITIATIVE": {
     "TITLE": "Initiative unterstützen",
@@ -341,14 +363,14 @@
     "CAME_NOT_ABOUT": "Dieses Referendum ist nicht zustande gekommen. Begründung: {{reason}}"
   },
   "MUNICIPALITY_FILTER": {
-    "TITLE": "Laufende Sammlungen in Ihrer Gemeinde",
+    "TITLE": "Gemeinde",
     "PLACEHOLDER": "Bitte wählen Sie Ihre Gemeinde aus…",
     "HINT": "Sie können nur kommunale Sammlungen der Gemeinde unterzeichnen, in der Sie stimmberechtigt sind."
   },
   "COLLECTION": {
     "DETAIL": {
       "GENERAL_INFORMATION": {
-        "IMAGE_DISCLAIMER": "Disclaimer: Durch das Hochladen von Bildern auf unsere Plattform bestätigen Sie, dass Sie die Rechte an den hochgeladenen Bildern besitzen oder die erforderliche Erlaubnis zur Nutzung und Veröffentlichung der Bilder haben. Sie stimmen zu, dass die hochgeladenen Bilder keine urheberrechtlich geschützten Inhalte, keine persönlichen Daten ohne Zustimmung und keine unangemessenen oder illegalen Inhalte enthalten. Wir behalten uns das Recht vor, hochgeladene Bilder zu überprüfen und gegebenenfalls zu entfernen, wenn sie gegen unsere Richtlinien verstoßen. Sie übernehmen die volle Verantwortung für die hochgeladenen Inhalte und entbinden unsere Plattform von jeglicher Haftung im Zusammenhang mit den hochgeladenen Bildern."
+        "IMAGE_DISCLAIMER": "Mit dem Hochladen von Dateien auf die E-Collecting-Plattform bestätigen Sie, dass Sie über die Rechte oder die erforderliche Erlaubnis zur Nutzung und Veröffentlichung der Inhalte verfügen. Sie stimmen zu, dass die hochgeladenen Dateien keine urheberrechtlich geschützten Inhalte, keine Personendaten ohne Zustimmung und keine unangemessenen oder illegalen Inhalte enthalten. Die Betreiberin der E-Collecting-Plattform behält sich das Recht vor, hochgeladene Dateien zu überprüfen und gegebenenfalls zu entfernen, insbesondere wenn Anhaltspunkte für Rechtsverletzungen bestehen. Mit dem Hochladen der Dateien übernehmen Sie die volle Verantwortung für die Inhalte und entbinden die Betreiberin der E-Collecting-Plattform von jeglicher Haftung in diesem Zusammenhang."
       },
       "PERMISSIONS": {
         "TITLE": "Berechtigungen",
@@ -362,7 +384,8 @@
             "TITLE": "AGOV-Bestätigung",
             "1": "pendent",
             "2": "geprüft",
-            "3": "abgelehnt"
+            "3": "abgelehnt",
+            "4": "Einladung abgelaufen"
           },
           "NO_DATA": "Keine Berechtigungen erfasst."
         },
@@ -391,10 +414,11 @@
             "TITLE": "Bestätigung über AGOV",
             "TEXT": "Besitzen Sie eine AGOV Identität mit Level 100? Dann können Sie Ihre Identät mit AGOV bestätigen.",
             "ACTION": "Bestätigung über AGOV",
-            "DONE": "Berechtigung akzeptiert.",
+            "ACCEPTED": "Berechtigung erfolgreich akzeptiert!",
+            "OPEN": "Sammlung ansehen",
             "CONFIRM": {
               "TITLE": "Bestätigen?",
-              "MESSAGE": "Möchten Sie die Berechtigung wirklich bestätigen?"
+              "MESSAGE": "Möchten Sie die Teilnahme über AGOV bestätigen?"
             }
           },
           "REJECT": {
@@ -407,7 +431,7 @@
               "MESSAGE": "Möchten Sie die Berechtigung wirklich ablehnen?"
             }
           },
-          "NOT_FOUND": "Die Berechtigungsanfrage konnte nicht gefunden werden. Möglicherweise ist die Anfrage abgelaufen oder wurde zurückgezogen."
+          "NOT_FOUND": "Die Anfrage konnte nicht gefunden werden. Möglicherweise wurde die Anfrage bereits akzeptiert oder abgelehnt, oder sie ist abgelaufen oder wurde zurückgezogen."
         }
       },
       "SIGNATURE_SHEET": {
@@ -504,12 +528,13 @@
     "CollectionPermissionAlreadyExistsException": "Es besteht bereits eine Berechtigung mit dieser E-Mail-Adresse.",
     "InsufficientAcrException": "Das ACR-Level von AGOV reicht für diese Aktion nicht aus.",
     "CollectionAlreadySignedException": "Die Sammlung wurde bereits unterschrieben.",
-    "DecreeAlreadySignedException": "Sie haben bereits eine andere Sammlung dieses Erlasses unterschrieben.",
-    "CollectionMaxElectronicSignatureCountReachedException": "Die maximale Anzahl elektronischer Unterschriften wurde bereits erreicht. Sie können weiterhin physisch unterschreiben.",
-    "DecreeMaxElectronicSignatureCountReachedException": "Die maximale Anzahl elektronischer Unterschriften wurde bereits erreicht. Sie können weiterhin physisch unterschreiben.",
+    "DecreeAlreadySignedException": "Sie haben bereits eine andere Sammlung zu diesem Erlass unterzeichnet.",
+    "CollectionMaxElectronicSignatureCountReachedException": "Die maximal mögliche Anzahl an elektronischen Unterschriften wurde bereits erreicht. Sie können das Begehren weiterhin physisch unterzeichnen.",
+    "DecreeMaxElectronicSignatureCountReachedException": "Die maximal mögliche Anzahl an elektronischen Unterschriften wurde bereits erreicht. Sie können das Begehren weiterhin physisch unterzeichnen.",
     "PersonOrVotingRightNotFoundException": "Kein Stimmrecht gefunden.",
     "EmailDoesNotMatchException": "Die E-Mail der AGOV-Identität stimmt nicht mit der erwarteten E-Mail für diese Aktion überein.",
     "InitiativeCommitteeMemberApprovalNoVotingRightException": "Komitee-Mitgliedschaft abgelehnt (kein Stimmrecht).",
-    "CannotAddOwnerPermissionException": "Es kann keine Berechtigung für den Ersteller der Sammlung hinzugefügt werden."
+    "CannotAddOwnerPermissionException": "Es kann keine Berechtigung für den Ersteller der Sammlung hinzugefügt werden.",
+    "UserHasAlreadyAPermissionException": "Der Benutzer hat bereits eine Berechtigung für diese Sammlung."
   }
 }

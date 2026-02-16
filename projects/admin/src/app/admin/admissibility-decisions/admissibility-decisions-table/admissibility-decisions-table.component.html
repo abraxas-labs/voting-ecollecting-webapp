@@ -16,6 +16,16 @@
         [label]="'DOMAIN_OF_INFLUENCE.TYPES.' + row.domainOfInfluenceType | translate"></bc-status-label>
     </bc-data-cell>
   </ng-container>
+  <ng-container [columnDef]="domainOfInfluenceNameColumn">
+    <bc-header-cell sort filter filterType="text" *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'ADMIN.ADMISSIBILITY_DECISIONS.DOI_TYPE_NAME' | translate }}
+        </span>
+    </bc-header-cell>
+    <bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>{{ row.domainOfInfluenceName }}</div>
+    </bc-data-cell>
+  </ng-container>
   <ng-container [columnDef]="subTypeColumn">
     <bc-header-cell sort
                     filter

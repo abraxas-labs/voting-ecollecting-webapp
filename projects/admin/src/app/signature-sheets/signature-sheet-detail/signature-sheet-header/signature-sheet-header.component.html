@@ -1,10 +1,16 @@
 @if (collection && sheet) {
   <div class="flex gap-4 p-3 items-center">
-    <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.COLLECTION' | translate"
-      >{{ collection.collection.description }}
+    <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.COLLECTION' | translate">
+      <span class="user-text">{{ collection.collection.description }}</span>
     </bc-readonly>
     <ng-content select="[header-info]"></ng-content>
     <div class="grow"></div>
+    @if (sheet.modifiedBySuperiorAuthority) {
+      <bc-status-label
+        [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.MODIFIED_BY_SUPERIOR_AUTHORITY.TITLE' | translate"
+        [tooltip]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.MODIFIED_BY_SUPERIOR_AUTHORITY.MSG' | translate"
+      ></bc-status-label>
+    }
     <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.NUMBER' | translate">{{ sheet.number | number }} </bc-readonly>
     <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.RECEIVED_AT' | translate"
       >{{ sheet.receivedAt | date: 'dd.MM.yyyy' }}

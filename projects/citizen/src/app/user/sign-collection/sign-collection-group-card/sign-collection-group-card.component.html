@@ -8,7 +8,7 @@
 
   <div class="flex flex-col gap-3 mt-3">
     @for (initiative of initiatives; track initiative.collection.id) {
-      <vo-ecol-initiative-card [initiative]="initiative" [role]="initiative.collection.userPermissions?.role" (cardClick)="signOnline(initiative.collection)">
+      <vo-ecol-initiative-card [initiative]="initiative" [role]="initiative.collection.userPermissions?.role" (cardClick)="signOnline(initiative.collection)" [showType]="true">
         <app-sign-collection-extension [collection]="initiative.collection">
           <bc-alert-bar
             cameNotAboutReason
@@ -20,7 +20,7 @@
     }
 
     @for (decree of referendumDecrees; track decree.id) {
-      <vo-ecol-decree-card [decree]="decree" [showState]="true">
+      <vo-ecol-decree-card [decree]="decree" [showState]="true" [showType]="true">
         @if (decree.collections && decree.state === decreeStates.DECREE_STATE_ENDED_CAME_NOT_ABOUT) {
           <bc-alert-bar
             [displayDismissAction]="false"

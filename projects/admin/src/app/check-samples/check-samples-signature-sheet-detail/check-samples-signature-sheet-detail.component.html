@@ -5,7 +5,7 @@
         <h4 sub-navigation-title truncateWithTooltip tooltip>{{ 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DETAIL.TITLE' | translate }}</h4>
         @if (sheet.userPermissions?.canConfirm) {
           <bc-button
-            (buttonClick)="backWithUnsavedChangesCheck()"
+            (buttonClick)="resetChanges()"
             [variant]="'tertiary'"
             [label]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DETAIL.RESET_CHANGES.TITLE' | translate"
             [disabled]="!hasChanges"

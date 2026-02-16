@@ -61,6 +61,11 @@
               [readonly]="!canEditAdmissibilityDecisionState"
               [formControl]="form.controls.admissibilityDecisionState"></bc-dropdown>
           </div>
+          @if (dialogData.initiative?.collection?.secureIdNumber) {
+            <bc-readonly [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.SECURE_ID_NUMBER' | translate">
+              <bc-status-label class="py-2" [size]="'large'" [label]="dialogData.initiative!.collection!.secureIdNumber!"></bc-status-label>
+            </bc-readonly>
+          }
         </div>
         <div class="card">
           <div class="flex">

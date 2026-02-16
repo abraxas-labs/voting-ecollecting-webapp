@@ -1,5 +1,6 @@
 <form (ngSubmit)="onSearch()" (reset)="reset()">
   <bc-filter-text
+    #officialNameInput
     optionalText=""
     [operation]="filterOperationIds.STARTS_WITH"
     [operations]="textFilterOperations"
@@ -41,6 +42,7 @@
     <bc-button
       type="reset"
       variant="secondary"
-      [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.RESET' | translate"></bc-button>
+      [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.RESET' | translate"
+      (buttonClick)="officialNameInput.setFocus()"></bc-button>
   </div>
 </form>

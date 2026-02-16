@@ -6,19 +6,21 @@
     <bc-divider class="my-3"></bc-divider>
 
     <h2 translate>OVERVIEW.EXPLAINER_VIDEO.TITLE</h2>
-    <div class="flex flex-wrap gap-4">
+    <div class="explainer-videos gap-4">
       @for (explainerVideo of explainerVideos; track explainerVideo) {
-        <bc-card class="flex-1" backgroundColor="primary">
-          <bc-card-header>
-            <bc-card-title [label]="explainerVideo.title | translate"></bc-card-title>
-            <a class="ml-2" [href]="explainerVideo.link" target="_blank">
-              <bc-icon-button class="play-button" variant="tertiary-tonal" icon="play"></bc-icon-button>
-            </a>
-          </bc-card-header>
-          <bc-card-content>
-            <p class="pr-5" translate>{{ explainerVideo.description }}</p>
-          </bc-card-content>
-        </bc-card>
+        <div class="explainer-video flex-1">
+          <a [href]="explainerVideo.link" target="_blank">
+            <bc-card backgroundColor="primary" class="h-full">
+              <bc-card-header>
+                <bc-card-title [label]="explainerVideo.title | translate"></bc-card-title>
+                <bc-icon-button class="ml-2 play-button" variant="tertiary-tonal" icon="play"></bc-icon-button>
+              </bc-card-header>
+              <bc-card-content>
+                <p class="pr-5" translate>{{ explainerVideo.description }}</p>
+              </bc-card-content>
+            </bc-card>
+          </a>
+        </div>
       }
     </div>
 

@@ -4,10 +4,9 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import {
   CheckboxModule,
-  DialogService,
   IconButtonModule,
   SpinnerModule,
   StatusLabelModule,
@@ -19,8 +18,7 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { Person, PersonReviewState } from '../../../core/models/person.model';
-import { firstValueFrom } from 'rxjs';
-import { ConfirmDialogComponent, ConfirmDialogData } from 'ecollecting-lib';
+import { ConfirmDialogService } from 'ecollecting-lib';
 
 @Component({
   selector: 'app-signature-sheet-citizen-table',
@@ -37,10 +35,9 @@ import { ConfirmDialogComponent, ConfirmDialogData } from 'ecollecting-lib';
   ],
   templateUrl: './signature-sheet-citizen-table.component.html',
   styleUrl: './signature-sheet-citizen-table.component.scss',
-  providers: [DialogService],
 })
 export class SignatureSheetCitizenTableComponent implements OnInit {
-  private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
 
   protected readonly officialNameColumn = 'officialName';
   protected readonly firstNameColumn = 'firstName';
@@ -96,14 +93,13 @@ export class SignatureSheetCitizenTableComponent implements OnInit {
   }
 
   protected async confirmAndRemove(row: Person): Promise<void> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 

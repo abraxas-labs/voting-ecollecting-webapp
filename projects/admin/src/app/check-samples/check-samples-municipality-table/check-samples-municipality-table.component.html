@@ -43,7 +43,9 @@
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let row">
       <div class="flex justify-end gap-2">
-        @if (row.signatureSheetsCount.totalSubmittedOrConfirmedSignatureSheetsCount === row.signatureSheetsCount.totalSignatureSheetsCount) {
+        @if (
+          row.signatureSheetsCount.totalSubmittedOrConfirmedSignatureSheetsCount === row.signatureSheetsCount.totalSignatureSheetsCount
+        ) {
           <bc-icon [icon]="'check-circle'" [iconColor]="'success'"></bc-icon>
         }
         <div truncateWithTooltip tooltip>{{ row.signatureSheetsCount.totalSubmittedOrConfirmedSignatureSheetsCount | number }}</div>
@@ -153,7 +155,15 @@
       <mat-menu #menu="matMenu">
         <div mat-menu-item (click)="unlock(row)" [disabled]="!row.isLocked">{{ 'COLLECTION.CHECK_SAMPLES.TABLE.UNLOCK' | translate }}</div>
         <div mat-menu-item (click)="lock(row)" [disabled]="row.isLocked">{{ 'COLLECTION.CHECK_SAMPLES.TABLE.LOCK' | translate }}</div>
-        <div mat-menu-item (click)="submitMunicipalitySignatureSheets(row)">{{ 'COLLECTION.CHECK_SAMPLES.TABLE.SUBMIT_SIGNATURE_SHEETS' | translate }}</div>
+        <div
+          mat-menu-item
+          (click)="submitMunicipalitySignatureSheets(row)"
+          [disabled]="
+            row.signatureSheetsCount.totalSubmittedOrConfirmedSignatureSheetsCount === row.signatureSheetsCount.totalSignatureSheetsCount
+          "
+        >
+          {{ 'COLLECTION.CHECK_SAMPLES.TABLE.SUBMIT_SIGNATURE_SHEETS' | translate }}
+        </div>
       </mat-menu>
     </bc-data-cell>
     <bc-footer-cell *footerCellDef> </bc-footer-cell>

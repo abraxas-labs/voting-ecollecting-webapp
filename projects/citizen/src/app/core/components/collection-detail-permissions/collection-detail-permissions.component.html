@@ -83,12 +83,12 @@
                     (buttonClick)="delete(element.id)"
                     icon="trash"
                     variant="tertiary"
-                    [ariaLabel]="'APP.DELETE' | translate"></bc-icon-button>
+                    [ariaLabel]="'APP.DELETE.TITLE' | translate"></bc-icon-button>
                   <bc-icon-button
-                    (buttonClick)="resend(element.id)"
+                    (buttonClick)="resend(element)"
                     icon="repeat"
                     variant="tertiary"
-                    [disabled]="element.state !== states.COLLECTION_PERMISSION_STATE_PENDING"
+                    [disabled]="!element.userPermissions?.canResend"
                     [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.RESEND' | translate"
                     [ariaLabel]="'COLLECTION.DETAIL.PERMISSIONS.RESEND' | translate"
                   ></bc-icon-button>

@@ -28,6 +28,7 @@
           <bc-button
             [label]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.SUBMIT_ALL.TITLE' | translate"
             [variant]="'secondary'"
+            [disabled]="!canSubmitAllSignatureSheets"
             (buttonClick)="submitAll()"
           ></bc-button>
         </div>
@@ -36,6 +37,7 @@
             [collectionId]="collection.id"
             [signatureSheets]="signatureSheets"
             (collectionCountChanged)="collection.collection.attestedCollectionCount = $event"
+            (sheetStateChanged)="updateCanSubmitAllSignatureSheets()"
           ></app-check-samples-signature-sheet-table>
         </div>
       }

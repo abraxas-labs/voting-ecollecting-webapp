@@ -9,7 +9,7 @@ import { ButtonModule, DialogService, SpinnerModule } from '@abraxas/base-compon
 import { TranslateModule } from '@ngx-translate/core';
 import { DecreeEditDialogComponent } from '../decree-edit-dialog/decree-edit-dialog.component';
 import { Decree } from '../../../core/models/decree.model';
-import { ConfirmDialogComponent, ConfirmDialogData, ToastService } from 'ecollecting-lib';
+import { ConfirmDialogService, ToastService } from 'ecollecting-lib';
 import { DecreeService } from '../../../core/services/decree.service';
 import { DecreeTableComponent } from '../decree-table/decree-table.component';
 import { DomainOfInfluenceService } from '../../../core/services/domain-of-influence.service';
@@ -25,6 +25,7 @@ import { DomainOfInfluence } from '../../../core/models/domain-of-influence.mode
 })
 export class DecreeOverviewComponent implements OnInit {
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly decreeService = inject(DecreeService);
   private readonly domainOfInfluenceService = inject(DomainOfInfluenceService);
@@ -64,14 +65,13 @@ export class DecreeOverviewComponent implements OnInit {
   }
 
   public async deleteDecree(decree: Decree): Promise<void> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 

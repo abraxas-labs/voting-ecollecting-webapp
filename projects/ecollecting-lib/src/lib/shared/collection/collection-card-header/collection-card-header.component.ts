@@ -9,8 +9,9 @@ import { CardModule, IconButtonModule, ReadonlyModule, StatusLabelModule } from 
 import { TranslatePipe } from '@ngx-translate/core';
 import { Collection } from '../../models/collection.model';
 import { CollectionPeriodStateLabelComponent } from '../collection-period-state-label/collection-period-state-label.component';
-import { CollectionPermissionRole, CollectionState, DecreeState } from '@abraxas/voting-ecollecting-proto';
+import { CollectionPermissionRole, CollectionState, CollectionType, DecreeState } from '@abraxas/voting-ecollecting-proto';
 import { Decree } from '../../models/decree.model';
+import { InitiativeSubType } from '../../models/initiative.model';
 
 @Component({
   selector: 'vo-ecol-collection-card-header',
@@ -22,6 +23,10 @@ export class CollectionCardHeaderComponent {
   private collectionOrDecreeValue!: Collection | Decree;
   protected readonly decreeStates = DecreeState;
   protected readonly collectionStates = CollectionState;
+  protected readonly collectionTypes = CollectionType;
+
+  @Input()
+  public showType: boolean = false;
 
   @Input()
   public showState: boolean = true;
@@ -54,6 +59,9 @@ export class CollectionCardHeaderComponent {
 
   @Input({ required: true })
   public collectionEndDate?: Date;
+
+  @Input()
+  public subType?: InitiativeSubType;
 
   protected collection?: Collection;
   protected decree?: Decree;

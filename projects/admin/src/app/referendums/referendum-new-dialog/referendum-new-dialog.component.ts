@@ -31,12 +31,8 @@ export class ReferendumNewDialogComponent extends BaseDialogWithUnsavedChangesCh
   protected form!: FormGroup<Form>;
   protected saving: boolean = false;
 
-  private readonly now: Date;
-
   constructor() {
     super();
-    this.now = new Date();
-    this.now.setHours(0, 0, 0, 0);
 
     this.buildForm();
   }

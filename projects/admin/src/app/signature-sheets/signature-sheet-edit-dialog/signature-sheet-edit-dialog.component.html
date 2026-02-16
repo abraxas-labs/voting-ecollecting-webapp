@@ -36,6 +36,7 @@
       [formControl]="form.controls.receivedAt"
       [required]="true"
       subscriptSizing="dynamic"
+      [max]="today"
       [adjustFormControlErrors]="false"></bc-date>
     <bc-number
       [label]="'COLLECTION.SIGNATURE_SHEETS.EDIT_DIALOG.SIGNATURES_COUNT_TOTAL' | translate"

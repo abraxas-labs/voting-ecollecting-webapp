@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   ButtonModule,
@@ -18,7 +18,7 @@ import {
   TooltipModule,
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
-import { ConfirmDialogComponent, persistentStorage, storageKeyPrefix, ConfirmDialogData, ToastService } from 'ecollecting-lib';
+import { ConfirmDialogService, persistentStorage, storageKeyPrefix, ToastService } from 'ecollecting-lib';
 import { InitiativeService } from '../../core/services/initiative.service';
 import { Initiative } from '../../core/models/initiative.model';
 import { AdmissibilityDecisionsTableComponent } from './admissibility-decisions-table/admissibility-decisions-table.component';
@@ -58,6 +58,7 @@ const filterKey = storageKeyPrefix + 'admissibility-decisions-filter';
 export class AdmissibilityDecisionsComponent implements OnInit {
   private readonly initiativeService = inject(InitiativeService);
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
 
@@ -96,14 +97,13 @@ export class AdmissibilityDecisionsComponent implements OnInit {
   }
 
   protected async delete(initiative: Initiative): Promise<void> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    if (!(await firstValueFrom(dialogRef.afterClosed()))) {
+    });
+    if (!ok) {
       return;
     }
 

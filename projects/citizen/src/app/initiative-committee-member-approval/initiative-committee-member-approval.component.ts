@@ -91,9 +91,4 @@ export class InitiativeCommitteeMemberApprovalComponent extends ApprovalPageBase
   protected override loadDataByToken(token: string): Promise<PendingInitiativeCommitteeMembership> {
     return this.initiativeService.getPendingCommitteeMembershipByToken(token);
   }
-
-  protected override async confirm(action: 'IAM' | 'REJECT'): Promise<boolean> {
-    // auto-confirm IAM
-    return action === 'IAM' || super.confirm(action);
-  }
 }

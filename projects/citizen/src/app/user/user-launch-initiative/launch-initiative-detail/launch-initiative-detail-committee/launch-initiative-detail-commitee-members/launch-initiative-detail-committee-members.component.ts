@@ -4,62 +4,42 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
-import {
-  ButtonModule,
-  CardModule,
-  DialogService,
-  IconButtonModule,
-  IconModule,
-  SpinnerModule,
-  StatusLabelModule,
-  TableDataSource,
-  TableModule,
-  TruncateWithTooltipModule,
-} from '@abraxas/base-components';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { ButtonModule, CardModule, DialogService, IconModule, SpinnerModule } from '@abraxas/base-components';
 import { Initiative, InitiativeCommittee, InitiativeCommitteeMember } from '../../../../../core/models/initiative.model';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   LaunchInitiativeDetailCommitteeMembersDialogComponent,
   LaunchInitiativeDetailCommitteeMembersDialogData,
 } from '../launch-initiative-detail-commitee-members-dialog/launch-initiative-detail-committee-members-dialog.component';
-import { DatePipe, DecimalPipe } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
-import { ConfirmDialogComponent, ConfirmDialogData, DomainOfInfluence, ToastService } from 'ecollecting-lib';
+import { DecimalPipe } from '@angular/common';
+import { ConfirmDialogService, DomainOfInfluence, ToastService } from 'ecollecting-lib';
 import { InitiativeService } from '../../../../../core/services/initiative.service';
 import { DomainOfInfluenceType, InitiativeCommitteeMemberApprovalState } from '@abraxas/voting-ecollecting-proto';
-import { CdkDrag, CdkDragDrop, CdkDragPreview, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DomainOfInfluenceService } from '../../../../../core/services/domain-of-influence.service';
+import { LaunchInitiativeDetailCommitteeMembersTableComponent } from '../launch-initiative-detail-committee-members-table/launch-initiative-detail-committee-members-table.component';
 
 @Component({
   selector: 'app-launch-initiative-detail-committee-members',
   imports: [
-    ButtonModule,
-    TranslatePipe,
-    TableModule,
-    IconModule,
     CardModule,
-    IconButtonModule,
     SpinnerModule,
-    TruncateWithTooltipModule,
-    StatusLabelModule,
-    TranslateDirective,
-    DatePipe,
+    TranslatePipe,
+    LaunchInitiativeDetailCommitteeMembersTableComponent,
+    IconModule,
     DecimalPipe,
-    CdkDropList,
-    CdkDrag,
-    CdkDragPreview,
+    ButtonModule,
   ],
   templateUrl: './launch-initiative-detail-committee-members.component.html',
   styleUrl: './launch-initiative-detail-committee-members.component.scss',
 })
-export class LaunchInitiativeDetailCommitteeMembersComponent implements OnChanges, OnInit {
+export class LaunchInitiativeDetailCommitteeMembersComponent implements OnInit {
   private readonly dialogService = inject(DialogService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly initiativeService = inject(InitiativeService);
   private readonly toast = inject(ToastService);
   private readonly domainOfInfluenceService = inject(DomainOfInfluenceService);
-
-  protected readonly approvalStates = InitiativeCommitteeMemberApprovalState;
 
   @Input({ required: true })
   public initiative!: Initiative;
@@ -67,34 +47,10 @@ export class LaunchInitiativeDetailCommitteeMembersComponent implements OnChange
   @Input({ required: true })
   public committee!: InitiativeCommittee;
 
-  protected readonly lastNameColumn = 'lastName';
-  protected readonly firstNameColumn = 'firstName';
-  protected readonly dateOfBirthColumn = 'dateOfBirth';
-  protected readonly residenceColumn = 'residence';
-  protected readonly emailColumn = 'email';
-  protected readonly signatureTypeColumn = 'signatureType';
-  protected readonly stateColumn = 'state';
-  protected readonly actionsColumn = 'actions';
-  protected readonly columns = [
-    this.lastNameColumn,
-    this.firstNameColumn,
-    this.dateOfBirthColumn,
-    this.residenceColumn,
-    this.emailColumn,
-    this.signatureTypeColumn,
-    this.stateColumn,
-    this.actionsColumn,
-  ];
-
-  protected dataSource = new TableDataSource<InitiativeCommitteeMember>();
   protected domainOfInfluences?: DomainOfInfluence[];
 
   public async ngOnInit(): Promise<void> {
     this.domainOfInfluences = await this.domainOfInfluenceService.list(undefined, [DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU]);
-  }
-
-  public ngOnChanges(): void {
-    this.dataSource.data = this.committee.committeeMembers;
   }
 
   public add(): void {
@@ -117,7 +73,19 @@ export class LaunchInitiativeDetailCommitteeMembersComponent implements OnChange
 
   public async resend(member: InitiativeCommitteeMember): Promise<void> {
     await this.initiativeService.resendCommitteeMemberInvitation(this.initiative.id, member.id);
+    member.approvalState = InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED;
     this.toast.success('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.RESEND_SUCCESS');
+    if (this.committee.activeCommitteeMembers.filter(m => m.id === member.id).length === 1) {
+      return;
+    }
+
+    const memberToMove = this.committee.rejectedOrExpiredCommitteeMembers.find(m => m.id === member.id);
+    if (!memberToMove) {
+      return;
+    }
+
+    this.committee.rejectedOrExpiredCommitteeMembers = this.committee.rejectedOrExpiredCommitteeMembers.filter(m => m.id !== member.id);
+    this.committee.activeCommitteeMembers = [...this.committee.activeCommitteeMembers, memberToMove];
   }
 
   public async remove(member: InitiativeCommitteeMember): Promise<void> {
@@ -126,7 +94,8 @@ export class LaunchInitiativeDetailCommitteeMembersComponent implements OnChange
     }
 
     await this.initiativeService.deleteCommitteeMember(this.initiative.id, member.id);
-    this.dataSource.data = this.committee.committeeMembers = this.committee.committeeMembers.filter(m => m.id !== member.id);
+    this.committee.activeCommitteeMembers = this.committee.activeCommitteeMembers.filter(m => m.id !== member.id);
+    this.committee.rejectedOrExpiredCommitteeMembers = this.committee.rejectedOrExpiredCommitteeMembers.filter(m => m.id !== member.id);
     this.toast.success('APP.DELETED');
 
     if (
@@ -144,14 +113,14 @@ export class LaunchInitiativeDetailCommitteeMembersComponent implements OnChange
       return;
     }
 
-    moveItemInArray(this.committee.committeeMembers, data.previousIndex, data.currentIndex);
-    this.committee.committeeMembers = this.dataSource.data = [...this.committee.committeeMembers];
+    moveItemInArray(this.committee.activeCommitteeMembers, data.previousIndex, data.currentIndex);
+    this.committee.activeCommitteeMembers = [...this.committee.activeCommitteeMembers];
     await this.initiativeService.updateCommitteeMemberSort(this.initiative.id, data.item.data.id, data.currentIndex);
     this.toast.success('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SORTED');
   }
 
   private addMember(member: InitiativeCommitteeMember) {
-    this.dataSource.data = this.committee.committeeMembers = [...this.committee.committeeMembers, member];
+    this.committee.activeCommitteeMembers = [...this.committee.activeCommitteeMembers, member];
     this.committee.totalMembersCount++;
 
     if (member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_SIGNED) {
@@ -174,14 +143,12 @@ export class LaunchInitiativeDetailCommitteeMembersComponent implements OnChange
   }
 
   private async confirmRemove(): Promise<boolean> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, {
+    return this.confirmDialogService.confirm({
       title: 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REMOVE_CONFIRMATION.TITLE',
       message: 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REMOVE_CONFIRMATION.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
-    } satisfies ConfirmDialogData);
-
-    return firstValueFrom(dialogRef.afterClosed());
+    });
   }
 
   private updateApprovedMembersCount(committee: InitiativeCommittee, delta: number): void {

@@ -27,3 +27,9 @@
 .wrap-break-word {
   overflow-wrap: break-word;
 }
+
+.user-text {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}

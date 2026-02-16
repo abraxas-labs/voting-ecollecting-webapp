@@ -30,7 +30,7 @@
     "NO_DATA": "Keine Erlasse verfügbar"
   },
   "DECREE": {
-    "MIN_SIGNATURE_COUNT": "Total nötig",
+    "MIN_SIGNATURE_COUNT": "Total Erforderlich",
     "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
     "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
     "TOTAL_ATTESTED": "Total bescheinigt",
@@ -43,7 +43,7 @@
     }
   },
   "INITIATIVE": {
-    "MIN_SIGNATURE_COUNT": "Total nötig",
+    "MIN_SIGNATURE_COUNT": "Total Erforderlich",
     "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
     "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
     "TOTAL_ATTESTED": "Total bescheinigt",
@@ -76,6 +76,10 @@
     "CAME_NOT_ABOUT_REASONS": {
       "1": "Die erforderliche Anzahl Unterschriften wurde nicht erreicht",
       "2": "Es wurden keine Unterschriftenlisten eingereicht"
+    },
+    "TYPE": {
+      "REFERENDUM": "Referendum",
+      "INITIATIVE": "Initiative"
     }
   },
   "IMAGE_UPLOAD": {
@@ -104,6 +108,10 @@
       "MESSAGE": "Sind Sie sicher, dass Sie die Nachricht nicht senden möchten?",
       "SEND_AND_CLOSE": "Senden und schliessen",
       "DISCARD": "Nachricht verwerfen"
+    },
+    "REQUEST_INFORMAL_REVIEW_CONFIRM": {
+      "TITLE": "Informelle Vorprüfung",
+      "MESSAGE": "Sind Sie sicher, dass Sie eine informelle Vorprüfung bei der Staatskanzlei veranlassen wollen?\nWenn ja, beschreiben Sie bitte im folgenden Chat, was informell geprüft werden soll."
     }
   },
   "FILE_UPLOAD": {

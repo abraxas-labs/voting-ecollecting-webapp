@@ -27,6 +27,7 @@
       }
       <bc-textarea [(value)]="newMessage"
                    subscriptSizing="dynamic"
+                   [rows]="6"
                    [optionalText]="''"
                    [formControl]="form.controls.message"
                    [label]="'COLLECTION_MESSAGES.ADD' | translate"

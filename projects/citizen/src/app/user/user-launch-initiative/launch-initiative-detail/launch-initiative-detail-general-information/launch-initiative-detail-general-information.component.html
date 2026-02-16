@@ -55,7 +55,7 @@
         [hint]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.DESCRIPTION_HINT' | translate"
         [required]="true"
         [showDefaultErrors]="true"
-        [error]="form.controls.description.invalid"
+        [error]="(showValidationErrors || form.controls.description.touched) && form.controls.description.invalid"
         [readonly]="!initiative.collection.userPermissions?.canEdit || !!initiative.lockedFields?.description"
         subscriptSizing="dynamic"
       ></bc-text>
@@ -64,7 +64,8 @@
         [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.WORDING' | translate"
         [required]="true"
         [showDefaultErrors]="true"
-        [error]="form.controls.wording.invalid"
+        [rows]="6"
+        [error]="(showValidationErrors || form.controls.wording.touched) && form.controls.wording.invalid"
         [readonly]="!initiative.collection.userPermissions?.canEdit || !!initiative.lockedFields?.wording"
         subscriptSizing="dynamic"
       ></bc-textarea>
@@ -72,6 +73,7 @@
         [formControl]="form.controls.reason"
         [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.REASON' | translate"
         [showDefaultErrors]="true"
+        [rows]="6"
         [readonly]="!initiative.collection.userPermissions?.canEdit"
         subscriptSizing="dynamic"
       ></bc-textarea>
@@ -80,7 +82,7 @@
         [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.ADDRESS.COMMITTEE_OR_PERSON' | translate"
         [required]="true"
         [showDefaultErrors]="true"
-        [error]="form.controls.address.controls.committeeOrPerson.invalid"
+        [error]="(showValidationErrors || form.controls.address.controls.committeeOrPerson.touched) && form.controls.address.controls.committeeOrPerson.invalid"
         [readonly]="!initiative.collection.userPermissions?.canEdit"
         subscriptSizing="dynamic"
       ></bc-text>
@@ -89,7 +91,7 @@
         [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.ADDRESS.STREET_OR_POST_OFFICE_BOX' | translate"
         [required]="true"
         [showDefaultErrors]="true"
-        [error]="form.controls.address.controls.streetOrPostOfficeBox.invalid"
+        [error]="(showValidationErrors || form.controls.address.controls.streetOrPostOfficeBox.touched) && form.controls.address.controls.streetOrPostOfficeBox.invalid"
         [readonly]="!initiative.collection.userPermissions?.canEdit"
         subscriptSizing="dynamic"
       ></bc-text>
@@ -99,7 +101,7 @@
           [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.ADDRESS.ZIP_CODE' | translate"
           [required]="true"
           [showDefaultErrors]="true"
-          [error]="form.controls.address.controls.zipCode.invalid"
+          [error]="(showValidationErrors || form.controls.address.controls.zipCode.touched) && form.controls.address.controls.zipCode.invalid"
           [readonly]="!initiative.collection.userPermissions?.canEdit"
           subscriptSizing="dynamic"
         ></bc-text>
@@ -108,7 +110,7 @@
           [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.ADDRESS.LOCALITY' | translate"
           [required]="true"
           [showDefaultErrors]="true"
-          [error]="form.controls.address.controls.locality.invalid"
+          [error]="(showValidationErrors || form.controls.address.controls.locality.touched) && form.controls.address.controls.locality.invalid"
           [readonly]="!initiative.collection.userPermissions?.canEdit"
           subscriptSizing="dynamic"
         ></bc-text>

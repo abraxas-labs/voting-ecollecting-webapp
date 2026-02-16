@@ -18,6 +18,8 @@ export * from './lib/core/collection-messages.service';
 export * from './lib/core/authentication.service';
 export * from './lib/core/validation-messages-provider';
 export * from './lib/core/language.service';
+export * from './lib/core/confirm-dialog.service';
+export { ConfirmDialogData } from './lib/shared/confirm-dialog/confirm-dialog.component';
 
 // utils
 export * from './lib/core/utils/authconfig.utils';
@@ -27,6 +29,7 @@ export * from './lib/core/utils/object-url.utils';
 export * from './lib/core/utils/enum-item-description.utils';
 export * from './lib/core/utils/string.utils';
 export * from './lib/core/utils/date.utils';
+export * from './lib/core/utils/url.utils';
 export * from './lib/core/utils/type.utils';
 
 // providers
@@ -34,7 +37,6 @@ export * from './lib/core/providers/common-providers';
 
 // components
 export * from './lib/shared/dialog/dialog.component';
-export * from './lib/shared/confirm-dialog/confirm-dialog.component';
 export * from './lib/shared/decree/decree-card/decree-card.component';
 export * from './lib/shared/collection/initiative-card/initiative-card.component';
 export * from './lib/shared/collection/referendum-card/referendum-card.component';

@@ -28,12 +28,14 @@ export const routes: Routes = [
       {
         // this path is sent in emails, do not change!
         path: 'initiatives/:id',
-        redirectTo: redirectData => `/-/user/${launchInitiativeUrl}/${redirectData.params['id']}`,
+        redirectTo: redirectData =>
+          `/-/user/${launchInitiativeUrl}/${redirectData.params['id']}?${new URLSearchParams(redirectData.queryParams).toString()}`,
       },
       {
         // this path is sent in emails, do not change!
         path: 'referendums/:id',
-        redirectTo: redirectData => `/-/user/${seekReferendumUrl}/${redirectData.params['id']}`,
+        redirectTo: redirectData =>
+          `/-/user/${seekReferendumUrl}/${redirectData.params['id']}?${new URLSearchParams(redirectData.queryParams).toString()}`,
       },
       {
         // this path is sent in emails, do not change!

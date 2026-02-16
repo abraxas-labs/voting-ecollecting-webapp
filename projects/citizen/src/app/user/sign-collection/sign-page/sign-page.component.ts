@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { AlertBarModule, ButtonModule, SpinnerModule, SubNavigationBarModule } from '@abraxas/base-components';
 import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -14,7 +14,7 @@ import { CollectionService } from '../../../core/services/collection.service';
 import { CollectionPeriodState, CollectionState } from '@abraxas/voting-ecollecting-proto';
 import { Observable } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { getGrpcErrorOrThrow, storageKeyPrefix, storage, generateSecureRandomString } from 'ecollecting-lib';
+import { generateSecureRandomString, getGrpcErrorOrThrow, storage, storageKeyPrefix, ConfirmDialogService } from 'ecollecting-lib';
 import {
   collectionAlreadySignedException,
   collectionMaxElectronicSignatureCountReachedException,
@@ -25,6 +25,7 @@ import {
 } from '../../../core/exceptions';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { Collection } from '../../../core/models/collection.model';
+import { CollectionSignatureType } from '@abraxas/voting-ecollecting-proto/citizen';
 
 const signKey = storageKeyPrefix + 'sign';
 
@@ -38,6 +39,7 @@ export class SignPageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly auth = inject(AuthenticationService);
   private readonly collectionService = inject(CollectionService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
 
   protected readonly periodStates = CollectionPeriodState;
   protected readonly states = CollectionState;
@@ -81,6 +83,16 @@ export class SignPageComponent implements OnInit {
   }
 
   protected async sign(): Promise<void> {
+    const ok = await this.confirmDialogService.confirm({
+      title: 'SIGN_COLLECTION.CONFIRM.TITLE',
+      message: `SIGN_COLLECTION.CONFIRM.MESSAGES.${this.collection.type}`,
+      confirmText: 'SIGN_COLLECTION.CONFIRM.CONFIRM',
+      discardText: 'APP.DISCARD',
+    });
+    if (!ok) {
+      return;
+    }
+
     this.signing = true;
     const state = generateSecureRandomString();
     storage.setItem(signKey, state);
@@ -114,6 +126,7 @@ export class SignPageComponent implements OnInit {
       await this.auth.login({ state });
       await this.collectionService.sign(this.collection.id, this.collection.type);
       this.collection.isSigned = true;
+      this.collection.signatureType = CollectionSignatureType.COLLECTION_SIGNATURE_TYPE_ELECTRONIC;
       this.collection.attestedCollectionCount!.electronicCitizenCount++;
     } catch (e) {
       this.error = getGrpcErrorOrThrow(e, [
