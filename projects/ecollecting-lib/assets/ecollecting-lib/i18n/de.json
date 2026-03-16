@@ -26,6 +26,11 @@
     "2": "Kanton",
     "3": "Gemeinde"
   },
+  "DOMAIN_OF_INFLUENCE_TYPE_CARDS": {
+    "1": "Sammlungen auf Ebene Bund",
+    "2": "Sammlungen auf Ebene Kanton",
+    "3": "Sammlungen auf Ebene Gemeinde"
+  },
   "DECREES": {
     "NO_DATA": "Keine Erlasse verfügbar"
   },
@@ -42,15 +47,31 @@
       "3": "Nicht Zustande gekommen"
     }
   },
+  "REFERENDUM": {
+    "STATES": {
+      "0": "undefiniert",
+      "1": "Vorerfasst",
+      "2": "in Erfassung",
+      "3": "nicht gestartet",
+      "4": "eingereicht",
+      "5": "nicht zulässig",
+      "6": "in Korrektur",
+      "7": "in Prüfung",
+      "8": "bereit für Anmeldung",
+      "9": "angemeldet",
+      "10": "Sammlung wird aufgeschaltet",
+      "11": "freigegeben",
+      "12": "Unterschriftenlisten eingereicht",
+      "13": "Zustande gekommen",
+      "14": "Nicht zustande gekommen"
+    }
+  },
   "INITIATIVE": {
     "MIN_SIGNATURE_COUNT": "Total Erforderlich",
     "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
     "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
     "TOTAL_ATTESTED": "Total bescheinigt",
-    "COLLECTION_PERIOD": "Sammelfrist"
-  },
-  "COLLECTION": {
-    "ADDRESS": "{{committeeOrPerson}}, {{streetOrPostOfficeBox}}, {{zipCode}} {{locality}}",
+    "COLLECTION_PERIOD": "Sammelfrist",
     "STATES": {
       "0": "undefiniert",
       "1": "Vorerfasst",
@@ -67,7 +88,10 @@
       "12": "Unterschriftenlisten eingereicht",
       "13": "Zustande gekommen",
       "14": "Nicht zustande gekommen"
-    },
+    }
+  },
+  "COLLECTION": {
+    "ADDRESS": "{{committeeOrPerson}}, {{streetOrPostOfficeBox}}, {{zipCode}} {{locality}}",
     "PERIOD_STATES": {
       "1": "Sammelfrist startet in {{days}} Tagen",
       "2": "Sammelfrist endet in {{days}} Tagen",

@@ -4,19 +4,17 @@
       <bc-icon-button variant="tertiary" icon="cancel" (buttonClick)="discard.emit()" [ariaLabel]="'APP.CLOSE' | translate"></bc-icon-button>
     }
 
-    {{ header | translate }}
+    <h2 class="mb-0">{{ header | translate }}</h2>
   </div>
   <ng-content></ng-content>
-  <div buttons class="buttons">
+  <div buttons class="flex gap-2">
     @if (showDiscard) {
-      <bc-button color="primary" [label]="discardText | translate" variant="tertiary" (buttonClick)="discard.emit()"></bc-button>
+      <bc-button color="default" [label]="discardText | translate" variant="tertiary" (buttonClick)="discard.emit()"></bc-button>
     }
 
     <ng-content select="[actions]"></ng-content>
     @if (showOk) {
-      <vo-lib-inline-spinner [loading]="saving" position="left">
-        <bc-button cdkFocusInitial [color]="okColor" [label]="okText | translate" variant="primary" (buttonClick)="ok.emit()" [disabled]="!canOk"></bc-button>
-      </vo-lib-inline-spinner>
+      <bc-button cdkFocusInitial [loading]="saving" [color]="okColor" [label]="okText | translate" variant="primary" (buttonClick)="ok.emit()" [disabled]="!canOk"></bc-button>
     }
   </div>
 </bc-dialog>

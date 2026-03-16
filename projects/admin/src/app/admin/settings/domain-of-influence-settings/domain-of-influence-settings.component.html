@@ -1,83 +1,225 @@
-<bc-expansion-panel
-  [header]="domainOfInfluence.name"
-  [expanded]="true">
-  <div header class="hint" [class.success]="message === 'saved'">
-    <p class="m-0">
-      @switch (message) {
-        @case ('saved') {
-          <bc-icon icon="checkmark"></bc-icon>
-          {{'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.SAVED' | translate}}
-        }
-        @case ('saving') {
-          {{'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.SAVING' | translate}}
-        }
-      }
-    </p>
-  </div>
-  <bc-text
-    [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.NAME' | translate"
-    subscriptSizing="dynamic"
-    [required]="true"
-    [showDefaultErrors]="true"
-    [error]="form.controls.name.touched && form.controls.name.invalid"
-    [formControl]="form.controls.name"></bc-text>
-  <bc-text
-    [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.STREET' | translate"
-    subscriptSizing="dynamic"
-    [required]="true"
-    [showDefaultErrors]="true"
-    [error]="form.controls.street.touched && form.controls.street.invalid"
-    [formControl]="form.controls.street"></bc-text>
-  <div class="flex gap-x-2">
-    <bc-text
-      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.ZIP_CODE' | translate"
-      subscriptSizing="dynamic"
-      [required]="true"
-      [showDefaultErrors]="true"
-      [error]="form.controls.zipCode.touched && form.controls.zipCode.invalid"
-      [formControl]="form.controls.zipCode"></bc-text>
-    <bc-text
-      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOCALITY' | translate"
-      subscriptSizing="dynamic"
-      [required]="true"
-      [showDefaultErrors]="true"
-      [error]="form.controls.locality.touched && form.controls.locality.invalid"
-      [formControl]="form.controls.locality"></bc-text>
-  </div>
-  <div class="flex gap-x-2">
-    <bc-text
-      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.PHONE' | translate"
-      subscriptSizing="dynamic"
-      [showDefaultErrors]="true"
-      [error]="form.controls.phone.touched && form.controls.phone.invalid"
-      [formControl]="form.controls.phone"></bc-text>
-    <bc-text
-      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.E_MAIL' | translate"
-      subscriptSizing="dynamic"
-      [showDefaultErrors]="true"
-      [error]="form.controls.email.touched && form.controls.email.invalid"
-      [formControl]="form.controls.email"></bc-text>
-  </div>
-  <bc-text
-    [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.WEBPAGE' | translate"
-    subscriptSizing="dynamic"
-    [showDefaultErrors]="true"
-    [error]="form.controls.webpage.touched && form.controls.webpage.invalid"
-    [formControl]="form.controls.webpage"></bc-text>
+@if (isSwitchingDoi) {
+  <bc-spinner></bc-spinner>
+} @else {
+  <bc-expansion-panel
+    [header]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.ADDRESS_HEADER' | translate">
+    @if (form.controls.street.invalid || form.controls.zipCode.invalid || form.controls.locality.invalid) {
+      <div header class="hint error">
+        <p class="m-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.REQUIRED_FIELDS_MISSING' | translate }}</p>
+      </div>
+    }
 
-  @if (domainOfInfluence.address === undefined) {
-    <p class="mt-2 no-data">{{'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.REQUIRED_DATA_NEEDED' | translate }}</p>
-  } @else {
-    <vo-ecol-image-upload
-      class="flex-1"
-      [imageSrc]="logo | async"
-      (imageChanged)="updateLogo($event)"
-      (imageDeleted)="deleteLogo()"
+    <bc-text
+      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.ADDRESS_NAME' | translate"
+      subscriptSizing="dynamic"
       [required]="true"
-      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.TITLE' | translate"
-      [error]="updateLogoError"
-      [filename]="domainOfInfluence.logo?.name ?? ''"
-      [fileLoading]="logoLoading"
-    ></vo-ecol-image-upload>
-  }
-</bc-expansion-panel>
+      [showDefaultErrors]="true"
+      [error]="form.controls.addressName.touched && form.controls.addressName.invalid"
+      [formControl]="form.controls.addressName"></bc-text>
+    <bc-text
+      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.STREET' | translate"
+      subscriptSizing="dynamic"
+      [required]="true"
+      [readonly]="!domainOfInfluence.userPermissions.canEdit"
+      [showDefaultErrors]="true"
+      [error]="form.controls.street.touched && form.controls.street.invalid"
+      [formControl]="form.controls.street"></bc-text>
+    <div class="flex gap-x-2">
+      <bc-text
+        [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.ZIP_CODE' | translate"
+        subscriptSizing="dynamic"
+        [required]="true"
+        [readonly]="!domainOfInfluence.userPermissions.canEdit"
+        [showDefaultErrors]="true"
+        [error]="form.controls.zipCode.touched && form.controls.zipCode.invalid"
+        [formControl]="form.controls.zipCode"></bc-text>
+      <bc-text
+        [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOCALITY' | translate"
+        subscriptSizing="dynamic"
+        [required]="true"
+        [readonly]="!domainOfInfluence.userPermissions.canEdit"
+        [showDefaultErrors]="true"
+        [error]="form.controls.locality.touched && form.controls.locality.invalid"
+        [formControl]="form.controls.locality"></bc-text>
+    </div>
+  </bc-expansion-panel>
+  <bc-expansion-panel [header]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.CONTACT_DATA_HEADER' | translate">
+    <div class="flex gap-x-2">
+      <bc-text
+        [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.PHONE' | translate"
+        subscriptSizing="dynamic"
+        [showDefaultErrors]="true"
+        [readonly]="!domainOfInfluence.userPermissions.canEdit"
+        [error]="form.controls.phone.touched && form.controls.phone.invalid"
+        [formControl]="form.controls.phone"></bc-text>
+      <bc-text
+        [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.E_MAIL' | translate"
+        subscriptSizing="dynamic"
+        [showDefaultErrors]="true"
+        [readonly]="!domainOfInfluence.userPermissions.canEdit"
+        [error]="form.controls.email.touched && form.controls.email.invalid"
+        [formControl]="form.controls.email"></bc-text>
+    </div>
+    <bc-text
+      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.WEBPAGE' | translate"
+      subscriptSizing="dynamic"
+      [showDefaultErrors]="true"
+      [readonly]="!domainOfInfluence.userPermissions.canEdit"
+      [error]="form.controls.webpage.touched && form.controls.webpage.invalid"
+      [formControl]="form.controls.webpage"></bc-text>
+  </bc-expansion-panel>
+
+  <bc-expansion-panel [header]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO_HEADER' | translate">
+    @if (!domainOfInfluence.userPermissions.canEdit && !logo) {
+      <p class="mt-2 no-data">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.NO_LOGO' | translate }}</p>
+    } @else {
+      <vo-ecol-image-upload
+        class="flex-1"
+        [imageSrc]="logo | async"
+        (imageChanged)="updateLogo($event)"
+        (imageDeleted)="deleteLogo()"
+        [required]="true"
+        [canUpload]="domainOfInfluence.userPermissions.canEdit"
+        [canDelete]="domainOfInfluence.userPermissions.canEdit"
+        [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.TITLE' | translate"
+        [error]="updateLogoError"
+        [filename]="domainOfInfluence.logo?.name ?? ''"
+        [fileLoading]="logoLoading"
+      ></vo-ecol-image-upload>
+    }
+  </bc-expansion-panel>
+
+  <bc-expansion-panel [header]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.HEADER' | translate">
+    @if (form.controls.initiativeMaxElectronicSignaturePercent.invalid
+    || form.controls.initiativeNumberOfMembersCommittee.invalid
+    || form.controls.initiativeMinSignatureCount.invalid
+    || form.controls.referendumMinSignatureCount.invalid
+    || form.controls.referendumMaxElectronicSignaturePercent.invalid) {
+      <div header class="hint error">
+        <p class="m-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.REQUIRED_FIELDS_MISSING' | translate }}</p>
+      </div>
+    }
+
+    <div class="flex flex-col gap-y-3">
+
+      @if (domainOfInfluence.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CH || domainOfInfluence.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT) {
+        <div>
+          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.HEADER' | translate }}</h5>
+          <div class="flex gap-2">
+            <bc-number
+              [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.COMMITTEE_MEMBER_COUNT' | translate"
+              subscriptSizing="dynamic"
+              [showDefaultErrors]="true"
+              [readonly]="!domainOfInfluence.userPermissions.canEdit"
+              [error]="form.controls.initiativeNumberOfMembersCommittee.touched && form.controls.initiativeNumberOfMembersCommittee.invalid"
+              [formControl]="form.controls.initiativeNumberOfMembersCommittee"></bc-number>
+
+            @if (domainOfInfluence.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT) {
+              <bc-number
+                [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.MAX_ECOLLECTING_THRESHOLD_FOR_MU' | translate"
+                subscriptSizing="dynamic"
+                [showDefaultErrors]="true"
+                [required]="true"
+                [readonly]="!domainOfInfluence.userPermissions.canEdit"
+                [error]="form.controls.initiativeMaxElectronicSignaturePercent.touched && form.controls.initiativeMaxElectronicSignaturePercent.invalid"
+                [formControl]="form.controls.initiativeMaxElectronicSignaturePercent"></bc-number>
+            }
+          </div>
+        </div>
+
+        <div>
+          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.HEADER' | translate }}</h5>
+          <div class="flex gap-2">
+            <bc-number
+              [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.MIN_SIGNATURE_COUNT' | translate"
+              subscriptSizing="dynamic"
+              [showDefaultErrors]="true"
+              [required]="true"
+              [readonly]="!domainOfInfluence.userPermissions.canEdit"
+              [error]="form.controls.referendumMinSignatureCount.touched && form.controls.referendumMinSignatureCount.invalid"
+              [formControl]="form.controls.referendumMinSignatureCount"></bc-number>
+            <bc-number
+              [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.MAX_ECOLLECTING_THRESHOLD' | translate"
+              subscriptSizing="dynamic"
+              [showDefaultErrors]="true"
+              [required]="true"
+              [readonly]="!domainOfInfluence.userPermissions.canEdit"
+              [error]="form.controls.referendumMaxElectronicSignaturePercent.touched && form.controls.referendumMaxElectronicSignaturePercent.invalid"
+              [formControl]="form.controls.referendumMaxElectronicSignaturePercent"></bc-number>
+          </div>
+        </div>
+      }
+
+      @if (domainOfInfluence.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU) {
+        <div>
+          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.HEADER' | translate }}</h5>
+          <div class="flex gap-2">
+            <bc-number
+              [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.MIN_SIGNATURE_COUNT' | translate"
+              subscriptSizing="dynamic"
+              [showDefaultErrors]="true"
+              [required]="true"
+              [readonly]="!domainOfInfluence.userPermissions.canEdit"
+              [error]="form.controls.initiativeMinSignatureCount.touched && form.controls.initiativeMinSignatureCount.invalid"
+              [formControl]="form.controls.initiativeMinSignatureCount"></bc-number>
+            <bc-number
+              [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.COMMITTEE_MEMBER_COUNT' | translate"
+              subscriptSizing="dynamic"
+              [showDefaultErrors]="true"
+              [readonly]="!domainOfInfluence.userPermissions.canEdit"
+              [error]="form.controls.initiativeNumberOfMembersCommittee.touched && form.controls.initiativeNumberOfMembersCommittee.invalid"
+              [formControl]="form.controls.initiativeNumberOfMembersCommittee"></bc-number>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.HEADER' | translate }}</h5>
+          <div class="flex gap-2">
+            <bc-number
+              [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.MIN_SIGNATURE_COUNT' | translate"
+              subscriptSizing="dynamic"
+              [showDefaultErrors]="true"
+              [required]="true"
+              [readonly]="!domainOfInfluence.userPermissions.canEdit"
+              [error]="form.controls.referendumMinSignatureCount.touched && form.controls.referendumMinSignatureCount.invalid"
+              [formControl]="form.controls.referendumMinSignatureCount"></bc-number>
+          </div>
+        </div>
+      }
+
+      <div>
+        <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.NOTIFICATION_EMAILS.HEADER' | translate }}</h5>
+        <div class="flex gap-2 items-start">
+          <bc-text
+            class="flex-1"
+            [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.NOTIFICATION_EMAILS.ADD' | translate"
+            subscriptSizing="dynamic"
+            [showDefaultErrors]="true"
+            optionalText=""
+            [readonly]="!domainOfInfluence.userPermissions.canEdit"
+            [error]="emailToAddControl.touched && emailToAddControl.invalid"
+            [formControl]="emailToAddControl"
+            (keydown.enter)="addEmail()"></bc-text>
+          <!-- margin top accounts for the form label -->
+          <bc-icon-button
+            style="margin-top: 1.7rem"
+            icon="plus"
+            [disabled]="emailToAddControl.invalid || !emailToAddControl.value || !domainOfInfluence.userPermissions.canEdit"
+            (click)="addEmail()">
+          </bc-icon-button>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-2">
+          @for (email of form.controls.notificationEmails.value; track email) {
+            <vo-ecol-file-chip
+              [label]="email"
+              [canOpen]="false"
+              [canRemove]="domainOfInfluence.userPermissions.canEdit"
+              (remove)="removeEmail(email)"></vo-ecol-file-chip>
+          } @empty {
+            <p class="no-data">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.NOTIFICATION_EMAILS.NO_EMAILS' | translate }}</p>
+          }
+        </div>
+      </div>
+    </div>
+  </bc-expansion-panel>
+}

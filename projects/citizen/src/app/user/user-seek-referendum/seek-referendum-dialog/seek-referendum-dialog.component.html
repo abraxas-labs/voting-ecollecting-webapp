@@ -43,7 +43,9 @@
         <ng-container *ngTemplateOutlet="description"></ng-container>
       </div>
     } @else {
-      <ng-container *ngTemplateOutlet="description"></ng-container>
+      <div class="flex flex-col mt-3">
+        <ng-container *ngTemplateOutlet="description"></ng-container>
+      </div>
     }
     @if (error) {
       <bc-alert-bar [color]="'error'" [message]="'ERROR_MESSAGES.' + error | translate" [displayDismissAction]="false"></bc-alert-bar>

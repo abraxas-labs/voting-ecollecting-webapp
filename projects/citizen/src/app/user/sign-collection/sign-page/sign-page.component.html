@@ -8,14 +8,7 @@
     <div class="info">
       <ng-content select="[info]"></ng-content>
 
-      @if (error) {
-        <bc-alert-bar
-          class="block mt-3"
-          color="error"
-          [displayDismissAction]="false"
-          [message]="'ERROR_MESSAGES.' + error | translate"
-        ></bc-alert-bar>
-      } @else if (
+      @if (
         collection.state < states.COLLECTION_STATE_ENABLED_FOR_COLLECTION ||
         periodState === periodStates.COLLECTION_PERIOD_STATE_PUBLISHED
       ) {
@@ -96,10 +89,10 @@
       }
     </div>
 
-    <div>
+    <p>
       <span class="font-bold">{{ 'SIGN_COLLECTION.COMMITTEE_PREFIX' | translate }}</span>
       <span>{{ committee }}</span>
-    </div>
+    </p>
     <div>
       @if (logo) {
         <img [src]="logo | async" [alt]="'SIGN_COLLECTION.LOGO_ALT' | translate" />

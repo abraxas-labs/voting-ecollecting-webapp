@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { VotingLibModule } from '@abraxas/voting-lib';
 import { CollectionService } from '../../../core/services/collection.service';
 import { SignCollectionGroupCardComponent } from '../sign-collection-group-card/sign-collection-group-card.component';
@@ -40,16 +40,24 @@ export class SignCollectionOverviewComponent implements OnInit {
   protected readonly filters: CollectionMainFilter[] = [
     {
       id: 'EXPIRED',
-      states: [CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION, CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED],
-      periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED],
+      criteria: [
+        {
+          state: CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED,
+        },
+        {
+          state: CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED,
+        },
+      ],
     },
     {
       id: 'ENDED_CAME_ABOUT',
-      states: [CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT],
+      criteria: [{ state: CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT }],
     },
     {
       id: 'ENDED_CAME_NOT_ABOUT',
-      states: [CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT],
+      criteria: [{ state: CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT }],
     },
   ];
 
@@ -100,21 +108,29 @@ export class SignCollectionOverviewComponent implements OnInit {
     this.filteredGroups = cloneDeep(this.collectionGroups);
 
     for (const group of this.filteredGroups) {
-      if (this.filter.periodStates !== undefined) {
-        group.initiatives = group.initiatives.filter(i => this.filter!.periodStates!.includes(i.collection.periodState));
-        group.referendums = group.referendums.filter(
-          d => d.periodState !== undefined && this.filter!.periodStates!.includes(d.periodState),
+      group.initiatives = group.initiatives.filter(i =>
+        this.filter!.criteria.some(
+          c =>
+            (c.state === undefined || i.collection.state === c.state) &&
+            (c.periodState === undefined || i.collection.periodState === c.periodState),
+        ),
+      );
+
+      group.referendums = group.referendums.filter(d =>
+        this.filter!.criteria.some(
+          c =>
+            (c.periodState === undefined || d.periodState === c.periodState) &&
+            (c.state === undefined || d.collections?.some(r => r.collection.state === c.state)),
+        ),
+      );
+
+      for (const decree of group.referendums) {
+        decree.collections = decree.collections?.filter(r =>
+          this.filter!.criteria.some(c => c.state === undefined || r.collection.state === c.state),
         );
       }
 
-      if (this.filter.states !== undefined) {
-        group.initiatives = group.initiatives.filter(i => this.filter!.states!.includes(i.collection.state));
-        for (const decree of group.referendums) {
-          decree.collections = decree.collections?.filter(c => this.filter!.states!.includes(c.collection.state));
-        }
-
-        group.referendums = group.referendums.filter(d => d.collections && d.collections.length > 0);
-      }
+      group.referendums = group.referendums.filter(d => d.collections && d.collections.length > 0);
     }
   }
 }

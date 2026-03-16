@@ -30,7 +30,7 @@ export class ConfirmDialogComponent {
     this.message = dialogData.message;
     this.confirmText = dialogData.confirmText;
     this.discardText = dialogData.discardText;
-    this.confirmColor = dialogData.confirmColor ?? 'primary';
+    this.confirmColor = dialogData.confirmColor ?? 'default';
   }
 
   public ok(): void {

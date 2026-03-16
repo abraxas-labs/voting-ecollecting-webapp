@@ -6,7 +6,7 @@
 @switch (variant) {
   @case ('dnd-zone') {
     @if (label) {
-      <bc-label [optional]="optional" [label]="label | translate" [error]="error"></bc-label>
+      <bc-label [id]="'file-upload-label-' + instanceId" [optional]="optional" [label]="label | translate" [error]="error"></bc-label>
     }
 
     @if (!disabled) {
@@ -16,8 +16,10 @@
         <bc-button (buttonClick)="fileInput.click()"
                    icon="upload"
                    [label]="'FILE_UPLOAD.CHOOSE' | translate"
+                   [ariaLabelledby]="'file-upload-label-' + instanceId"
+                   [ariaDescribedby]="'file-upload-hints-' + instanceId"
                    [variant]="buttonVariant"></bc-button>
-        <div class="hints">
+        <div [id]="'file-upload-hints-' + instanceId" class="hints" tabindex="0">
           <p>{{ 'FILE_UPLOAD.TEXT' | translate }}</p>
           @if (inlineHint) {
             <p translate>{{ inlineHint | translate }}</p>

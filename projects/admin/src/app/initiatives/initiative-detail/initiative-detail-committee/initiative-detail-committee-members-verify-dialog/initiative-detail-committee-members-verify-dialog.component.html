@@ -6,15 +6,15 @@
   [saving]="approving"
   (discard)="dialogRef.close()"
 >
-  <vo-lib-inline-spinner actions [position]="'left'" [loading]="rejecting">
-    <bc-button
-      [color]="'warn'"
-      [disabled]="loading || rejecting || approving"
-      [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.REJECT' | translate"
-      [variant]="'tertiary'"
-      (buttonClick)="reject()"
-    ></bc-button>
-  </vo-lib-inline-spinner>
+  <bc-button
+    actions
+    [color]="'warn'"
+    [disabled]="loading || rejecting || approving"
+    [loading]="rejecting"
+    [label]="'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.REJECT' | translate"
+    [variant]="'tertiary'"
+    (buttonClick)="reject()"
+  ></bc-button>
 
   @if (!loading) {
     @if (verifyResponse) {
@@ -34,7 +34,7 @@
           [label]="
           'INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.HAS_VOTING_RIGHT.' + (verifyResponse.hasVotingRight ? 'TRUE' : 'FALSE') | translate
         "
-          [type]="verifyResponse.hasVotingRight ? 'success-green' : 'error-red'"
+          [variant]="verifyResponse.hasVotingRight ? 'success' : 'error'"
         ></bc-status-label>
       </div>
     } @else if (personNotFound) {

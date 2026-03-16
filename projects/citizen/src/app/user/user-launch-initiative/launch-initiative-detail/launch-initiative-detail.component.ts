@@ -85,13 +85,13 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
         startWith(this.router),
       )
       .subscribe(event => {
-        // get sixth url param, as the type of route is stored there
+        // get the fifth url param, as the type of route is stored there
         const pathParts = (event as NavigationEnd).url.split('/');
-        if (pathParts.length < 6) {
+        if (pathParts.length < 5) {
           return;
         }
 
-        this.active = pathParts[5];
+        this.active = pathParts[4];
       });
   }
 

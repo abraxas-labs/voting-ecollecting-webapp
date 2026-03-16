@@ -6,7 +6,6 @@
 
 import { Component, inject } from '@angular/core';
 import { DialogComponent } from 'ecollecting-lib';
-import { VotingLibModule } from '@abraxas/voting-lib';
 import { ButtonModule } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -16,7 +15,7 @@ import { CollectionSignatureSheetService } from '../../core/services/collection-
 @Component({
   selector: 'app-check-samples-signature-sheet-confirm-dialog',
   templateUrl: './check-samples-signature-sheet-confirm-dialog.component.html',
-  imports: [DialogComponent, VotingLibModule, ButtonModule, TranslatePipe],
+  imports: [DialogComponent, ButtonModule, TranslatePipe],
 })
 export class CheckSamplesSignatureSheetConfirmDialogComponent {
   protected dialogData = inject<CheckSamplesSignatureSheetConfirmDialogData>(MAT_DIALOG_DATA);

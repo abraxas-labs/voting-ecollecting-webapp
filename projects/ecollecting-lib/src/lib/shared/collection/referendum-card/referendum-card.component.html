@@ -1,4 +1,4 @@
-<bc-card [clickable]="clickable" (cardClick)="cardClick.emit()">
+<bc-card [clickable]="clickable" (cardClick)="cardClick.emit()" [backgroundColor]="'neutral-full'">
   <vo-ecol-collection-card-header
     [collectionOrDecree]="referendum.collection"
     [collectionStartDate]="decree?.collectionStartDate"
@@ -10,7 +10,7 @@
 
   <bc-card-content>
     <div>
-      <p class="text-grey-2">{{ 'COLLECTION.ADDRESS' | translate: referendum.collection.address }}</p>
+      <p class="text-secondary">{{ 'COLLECTION.ADDRESS' | translate: referendum.collection.address }}</p>
     </div>
     <ng-content></ng-content>
   </bc-card-content>

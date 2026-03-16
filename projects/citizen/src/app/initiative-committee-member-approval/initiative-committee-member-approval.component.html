@@ -11,9 +11,10 @@
     <div sub-header-content class="mb-3">
       <bc-expansion-panel
         class="initiative-details"
-        [header]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.INITIATIVE_DETAIL.TITLE' | translate">
+        [header]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.INITIATIVE_DETAIL.TITLE' | translate"
+        [headingLevel]="'h3'">
         <div class="content">
-          <h3 class="user-text">{{ data.description }}</h3>
+          <h4 class="user-text">{{ data.description }}</h4>
 
           @if (data.subType) {
             <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE' | translate">
@@ -23,7 +24,7 @@
 
           @if (data.wording) {
             <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.WORDING' | translate">
-              <span class="user-text">{{ data.wording }}</span>
+              <vo-lib-markdown-preview [markdown]="data.wording"></vo-lib-markdown-preview>
             </bc-readonly>
           }
 
@@ -46,7 +47,7 @@
         [error]="error ? ('ERROR_MESSAGES.' + error | translate) : undefined">
         <bc-button
           actions
-          color="primary"
+          color="default"
           icon="id"
           [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.IAM.ACTION' | translate"
           (buttonClick)="accept()"></bc-button>
@@ -67,7 +68,7 @@
             </div>
           } @else {
             <bc-button
-              color="primary"
+              color="default"
               icon="download"
               [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.DOWNLOAD_TEMPLATE_ACTION' | translate"
               (buttonClick)="downloadTemplate()"></bc-button>

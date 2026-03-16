@@ -25,18 +25,19 @@
             "tsConfig": "projects/admin/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "allowedCommonJsDependencies": [
-                "moment",
-                "moment/locale/de",
-                "deep-equal",
-                "file-saver",
-                "lodash",
-                "google-protobuf",
-                "grpc-web",
-                "google-protobuf/google/protobuf/empty_pb",
-                "google-protobuf/google/protobuf/timestamp_pb",
-                "deepmerge",
-                "jsrsasign"
-              ],
+              "moment",
+              "moment/locale/de",
+              "deep-equal",
+              "file-saver",
+              "lodash",
+              "google-protobuf",
+              "grpc-web",
+              "google-protobuf/google/protobuf/empty_pb",
+              "google-protobuf/google/protobuf/timestamp_pb",
+              "deepmerge",
+              "jsrsasign",
+              "extend"
+            ],
             "assets": [
               "projects/admin/src/favicon.ico",
               "projects/admin/src/assets",
@@ -57,26 +58,29 @@
               }
             ],
             "styles": [
+              "./node_modules/@abraxas/base-components/src/lib/styles/predefined/default.theme.scss",
               "projects/admin/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules/", "projects/admin/src/", "projects/ecollecting-lib/src/styles"]
+            },
             "loader": {
               ".ttf": "file",
               ".woff": "file",
               ".woff2": "file"
             },
             "scripts": [],
-            "browser": "projects/admin/src/main.ts"
+            "browser": "projects/admin/src/main.ts",
+            "sourceMap": true
           },
           "configurations": {
             "development": {
               "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "extractLicenses": false
             },
             "local-sta": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -139,10 +143,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/admin/src/**/*.ts",
-              "projects/admin/src/**/*.component.html"
-            ]
+            "lintFilePatterns": ["projects/admin/src/**/*.ts", "projects/admin/src/**/*.component.html"]
           }
         }
       }
@@ -179,7 +180,8 @@
               "google-protobuf/google/protobuf/empty_pb",
               "google-protobuf/google/protobuf/timestamp_pb",
               "deepmerge",
-              "jsrsasign"
+              "jsrsasign",
+              "extend"
             ],
             "assets": [
               "projects/citizen/src/favicon.ico",
@@ -201,26 +203,29 @@
               }
             ],
             "styles": [
+              "./node_modules/@abraxas/base-components/src/lib/styles/predefined/default.theme.scss",
               "projects/citizen/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules/", "projects/citizen/src/", "projects/ecollecting-lib/src/styles"]
+            },
             "loader": {
               ".ttf": "file",
               ".woff": "file",
               ".woff2": "file"
             },
             "scripts": [],
-            "browser": "projects/citizen/src/main.ts"
+            "browser": "projects/citizen/src/main.ts",
+            "sourceMap": true
           },
           "configurations": {
             "development": {
               "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "extractLicenses": false
             },
             "local-sta": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -283,10 +288,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/citizen/src/**/*.ts",
-              "projects/citizen/src/**/*.component.html"
-            ]
+            "lintFilePatterns": ["projects/citizen/src/**/*.ts", "projects/citizen/src/**/*.component.html"]
           }
         }
       }
@@ -317,10 +319,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/ecollecting-lib/src/**/*.ts",
-              "projects/ecollecting-lib/src/**/*.component.html"
-            ]
+            "lintFilePatterns": ["projects/ecollecting-lib/src/**/*.ts", "projects/ecollecting-lib/src/**/*.component.html"]
           }
         }
       }

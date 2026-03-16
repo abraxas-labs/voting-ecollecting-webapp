@@ -1,7 +1,7 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
-.text-grey-2 {
-  color: $color-grey-2;
+.text-secondary {
+  color: $color-text-secondary;
 }
 
 .text-right {

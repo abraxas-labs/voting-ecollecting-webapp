@@ -1,12 +1,45 @@
 @if (loading) {
   <bc-spinner></bc-spinner>
 } @else {
-  <h1>{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.TITLE' | translate }}</h1>
-  @for (domainOfInfluence of domainOfInfluences; track domainOfInfluence.bfs) {
-    <app-domain-of-influence-settings
-      class="block my-2"
-      [domainOfInfluence]="domainOfInfluence"></app-domain-of-influence-settings>
-  } @empty {
+  <div class="header mb-2">
+    <h1 class="my-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.TITLE' | translate }}</h1>
+    <div class="hint" [class.success]="statusMessage === 'saved'">
+      <p class="m-0">
+        @switch (statusMessage) {
+          @case ('saved') {
+            <bc-icon icon="checkmark"></bc-icon>
+            {{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.SAVED' | translate }}
+          }
+          @case ('saving') {
+            {{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.SAVING' | translate }}
+          }
+        }
+      </p>
+    </div>
+  </div>
+
+  @if (domainOfInfluences.length > 1) {
+    <bc-autocomplete
+      [required]="true"
+      [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.SELECTOR' | translate"
+      [(ngModel)]="selectedDoi"
+      [items]="domainOfInfluences"
+      [showOptionsOnSelected]="true"
+      displayExpr="name"
+      subscriptSizing="dynamic"
+    ></bc-autocomplete>
+  } @else if (domainOfInfluences.length === 0) {
     <p class="no-data">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.NO_DATA' | translate }}</p>
+  } @else if (selectedDoi) {
+    <h4 class="mt-2 mb-1">{{selectedDoi.name}}</h4>
+  }
+
+  @if (selectedDoi) {
+    <app-domain-of-influence-settings
+      (statusMessageChange)="statusMessage = $event"
+      class="block my-2"
+      [domainOfInfluence]="selectedDoi"></app-domain-of-influence-settings>
+  } @else {
+    <p class="no-data mt-2">{{'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.NO_DOI_SELECTED' | translate}}</p>
   }
 }

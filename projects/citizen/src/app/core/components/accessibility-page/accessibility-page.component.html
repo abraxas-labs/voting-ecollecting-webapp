@@ -1,12 +1,12 @@
 <div class="page">
   <div class="p-3">
-    <h1>{{ 'ACCESSIBILITY.TITLE' | translate }}</h1>
+    <h1 id="content" tabindex="0">{{ 'ACCESSIBILITY.TITLE' | translate }}</h1>
     <p class="info">
       <span>{{ 'ACCESSIBILITY.INFO_1' | translate }}</span>
       <bc-link href="mailto:support@sg.ch">{{ 'ACCESSIBILITY.INFO_2' | translate }}</bc-link>
       <span>{{ 'ACCESSIBILITY.INFO_3' | translate }}</span>
     </p>
-    <h2>{{ 'ACCESSIBILITY.FORM.TITLE' | translate }}</h2>
+    <h2 tabindex="0">{{ 'ACCESSIBILITY.FORM.TITLE' | translate }}</h2>
     <p class="info">{{ 'ACCESSIBILITY.FORM.INFO' | translate }}</p>
 
     @if (sent) {
@@ -64,21 +64,20 @@
           [showDefaultErrors]="true"
           subscriptSizing="dynamic"
         ></bc-textarea>
-        <div class="flex">
-          <vo-lib-inline-spinner [position]="'right'" [loading]="sending">
-            <bc-button
-              [variant]="'primary'"
-              (buttonClick)="send()"
-              [label]="'ACCESSIBILITY.FORM.SEND' | translate"
-              [disabled]="!form.valid || sending"
-            ></bc-button>
-            <bc-button
-              [variant]="'secondary'"
-              (buttonClick)="reset()"
-              [label]="'ACCESSIBILITY.FORM.RESET' | translate"
-              [disabled]="sending"
-            ></bc-button>
-          </vo-lib-inline-spinner>
+        <div class="flex gap-2">
+          <bc-button
+            [variant]="'primary'"
+            (buttonClick)="send()"
+            [loading]="sending"
+            [label]="'ACCESSIBILITY.FORM.SEND' | translate"
+            [disabled]="!form.valid || sending"
+          ></bc-button>
+          <bc-button
+            [variant]="'secondary'"
+            (buttonClick)="reset()"
+            [label]="'ACCESSIBILITY.FORM.RESET' | translate"
+            [disabled]="sending"
+          ></bc-button>
         </div>
       </div>
     }

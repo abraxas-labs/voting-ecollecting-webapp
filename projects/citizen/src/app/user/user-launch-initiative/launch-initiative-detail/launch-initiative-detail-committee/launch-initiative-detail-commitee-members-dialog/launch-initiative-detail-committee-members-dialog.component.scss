@@ -1,8 +1,8 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
 mat-hint {
   margin-top: 1rem;
-  color: $color-grey-2;
+  color: $color-text-secondary;
   font-size: 13px;
   font-weight: 400;
 }

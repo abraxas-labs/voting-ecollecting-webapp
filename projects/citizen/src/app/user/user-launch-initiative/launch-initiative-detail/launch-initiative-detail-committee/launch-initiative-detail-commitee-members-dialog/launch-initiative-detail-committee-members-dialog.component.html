@@ -10,13 +10,12 @@
   [formGroup]="form"
 >
   @if (isNew || canEdit || canEditPoliticalDuty) {
-    <vo-lib-inline-spinner actions [loading]="savingAndClose" position="left">
-      <bc-button color="primary"
-                 [label]="(isNew ? 'APP.SAVE_AND_CLOSE' : 'APP.SAVE') | translate"
-                 [variant]="isNew ? 'secondary' : 'primary'"
-                 (buttonClick)="save(true)"
-                 [disabled]="!form.valid"></bc-button>
-    </vo-lib-inline-spinner>
+    <bc-button actions color="default"
+               [label]="(isNew ? 'APP.SAVE_AND_CLOSE' : 'APP.SAVE') | translate"
+               [variant]="isNew ? 'secondary' : 'primary'"
+               [loading]="savingAndClose"
+               (buttonClick)="save(true)"
+               [disabled]="!form.valid"></bc-button>
   }
 
   <bc-text
@@ -62,6 +61,7 @@
     [required]="true"
     subscriptSizing="dynamic"
     [adjustFormControlErrors]="false"
+    [showDefaultErrors]="true"
     [readonly]="!canEdit"></bc-date>
   <bc-text
     [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STREET' | translate"

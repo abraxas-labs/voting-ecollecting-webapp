@@ -1,5 +1,5 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
+@use 'color' as *;
 
 .spinner-container {
   display: flex;
@@ -9,7 +9,7 @@
     @extend .ml-2;
 
     font-style: italic;
-    color: $color-grey-1;
+    color: $color-text-secondary;
   }
 }
 
@@ -21,14 +21,14 @@
 }
 
 .initiative-details ::ng-deep.mat-expansion-panel {
-  background-color: $color-primary-10;
+  background-color: $color-primary-95;
 }
 
 .initiative-details .content {
   display: block;
   padding: 1rem;
   border-radius: 1rem;
-  background-color: $color-white;
+  background-color: $color-surface-bg-neutral-full;
 
   > *:not(:last-child) {
     margin-bottom: 1rem;

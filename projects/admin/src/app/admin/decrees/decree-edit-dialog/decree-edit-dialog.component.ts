@@ -162,9 +162,9 @@ export class DecreeEditDialogComponent extends BaseDialogWithUnsavedChangesCheck
     }
 
     if (this.selectedDomainOfInfluence) {
-      this.decree.minSignatureCount = this.selectedDomainOfInfluence.settings.referendumMinSignatureCount;
+      this.decree.minSignatureCount = this.selectedDomainOfInfluence.settings.referendumMinSignatureCount ?? 0;
       this.decree.maxElectronicSignatureCount = this.calculateMaxSignatureCount(
-        this.selectedDomainOfInfluence.settings.referendumMaxElectronicSignaturePercent,
+        this.selectedDomainOfInfluence.settings.referendumMaxElectronicSignaturePercent ?? 0,
       );
       this.decree.bfs = this.selectedDomainOfInfluence.bfs;
     }
@@ -182,7 +182,7 @@ export class DecreeEditDialogComponent extends BaseDialogWithUnsavedChangesCheck
 
     if (this.selectedDomainOfInfluence) {
       this.decree.maxElectronicSignatureCount = this.calculateMaxSignatureCount(
-        this.selectedDomainOfInfluence.settings.referendumMaxElectronicSignaturePercent,
+        this.selectedDomainOfInfluence.settings.referendumMaxElectronicSignaturePercent ?? 0,
       );
     }
 

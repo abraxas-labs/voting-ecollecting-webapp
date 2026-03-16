@@ -17,6 +17,7 @@ import {
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { InitiativeCommitteeMember } from '../../../../core/models/initiative.model';
+import { approvalStateColorMap, signatureTypeColorMap } from 'ecollecting-lib';
 
 @Component({
   selector: 'app-initiative-detail-committee-members-table',
@@ -57,6 +58,9 @@ export class InitiativeDetailCommitteeMembersTableComponent implements OnChanges
     this.stateColumn,
     this.actionsColumn,
   ];
+
+  protected readonly signatureTypeColorMap = signatureTypeColorMap;
+  protected readonly approvalStateColorMap = approvalStateColorMap;
 
   @Input({ required: true })
   public committeeMembers!: InitiativeCommitteeMember[];

@@ -23,15 +23,15 @@ import {
 import { lastValueFrom, Observable } from 'rxjs';
 import { CollectionCameNotAboutReason } from '@abraxas/voting-ecollecting-proto';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { downloadBlob, toProtoDate } from 'ecollecting-lib';
+import { toProtoDate } from 'ecollecting-lib';
+import { FileDownloadService } from '@abraxas/voting-lib';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DecreeService {
   private readonly client = inject(DecreeServiceClient);
-  private readonly http = inject(HttpClient);
+  private readonly fileDownloadService = inject(FileDownloadService);
 
   private readonly restApiUrl: string;
 
@@ -95,8 +95,7 @@ export class DecreeService {
 
   public async downloadDocuments(decreeId: string): Promise<void> {
     const url = `${this.restApiUrl}/${decreeId}/documents`;
-    const blob = await lastValueFrom(this.http.get(url, { responseType: 'blob' }));
-    downloadBlob('export.zip', blob);
+    await this.fileDownloadService.getDownloadFile(url);
   }
 
   public async setSensitiveDataExpiryDate(decreeId: string, sensitiveDataExpiryDate: Date): Promise<void> {

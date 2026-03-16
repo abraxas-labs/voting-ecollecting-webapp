@@ -27,7 +27,7 @@ import {
 import { Initiative } from '../../../../core/models/initiative.model';
 import { InitiativeService } from '../../../../core/services/initiative.service';
 import { DomainOfInfluenceService } from '../../../../core/services/domain-of-influence.service';
-import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
+import { AsyncInputValidators, InputValidators, MarkdownEditorComponent } from '@abraxas/voting-lib';
 import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
@@ -51,6 +51,7 @@ import { HasUnsavedChanges } from '../../../../core/guards/has-unsaved-changes.g
     SpinnerModule,
     FileInputModule,
     ImageUploadComponent,
+    MarkdownEditorComponent,
     AsyncPipe,
   ],
 })
@@ -107,7 +108,10 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
 
       // update initiative after save, since it is not reloaded after a sub navigation from the resolver
       this.initiative.collection.description = values.description;
-      this.initiative.wording = values.wording;
+      this.initiative.wording = {
+        markdown: values.wording,
+        html: '',
+      };
       this.initiative.collection.reason = values.reason;
       this.initiative.collection.address = values.address as Required<typeof values.address>;
       this.initiative.collection.link = values.link;
@@ -149,7 +153,7 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
       return;
     }
 
-    await this.initiativeService.update(this.initiative.id, description, wording, reason, address, link, subTypeId);
+    await this.initiativeService.update(this.initiative.id, description, wording.trim(), reason, address, link, subTypeId);
     if (!this.initiative.collection.userPermissions) {
       return;
     }
@@ -256,6 +260,7 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
 
       this.form.patchValue({
         ...this.initiative,
+        wording: this.initiative.wording.markdown,
         subType: this.subTypes.find(x => x.id === this.initiative?.subType?.id),
         description: this.initiative.collection.description,
         link: this.initiative.collection.link,
@@ -290,7 +295,7 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
       }),
       wording: this.formBuilder.control('', {
         validators: [Validators.required, Validators.maxLength(10_000)],
-        asyncValidators: [AsyncInputValidators.complexMlText],
+        asyncValidators: [AsyncInputValidators.markdownText],
       }),
       reason: this.formBuilder.control('', {
         validators: [Validators.maxLength(10_000)],

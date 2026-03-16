@@ -1,6 +1,6 @@
 @use '@abraxas/voting-lib/style/responsive' as *;
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
+@use 'color' as *;
 
 .content {
   display: grid;
@@ -48,6 +48,6 @@ img {
     @extend .ml-2;
 
     font-style: italic;
-    color: $color-grey-1;
+    color: $color-text-secondary;
   }
 }

@@ -1,24 +1,23 @@
 @if (collection) {
   <bc-card class="m-3" [border]="false">
     <bc-card-header>
-      <bc-card-title [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.TITLE' | translate"></bc-card-title>
+      <bc-card-title id="content" tabindex="0" [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
     </bc-card-header>
     <bc-card-content>
-      <mat-radio-group [disabled]="!collection.userPermissions?.canEditSignatureSheetTemplate"
-                       [(ngModel)]="collection.signatureSheetTemplateGenerated"
-                       (ngModelChange)="setGenerated($event)">
+        <p>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.HINT' | translate }}</p>
         <div class="box">
           <div class="generated-content">
-            <mat-radio-button [color]="'primary'" [value]="true">
-              {{'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATE.TRUE' | translate }}
-            </mat-radio-button>
+            <bc-radio-button [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATE.TRUE' | translate"
+                             [ngModel]="collection.signatureSheetTemplateGenerated"
+                             (ngModelChange)="setGenerated(true)"
+                             [disabled]="!collection.userPermissions?.canEditSignatureSheetTemplate"
+                             [subscriptSizing]="'dynamic'"></bc-radio-button>
             @if (collection.signatureSheetTemplateGenerated) {
               <div class="actions">
-                @if (isGeneratingPreview) {
-                  <bc-spinner></bc-spinner>
-                  <span class="generating">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATING' | translate }}</span>
-                } @else if (collection.userPermissions?.canDeleteSignatureSheetTemplate) {
+              @if (collection.userPermissions?.canDeleteSignatureSheetTemplate) {
                   <bc-button variant="tertiary"
+                             [loading]="isGeneratingPreview"
+                             [ariaLabel]="(isGeneratingPreview ? 'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATING' : 'COLLECTION.DETAIL.SIGNATURE_SHEET.' + (collection.signatureSheetTemplate ? 'GENERATE_NEW' : 'GENERATE_NOW')) | translate"
                              [disabled]="!collection.userPermissions?.canGenerateSignatureSheetTemplatePreview"
                              [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.' + (collection.signatureSheetTemplate ? 'GENERATE_NEW' : 'GENERATE_NOW') | translate"
                              (buttonClick)="generatePreview()"></bc-button>
@@ -37,9 +36,11 @@
           }
         </div>
         <div class="box">
-          <mat-radio-button [color]="'primary'" [value]="false">
-            {{'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATE.FALSE' | translate }}
-          </mat-radio-button>
+          <bc-radio-button [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATE.FALSE' | translate"
+                           [ngModel]="!collection.signatureSheetTemplateGenerated"
+                           (ngModelChange)="setGenerated(false)"
+                           [disabled]="!collection.userPermissions?.canEditSignatureSheetTemplate"
+                           [subscriptSizing]="'dynamic'"></bc-radio-button>
           @if (!collection.signatureSheetTemplateGenerated) {
             <vo-ecol-file-upload
               (fileChanged)="setFile($event)"
@@ -56,7 +57,15 @@
             ></vo-ecol-file-upload>
           }
         </div>
-      </mat-radio-group>
+
+      @if (qrCodeData) {
+        <div class="mt-3">
+          <h3 tabindex="0">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.TITLE' | translate }}</h3>
+          <p tabindex="0">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.MSG' | translate }}</p>
+          <qrcode (qrCodeURL)="qrCodeDownloadUrlChanged($event)" [width]="192" [qrdata]="qrCodeData" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
+          <bc-button [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.DOWNLOAD' | translate" (buttonClick)="downloadQrCode()"></bc-button>
+        </div>
+      }
     </bc-card-content>
   </bc-card>
 } @else {

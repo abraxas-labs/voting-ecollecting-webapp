@@ -23,7 +23,7 @@ import {
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { FileChipComponent, ImageUploadComponent } from 'ecollecting-lib';
+import { collectionStateColorMap, FileChipComponent, ImageUploadComponent } from 'ecollecting-lib';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Collection } from '../../core/models/collection.model';
 import { CollectionDetailPermissionsComponent } from '../../core/components/collection-permissions/collection-permissions.component';
@@ -31,7 +31,7 @@ import { Initiative } from '../../core/models/initiative.model';
 import { AbstractCollectionDetailBase } from '../../core/components/collection-detail-base/collection-detail-base.component';
 import { InitiativeService } from '../../core/services/initiative.service';
 import { CollectionState } from '@abraxas/voting-ecollecting-proto';
-import { VotingLibModule } from '@abraxas/voting-lib';
+import { MarkdownPreviewComponent, VotingLibModule } from '@abraxas/voting-lib';
 import {
   InitiativeCollectionPeriodDialogComponent,
   InitiativeCollectionPeriodDialogData,
@@ -42,6 +42,7 @@ import {
   InitiativeReturnForCorrectionDialogComponent,
   InitiativeReturnForCorrectionDialogData,
 } from '../initiative-return-for-correction-dialog/initiative-return-for-correction-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-initiative-detail',
@@ -69,12 +70,15 @@ import {
     TooltipModule,
     TruncateWithTooltipModule,
     InitiativeDetailCommitteeComponent,
+    MarkdownPreviewComponent,
+    FormsModule,
   ],
   providers: [DialogService],
 })
 export class InitiativeDetailComponent extends AbstractCollectionDetailBase implements OnDestroy {
   private readonly initiativeService = inject(InitiativeService);
   protected readonly collectionStates: typeof CollectionState = CollectionState;
+  protected readonly collectionStateColorMap = collectionStateColorMap;
   protected initiative?: Initiative;
 
   protected updating = false;

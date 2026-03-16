@@ -86,34 +86,49 @@ export class InitiativeOverviewComponent implements OnInit {
   protected filters: CollectionMainFilter[] = [
     {
       id: 'COLLECTING',
-      periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED, CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION],
+      criteria: [
+        { state: CollectionState.COLLECTION_STATE_PRE_RECORDED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION },
+        {
+          state: CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION,
+        },
+      ],
     },
     {
       id: 'COLLECTION_DONE',
-      periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED],
+      criteria: [
+        { state: CollectionState.COLLECTION_STATE_PRE_RECORDED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED },
+        {
+          state: CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED,
+        },
+        { state: CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED },
+        { state: CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT },
+        { state: CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT },
+      ],
     },
     {
       id: 'ALL',
-      states: [
-        CollectionState.COLLECTION_STATE_PRE_RECORDED,
-        CollectionState.COLLECTION_STATE_IN_PREPARATION,
-        CollectionState.COLLECTION_STATE_SUBMITTED,
-        CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION,
-        CollectionState.COLLECTION_STATE_UNDER_REVIEW,
-        CollectionState.COLLECTION_STATE_READY_FOR_REGISTRATION,
-        CollectionState.COLLECTION_STATE_REGISTERED,
-        CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION,
-        CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION,
-        CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED,
+      criteria: [
+        { state: CollectionState.COLLECTION_STATE_PRE_RECORDED },
+        { state: CollectionState.COLLECTION_STATE_IN_PREPARATION },
+        { state: CollectionState.COLLECTION_STATE_SUBMITTED },
+        { state: CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION },
+        { state: CollectionState.COLLECTION_STATE_UNDER_REVIEW },
+        { state: CollectionState.COLLECTION_STATE_READY_FOR_REGISTRATION },
+        { state: CollectionState.COLLECTION_STATE_REGISTERED },
+        { state: CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION },
+        { state: CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION },
+        { state: CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED },
       ],
     },
     {
       id: 'ARCHIVE',
-      states: [
-        CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT,
-        CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT,
-        CollectionState.COLLECTION_STATE_NOT_PASSED,
-        CollectionState.COLLECTION_STATE_WITHDRAWN,
+      criteria: [
+        { state: CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT },
+        { state: CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT },
+        { state: CollectionState.COLLECTION_STATE_NOT_PASSED },
+        { state: CollectionState.COLLECTION_STATE_WITHDRAWN },
       ],
       autoSubFilters: true,
     },
@@ -140,23 +155,23 @@ export class InitiativeOverviewComponent implements OnInit {
     if (environment.enableMunicipalityReviewProcess || !doiTypes.includes(DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU)) {
       this.filters = [
         {
-          id: 'PREPARING',
-          states: [
-            CollectionState.COLLECTION_STATE_PRE_RECORDED,
-            CollectionState.COLLECTION_STATE_IN_PREPARATION,
-            CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION,
-            CollectionState.COLLECTION_STATE_READY_FOR_REGISTRATION,
+          id: 'TASKS',
+          criteria: [
+            { state: CollectionState.COLLECTION_STATE_SUBMITTED },
+            { state: CollectionState.COLLECTION_STATE_UNDER_REVIEW },
+            { state: CollectionState.COLLECTION_STATE_REGISTERED },
+            { state: CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION },
+            { state: CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED },
           ],
           autoSubFilters: true,
         },
         {
-          id: 'TASKS',
-          states: [
-            CollectionState.COLLECTION_STATE_SUBMITTED,
-            CollectionState.COLLECTION_STATE_UNDER_REVIEW,
-            CollectionState.COLLECTION_STATE_REGISTERED,
-            CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION,
-            CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED,
+          id: 'PREPARING',
+          criteria: [
+            { state: CollectionState.COLLECTION_STATE_PRE_RECORDED },
+            { state: CollectionState.COLLECTION_STATE_IN_PREPARATION },
+            { state: CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION },
+            { state: CollectionState.COLLECTION_STATE_READY_FOR_REGISTRATION },
           ],
           autoSubFilters: true,
         },
@@ -211,6 +226,16 @@ export class InitiativeOverviewComponent implements OnInit {
   }
 
   protected async submitSignatureSheets(initiative: Initiative): Promise<void> {
+    const ok = await this.confirmDialogService.confirm({
+      title: 'INITIATIVE.SUBMIT_SIGNATURE_SHEETS.TITLE',
+      message: 'INITIATIVE.SUBMIT_SIGNATURE_SHEETS.MSG',
+      confirmText: 'APP.YES',
+      discardText: 'APP.DISCARD',
+    });
+    if (!ok) {
+      return;
+    }
+
     const response = await this.collectionService.submitSignatureSheets(initiative.id);
     initiative.collection.state = CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED;
     initiative.collection.userPermissions = response.userPermissions;
@@ -278,13 +303,13 @@ export class InitiativeOverviewComponent implements OnInit {
     }
 
     for (const group of this.filteredGroups) {
-      if (this.filter.periodStates !== undefined) {
-        group.initiatives = group.initiatives.filter(i => this.filter!.periodStates!.includes(i.collection.periodState));
-      }
-
-      if (this.filter.states !== undefined) {
-        group.initiatives = group.initiatives.filter(i => this.filter!.states!.includes(i.collection.state));
-      }
+      group.initiatives = group.initiatives.filter(i =>
+        this.filter!.criteria.some(
+          c =>
+            (c.state === undefined || i.collection.state === c.state) &&
+            (c.periodState === undefined || i.collection.periodState === c.periodState),
+        ),
+      );
     }
   }
 

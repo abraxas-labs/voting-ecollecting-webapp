@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   AddCollectionMessageRequest,
   CollectionControlSignFilter,
@@ -29,7 +29,7 @@ import {
   mapToCollectionMessage,
   mapToCollectionMessages,
   newObjectUrlObservableForBlob,
-  openBlobInNewTab,
+  StoredFile,
 } from 'ecollecting-lib';
 import { HttpClient } from '@angular/common/http';
 import { SafeResourceUrl } from '@angular/platform-browser';
@@ -43,6 +43,7 @@ import {
 } from '../models/collection.model';
 import { CollectionType, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { CollectionsGroup, mapCollectionsGroupToModel } from '../models/collections-group.model';
+import { FileDownloadService } from '@abraxas/voting-lib';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +51,7 @@ import { CollectionsGroup, mapCollectionsGroupToModel } from '../models/collecti
 export class CollectionService implements CollectionMessagesService {
   private readonly client = inject(CollectionServiceClient);
   private readonly http = inject(HttpClient);
+  private readonly fileDownloadService = inject(FileDownloadService);
 
   private readonly restApiUrl: string;
 
@@ -99,18 +101,25 @@ export class CollectionService implements CollectionMessagesService {
     await lastValueFrom(this.client.deleteWithdrawn(new DeleteWithdrawnCollectionRequest({ collectionId })));
   }
 
-  public async deleteImage(collectionId: string, collectionType: CollectionType): Promise<void> {
-    await lastValueFrom(this.client.deleteImage(new DeleteCollectionImageRequest({ collectionId, collectionType })));
+  public async deleteImage(collectionId: string, collectionType: CollectionType): Promise<StoredFile | undefined> {
+    const response = await lastValueFrom(this.client.deleteImage(new DeleteCollectionImageRequest({ collectionId, collectionType })));
+    return response.generatedSignatureSheetTemplate
+      ? (response.generatedSignatureSheetTemplate.toObject() satisfies StoredFile)
+      : undefined;
   }
 
-  public async deleteLogo(collectionId: string, collectionType: CollectionType): Promise<void> {
-    await lastValueFrom(this.client.deleteLogo(new DeleteCollectionLogoRequest({ collectionId, collectionType })));
+  public async deleteLogo(collectionId: string, collectionType: CollectionType): Promise<StoredFile | undefined> {
+    const response = await lastValueFrom(this.client.deleteLogo(new DeleteCollectionLogoRequest({ collectionId, collectionType })));
+    return response.generatedSignatureSheetTemplate
+      ? (response.generatedSignatureSheetTemplate.toObject() satisfies StoredFile)
+      : undefined;
   }
 
-  public async deleteSignatureSheetTemplate(collectionId: string, collectionType: CollectionType): Promise<void> {
-    await lastValueFrom(
+  public async deleteSignatureSheetTemplate(collectionId: string, collectionType: CollectionType): Promise<StoredFile> {
+    const response = await lastValueFrom(
       this.client.deleteSignatureSheetTemplate(new DeleteSignatureSheetTemplateRequest({ collectionId, collectionType })),
     );
+    return response.generatedSignatureSheetTemplate!.toObject() satisfies StoredFile;
   }
 
   public getLogo(collectionId: string): Observable<SafeResourceUrl> {
@@ -127,8 +136,7 @@ export class CollectionService implements CollectionMessagesService {
 
   public async downloadSignatureSheet(collectionId: string): Promise<void> {
     const url = `${this.restApiUrl}/${collectionId}/signature-sheet-template`;
-    const blob = await lastValueFrom(this.http.get(url, { responseType: 'blob' }));
-    openBlobInNewTab(blob);
+    await this.fileDownloadService.getDownloadFile(url);
   }
 
   public async listPermissions(collectionId: string): Promise<CollectionPermission[]> {

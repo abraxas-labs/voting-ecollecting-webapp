@@ -94,8 +94,7 @@ export class CheckSamplesMunicipalityOverviewComponent implements OnInit, OnDest
       return;
     }
 
-    const result = await this.collectionMunicipalityService.submitSignatureSheets(this.collection.id, this.domainOfInfluence.bfs);
-    this.collection.collection.attestedCollectionCount = result.collectionCount;
+    await this.collectionMunicipalityService.submitSignatureSheets(this.collection.id, this.domainOfInfluence.bfs);
 
     for (const signatureSheet of this.signatureSheets) {
       if (

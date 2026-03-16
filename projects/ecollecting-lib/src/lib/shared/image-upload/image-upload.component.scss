@@ -1,4 +1,4 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use '../../../styles/color' as *;
 
 ::ng-deep bc-file-input .file-list-container {
   display: none;
@@ -9,9 +9,10 @@
 }
 
 img {
-  max-width: 100%;
+  max-width: min(100%, 50rem);
+  max-height: 7rem;
 }
 
 .error {
-  color: $color-error;
+  color: $color-signal-error;
 }

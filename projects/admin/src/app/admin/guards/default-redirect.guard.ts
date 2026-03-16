@@ -22,11 +22,11 @@ export class DefaultRedirectGuard implements CanActivate {
     const roles = (await this.auth.getRoles()) as Role[];
 
     if (roles.includes('Stammdatenverwalter')) {
-      return this.router.createUrlTree(['-', administrationUrl, decreesUrl]);
+      return this.router.createUrlTree([administrationUrl, decreesUrl]);
     } else if (roles.includes('Zertifikatsverwalter')) {
-      return this.router.createUrlTree(['-', administrationUrl, certificatesUrl]);
+      return this.router.createUrlTree([administrationUrl, certificatesUrl]);
     }
 
-    return this.router.createUrlTree(['-', '404']);
+    return this.router.createUrlTree(['404']);
   }
 }

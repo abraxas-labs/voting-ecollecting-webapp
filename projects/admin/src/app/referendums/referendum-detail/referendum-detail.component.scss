@@ -7,6 +7,12 @@
   overflow-y: auto;
 }
 
-.header-card bc-card-header {
-  min-height: 60px; // same height as app header for better UI
+.header-card {
+  ::ng-deep .mdc-card {
+    border-radius: 0;
+  }
+
+  bc-card-header {
+    height: 60px; // same height as app header for better UI
+  }
 }

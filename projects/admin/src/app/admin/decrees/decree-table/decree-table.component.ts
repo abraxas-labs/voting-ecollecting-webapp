@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Decree } from '../../../core/models/decree.model';
 import {
@@ -20,7 +20,7 @@ import {
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { EnumItemDescription } from '@abraxas/voting-lib';
 import { CollectionPeriodState, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
-import { EnumItemDescriptionUtils } from 'ecollecting-lib';
+import { collectionPeriodStateColorMap, EnumItemDescriptionUtils } from 'ecollecting-lib';
 
 @Component({
   selector: 'app-decree-table',
@@ -63,6 +63,9 @@ export class DecreeTableComponent implements AfterViewInit {
     this.stateColumn,
     this.editColumn,
   ];
+
+  protected readonly collectionPeriodStateColorMap = collectionPeriodStateColorMap;
+  protected readonly collectionPeriodStates = CollectionPeriodState;
 
   @Input()
   public set decrees(decrees: Decree[]) {

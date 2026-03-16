@@ -23,11 +23,12 @@ import {
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { FileChipComponent, ImageUploadComponent } from 'ecollecting-lib';
+import { collectionStateColorMap, FileChipComponent, ImageUploadComponent } from 'ecollecting-lib';
 import { AsyncPipe } from '@angular/common';
 import { Collection } from '../../core/models/collection.model';
 import { CollectionDetailPermissionsComponent } from '../../core/components/collection-permissions/collection-permissions.component';
 import { AbstractCollectionDetailBase } from '../../core/components/collection-detail-base/collection-detail-base.component';
+import { CollectionState } from '@abraxas/voting-ecollecting-proto';
 
 @Component({
   selector: 'app-referendum-detail',
@@ -55,6 +56,8 @@ import { AbstractCollectionDetailBase } from '../../core/components/collection-d
   providers: [DialogService],
 })
 export class ReferendumDetailComponent extends AbstractCollectionDetailBase implements OnDestroy {
+  protected readonly collectionStates = CollectionState;
+  protected readonly collectionStateColorMap = collectionStateColorMap;
   protected referendum?: Referendum;
 
   private routeSubscription: Subscription;

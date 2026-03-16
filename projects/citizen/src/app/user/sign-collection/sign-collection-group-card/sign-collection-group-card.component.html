@@ -9,7 +9,7 @@
   <div class="flex flex-col gap-3 mt-3">
     @for (initiative of initiatives; track initiative.collection.id) {
       <vo-ecol-initiative-card [initiative]="initiative" [role]="initiative.collection.userPermissions?.role" (cardClick)="signOnline(initiative.collection)" [showType]="true">
-        <app-sign-collection-extension [collection]="initiative.collection">
+        <app-sign-collection-extension [collection]="initiative">
           <bc-alert-bar
             cameNotAboutReason
             [displayDismissAction]="false"
@@ -35,7 +35,7 @@
                                      [showState]="false"
                                      [role]="referendum.collection.userPermissions?.role"
                                      (cardClick)="signOnline(referendum.collection)">
-              <app-sign-collection-extension [collection]="referendum.collection"></app-sign-collection-extension>
+              <app-sign-collection-extension [collection]="referendum"></app-sign-collection-extension>
             </vo-ecol-referendum-card>
           }
         </div>

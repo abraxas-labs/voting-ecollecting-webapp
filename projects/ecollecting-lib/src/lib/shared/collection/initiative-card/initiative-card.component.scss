@@ -3,12 +3,12 @@
   flex-wrap: wrap;
   justify-content: space-between;
 
-  bc-readonly {
+  li bc-readonly {
     width: unset;
     min-width: 9rem;
   }
 
-  .collection-period {
+  .collection-period bc-readonly {
     min-width: 13rem;
   }
 }

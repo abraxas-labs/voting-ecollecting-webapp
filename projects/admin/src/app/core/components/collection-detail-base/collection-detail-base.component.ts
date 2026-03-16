@@ -25,6 +25,7 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
   private readonly router = inject(Router);
   private readonly collectionService = inject(CollectionService);
   protected readonly confirmDialogService = inject(ConfirmDialogService);
+
   protected deleting = false;
   protected imageLoading = false;
   protected logoLoading = false;
@@ -88,8 +89,11 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
 
     try {
       this.deleting = true;
-      await this.collectionService.deleteSignatureSheetTemplate(this.collection.id, this.collection.type);
-      this.setSignatureSheet();
+      this.collection.signatureSheetTemplate = await this.collectionService.deleteSignatureSheetTemplate(
+        this.collection.id,
+        this.collection.type,
+      );
+      this.collection.signatureSheetTemplateGenerated = true;
     } finally {
       this.deleting = false;
     }
@@ -113,7 +117,7 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
     try {
       this.deleting = true;
       delete this.image;
-      await this.collectionService.deleteImage(this.collection.id, this.collection.type);
+      this.collection.signatureSheetTemplate = await this.collectionService.deleteImage(this.collection.id, this.collection.type);
     } finally {
       this.deleting = false;
     }
@@ -137,22 +141,13 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
     try {
       this.deleting = true;
       delete this.logo;
-      await this.collectionService.deleteLogo(this.collection.id, this.collection.type);
+      this.collection.signatureSheetTemplate = await this.collectionService.deleteLogo(this.collection.id, this.collection.type);
     } finally {
       this.deleting = false;
     }
   }
 
   protected abstract get collection(): Collection | undefined;
-
-  private setSignatureSheet() {
-    if (!this.collection) {
-      return;
-    }
-
-    this.collection.signatureSheetTemplate = { id: '', name: 'Unterschriftenliste.pdf' };
-    this.collection.signatureSheetTemplateGenerated = true;
-  }
 
   private loadLogo(): void {
     if (!this.collection?.logo) {

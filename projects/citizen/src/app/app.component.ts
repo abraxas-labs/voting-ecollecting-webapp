@@ -5,19 +5,22 @@
  */
 
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
-import { SnackbarService, ThemeService, VotingLibModule } from '@abraxas/voting-lib';
+import { SnackbarService, VotingLibModule } from '@abraxas/voting-lib';
 import { LanguageService, RouteDataPipe } from 'ecollecting-lib';
 import {
   AccountPanelModule,
   AppHeaderBarModule,
   ButtonModule,
+  ColorTokensThemes,
+  CornerRadiusTokensThemes,
   LinkModule,
   SnackbarComponent,
   SnackbarModule,
   SpinnerModule,
+  StylingService,
   TooltipModule,
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
@@ -44,6 +47,7 @@ import { accessibilityUrl } from './app.routes';
     LinkModule,
     TooltipModule,
     TruncateWithTooltipModule,
+    RouterLink,
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -57,7 +61,6 @@ export class AppComponent implements OnInit, OnDestroy {
   protected readonly accessibilityUrl = accessibilityUrl;
   protected readonly now = new Date();
 
-  public theme: string = 'sg';
   public appTitle: string = '';
   public state: 'initializing' | 'authenticating' | 'initialized' = 'initializing';
 
@@ -67,9 +70,10 @@ export class AppComponent implements OnInit, OnDestroy {
   private snackbarSubscription?: Subscription;
 
   constructor() {
-    const themeService = inject(ThemeService);
+    const stylingService = inject(StylingService);
 
-    themeService.setTheme(this.theme);
+    stylingService.setTheme(ColorTokensThemes.SchalterELight);
+    stylingService.setRadius(CornerRadiusTokensThemes.Large);
   }
 
   public async ngOnInit(): Promise<void> {
@@ -78,7 +82,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Cannot use translations.instant here, as the translations may not have been loaded yet
     // It would then just display the non-translated string
-    this.appTitle = await firstValueFrom(this.translations.get('APP.TITLE.' + this.theme));
+    this.appTitle = await firstValueFrom(this.translations.get('APP.TITLE'));
     this.title.setTitle(this.appTitle);
 
     this.snackbarSubscription = this.snackbarService.message$.subscribe(m => {

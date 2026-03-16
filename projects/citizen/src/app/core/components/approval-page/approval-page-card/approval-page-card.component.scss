@@ -1,10 +1,10 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
 :host {
   display: block;
   padding: 1rem;
   border-radius: 1rem;
-  background-color: $color-white;
+  background-color: $color-neutral-100;
 }
 
 :host(:not(:first-of-type)) {
@@ -17,11 +17,11 @@
   font-style: italic;
 
   &.error {
-    color: $color-error;
+    color: $color-signal-error;
   }
 
   &.success {
-    color: $color-success;
+    color: $color-signal-success;
   }
 }
 

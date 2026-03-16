@@ -15,7 +15,7 @@ import {
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AsyncInputValidators, InputValidators, VotingLibModule } from '@abraxas/voting-lib';
+import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
 import {
   AutocompleteModule,
   ButtonModule,
@@ -45,7 +45,6 @@ import { InitiativeService } from '../../../../../core/services/initiative.servi
     RadioButtonModule,
     MatHint,
     ButtonModule,
-    VotingLibModule,
     AutocompleteModule,
   ],
   templateUrl: './launch-initiative-detail-committee-members-dialog.component.html',

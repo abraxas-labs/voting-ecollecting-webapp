@@ -1,4 +1,10 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
 
 .hint {
   font-size: 0.875rem;
@@ -6,13 +12,17 @@
   display: flex;
   justify-content: end;
   align-items: center;
-  color: $color-grey-2;
+  color: $color-text-secondary;
 
   &.success {
-    color: $color-success;
+    color: $color-signal-success;
+  }
+
+  &.error {
+    color: $color-signal-error;
   }
 }
 
 bc-expansion-panel ::ng-deep.mat-expansion-panel-header {
-  background-color: $color-primary-10 !important;
+  background-color: $color-primary-95 !important;
 }

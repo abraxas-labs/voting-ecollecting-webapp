@@ -6,7 +6,7 @@
     (filterChange)="filterChange($event)"></vo-ecol-collection-filter>
   <div class="flex flex-col gap-3 mt-3">
     @for (group of filteredGroups; track group.domainOfInfluenceType) {
-      <vo-ecol-doi-type-card [doiType]="group.domainOfInfluenceType">
+      <vo-ecol-doi-type-card [doiType]="group.domainOfInfluenceType" [saveExpandedState]="true">
         @if (group.domainOfInfluenceType === municipalityDoiType) {
           @if (municipalities.length > 1) {
             <vo-ecol-municipality-filter
@@ -30,7 +30,7 @@
                 <vo-ecol-initiative-card [initiative]="initiative" (cardClick)="open(initiative.id)" [showPeriodState]="false">
                   <div class="mt-2 flex gap-3 items-center">
                     <bc-button class="self-end"
-                               color="primary"
+                               color="default"
                                variant="tertiary"
                                (buttonClick)="open(initiative.id)"
                                [label]="'INITIATIVE.SHOW' | translate"></bc-button>
@@ -60,7 +60,7 @@
                         class="self-end"
                         variant="tertiary"
                         (buttonClick)="submitSignatureSheets(initiative)"
-                        [label]="'INITIATIVE.SUBMIT_SIGNATURE_SHEETS' | translate"
+                        [label]="'INITIATIVE.SUBMIT_SIGNATURE_SHEETS.TITLE' | translate"
                       ></bc-button>
                     }
                     @if (initiative.collection.userPermissions?.canDeleteWithdrawn) {

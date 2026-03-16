@@ -1,4 +1,4 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use '../../../../styles/color' as *;
 
 [content] {
   display: flex;
@@ -10,7 +10,7 @@
   }
 
   hr {
-    color: $color-grey-5;
+    color: $color-border-secondary;
     width: 100%;
   }
 

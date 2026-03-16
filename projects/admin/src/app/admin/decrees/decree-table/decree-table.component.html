@@ -101,7 +101,9 @@
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.STATE</span>
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let row">
-      <bc-status-label [label]="'DECREE.COLLECTION_PERIOD_STATES.' + row.periodState | translate"></bc-status-label>
+      <bc-status-label [label]="'DECREE.COLLECTION_PERIOD_STATES.' + row.periodState | translate"
+                       [backgroundColor]="collectionPeriodStateColorMap[row.periodState]"
+                       [foregroundColor]="row.periodState === collectionPeriodStates.COLLECTION_PERIOD_STATE_EXPIRED ? 'light' : 'dark'"></bc-status-label>
     </bc-data-cell>
   </ng-container>
   <ng-container [columnDef]="editColumn">

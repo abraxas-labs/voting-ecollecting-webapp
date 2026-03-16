@@ -1,8 +1,8 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
+@use 'color' as *;
 
 app-certificate-info {
   border-radius: 1rem;
-  border: 1px solid $color-grey-4;
-  background-color: $color-info-25;
+  border: 1px solid $color-border-soft;
+  background-color: $color-signal-info-light;
 }

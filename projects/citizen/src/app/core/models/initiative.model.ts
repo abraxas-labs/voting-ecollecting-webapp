@@ -6,12 +6,14 @@
 
 import { Collection, mapCollectionToModel } from './collection.model';
 import {
+  GetPendingCommitteeMemberResponse,
   Initiative as InitiativeProto,
   InitiativeCommittee as InitiativeCommitteeProto,
   InitiativeCommitteeMember as InitiativeCommitteeMemberProto,
   InitiativeSubType as InitiativeSubTypeProto,
 } from '@abraxas/voting-ecollecting-proto/citizen';
 import { StoredFile, Initiative as InitiativeShared, InitiativeSubType } from 'ecollecting-lib';
+import { MarkdownString } from '@abraxas/voting-lib';
 
 export { InitiativeProto, InitiativeSubTypeProto };
 
@@ -33,7 +35,7 @@ export interface PendingInitiativeCommitteeMembership {
   initiativeId: string;
   description: string;
   subType?: InitiativeSubType;
-  wording: string;
+  wording: MarkdownString;
   reason: string;
   link: string;
   firstName: string;
@@ -59,6 +61,13 @@ export function mapInitiativeToModel(initiativeProto: InitiativeProto): Initiati
     ...initiativeProto.toObject(),
     collection: collection,
   } as Initiative;
+}
+
+export function mapToPendingInitiativeCommitteeMembership(resp: GetPendingCommitteeMemberResponse): PendingInitiativeCommitteeMembership {
+  return {
+    ...resp.toObject(),
+    wording: resp.wording!.toObject(),
+  };
 }
 
 export function mapInitiativeSubTypeToModel(initiativeSubTypeProto: InitiativeSubTypeProto): InitiativeSubType {

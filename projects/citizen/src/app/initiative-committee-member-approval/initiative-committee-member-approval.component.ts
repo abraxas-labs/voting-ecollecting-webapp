@@ -13,6 +13,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { InitiativeService } from '../core/services/initiative.service';
 import { ApprovalPageBaseComponent } from '../core/components/approval-page/approval-page-base.component';
 import { FileUploadComponent } from 'ecollecting-lib';
+import { MarkdownPreviewComponent } from '@abraxas/voting-lib';
 
 @Component({
   selector: 'app-initiative-committee-member-approval',
@@ -25,6 +26,7 @@ import { FileUploadComponent } from 'ecollecting-lib';
     FileUploadComponent,
     ExpansionPanelModule,
     ReadonlyModule,
+    MarkdownPreviewComponent,
   ],
   templateUrl: './initiative-committee-member-approval.component.html',
   styleUrl: './initiative-committee-member-approval.component.scss',

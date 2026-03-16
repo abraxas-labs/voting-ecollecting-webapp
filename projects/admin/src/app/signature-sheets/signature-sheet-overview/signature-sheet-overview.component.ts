@@ -101,7 +101,7 @@ export class SignatureSheetOverviewComponent implements OnDestroy {
   protected async attest(): Promise<void> {
     try {
       this.isAttesting = true;
-      await this.attestSheets(this.selected, true);
+      await this.attestSheets(this.selected, 'attest');
     } finally {
       this.isAttesting = false;
     }
@@ -110,7 +110,7 @@ export class SignatureSheetOverviewComponent implements OnDestroy {
   protected async reattest(): Promise<void> {
     try {
       this.isReattesting = true;
-      await this.attestSheets(this.selectedAttested, false);
+      await this.attestSheets(this.selectedAttested, 'reattest');
     } finally {
       this.isReattesting = false;
     }
@@ -121,7 +121,7 @@ export class SignatureSheetOverviewComponent implements OnDestroy {
     await this.checkCommitteeAddress();
   }
 
-  private async attestSheets(sheets: CollectionSignatureSheet[], move: boolean): Promise<void> {
+  private async attestSheets(sheets: CollectionSignatureSheet[], mode: 'attest' | 'reattest'): Promise<void> {
     if (!this.collection) {
       return;
     }
@@ -129,7 +129,11 @@ export class SignatureSheetOverviewComponent implements OnDestroy {
     const userProfile = await this.auth.getUserProfile();
 
     const sheetIds = sheets.map(x => x.id);
-    await this.collectionSignatureSheetService.attest(this.collection.id, sheetIds);
+    if (mode === 'reattest') {
+      await this.collectionSignatureSheetService.reattest(this.collection.id, sheetIds);
+    } else {
+      await this.collectionSignatureSheetService.attest(this.collection.id, sheetIds);
+    }
 
     const newAttestedAt = new Date();
     for (const sheet of sheets) {
@@ -137,7 +141,7 @@ export class SignatureSheetOverviewComponent implements OnDestroy {
       sheet.modifiedByName = userProfile.info.name;
     }
 
-    if (move) {
+    if (mode === 'attest') {
       this.createdTable.remove(sheets);
       await this.attestedTable.reload();
     }

@@ -1,0 +1,14 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+// segmented control group with large texts should line break to avoid hidden text in very small viewports (accessibility)
+bc-segmented-control-group {
+  ::ng-deep mat-button-toggle {
+    white-space: pre-line;
+    height: inherit !important;
+
+    @include sm-up() {
+      white-space: nowrap;
+      height: 30px !important; // set height back to 30px since segmented control group height is 30px in base-components size small
+    }
+  }
+}

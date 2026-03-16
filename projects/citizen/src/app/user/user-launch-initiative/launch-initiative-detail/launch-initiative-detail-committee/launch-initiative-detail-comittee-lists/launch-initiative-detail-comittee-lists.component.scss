@@ -1,11 +1,11 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
-@use '../../../../../../../../ecollecting-lib/src/styles/gap' as *;
+@use 'gap' as *;
+@use 'color' as *;
 
 .box {
   padding: 1rem;
   border-radius: 3px;
-  border: 1px solid $color-grey-6;
+  border: 1px solid $color-border-soft;
 }
 
 .generating {
@@ -16,7 +16,7 @@
     @extend .ml-2;
 
     font-style: italic;
-    color: $color-grey-1;
+    color: $color-text-secondary;
   }
 }
 

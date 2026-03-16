@@ -10,6 +10,8 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ToastService } from '../../core/toast.service';
 import { FileChipComponent } from '../file-chip/file-chip.component';
 
+let instanceCounter = 0;
+
 @Component({
   selector: 'vo-ecol-file-upload',
   imports: [FileInputModule, LabelModule, TranslatePipe, ButtonModule, IconButtonModule, LinkModule, SpinnerModule, FileChipComponent],
@@ -18,6 +20,7 @@ import { FileChipComponent } from '../file-chip/file-chip.component';
 })
 export class FileUploadComponent implements OnInit {
   private readonly toast = inject(ToastService);
+  protected instanceId = instanceCounter++;
 
   @Input()
   public variant: 'simple-button' | 'dnd-zone' = 'dnd-zone';

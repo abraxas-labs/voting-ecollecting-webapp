@@ -103,37 +103,104 @@ export class ReferendumOverviewComponent implements OnInit {
   protected filters: CollectionMainFilter[] = [
     {
       id: this.collectingFilterId,
-      periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED, CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION],
+      criteria: [
+        { periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED },
+        { periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION },
+      ],
     },
     {
       id: this.collectionDoneFilterId,
-      periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED],
+      criteria: [{ periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED }],
     },
     {
       id: this.allFilterId,
-      periodStates: [CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED, CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION],
-      states: [
-        CollectionState.COLLECTION_STATE_PRE_RECORDED,
-        CollectionState.COLLECTION_STATE_IN_PREPARATION,
-        CollectionState.COLLECTION_STATE_SUBMITTED,
-        CollectionState.COLLECTION_STATE_NOT_PASSED,
-        CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION,
-        CollectionState.COLLECTION_STATE_UNDER_REVIEW,
-        CollectionState.COLLECTION_STATE_READY_FOR_REGISTRATION,
-        CollectionState.COLLECTION_STATE_REGISTERED,
-        CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION,
-        CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION,
-        CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED,
+      criteria: [
+        { state: CollectionState.COLLECTION_STATE_PRE_RECORDED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED },
+        { state: CollectionState.COLLECTION_STATE_PRE_RECORDED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION },
+        { state: CollectionState.COLLECTION_STATE_IN_PREPARATION, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED },
+        {
+          state: CollectionState.COLLECTION_STATE_IN_PREPARATION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION,
+        },
+        { state: CollectionState.COLLECTION_STATE_SUBMITTED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED },
+        { state: CollectionState.COLLECTION_STATE_SUBMITTED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION },
+        { state: CollectionState.COLLECTION_STATE_NOT_PASSED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED },
+        { state: CollectionState.COLLECTION_STATE_NOT_PASSED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION },
+        {
+          state: CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED,
+        },
+        {
+          state: CollectionState.COLLECTION_STATE_RETURNED_FOR_CORRECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION,
+        },
+        { state: CollectionState.COLLECTION_STATE_UNDER_REVIEW, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED },
+        { state: CollectionState.COLLECTION_STATE_UNDER_REVIEW, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION },
+        {
+          state: CollectionState.COLLECTION_STATE_READY_FOR_REGISTRATION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED,
+        },
+        {
+          state: CollectionState.COLLECTION_STATE_READY_FOR_REGISTRATION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION,
+        },
+        { state: CollectionState.COLLECTION_STATE_REGISTERED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED },
+        { state: CollectionState.COLLECTION_STATE_REGISTERED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION },
+        {
+          state: CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED,
+        },
+        {
+          state: CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION,
+        },
+        {
+          state: CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED,
+        },
+        {
+          state: CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION,
+        },
+        {
+          state: CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED,
+        },
+        {
+          state: CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION,
+        },
       ],
     },
     {
       id: this.archiveFilterId,
-      states: [
-        CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT,
-        CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT,
-        CollectionState.COLLECTION_STATE_WITHDRAWN,
+      criteria: [
+        { state: CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT },
+        { state: CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT },
+        { state: CollectionState.COLLECTION_STATE_WITHDRAWN },
       ],
-      autoSubFilters: true,
+      subFilters: [
+        {
+          id: 'ALL',
+          criteria: [
+            { state: CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT },
+            { state: CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT },
+            { state: CollectionState.COLLECTION_STATE_WITHDRAWN },
+          ],
+        },
+        {
+          id: 'ENDED_CAME_ABOUT',
+          criteria: [{ state: CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT }],
+        },
+        {
+          id: 'ENDED_CAME_NOT_ABOUT',
+          criteria: [{ state: CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT }],
+        },
+        {
+          id: 'WITHDRAWN_REFERENDUM',
+          criteria: [{ state: CollectionState.COLLECTION_STATE_WITHDRAWN }],
+        },
+      ],
     },
   ];
 
@@ -147,27 +214,34 @@ export class ReferendumOverviewComponent implements OnInit {
   protected selectedMunicipality?: DomainOfInfluence;
   protected generatingDocumentIds: Set<string> = new Set();
 
-  protected initialFilterId = persistentStorage.getItem(filterStorageKey) ?? 'ALL';
-  protected initialSubFilterId = persistentStorage.getItem(subFilterStorageKey) ?? 'ALL';
-  protected initialBfsFilter = persistentStorage.getItem(bfsFilterStorageKey);
+  protected initialFilterId?: string;
+  protected initialSubFilterId?: string;
+  protected initialBfsFilter?: string;
 
   public async ngOnInit(): Promise<void> {
     const doiTypes = await this.doiService.listOwnTypes();
     if (environment.enableMunicipalityReviewProcess || !doiTypes.includes(DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU)) {
       this.filters = [
         {
-          id: this.preparingFilterId,
-          states: [CollectionState.COLLECTION_STATE_PRE_RECORDED, CollectionState.COLLECTION_STATE_IN_PREPARATION],
+          id: this.tasksFilterId,
+          criteria: [
+            { state: CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION },
+            { state: CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED },
+          ],
           autoSubFilters: true,
         },
         {
-          id: this.tasksFilterId,
-          states: [CollectionState.COLLECTION_STATE_PREPARING_FOR_COLLECTION, CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED],
+          id: this.preparingFilterId,
+          criteria: [{ state: CollectionState.COLLECTION_STATE_PRE_RECORDED }, { state: CollectionState.COLLECTION_STATE_IN_PREPARATION }],
           autoSubFilters: true,
         },
         ...this.filters,
       ];
     }
+
+    this.initialFilterId = persistentStorage.getItem(filterStorageKey) ?? 'ALL';
+    this.initialSubFilterId = persistentStorage.getItem(subFilterStorageKey) ?? 'ALL';
+    this.initialBfsFilter = persistentStorage.getItem(bfsFilterStorageKey) ?? undefined;
 
     await this.loadData();
   }
@@ -217,6 +291,16 @@ export class ReferendumOverviewComponent implements OnInit {
   }
 
   protected async submitSignatureSheets(referendum: Referendum): Promise<void> {
+    const ok = await this.confirmDialogService.confirm({
+      title: 'REFERENDUM.SUBMIT_SIGNATURE_SHEETS.TITLE',
+      message: 'REFERENDUM.SUBMIT_SIGNATURE_SHEETS.MSG',
+      confirmText: 'APP.YES',
+      discardText: 'APP.DISCARD',
+    });
+    if (!ok) {
+      return;
+    }
+
     const response = await this.collectionService.submitSignatureSheets(referendum.id);
     referendum.collection.state = CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED;
     referendum.collection.userPermissions = response.userPermissions;
@@ -328,14 +412,18 @@ export class ReferendumOverviewComponent implements OnInit {
     }
 
     for (const group of this.filteredDecreeGroups) {
-      if (this.filter.periodStates !== undefined) {
-        group.decrees = group.decrees.filter(d => d.periodState !== undefined && this.filter!.periodStates!.includes(d.periodState));
-      }
+      group.decrees = group.decrees.filter(d =>
+        this.filter!.criteria.some(
+          c =>
+            (c.periodState === undefined || d.periodState === c.periodState) &&
+            (c.state === undefined || d.collections?.some(r => r.collection.state === c.state)),
+        ),
+      );
 
-      if (this.filter.states !== undefined) {
-        for (const decree of group.decrees) {
-          decree.collections = decree.collections?.filter(c => this.filter!.states!.includes(c.collection.state));
-        }
+      for (const decree of group.decrees) {
+        decree.collections = decree.collections?.filter(r =>
+          this.filter!.criteria.some(c => c.state === undefined || r.collection.state === c.state),
+        );
       }
     }
   }

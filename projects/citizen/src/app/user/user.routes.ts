@@ -81,17 +81,17 @@ export const routes: Routes = [
           {
             path: detailOverviewUrl,
             loadComponent: () =>
-              import(
-                './user-seek-referendum/seek-referendum-detail/seek-referendum-detail-overview/seek-referendum-detail-overview.component'
-              ).then(m => m.SeekReferendumDetailOverviewComponent),
+              import('./user-seek-referendum/seek-referendum-detail/seek-referendum-detail-overview/seek-referendum-detail-overview.component').then(
+                m => m.SeekReferendumDetailOverviewComponent,
+              ),
           },
           {
             path: detailGeneralInformationUrl,
             canDeactivate: [hasUnsavedChangesGuard],
             loadComponent: () =>
-              import(
-                './user-seek-referendum/seek-referendum-detail/seek-referendum-detail-general-information/seek-referendum-detail-general-information.component'
-              ).then(m => m.SeekReferendumDetailGeneralInformationComponent),
+              import('./user-seek-referendum/seek-referendum-detail/seek-referendum-detail-general-information/seek-referendum-detail-general-information.component').then(
+                m => m.SeekReferendumDetailGeneralInformationComponent,
+              ),
           },
           {
             path: detailSignatureSheetUrl,
@@ -138,24 +138,24 @@ export const routes: Routes = [
           {
             path: detailOverviewUrl,
             loadComponent: () =>
-              import(
-                './user-launch-initiative/launch-initiative-detail/launch-initiative-detail-overview/launch-initiative-detail-overview.component'
-              ).then(m => m.LaunchInitiativeDetailOverviewComponent),
+              import('./user-launch-initiative/launch-initiative-detail/launch-initiative-detail-overview/launch-initiative-detail-overview.component').then(
+                m => m.LaunchInitiativeDetailOverviewComponent,
+              ),
           },
           {
             path: detailGeneralInformationUrl,
             canDeactivate: [hasUnsavedChangesGuard],
             loadComponent: () =>
-              import(
-                './user-launch-initiative/launch-initiative-detail/launch-initiative-detail-general-information/launch-initiative-detail-general-information.component'
-              ).then(m => m.LaunchInitiativeDetailGeneralInformationComponent),
+              import('./user-launch-initiative/launch-initiative-detail/launch-initiative-detail-general-information/launch-initiative-detail-general-information.component').then(
+                m => m.LaunchInitiativeDetailGeneralInformationComponent,
+              ),
           },
           {
             path: detailCommitteeUrl,
             loadComponent: () =>
-              import(
-                './user-launch-initiative/launch-initiative-detail/launch-initiative-detail-committee/launch-initiative-detail-committee.component'
-              ).then(m => m.LaunchInitiativeDetailCommitteeComponent),
+              import('./user-launch-initiative/launch-initiative-detail/launch-initiative-detail-committee/launch-initiative-detail-committee.component').then(
+                m => m.LaunchInitiativeDetailCommitteeComponent,
+              ),
           },
           {
             path: detailSignatureSheetUrl,

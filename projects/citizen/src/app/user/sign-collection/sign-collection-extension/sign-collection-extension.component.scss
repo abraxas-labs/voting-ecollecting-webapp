@@ -1,5 +1,5 @@
 @use '@abraxas/voting-lib/style/responsive' as *;
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
 .actions {
   display: flex;
@@ -19,6 +19,6 @@ bc-alert-bar ::ng-deep {
   }
 
   .banner-text {
-    color: $color-info;
+    color: $color-signal-info;
   }
 }

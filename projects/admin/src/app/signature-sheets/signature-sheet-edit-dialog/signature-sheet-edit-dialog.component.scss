@@ -1,5 +1,5 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
+@use 'color' as *;
 
 :host {
   max-width: 30rem;
@@ -9,9 +9,9 @@
   @extend .mb-2;
   @extend .p-2;
 
-  color: $color-grey-3;
+  color: $color-text-secondary;
   border-radius: 0.5rem;
-  background-color: $color-warning-10;
+  background-color: $color-signal-warning-light;
 
   p {
     @extend .mb-0;

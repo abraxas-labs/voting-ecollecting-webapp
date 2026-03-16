@@ -11,7 +11,8 @@ import {
 import { Referendum as ReferendumShared, SimpleDecree as SimpleDecreeShared } from 'ecollecting-lib';
 import { Collection, mapCollectionToModel } from './collection.model';
 import { Decree, mapDecreeToModel } from './decree.model';
-import { CollectionCameNotAboutReason, CollectionPeriodState } from '@abraxas/voting-ecollecting-proto';
+import { CollectionCameNotAboutReason, CollectionPeriodState, CollectionType } from '@abraxas/voting-ecollecting-proto';
+import { Initiative } from './initiative.model';
 
 export { ReferendumProto };
 
@@ -44,4 +45,8 @@ export function mapReferendumToModel(referendumProto: ReferendumProto): Referend
     ...referendumProto.toObject(),
     collection: collection,
   } as Referendum;
+}
+
+export function isReferendum(obj?: Initiative | Referendum): obj is Referendum {
+  return obj?.collection?.type === CollectionType.COLLECTION_TYPE_REFERENDUM;
 }

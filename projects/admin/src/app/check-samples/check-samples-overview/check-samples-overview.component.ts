@@ -62,6 +62,7 @@ export class CheckSamplesOverviewComponent implements OnInit, OnDestroy {
   protected collection?: Initiative | Referendum;
   protected municipalities?: CollectionMunicipality[];
   protected loading = false;
+  protected allSignatureSheetsArePastAttested = false;
 
   private routeSubscription: Subscription;
 
@@ -85,6 +86,16 @@ export class CheckSamplesOverviewComponent implements OnInit, OnDestroy {
     await this.router.navigate([samplesUrl], { relativeTo: this.route });
   }
 
+  protected updateAllSignatureSheetsArePastAttested(): void {
+    if (!this.municipalities) {
+      return;
+    }
+
+    this.allSignatureSheetsArePastAttested = this.municipalities.every(
+      x => x.signatureSheetsCount.totalSubmittedOrConfirmedSignatureSheetsCount === x.signatureSheetsCount.totalSignatureSheetsCount,
+    );
+  }
+
   private async loadData(): Promise<void> {
     if (!this.collection) {
       return;
@@ -93,6 +104,7 @@ export class CheckSamplesOverviewComponent implements OnInit, OnDestroy {
     try {
       this.loading = true;
       this.municipalities = await this.collectionMunicipalityService.list(this.collection.id);
+      this.updateAllSignatureSheetsArePastAttested();
     } finally {
       this.loading = false;
     }

@@ -27,9 +27,13 @@
             valueExpr="id"
             subscriptSizing="dynamic"
           ></bc-autocomplete>
-          @if (hasInitiative) {
+          @if (hasInitiative && selectedInitiativeState) {
             <bc-readonly [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COLLECTION_STATE' | translate">
-              <bc-status-label class="py-2" [size]="'large'" [label]="('COLLECTION.STATES.' + selectedInitiativeState) | translate"></bc-status-label>
+              <bc-status-label class="py-2"
+                               [size]="'large'"
+                               [label]="('INITIATIVE.STATES.' + selectedInitiativeState) | translate"
+                               [backgroundColor]="collectionStateColorMap[selectedInitiativeState]"
+                               [foregroundColor]="selectedInitiativeState === collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT || selectedInitiativeState === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT ? 'light' : 'dark'"></bc-status-label>
             </bc-readonly>
           }
           <bc-dropdown
@@ -129,14 +133,14 @@
           [readonly]="!canEditGeneralInformation"
           subscriptSizing="dynamic"
         ></bc-text>
-        <bc-textarea
+        <vo-lib-markdown-editor
           [formControl]="form.controls.wording"
-          [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DETAILS.WORDING.LABEL' | translate"
           [required]="isWordingRequired"
           [error]="form.controls.wording.touched && form.controls.wording.invalid"
           [readonly]="!canEditGeneralInformation"
+          [showDefaultErrors]="true"
           subscriptSizing="dynamic"
-        ></bc-textarea>
+          label="ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DETAILS.WORDING.LABEL"></vo-lib-markdown-editor>
       </div>
     </div>
   }

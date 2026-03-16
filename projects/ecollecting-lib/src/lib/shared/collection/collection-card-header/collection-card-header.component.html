@@ -1,9 +1,14 @@
-<span class="title user-text">{{ collectionOrDecree.description }}</span>
+<bc-card-title class="user-text" [label]="collectionOrDecree.description" [headingLevel]="'h4'"></bc-card-title>
 
 @if (collectionOrDecree.link) {
-  <a [href]="collectionOrDecree.link" target="_blank" class="mr-3">
-    <bc-icon-button variant="tertiary" icon="external-link"></bc-icon-button>
-  </a>
+
+  <!-- Cannot use an icon-button inside an a element. This would lead to multiple keyboard/tab selections. -->
+  <bc-icon-button
+    variant="tertiary"
+    icon="external-link"
+    [ariaLabel]="'COLLECTION.HEADER.EXTERNAL_LINK' | translate"
+    (buttonClick)="openLink(collectionOrDecree.link)"
+  ></bc-icon-button>
 } @else {
   <div></div>
 }
@@ -39,7 +44,9 @@
       } @else {
         <bc-status-label class="self-center"
                          size="large"
-                         [label]="('DECREE.STATES.' + decree.state) | translate"></bc-status-label>
+                         [label]="('DECREE.STATES.' + decree.state) | translate"
+                         [backgroundColor]="decreeStateColorMap[decree.state]"
+                         [foregroundColor]="decree.state === decreeStates.DECREE_STATE_ENDED_CAME_ABOUT || decree.state === decreeStates.DECREE_STATE_ENDED_CAME_NOT_ABOUT ? 'light' : 'dark'"></bc-status-label>
       }
     } @else if (collection) {
       @if (showPeriodState && (collection.state === collectionStates.COLLECTION_STATE_ENABLED_FOR_COLLECTION || collection.state === collectionStates.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED)) {
@@ -49,7 +56,9 @@
       } @else {
         <bc-status-label class="self-center"
                          size="large"
-                         [label]="('COLLECTION.STATES.' + collection.state) | translate"></bc-status-label>
+                         [label]="((collection.type === collectionTypes.COLLECTION_TYPE_INITIATIVE ? 'INITIATIVE' : 'REFERENDUM') + '.STATES.' + collection.state) | translate"
+                         [backgroundColor]="collectionStateColorMap[collection.state]"
+                         [foregroundColor]="collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT || collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT ? 'light' : 'dark'"></bc-status-label>
       }
     }
   }

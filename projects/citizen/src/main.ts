@@ -4,13 +4,13 @@
  * For license information see LICENSE file.
  */
 
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { environment } from './environments/environment';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
+import { PreloadAllModules, provideRouter, withInMemoryScrolling, withPreloading } from '@angular/router';
 import { routes } from './app/app.routes';
 import { TranslationLoader } from './app/core/translation-loader';
 import { AuthenticationConfig, AuthStorageService, FORMFIELD_DEFAULT_OPTIONS } from '@abraxas/base-components';
@@ -46,6 +46,7 @@ registerLocaleData(localeDeCh);
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideZoneChangeDetection(),
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {
@@ -73,7 +74,14 @@ bootstrapApplication(AppComponent, {
     ),
     provideHttpClient(withInterceptors([httpAuthInterceptor])),
     provideAnimations(),
-    provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideRouter(
+      routes,
+      withPreloading(PreloadAllModules),
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      }),
+    ),
     ...getCommonProviders(),
     {
       provide: OAuthStorage,

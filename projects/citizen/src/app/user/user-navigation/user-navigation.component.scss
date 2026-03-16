@@ -1,4 +1,4 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
 :host {
   display: block;
@@ -12,7 +12,7 @@
   position: fixed;
   top: 60px; // app header height
   z-index: 100; // navigation bar is displayed in front of the content
-  background-color: $color-white;
+  background-color: $color-surface-bg-neutral-full;
   width: 100%;
 }
 

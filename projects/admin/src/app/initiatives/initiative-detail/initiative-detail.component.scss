@@ -1,6 +1,6 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
-@use '../../../../../ecollecting-lib/src/styles/gap' as *;
+@use 'gap' as *;
+@use 'color' as *;
 
 :host {
   display: block;
@@ -21,7 +21,7 @@
 
   display: flex;
   align-items: center;
-  border-top: 1px solid $color-grey-5;
+  border-top: 1px solid $color-border-soft;
 }
 
 .close-button {

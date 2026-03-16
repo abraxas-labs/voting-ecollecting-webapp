@@ -1,35 +1,42 @@
 <div class="page">
   <div class="p-3">
-    <h1 translate>OVERVIEW.TITLE</h1>
+    <h2 id="content" tabindex="0" translate>OVERVIEW.TITLE</h2>
     <p translate>OVERVIEW.INFO</p>
 
     <bc-divider class="my-3"></bc-divider>
 
-    <h2 translate>OVERVIEW.EXPLAINER_VIDEO.TITLE</h2>
+    <h2 tabindex="0" translate>OVERVIEW.EXPLAINER_VIDEO.TITLE</h2>
     <div class="explainer-videos gap-4">
-      @for (explainerVideo of explainerVideos; track explainerVideo) {
+      @for (explainerVideo of explainerVideos; track explainerVideo; let i = $index) {
         <div class="explainer-video flex-1">
-          <a [href]="explainerVideo.link" target="_blank">
-            <bc-card backgroundColor="primary" class="h-full">
-              <bc-card-header>
-                <bc-card-title [label]="explainerVideo.title | translate"></bc-card-title>
-                <bc-icon-button class="ml-2 play-button" variant="tertiary-tonal" icon="play"></bc-icon-button>
-              </bc-card-header>
-              <bc-card-content>
-                <p class="pr-5" translate>{{ explainerVideo.description }}</p>
-              </bc-card-content>
-            </bc-card>
-          </a>
+          <bc-card backgroundColor="primary" class="h-full">
+            <bc-card-header>
+              <bc-card-title [id]="'title-' + i" [label]="explainerVideo.title | translate" [headingLevel]="'h4'"></bc-card-title>
+              <bc-card-actions>
+                <!-- Cannot use an icon-button inside an a element. This would lead to multiple keyboard/tab selections. -->
+                <bc-icon-button
+                  class="mr-1"
+                  [variant]="'secondary'"
+                  [icon]="'play'"
+                  [ariaLabelledby]="'title-' + i"
+                  (buttonClick)="openLink(explainerVideo.link)"
+                ></bc-icon-button>
+              </bc-card-actions>
+            </bc-card-header>
+            <bc-card-content>
+              <p class="pr-5" translate>{{ explainerVideo.description }}</p>
+            </bc-card-content>
+          </bc-card>
         </div>
       }
     </div>
 
     <bc-divider class="my-3"></bc-divider>
 
-    <h2>{{ 'OVERVIEW.SUB_TITLE' | translate }}</h2>
+    <h2 tabindex="0">{{ 'OVERVIEW.SUB_TITLE' | translate }}</h2>
     <app-overview-navigation></app-overview-navigation>
 
-    <span translate class="mt-3 mb-2 block text-grey-2">OVERVIEW.SIGN_INFO</span>
+    <p translate class="mt-3 mb-2 block text-secondary">OVERVIEW.SIGN_INFO</p>
     <app-sign-collection-overview></app-sign-collection-overview>
   </div>
 </div>

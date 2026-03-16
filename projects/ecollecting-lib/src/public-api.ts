@@ -31,6 +31,7 @@ export * from './lib/core/utils/string.utils';
 export * from './lib/core/utils/date.utils';
 export * from './lib/core/utils/url.utils';
 export * from './lib/core/utils/type.utils';
+export * from './lib/core/utils/color-state.utils';
 
 // providers
 export * from './lib/core/providers/common-providers';

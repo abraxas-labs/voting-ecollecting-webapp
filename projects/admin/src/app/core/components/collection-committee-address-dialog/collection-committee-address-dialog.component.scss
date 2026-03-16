@@ -1,5 +1,5 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
 .hint {
-  color: $color-grey-2;
+  color: $color-text-secondary;
 }

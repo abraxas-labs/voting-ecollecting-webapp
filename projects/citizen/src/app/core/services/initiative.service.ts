@@ -8,7 +8,6 @@ import { inject, Injectable } from '@angular/core';
 import {
   AcceptCommitteeMembershipRequest,
   AddCommitteeMemberRequest,
-  CollectionFile,
   CreateInitiativeRequest,
   DeleteCommitteeListRequest,
   DeleteCommitteeMemberRequest,
@@ -31,7 +30,7 @@ import {
   UpdateInitiativeRequest,
 } from '@abraxas/voting-ecollecting-proto/citizen';
 import { lastValueFrom } from 'rxjs';
-import { CollectionAddress, EntityGetter, InitiativeSubType, openBlobInNewTab } from 'ecollecting-lib';
+import { CollectionAddress, EntityGetter, InitiativeSubType, StoredFile } from 'ecollecting-lib';
 import {
   Initiative,
   InitiativeCommittee,
@@ -39,12 +38,14 @@ import {
   mapInitiativeCommittee,
   mapInitiativeSubTypeToModel,
   mapInitiativeToModel,
+  mapToPendingInitiativeCommitteeMembership,
   PendingInitiativeCommitteeMembership,
 } from '../models/initiative.model';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Timestamp } from '@ngx-grpc/well-known-types';
+import { FileDownloadService } from '@abraxas/voting-lib';
 
 @Injectable({
   providedIn: 'root',
@@ -52,6 +53,7 @@ import { Timestamp } from '@ngx-grpc/well-known-types';
 export class InitiativeService implements EntityGetter<Initiative> {
   private readonly client = inject(InitiativeServiceClient);
   private readonly http = inject(HttpClient);
+  private readonly fileDownloadService = inject(FileDownloadService);
 
   private readonly restApiUrl: string;
 
@@ -141,30 +143,27 @@ export class InitiativeService implements EntityGetter<Initiative> {
     return mapInitiativeCommittee(response);
   }
 
-  public addCommitteeList(initiativeId: string, file: File): Promise<CollectionFile> {
+  public addCommitteeList(initiativeId: string, file: File): Promise<StoredFile> {
     const formData = new FormData();
     formData.append('file', file);
-    return lastValueFrom(this.http.post<CollectionFile>(`${this.restApiUrl}/${initiativeId}/committee-lists`, formData));
+    return lastValueFrom(this.http.post<StoredFile>(`${this.restApiUrl}/${initiativeId}/committee-lists`, formData));
   }
 
   public async downloadCommitteeList(initiativeId: string, fileId: string): Promise<void> {
     const url = `${this.restApiUrl}/${initiativeId}/committee-lists/${fileId}`;
-    const blob = await lastValueFrom(this.http.get(url, { responseType: 'blob' }));
-    openBlobInNewTab(blob);
+    await this.fileDownloadService.getDownloadFile(url);
   }
 
   public async downloadCommitteeListTemplate(initiativeId: string): Promise<void> {
     const url = `${this.restApiUrl}/${initiativeId}/committee-lists/template`;
-    const blob = await lastValueFrom(this.http.get(url, { responseType: 'blob' }));
-    openBlobInNewTab(blob);
+    await this.fileDownloadService.getDownloadFile(url);
   }
 
   public async downloadCommitteeListTemplateByToken(initiativeId: string, token: string): Promise<void> {
     const url = `${this.restApiUrl}/${initiativeId}/committee-members/template`;
     const formData = new FormData();
     formData.append('token', token);
-    const blob = await lastValueFrom(this.http.post(url, formData, { responseType: 'blob' }));
-    openBlobInNewTab(blob);
+    await this.fileDownloadService.postDownloadFile(url, formData);
   }
 
   public async deleteCommitteeList(initiativeId: string, id: string): Promise<void> {
@@ -257,7 +256,7 @@ export class InitiativeService implements EntityGetter<Initiative> {
     const resp = await lastValueFrom(
       this.client.getPendingCommitteeMembershipByToken(new GetPendingCommitteeMembershipByTokenRequest({ token })),
     );
-    return resp.toObject() as PendingInitiativeCommitteeMembership;
+    return mapToPendingInitiativeCommitteeMembership(resp);
   }
 
   public async acceptCommitteeMembershipByToken(token: string): Promise<boolean> {
@@ -281,8 +280,10 @@ export class InitiativeService implements EntityGetter<Initiative> {
   }
 }
 
-export interface AddInitiativeCommitteeMemberRequest
-  extends Omit<InitiativeCommitteeMember, 'id' | 'approvalState' | 'signatureType' | 'memberSignatureRequested' | 'canEdit' | 'residence'> {
+export interface AddInitiativeCommitteeMemberRequest extends Omit<
+  InitiativeCommitteeMember,
+  'id' | 'approvalState' | 'signatureType' | 'memberSignatureRequested' | 'canEdit' | 'residence'
+> {
   requestMemberSignature: boolean;
 }
 

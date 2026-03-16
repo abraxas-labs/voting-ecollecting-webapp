@@ -134,7 +134,6 @@ export class CheckSamplesSignatureSheetTableComponent implements AfterViewInit {
     signatureSheet.modifiedByName = userProfile.info.name;
     this.updateFooterTotals();
     this.toast.success('COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.SUBMITTED');
-    this.collectionCountChanged.emit(result.collectionCount!);
     this.sheetStateChanged.emit();
   }
 
@@ -146,7 +145,6 @@ export class CheckSamplesSignatureSheetTableComponent implements AfterViewInit {
     signatureSheet.modifiedByName = userProfile.info.name;
     this.updateFooterTotals();
     this.toast.success('COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.UNSUBMITTED');
-    this.collectionCountChanged.emit(result.collectionCount!);
     this.sheetStateChanged.emit();
   }
 
@@ -158,6 +156,7 @@ export class CheckSamplesSignatureSheetTableComponent implements AfterViewInit {
     signatureSheet.modifiedByName = userProfile.info.name;
     this.updateFooterTotals();
     this.toast.success('COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DISCARDED');
+    this.collectionCountChanged.emit(result.collectionCount!);
     this.sheetStateChanged.emit();
   }
 
@@ -169,6 +168,7 @@ export class CheckSamplesSignatureSheetTableComponent implements AfterViewInit {
     signatureSheet.modifiedByName = userProfile.info.name;
     this.updateFooterTotals();
     this.toast.success('COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.RESTORED');
+    this.collectionCountChanged.emit(result.collectionCount!);
     this.sheetStateChanged.emit();
   }
 

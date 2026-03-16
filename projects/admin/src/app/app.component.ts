@@ -10,18 +10,21 @@ import {
   AuthenticationService,
   AuthorizationService,
   ButtonModule,
+  ColorTokensThemes,
+  CornerRadiusTokensThemes,
   NavBarModule,
   SnackbarComponent,
   SnackbarModule,
   SpinnerModule,
+  StylingService,
 } from '@abraxas/base-components';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
-import { SnackbarService, ThemeService, VotingLibModule } from '@abraxas/voting-lib';
-import { firstValueFrom, Subscription } from 'rxjs';
+import { SnackbarService, VotingLibModule } from '@abraxas/voting-lib';
+import { filter, firstValueFrom, Subscription } from 'rxjs';
 import { LocationStrategy } from '@angular/common';
 import { LanguageService, RouteDataPipe } from 'ecollecting-lib';
 import { Title } from '@angular/platform-browser';
@@ -65,9 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public authenticated = false;
   public hasTenant = false;
-  public loading = false;
-  public theme?: string;
-  public customLogo?: string;
+  public loading = true;
   public appTitle: string = '';
 
   @ViewChild(SnackbarComponent)
@@ -76,7 +77,10 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription[] = [];
 
   constructor() {
-    const themeService = inject(ThemeService);
+    const stylingService = inject(StylingService);
+
+    stylingService.setTheme(ColorTokensThemes.SchalterELight);
+    stylingService.setRadius(CornerRadiusTokensThemes.Large);
 
     // enable automatic silent refresh
     this.oauthService.setupAutomaticSilentRefresh({}, 'access_token');
@@ -92,11 +96,20 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(snackbarSubscription);
 
-    const themeSubscription = themeService.theme$.subscribe(theme => this.onThemeChange(theme));
-    this.subscriptions.push(themeSubscription);
+    const authSubscription = this.auth.authenticationChanged.pipe(filter(isAuthenticated => isAuthenticated)).subscribe(async () => {
+      this.authenticated = true;
 
-    const logoSubscription = themeService.logo$.subscribe(logo => (this.customLogo = logo));
-    this.subscriptions.push(logoSubscription);
+      try {
+        // getActiveTenant is called to initialize the tenant cache, otherwise the authorization endpoint would be called multiple times
+        await this.authorization.getActiveTenant();
+        this.hasTenant = true;
+      } catch {
+        this.hasTenant = false;
+      } finally {
+        this.loading = false;
+      }
+    });
+    this.subscriptions.push(authSubscription);
   }
 
   public async switchTenant(): Promise<void> {
@@ -106,25 +119,11 @@ export class AppComponent implements OnInit, OnDestroy {
   public async ngOnInit(): Promise<void> {
     moment.locale(this.languageService.currentLanguage);
     this.translations.setDefaultLang(this.languageService.currentLanguage);
-    this.authenticated = false;
-    this.hasTenant = false;
-    this.loading = true;
 
-    if (!(await this.auth.authenticate())) {
-      this.loading = false;
-      return;
-    }
-
-    this.authenticated = true;
-
-    try {
-      await this.authorization.getActiveTenant();
-      this.hasTenant = true;
-    } catch (e) {
-      this.hasTenant = false;
-    } finally {
-      this.loading = false;
-    }
+    // Cannot use translations.instant here, as the translations may not have been loaded yet
+    // It would then just display the non-translated string
+    this.appTitle = await firstValueFrom(this.translations.get('APP.TITLE'));
+    this.title.setTitle(this.appTitle);
   }
 
   public async reload(): Promise<void> {
@@ -139,18 +138,5 @@ export class AppComponent implements OnInit, OnDestroy {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
     }
-  }
-
-  private async onThemeChange(theme?: string): Promise<void> {
-    if (!theme) {
-      return;
-    }
-
-    // Cannot use translations.instant here, as the translations may not have been loaded yet
-    // It would then just display the non-translated string
-    this.appTitle = await firstValueFrom(this.translations.get('APP.TITLE.' + theme));
-    this.title.setTitle(this.appTitle);
-
-    this.theme = theme;
   }
 }

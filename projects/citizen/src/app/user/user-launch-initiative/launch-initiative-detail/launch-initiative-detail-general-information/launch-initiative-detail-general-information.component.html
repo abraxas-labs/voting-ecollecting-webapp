@@ -1,7 +1,7 @@
 @if (initiative && !loading) {
   <bc-card class="m-3" [border]="false">
     <bc-card-header>
-      <bc-card-title [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.TITLE' | translate"></bc-card-title>
+      <bc-card-title id="content" tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
     </bc-card-header>
     <bc-card-content class="flex flex-col gap-y-2">
       <div class="flex flex-wrap gap-x-3">
@@ -21,10 +21,10 @@
           ></bc-dropdown>
           @if (form.value.subType) {
             <div class="flex gap-x-3 subtype-values">
-              <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MIN_SIGNATURE_COUNT' | translate">
+              <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MIN_SIGNATURE_COUNT' | translate">
                 {{ form.value.subType.minSignatureCount | number }}
               </bc-readonly>
-              <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
+              <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
                 {{ form.value.subType.maxElectronicSignatureCount | number }}
               </bc-readonly>
             </div>
@@ -40,10 +40,10 @@
         }
         @if (initiative.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU) {
           <div class="flex gap-3 subtype-values">
-            <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MIN_SIGNATURE_COUNT' | translate">
+            <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MIN_SIGNATURE_COUNT' | translate">
               {{ initiative.minSignatureCount | number }}
             </bc-readonly>
-            <bc-readonly [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
+            <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
               {{ initiative.maxElectronicSignatureCount | number }}
             </bc-readonly>
           </div>
@@ -59,16 +59,15 @@
         [readonly]="!initiative.collection.userPermissions?.canEdit || !!initiative.lockedFields?.description"
         subscriptSizing="dynamic"
       ></bc-text>
-      <bc-textarea
+      <vo-lib-markdown-editor
         [formControl]="form.controls.wording"
         [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.WORDING' | translate"
         [required]="true"
-        [showDefaultErrors]="true"
         [rows]="6"
+        [showDefaultErrors]="true"
         [error]="(showValidationErrors || form.controls.wording.touched) && form.controls.wording.invalid"
         [readonly]="!initiative.collection.userPermissions?.canEdit || !!initiative.lockedFields?.wording"
-        subscriptSizing="dynamic"
-      ></bc-textarea>
+      ></vo-lib-markdown-editor>
       <bc-textarea
         [formControl]="form.controls.reason"
         [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.REASON' | translate"
@@ -151,7 +150,7 @@
         ></vo-ecol-image-upload>
       </div>
       @if (initiative.collection.userPermissions?.canEdit) {
-        <p class="mt-3">{{ 'COLLECTION.DETAIL.GENERAL_INFORMATION.IMAGE_DISCLAIMER' | translate }}</p>
+        <p class="mt-3" [tabindex]="0">{{ 'COLLECTION.DETAIL.GENERAL_INFORMATION.IMAGE_DISCLAIMER' | translate }}</p>
       }
     </bc-card-content>
   </bc-card>

@@ -1,9 +1,6 @@
 {
   "APP": {
-    "TITLE": {
-      "default": "E-Collecting",
-      "sg": "E-Collecting"
-    },
+    "TITLE": "E-Collecting",
     "LOGIN": "Login",
     "LOGOUT": "Abmelden",
     "ACCOUNT": "Konto",
@@ -26,7 +23,8 @@
     "INVALID_FORM_VALUES": {
       "TITLE": "Fehlerhafte Eingaben",
       "MSG": "Es gibt noch Textfelder mit fehlerhaften Eingaben. Wenn Sie die Seite verlassen, gehen die Eingaben verloren.\nWollen Sie die Seite trotzdem verlassen?"
-    }
+    },
+    "CONTENT": "Inhalt"
   },
   "AUTH": {
     "LOGIN_FAILED": {
@@ -35,12 +33,13 @@
     }
   },
   "OVERVIEW": {
-    "TITLE": "E-COLLECTING",
+    "TITLE": "Einleitung",
     "SUB_TITLE": "Ihre Möglichkeiten",
     "SIGN_INFO": "Folgende Sammlungen können elektronisch unterschrieben werden:",
     "INFO": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
     "EXPLAINER_VIDEO": {
       "TITLE": "Erklärvideos",
+      "OPEN": "Video öffnen",
       "SIGN_COLLECTION": {
         "TITLE": "Sammlung unterzeichnen",
         "DESCRIPTION": "Erfahren Sie, wie Sie eine laufende Sammlung unterschreiben können."
@@ -85,7 +84,8 @@
       },
       "ELECTRONIC_SUBMISSION": {
         "TITLE": "Möchten Sie die Sammlung elektronisch erfassen und einreichen?",
-        "TEXT": "Ich möchte die Sammlung elektronisch erfassen und einreichen."
+        "TEXT": "Ich möchte die Sammlung elektronisch erfassen und einreichen.",
+        "CONFIRM": "Sind Sie sicher, dass Sie das Referendum ergreifen möchten?\nDie Aktion kann nicht mehr rückgängig gemacht werden. Die Sammlung wird öffentlich einsehbar."
       }
     },
     "DETAIL": {
@@ -95,6 +95,8 @@
       "SELECT_DECREE_INFO": "Bitte wählen Sie den Erlass aus, gegen den Sie das Referendum ergreifen möchten! Ihre Sammlung muss sich spätestens beim Prüfen oder Einreichen auf einen Erlass beziehen!",
       "REQUEST_INFORMAL_REVIEW": "Informelle Vorprüfung",
       "SUBMIT": "Erfassung abschliessen",
+      "SUBMITTING": "Erfassung wird abgeschlossen, bitte warten.",
+      "SUBMITTED": "Erfassung wurde erfolgreich abgeschlossen",
       "WITHDRAW": {
         "TITLE": "Sammlung löschen",
         "MSG": "Sind Sie sicher, dass Sie Ihre Sammlung löschen möchten?"
@@ -249,7 +251,7 @@
             "LABEL": "Bestätigung",
             "REQUEST": "Bestätigung soll beim Komiteemitglied angefordert werden",
             "REQUEST_HINT": "Durch die Erfassung wird dem Komiteemitglied eine Anforderung zugestellt, die Teilnahme zu bestätigen.",
-            "NO_REQUEST": "Komiteemitglied ist bereits per Komiteeliste geprüft",
+            "NO_REQUEST": "Bestätigung der Mitgliedschaft im Komitee erfolgt durch physische Unterschrift",
             "NO_REQUEST_HINT": "Bitte laden Sie die entsprechende Komiteeliste hoch",
             "RESEND": "Bestätigung erneut anfordern",
             "RESEND_SUCCESS": "Bestätigung erneut angefordert"
@@ -333,10 +335,12 @@
     "DOWNLOAD_SIGNATURE_LIST": "Download Unterschriftenliste",
     "COMMITTEE_PREFIX": "Komitee: ",
     "NOT_READY_HINT": "Die Sammlung befindet sich in der Vorbereitung",
+    "SIGNED": "Sie haben das Begehren erfolgreich elektronisch unterzeichnet.",
     "ALREADY_SIGNED": {
       "1": "Sie haben das Begehren bereits erfolgreich elektronisch unterzeichnet.",
       "2": "Sie haben das Begehren bereits erfolgreich physisch unterzeichnet."
     },
+    "ALREADY_SIGNED_OTHER_COLLECTION": "Sie haben bereits eine andere Sammlung dieses Erlasses unterschrieben.",
     "SIGNING": "signieren…",
     "SHOW_DETAILS": "Details anzeigen",
     "LOGO_ALT": "Logo der Sammlung",
@@ -368,6 +372,9 @@
     "HINT": "Sie können nur kommunale Sammlungen der Gemeinde unterzeichnen, in der Sie stimmberechtigt sind."
   },
   "COLLECTION": {
+    "HEADER": {
+      "EXTERNAL_LINK": "Externer Link öffnen"
+    },
     "DETAIL": {
       "GENERAL_INFORMATION": {
         "IMAGE_DISCLAIMER": "Mit dem Hochladen von Dateien auf die E-Collecting-Plattform bestätigen Sie, dass Sie über die Rechte oder die erforderliche Erlaubnis zur Nutzung und Veröffentlichung der Inhalte verfügen. Sie stimmen zu, dass die hochgeladenen Dateien keine urheberrechtlich geschützten Inhalte, keine Personendaten ohne Zustimmung und keine unangemessenen oder illegalen Inhalte enthalten. Die Betreiberin der E-Collecting-Plattform behält sich das Recht vor, hochgeladene Dateien zu überprüfen und gegebenenfalls zu entfernen, insbesondere wenn Anhaltspunkte für Rechtsverletzungen bestehen. Mit dem Hochladen der Dateien übernehmen Sie die volle Verantwortung für die Inhalte und entbinden die Betreiberin der E-Collecting-Plattform von jeglicher Haftung in diesem Zusammenhang."
@@ -436,13 +443,15 @@
       },
       "SIGNATURE_SHEET": {
         "TITLE": "Unterschriftenliste",
+        "HINT": "Auf dieser Seite können Sie sich eine Unterschriftenliste vom System generieren lassen oder eine eigene hochladen. Die Unterschriftenliste wird auf der Detailseite Ihres Begehrens zum Herunterladen zur Verfügung gestellt.",
         "GENERATE": {
           "TRUE": "Unterschriftenliste automatisch generieren",
           "FALSE": "Eigene Unterschriftenliste hochladen"
         },
         "GENERATE_NOW": "Jetzt generieren",
         "GENERATE_NEW": "Erneut generieren",
-        "GENERATING": "generieren…",
+        "GENERATING": "Unterschriftenliste wird generiert, bitte warten.",
+        "GENERATED": "Unterschriftenliste erfolgreich generiert.",
         "GENERATE_NOT_VALID": "Alle allgemeinen Angaben müssen ausgefüllt werden.",
         "FILE_UPLOAD": {
           "LABEL": "Unterschriftenliste",
@@ -456,7 +465,12 @@
           "TITLE": "Überschreiben",
           "MSG": "Möchten Sie die Unterschriftenliste wirklich überschreiben?"
         },
-        "UPLOADED": "Unterschriftenliste aktualisiert."
+        "UPLOADED": "Unterschriftenliste aktualisiert.",
+        "QR_CODE": {
+          "TITLE": "QR-Code mit Direktlink zur Sammlung",
+          "MSG": "Dieser QR-Code kann heruntergeladen und beispielsweise für eigenständig gestaltete Unterschriftenlisten verwendet werden.",
+          "DOWNLOAD": "QR-Code herunterladen"
+        }
       }
     },
     "VALIDATION": {
@@ -517,6 +531,7 @@
     }
   },
   "ERROR_MESSAGES": {
+    "TITLE": "Fehler",
     "InitiativeNotFoundException": "Die Initiative konnte nicht gefunden werden.",
     "InitiativeAlreadyInPreparationException": "Die Initiative befindet sich bereits in Erfassung.",
     "InitiativeAdmissibilityDecisionRejectedException": "Die Initiative ist nicht zulässig und kann somit nicht erfasst werden.",

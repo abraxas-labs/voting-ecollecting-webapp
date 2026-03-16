@@ -1,0 +1,14 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+// status labels with large texts should line break to avoid scroll bar in very small viewports (accessibility)
+bc-status-label {
+  white-space: pre-line;
+
+  @include sm-up() {
+    white-space: nowrap;
+  }
+
+  ::ng-deep label {
+    height: 100%;
+  }
+}

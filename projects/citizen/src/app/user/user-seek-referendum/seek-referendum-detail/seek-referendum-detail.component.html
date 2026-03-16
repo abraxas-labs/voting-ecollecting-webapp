@@ -65,28 +65,28 @@
         <bc-nav-item
           [label]="'SEEK_REFERENDUM.DETAIL.NAV.OVERVIEW' | translate"
           [icon]="'home'"
-          [link]="detailOverviewUrl"
+          [routerLink]="detailOverviewUrl"
           [target]="'self'"
           [active]="active === detailOverviewUrl"
         ></bc-nav-item>
         <bc-nav-item
           [label]="'SEEK_REFERENDUM.DETAIL.NAV.GENERAL_INFORMATION' | translate"
           [icon]="'law'"
-          [link]="detailGeneralInformationUrl"
+          [routerLink]="detailGeneralInformationUrl"
           [target]="'self'"
           [active]="active === detailGeneralInformationUrl"
         ></bc-nav-item>
         <bc-nav-item
           [label]="'SEEK_REFERENDUM.DETAIL.NAV.SIGNATURE_LIST' | translate"
           [icon]="'lists'"
-          [link]="detailSignatureSheetUrl"
+          [routerLink]="detailSignatureSheetUrl"
           [target]="'self'"
           [active]="active === detailSignatureSheetUrl"
         ></bc-nav-item>
         <bc-nav-item
           [label]="'SEEK_REFERENDUM.DETAIL.NAV.PERMISSIONS' | translate"
           [icon]="'access'"
-          [link]="detailPermissionsUrl"
+          [routerLink]="detailPermissionsUrl"
           [target]="'self'"
           [active]="active === detailPermissionsUrl"
         ></bc-nav-item>
@@ -110,6 +110,7 @@
           [label]="'SEEK_REFERENDUM.DETAIL.SUBMIT' | translate"
           [disabled]="!referendum.collection.userPermissions?.canSubmit"
           [loading]="submitting"
+          [ariaLabel]="(submitting ? 'SEEK_REFERENDUM.DETAIL.SUBMITTING' : 'SEEK_REFERENDUM.DETAIL.SUBMIT') | translate"
           (buttonClick)="submit()"
         ></bc-button>
       }

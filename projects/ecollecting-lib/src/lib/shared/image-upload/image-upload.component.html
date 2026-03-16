@@ -12,13 +12,13 @@
                        [maxSizeInBytes]="maxSizeInBytes"
                        (fileChanged)="imageChanged.emit($event)">
     @if (hint && canUpload) {
-      <mat-hint [class.error]="error">{{ hint }}</mat-hint>
+      <mat-hint [class.error]="error" tabindex="0"><p>{{ hint }}</p></mat-hint>
     }
   </vo-ecol-file-upload>
 </div>
 
 @if (imageSrc) {
-  <div class="flex mt-1">
+  <div class="flex mt-2">
     <img [src]="imageSrc" alt="preview" />
     @if (canDelete) {
       <bc-icon-button class="remove" [icon]="'remove'" (click)="imageDeleted.emit()"

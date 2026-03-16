@@ -55,7 +55,7 @@
     <bc-data-cell *dataCellDef="let row">
       @if (row.reviewState) {
         <bc-status-label
-          [type]="row.reviewState === reviewStates.Removed ? 'error-red' : (row.reviewState === reviewStates.Confirmed ? 'success-green' : 'normal-grey')"
+          [variant]="row.reviewState === reviewStates.Removed ? 'error' : (row.reviewState === reviewStates.Confirmed ? 'success' : 'neutral')"
           [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.REVIEW_STATES.' + row.reviewState | translate"></bc-status-label>
       }
     </bc-data-cell>

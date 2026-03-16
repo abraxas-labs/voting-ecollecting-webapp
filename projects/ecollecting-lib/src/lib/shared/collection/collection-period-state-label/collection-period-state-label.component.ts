@@ -9,15 +9,18 @@ import { DayDiffPipe } from '../../pipes/day-diff.pipe';
 import { StatusLabelModule } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CollectionPeriodState } from '@abraxas/voting-ecollecting-proto';
+import { collectionPeriodStateColorMap } from '../../../core/utils/color-state.utils';
 
 @Component({
   selector: 'vo-ecol-collection-period-state-label',
   imports: [DayDiffPipe, StatusLabelModule, TranslatePipe],
   templateUrl: './collection-period-state-label.component.html',
+  styleUrl: './collection-period-state-label.component.scss',
 })
 export class CollectionPeriodStateLabelComponent {
   protected readonly now = new Date();
   protected readonly collectionPeriodStates: typeof CollectionPeriodState = CollectionPeriodState;
+  protected readonly collectionPeriodStateColorMap = collectionPeriodStateColorMap;
 
   @Input({ required: true })
   public state: CollectionPeriodState = CollectionPeriodState.COLLECTION_PERIOD_STATE_UNSPECIFIED;

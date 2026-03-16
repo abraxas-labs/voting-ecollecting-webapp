@@ -1,12 +1,12 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
+@use 'color' as *;
 
 .box {
   @extend .p-3;
   @extend .my-2;
 
   border-radius: 0.5rem;
-  border: 1px solid $color-grey-5;
+  border: 1px solid $color-border-soft;
 }
 
 .generated-content {
@@ -21,7 +21,7 @@
       @extend .ml-2;
 
       font-style: italic;
-      color: $color-grey-1;
+      color: $color-text-secondary;
     }
   }
 }

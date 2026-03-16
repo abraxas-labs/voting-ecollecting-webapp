@@ -4,24 +4,21 @@
  * For license information see LICENSE file.
  */
 
-import { Component, inject, OnDestroy } from '@angular/core';
-import {
-  ButtonModule,
-  CardModule,
-  DialogService,
-  ErrorModule,
-  LinkModule,
-  RadioButtonModule,
-  SpinnerModule,
-} from '@abraxas/base-components';
+import { Component, inject, OnDestroy, SecurityContext } from '@angular/core';
+import { PlatformLocation } from '@angular/common';
+import { ButtonModule, CardModule, ErrorModule, IconModule, LinkModule, RadioButtonModule, SpinnerModule } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfirmDialogService, FileChipComponent, FileUploadComponent, ToastService } from 'ecollecting-lib';
-import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { CollectionService } from '../../services/collection.service';
 import { Collection } from '../../models/collection.model';
+import { QRCodeComponent } from 'angularx-qrcode';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { signInitiativeUrl, signReferendumUrl } from '../../../user/user.routes';
+import { userUrl } from '../../../app.routes';
+import { CollectionType } from '@abraxas/voting-ecollecting-proto';
 
 @Component({
   selector: 'app-collection-detail-signature-sheet',
@@ -31,36 +28,43 @@ import { Collection } from '../../models/collection.model';
     RadioButtonModule,
     SpinnerModule,
     FileUploadComponent,
-    MatRadioGroup,
     FormsModule,
-    MatRadioButton,
     ButtonModule,
     LinkModule,
     FileChipComponent,
     ErrorModule,
+    IconModule,
+    QRCodeComponent,
   ],
   templateUrl: './collection-detail-signature-sheet.component.html',
   styleUrl: './collection-detail-signature-sheet.component.scss',
 })
 export class CollectionDetailSignatureSheetComponent implements OnDestroy {
-  private readonly dialogService = inject(DialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly collectionService = inject(CollectionService);
   private readonly toast = inject(ToastService);
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly platformLocation = inject(PlatformLocation);
+  private readonly router = inject(Router);
 
   protected collection?: Collection;
   protected settingFile: boolean = false;
   protected isGeneratingPreview: boolean = false;
   protected maxSizeInBytes: number = 5 * 1024 * 1024; // 5 MB
+  protected qrCodeData?: string;
+
+  // download url to download the qr code svg
+  protected qrCodeDownloadUrl?: SafeUrl;
 
   private readonly routeSubscription: Subscription;
 
   constructor() {
     const route = inject(ActivatedRoute);
 
-    this.routeSubscription = route.parent!.data.subscribe(
-      ({ initiative, referendum }) => (this.collection = initiative?.collection ?? referendum?.collection),
-    );
+    this.routeSubscription = route.parent!.data.subscribe(({ initiative, referendum }) => {
+      this.collection = initiative?.collection ?? referendum?.collection;
+      this.buildQrCodeData();
+    });
   }
 
   public ngOnDestroy(): void {
@@ -135,12 +139,14 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
     // if generated=true automatically generate new preview
     this.isGeneratingPreview = true;
     try {
-      await this.collectionService.setSignatureSheetFileTemplateGenerated(this.collection.id, this.collection.type);
+      this.collection.signatureSheetTemplate = await this.collectionService.setSignatureSheetFileTemplateGenerated(
+        this.collection.id,
+        this.collection.type,
+      );
+      this.toast.success('COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATED');
     } finally {
       this.isGeneratingPreview = false;
     }
-
-    this.setSignatureSheet();
   }
 
   public async confirmRemoveFile(): Promise<boolean> {
@@ -159,19 +165,51 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
 
     try {
       this.isGeneratingPreview = true;
-      delete this.collection.signatureSheetTemplate;
-      await this.collectionService.generateSignatureSheetTemplatePreview(this.collection.id, this.collection.type);
-      this.setSignatureSheet();
+      this.collection.signatureSheetTemplate = await this.collectionService.generateSignatureSheetTemplatePreview(
+        this.collection.id,
+        this.collection.type,
+      );
+      this.toast.success('COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATED');
     } finally {
       this.isGeneratingPreview = false;
     }
   }
 
-  private setSignatureSheet() {
+  protected qrCodeDownloadUrlChanged(downloadUrl: SafeUrl): void {
+    this.qrCodeDownloadUrl = downloadUrl;
+  }
+
+  protected downloadQrCode(): void {
+    if (!this.qrCodeDownloadUrl || !this.collection) {
+      return;
+    }
+
+    const url = this.sanitizer.sanitize(SecurityContext.URL, this.qrCodeDownloadUrl);
+    if (!url) {
+      return;
+    }
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = this.collection.description + '.svg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  private buildQrCodeData(): void {
     if (!this.collection) {
       return;
     }
 
-    this.collection.signatureSheetTemplate = { id: '', name: 'Unterschriftenliste.pdf' };
+    const signUrl = this.collection.type === CollectionType.COLLECTION_TYPE_INITIATIVE ? signInitiativeUrl : signReferendumUrl;
+
+    // the base href (e.g., /ecollecting/citizen/)
+    const baseHref = this.platformLocation.getBaseHrefFromDOM();
+    const tree = this.router.createUrlTree([baseHref, userUrl, signUrl, this.collection.id]);
+    const path = this.router.serializeUrl(tree);
+
+    // combine with Origin for a full absolute URL
+    this.qrCodeData = window.location.origin + path;
   }
 }

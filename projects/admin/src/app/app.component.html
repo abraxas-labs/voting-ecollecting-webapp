@@ -1,36 +1,39 @@
 <bc-snackbar horizontalPosition="right" verticalPosition="top" [action]="'APP.CLOSE' | translate"></bc-snackbar>
 <div class="root layout">
-  @if (theme && !(route.snapshot | routeData: 'hideHeader')) {
+  @if (!(route.snapshot | routeData: 'hideHeader')) {
     <header class="layout-header">
       @if (hasTenant) {
         <bc-app-header-bar-iam
-          [link]="['/', theme]"
+          [link]="['/']"
           [title]="appTitle"
           (tenantChanged)="switchTenant()"
-          [customLogoPath]="customLogo ?? ''"
+          [applications]="[]"
+          [languages]="[]"
+          [themes]="[]"
+          customLogoPath="assets/logo-schalter-e.svg"
           logo="VO"
         >
           <vo-lib-environment-chip></vo-lib-environment-chip>
         </bc-app-header-bar-iam>
       } @else {
-        <bc-app-header-bar [link]="['/', theme]" [title]="appTitle" logo="VO"></bc-app-header-bar>
+        <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO" customLogoPath="assets/logo-schalter-e.svg"></bc-app-header-bar>
       }
     </header>
     <main class="layout-content content-width" [class.large-content-width]="route.snapshot | routeData: 'largeView'">
       <div class="layout">
         @if (!loading && !(route.snapshot | routeData: 'hideNavigation')) {
           <div class="layout-header mx-5 mt-3">
-            <bc-nav-bar [rounded]="true">
-              <bc-nav-bar-item [link]="['/', theme, referendumUrl]">
+            <bc-nav-bar [rounded]="false">
+              <bc-nav-bar-item [link]="['/', referendumUrl]">
                 {{ 'APP.NAVIGATION.REFERENDUMS' | translate }}
               </bc-nav-bar-item>
-              <bc-nav-bar-item [link]="['/', theme, initiativeUrl]">
+              <bc-nav-bar-item [link]="['/', initiativeUrl]">
                 {{ 'APP.NAVIGATION.INITIATIVES' | translate }}
               </bc-nav-bar-item>
-              <bc-nav-bar-item [link]="['/', theme, controlSignUrl]" *appHasRole="'Kontrollzeichenlöscher'">
+              <bc-nav-bar-item [link]="['/', controlSignUrl]" *appHasRole="'Kontrollzeichenlöscher'">
                 {{ 'APP.NAVIGATION.CONTROL_SIGNS' | translate }}
               </bc-nav-bar-item>
-              <bc-nav-bar-item [link]="['/', theme, administrationUrl]" *appHasAnyRole="['Zertifikatsverwalter', 'Stammdatenverwalter']">
+              <bc-nav-bar-item [link]="['/', administrationUrl]" *appHasAnyRole="['Zertifikatsverwalter', 'Stammdatenverwalter']">
                 {{ 'APP.NAVIGATION.ADMINISTRATION' | translate }}
               </bc-nav-bar-item>
             </bc-nav-bar>
@@ -58,7 +61,7 @@
         }
       </div>
     </main>
-  } @else if (theme) {
+  } @else {
     <div class="layout-content">
       <router-outlet></router-outlet>
     </div>

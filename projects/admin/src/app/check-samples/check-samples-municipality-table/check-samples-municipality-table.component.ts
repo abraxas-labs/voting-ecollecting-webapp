@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import {
   ButtonModule,
   FilterDirective,
@@ -22,7 +22,7 @@ import { DecimalPipe } from '@angular/common';
 import { EnumItemDescription } from '@abraxas/voting-lib';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CollectionCount, sum, ToastService } from 'ecollecting-lib';
+import { sum, ToastService } from 'ecollecting-lib';
 import { CollectionMunicipalityService } from '../../core/services/collection-municipality.service';
 
 @Component({
@@ -98,7 +98,7 @@ export class CheckSamplesMunicipalityTableComponent implements AfterViewInit {
   public collectionId!: string;
 
   @Output()
-  public collectionCountChanged: EventEmitter<CollectionCount> = new EventEmitter();
+  public signatureSheetsSubmitted: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild(SortDirective, { static: true })
   public sort!: SortDirective;
@@ -162,10 +162,9 @@ export class CheckSamplesMunicipalityTableComponent implements AfterViewInit {
     const response = await this.collectionMunicipalityService.submitSignatureSheets(this.collectionId, collectionMunicipality.bfs);
     collectionMunicipality.signatureSheetsCount.totalSubmittedOrConfirmedSignatureSheetsCount =
       response.municipality.signatureSheetsCount.totalSubmittedOrConfirmedSignatureSheetsCount;
-    collectionMunicipality.physicalCount = response.municipality.physicalCount;
     this.updateFooterTotals();
     this.toast.success('COLLECTION.CHECK_SAMPLES.TABLE.SIGNATURE_SHEETS_SUBMITTED');
-    this.collectionCountChanged.emit(response.collectionCount);
+    this.signatureSheetsSubmitted.emit();
   }
 
   private updateFooterTotals(): void {

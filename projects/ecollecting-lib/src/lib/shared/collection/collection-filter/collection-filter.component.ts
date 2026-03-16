@@ -12,6 +12,7 @@ import { CollectionPeriodState, CollectionState } from '@abraxas/voting-ecollect
 @Component({
   selector: 'vo-ecol-collection-filter',
   templateUrl: './collection-filter.component.html',
+  styleUrl: './collection-filter.component.scss',
   imports: [TranslateModule, SegmentedControlGroupModule],
 })
 export class CollectionFilterComponent implements OnChanges {
@@ -36,24 +37,30 @@ export class CollectionFilterComponent implements OnChanges {
   protected activeSubFilter?: CollectionSubFilter;
 
   public ngOnChanges() {
+    // Create new filter object instances to update the active filter correctly if the filters array has changed,
+    // otherwise the base component will not register a change in the active filter.
+    this.filters = this.filters.map(x => ({ ...x }));
+
     for (const filter of Object.values(this.filters)) {
       if (!filter.autoSubFilters) {
         continue;
       }
 
-      filter.subFilters = filter.states?.map(
-        s =>
-          ({
-            id: CollectionState[s].substring('COLLECTION_STATE_'.length),
-            states: [s],
-            periodStates: filter.periodStates ? [...filter.periodStates] : undefined,
-          }) satisfies CollectionSubFilter,
-      );
+      filter.subFilters = filter.criteria
+        ?.filter(s => !s.state || !s.periodState)
+        .map(
+          s =>
+            ({
+              id: s.state
+                ? CollectionState[s.state].substring('COLLECTION_STATE_'.length)
+                : CollectionPeriodState[s.periodState!].substring('COLLECTION_PERIOD_STATE_'.length),
+              criteria: [s],
+            }) satisfies CollectionSubFilter,
+        );
       filter.subFilters = [
         {
           id: 'ALL',
-          states: filter.states ? [...filter.states] : undefined,
-          periodStates: filter.periodStates ? [...filter.periodStates] : undefined,
+          criteria: [...filter.criteria],
         },
         ...(filter.subFilters ?? []),
       ];
@@ -117,8 +124,7 @@ export class CollectionFilterComponent implements OnChanges {
     this.filterChange.emit({
       id: this.activeFilter.id,
       subId: this.activeSubFilter?.id,
-      states: this.activeSubFilter?.states ?? this.activeFilter.states,
-      periodStates: this.activeSubFilter?.periodStates ?? this.activeFilter.periodStates,
+      criteria: this.activeSubFilter?.criteria ?? this.activeFilter.criteria,
     });
   }
 }
@@ -126,14 +132,12 @@ export class CollectionFilterComponent implements OnChanges {
 export interface CollectionFilter {
   id: string;
   subId?: string;
-  states?: CollectionState[];
-  periodStates?: CollectionPeriodState[];
+  criteria: CollectionFilterCriteria[];
 }
 
 export interface CollectionMainFilter {
   id: string;
-  states?: CollectionState[];
-  periodStates?: CollectionPeriodState[];
+  criteria: CollectionFilterCriteria[];
 
   autoSubFilters?: boolean;
   subFilters?: CollectionSubFilter[];
@@ -141,6 +145,10 @@ export interface CollectionMainFilter {
 
 export interface CollectionSubFilter {
   id: string;
-  states?: CollectionState[];
-  periodStates?: CollectionPeriodState[];
+  criteria: CollectionFilterCriteria[];
+}
+
+export interface CollectionFilterCriteria {
+  state?: CollectionState;
+  periodState?: CollectionPeriodState;
 }

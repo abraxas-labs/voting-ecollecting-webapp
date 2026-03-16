@@ -46,18 +46,17 @@ import {
   VerifyCommitteeMemberRequest,
 } from '@abraxas/voting-ecollecting-proto/admin';
 import { lastValueFrom, Observable } from 'rxjs';
-import { Timestamp } from '@ngx-grpc/well-known-types';
-import { downloadBlob, InitiativeLockedFields, InitiativeSubType, openBlobInNewTab, toProtoDate } from 'ecollecting-lib';
-import { HttpClient } from '@angular/common/http';
+import { InitiativeLockedFields, InitiativeSubType, toProtoDate } from 'ecollecting-lib';
 import { environment } from '../../../environments/environment';
 import { CollectionCameNotAboutReason, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
+import { FileDownloadService } from '@abraxas/voting-lib';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InitiativeService {
   private readonly client = inject(InitiativeServiceClient);
-  private readonly http = inject(HttpClient);
+  private readonly fileDownloadService = inject(FileDownloadService);
 
   private readonly restApiUrl: string;
 
@@ -139,8 +138,7 @@ export class InitiativeService {
 
   public async downloadCommitteeList(initiativeId: string, fileId: string): Promise<void> {
     const url = `${this.restApiUrl}/${initiativeId}/committee-lists/${fileId}`;
-    const blob = await lastValueFrom(this.http.get(url, { responseType: 'blob' }));
-    openBlobInNewTab(blob);
+    await this.fileDownloadService.getDownloadFile(url);
   }
 
   public async resetCommitteeMember(initiativeId: string, id: string): Promise<void> {
@@ -261,8 +259,7 @@ export class InitiativeService {
 
   public async downloadDocuments(initiativeId: string): Promise<void> {
     const url = `${this.restApiUrl}/${initiativeId}/documents`;
-    const blob = await lastValueFrom(this.http.get(url, { responseType: 'blob' }));
-    downloadBlob('export.zip', blob);
+    await this.fileDownloadService.getDownloadFile(url);
   }
 
   public async setSensitiveDataExpiryDate(initiativeId: string, sensitiveDataExpiryDate: Date): Promise<void> {

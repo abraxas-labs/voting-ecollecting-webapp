@@ -15,9 +15,9 @@ export function mapToDomainOfInfluence(doi: DomainOfInfluenceProto): DomainOfInf
   const doiObj = doi.toObject();
   return {
     ...doiObj,
+    userPermissions: doiObj.userPermissions!,
     address: doiObj.address!,
     settings: doiObj.settings!,
     logo: doiObj.logo!,
-    eCollectingEnabled: doiObj.settings!.eCollectingEnabled,
   };
 }

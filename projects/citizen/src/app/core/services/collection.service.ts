@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   AcceptCollectionPermissionRequest,
   AddCollectionMessageRequest,
@@ -42,7 +42,7 @@ import {
   mapToCollectionMessage,
   mapToCollectionMessages,
   newObjectUrlObservableForBlob,
-  openBlobInNewTab,
+  StoredFile,
 } from 'ecollecting-lib';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { switchMap } from 'rxjs/operators';
@@ -50,6 +50,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CollectionPermission, PendingCollectionPermission } from '../models/collection.model';
 import { mapValidationSummaryToModel, ValidationSummary } from '../models/validation.model';
+import { FileDownloadService } from '@abraxas/voting-lib';
 
 @Injectable({
   providedIn: 'root',
@@ -59,6 +60,7 @@ export class CollectionService implements CollectionMessagesService {
   private readonly referendumClient = inject(ReferendumServiceClient);
   private readonly initiativeClient = inject(InitiativeServiceClient);
   private readonly http = inject(HttpClient);
+  private readonly fileDownloadService = inject(FileDownloadService);
 
   private readonly restApiUrl: string;
 
@@ -164,20 +166,22 @@ export class CollectionService implements CollectionMessagesService {
     await lastValueFrom(this.client.deleteSignatureSheetTemplate(new DeleteSignatureSheetTemplateRequest({ id: collectionId })));
   }
 
-  public async setSignatureSheetFileTemplateGenerated(collectionId: string, collectionType: CollectionType): Promise<void> {
-    await lastValueFrom(
+  public async setSignatureSheetFileTemplateGenerated(collectionId: string, collectionType: CollectionType): Promise<StoredFile> {
+    const response = await lastValueFrom(
       this.client.setSignatureSheetTemplateGenerated(
         new SetSignatureSheetTemplateGeneratedRequest({ id: collectionId, collectionType: collectionType }),
       ),
     );
+    return response.generatedSignatureSheetTemplate!.toObject() satisfies StoredFile;
   }
 
-  public async generateSignatureSheetTemplatePreview(collectionId: string, collectionType: CollectionType): Promise<void> {
-    await lastValueFrom(
+  public async generateSignatureSheetTemplatePreview(collectionId: string, collectionType: CollectionType): Promise<StoredFile> {
+    const response = await lastValueFrom(
       this.client.generateSignatureSheetTemplatePreview(
         new GenerateSignatureSheetTemplatePreviewRequest({ id: collectionId, collectionType: collectionType }),
       ),
     );
+    return response.generatedSignatureSheetTemplate!.toObject() satisfies StoredFile;
   }
 
   public getLogo(collectionId: string): Observable<SafeResourceUrl> {
@@ -198,14 +202,12 @@ export class CollectionService implements CollectionMessagesService {
       url += '/preview';
     }
 
-    const blob = await lastValueFrom(this.http.get(url, { responseType: 'blob' }));
-    openBlobInNewTab(blob);
+    await this.fileDownloadService.getDownloadFile(url);
   }
 
   public async downloadElectronicSignaturesProtocol(collectionId: string): Promise<void> {
     const url = `${this.restApiUrl}/${collectionId}/electronic-signatures-protocol`;
-    const blob = await lastValueFrom(this.http.get(url, { responseType: 'blob' }));
-    openBlobInNewTab(blob);
+    await this.fileDownloadService.getDownloadFile(url);
   }
 
   public async updateRequestInformalReview(collectionId: string, requestInformalReview: boolean): Promise<CollectionMessage> {

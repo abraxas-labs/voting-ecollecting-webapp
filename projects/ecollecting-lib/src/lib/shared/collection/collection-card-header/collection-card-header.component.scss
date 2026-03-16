@@ -5,6 +5,7 @@
   padding-right: 8px;
   padding-top: 8px;
   display: flex;
+  column-gap: 0.25rem;
   align-items: baseline;
   flex-wrap: wrap;
   min-height: 2.25rem; // enforce same min-height with and without link
@@ -12,10 +13,6 @@
   @include md-up() {
     flex-wrap: unset;
   }
-}
-
-.title {
-  font-weight: 700;
 }
 
 .status {
@@ -27,5 +24,18 @@
   @include md-up() {
     justify-content: flex-end;
     flex-wrap: unset;
+  }
+}
+
+// status labels with large texts should line break to avoid scroll bar in very small viewports (accessibility)
+bc-status-label {
+  white-space: pre-line;
+
+  @include sm-up() {
+    white-space: nowrap;
+  }
+
+  ::ng-deep label {
+    height: 100%;
   }
 }

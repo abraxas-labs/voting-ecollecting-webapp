@@ -1,21 +1,23 @@
 <bc-dialog>
   <div header>
     <bc-icon-button (buttonClick)="close()" variant="tertiary" icon="cancel" [ariaLabel]="'COLLECTION_MESSAGES.CLOSE' | translate"></bc-icon-button>
-    {{ 'COLLECTION_MESSAGES.TITLE' | translate }}
+    <h2 class="mb-0">{{ 'COLLECTION_MESSAGES.TITLE' | translate }}</h2>
   </div>
   <div content class="mb-2">
     <h3>{{ 'COLLECTION_MESSAGES.SUB_TITLE' | translate }}</h3>
-    <div class="messages">
+    <ul class="messages">
       @if (!loading) {
         @for (message of messages; track message.id) {
-          <vo-ecol-collection-message [message]="message" class="mb-2"></vo-ecol-collection-message>
+          <li>
+            <vo-ecol-collection-message [message]="message" class="mb-2"></vo-ecol-collection-message>
+          </li>
         } @empty {
           <p class="no-data m-0">{{ 'COLLECTION_MESSAGES.NO_DATA' | translate }}</p>
         }
       } @else {
         <bc-spinner></bc-spinner>
       }
-    </div>
+    </ul>
     <div class="grow"></div>
     <hr />
     <form [formGroup]="form">

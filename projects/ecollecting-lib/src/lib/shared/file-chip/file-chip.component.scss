@@ -1,5 +1,5 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
+@use '../../../styles/color' as *;
 
 .files {
   display: inline-block;
@@ -12,7 +12,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 5rem;
-    background-color: $color-grey-6;
+    background-color: $color-surface-bg-neutral-dim;
 
     &.clickable {
       cursor: pointer;

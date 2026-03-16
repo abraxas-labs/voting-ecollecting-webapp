@@ -36,7 +36,7 @@
         <bc-nav-item
           [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.OVERVIEW' | translate"
           [icon]="'home'"
-          [link]="initiativeDetailOverviewUrl"
+          [routerLink]="initiativeDetailOverviewUrl"
           [target]="'self'"
           [active]="active === initiativeDetailOverviewUrl"
 
@@ -44,28 +44,28 @@
         <bc-nav-item
           [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.GENERAL_INFORMATION' | translate"
           [icon]="'law'"
-          [link]="initiativeDetailGeneralInformationUrl"
+          [routerLink]="initiativeDetailGeneralInformationUrl"
           [target]="'self'"
           [active]="active === initiativeDetailGeneralInformationUrl"
         ></bc-nav-item>
         <bc-nav-item
           [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.COMMITTEE' | translate"
           [icon]="'users'"
-          [link]="initiativeDetailCommitteeUrl"
+          [routerLink]="initiativeDetailCommitteeUrl"
           [target]="'self'"
           [active]="active === initiativeDetailCommitteeUrl"
         ></bc-nav-item>
         <bc-nav-item
           [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.SIGNATURE_LIST' | translate"
           [icon]="'lists'"
-          [link]="initiativeDetailSignatureSheetUrl"
+          [routerLink]="initiativeDetailSignatureSheetUrl"
           [target]="'self'"
           [active]="active === initiativeDetailSignatureSheetUrl"
         ></bc-nav-item>
         <bc-nav-item
           [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.PERMISSIONS' | translate"
           [icon]="'access'"
-          [link]="initiativeDetailPermissionsUrl"
+          [routerLink]="initiativeDetailPermissionsUrl"
           [target]="'self'"
           [active]="active === initiativeDetailPermissionsUrl"
         ></bc-nav-item>

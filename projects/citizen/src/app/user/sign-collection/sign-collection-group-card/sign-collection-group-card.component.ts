@@ -123,6 +123,6 @@ export class SignCollectionGroupCardComponent implements OnInit, OnChanges {
 
   public async signOnline(collection: Collection): Promise<void> {
     const typeSegment = collection.type === CollectionType.COLLECTION_TYPE_REFERENDUM ? signReferendumUrl : signInitiativeUrl;
-    await this.router.navigate(['-', 'user', typeSegment, collection.id]);
+    await this.router.navigate(['user', typeSegment, collection.id]);
   }
 }

@@ -10,6 +10,7 @@ import { IconButtonModule, StatusLabelModule, TableDataSource, TableModule, Trun
 import { InitiativeCommitteeMember } from '../../../../../core/models/initiative.model';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
+import { approvalStateColorMap, signatureTypeColorMap } from 'ecollecting-lib';
 
 @Component({
   selector: 'app-launch-initiative-detail-committee-members-table',
@@ -50,6 +51,9 @@ export class LaunchInitiativeDetailCommitteeMembersTableComponent implements OnC
     this.stateColumn,
     this.actionsColumn,
   ];
+
+  protected readonly signatureTypeColorMap = signatureTypeColorMap;
+  protected readonly approvalStateColorMap = approvalStateColorMap;
 
   @Input()
   public dragDisabled: boolean = false;

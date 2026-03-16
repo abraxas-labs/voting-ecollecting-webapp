@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.127.20`)
+# ✨ Changelog (`v1.134.4`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,215 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.127.20
-Previous version ---- v1.115.24
+This version -------- v1.134.4
+Previous version ---- v1.127.20
 Initial version ----- v1.115.24
-Total commits ------- 65
+Total commits ------- 34
 ```
+
+## [v1.134.4] - 2026-03-12
+
+### 🔄 Changed
+
+- fix(VOTING-6794): adjust labels
+
+## [v1.134.3] - 2026-03-12
+
+### 🔄 Changed
+
+- extend collection filter with criteria for periodstate and state
+
+## [v1.134.2] - 2026-03-12
+
+### 🔄 Changed
+
+- accessibility review
+
+## [v1.134.1] - 2026-03-11
+
+### 🔄 Changed
+
+- add column gap for card header
+
+## [v1.134.0] - 2026-03-10
+
+### 🔄 Changed
+
+- angular 21 update
+
+## [v1.133.0] - 2026-03-09
+
+### 🔄 Changed
+
+- feat(VOTING-6818): add doi address name
+
+## [v1.132.0] - 2026-03-09
+
+### 🔄 Changed
+
+- feat(VOTING-6334): adjust label of initiative quorum for CT, remove initiative quorum for CH
+
+## [v1.131.0] - 2026-03-04
+
+### 🔄 Changed
+
+- feat(VOTING-6729): rich text initiative wording
+
+## [v1.130.15] - 2026-03-04
+
+### 🔄 Changed
+
+- qr code data gets correct base href from DOM
+
+## [v1.130.14] - 2026-03-04
+
+### 🔄 Changed
+
+- add full base url to qr code data
+
+## [v1.130.13] - 2026-03-04
+
+### 🔄 Changed
+
+- remove voting lib inline spinner
+
+## [v1.130.12] - 2026-03-03
+
+### 🔄 Changed
+
+- add toasts for submit referendum and generate signature sheet preview
+
+## [v1.130.11] - 2026-03-03
+
+### 🔄 Changed
+
+- add sign collection qr code
+
+## [v1.130.10] - 2026-03-02
+
+### 🔄 Changed
+
+- display sign page errors as toast
+
+## [v1.130.9] - 2026-03-02
+
+### 🔄 Changed
+
+- accessibility review
+
+## [v1.130.8] - 2026-03-02
+
+### 🆕 Added
+
+- add confirm dialog for submitting signature sheets
+
+## [v1.130.7] - 2026-02-26
+
+### 🔄 Changed
+
+- fix(VOTING-6334): fix doi settings
+
+## [v1.130.6] - 2026-02-26
+
+### 🆕 Added
+
+- fix(VOTING-6334): store doi settings on unload
+
+## [v1.130.5] - 2026-02-25
+
+### 🔄 Changed
+
+- accessibility review
+
+## [v1.130.4] - 2026-02-25
+
+### 🔄 Changed
+
+- fix(VOTING-6334): improve image preview layouting
+
+## [v1.130.3] - 2026-02-25
+
+### 🔄 Changed
+
+- fix(VOTING-6334): mark min initiative signature count as required for MUs
+
+## [v1.130.2] - 2026-02-24
+
+### 🔄 Changed
+
+- fix(VOTING-6825): show details button instead of sign if another referendum is signed
+
+## [v1.130.1] - 2026-02-24
+
+### 🔄 Changed
+
+- fix(VOTING-6334): doi settings bugfixes
+
+## [v1.130.0] - 2026-02-24
+
+### 🆕 Added
+
+- feat(VOTING-6827): split attest and reattest
+
+## [v1.129.0] - 2026-02-23
+
+### 🆕 Added
+
+- feat(VOTING-6825): show decree already signed on overview
+
+## [v1.128.7] - 2026-02-18
+
+### 🔄 Changed
+
+- ensure all signature sheets are past attested to add samples
+
+## [v1.128.6] - 2026-02-16
+
+### 🆕 Added
+
+- add confirm dialog for creating a referendum
+
+## [v1.128.5] - 2026-02-16
+
+### 🆕 Added
+
+- add collection state colors
+
+## [v1.128.4] - 2026-02-16
+
+### 🆕 Added
+
+- add committee member state colors
+
+## [v1.128.3] - 2026-02-16
+
+### 🔄 Changed
+
+- save expanded doi type state
+
+## [v1.128.2] - 2026-02-13
+
+### 🔄 Changed
+
+- remove filename generation in UI
+
+## [v1.128.1] - 2026-02-13
+
+### 🔄 Changed
+
+- adjust filenames
+
+## [v1.128.0] - 2026-02-12
+
+### 🔄 Changed
+
+- domain of influence settings
+
+## [v1.127.21] - 2026-02-12
+
+### 🔄 Changed
+
+- rename withdrawn state for referendums
 
 ## [v1.127.20] - 2026-02-12
 

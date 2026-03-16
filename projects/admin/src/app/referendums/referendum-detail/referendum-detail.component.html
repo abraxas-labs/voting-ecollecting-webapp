@@ -28,6 +28,7 @@
                 : 'REFERENDUM.TITLE_PAPER_SUBMISSION'
               ) | translate: { description: referendum.collection.description, secureIdNumber: referendum.collection.secureIdNumber }
             "
+            [headingLevel]="'h3'"
           ></bc-card-title>
           <div class="flex w-full justify-end gap-3 p-2 items-center">
             @if (referendum.collection.informalReviewRequested && referendum.collection.userPermissions?.isRequestInformalReviewVisible) {
@@ -43,7 +44,9 @@
               <bc-status-label
                 class="self-center"
                 size="large"
-                [label]="'COLLECTION.STATES.' + referendum.collection.state | translate"
+                [label]="'REFERENDUM.STATES.' + referendum.collection.state | translate"
+                [backgroundColor]="collectionStateColorMap[referendum.collection.state]"
+                [foregroundColor]="referendum.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT || referendum.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT ? 'light' : 'dark'"
               ></bc-status-label>
             </div>
           </div>
@@ -60,7 +63,7 @@
     <div class="layout-content">
       <bc-card class="m-3" [border]="false">
         <bc-card-header>
-          <bc-card-title [label]="'COLLECTION.GENERAL_INFORMATION.TITLE' | translate"></bc-card-title>
+          <bc-card-title [label]="'COLLECTION.GENERAL_INFORMATION.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
         </bc-card-header>
         <bc-card-content class="flex flex-col gap-2">
           <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.DESCRIPTION' | translate">
@@ -124,7 +127,7 @@
       </bc-card>
       <bc-card class="m-3" [border]="false">
         <bc-card-header>
-          <bc-card-title [label]="'COLLECTION.SIGNATURE_SHEET' | translate"></bc-card-title>
+          <bc-card-title [label]="'COLLECTION.SIGNATURE_SHEET' | translate" [headingLevel]="'h3'"></bc-card-title>
         </bc-card-header>
         <bc-card-content>
           @if (referendum.collection.signatureSheetTemplate) {
@@ -143,7 +146,7 @@
       @if (referendum.collection.userPermissions?.canEdit) {
         <bc-card class="m-3" [border]="false">
           <bc-card-header>
-            <bc-card-title [label]="'COLLECTION.PERMISSIONS.TITLE' | translate"></bc-card-title>
+            <bc-card-title [label]="'COLLECTION.PERMISSIONS.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
           </bc-card-header>
           <bc-card-content>
             <app-collection-permissions [collectionId]="referendum.id"></app-collection-permissions>

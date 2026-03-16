@@ -78,10 +78,10 @@
         form.value.subType
         ) {
         <div class="flex gap-3 subtype-values">
-          <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MIN_SIGNATURE_COUNT' | translate">
+          <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DIALOG.MIN_SIGNATURE_COUNT' | translate">
             {{ form.value.subType.minSignatureCount | number }}
           </bc-readonly>
-          <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
+          <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
             {{ form.value.subType.maxElectronicSignatureCount | number }}
           </bc-readonly>
         </div>
@@ -89,11 +89,11 @@
         form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU &&
         form.value.bfs
         ) {
-        <div class="flex gap-3 municipality-values">
-          <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MIN_SIGNATURE_COUNT' | translate">
+        <div class="flex gap-3 subtype-values">
+          <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DIALOG.MIN_SIGNATURE_COUNT' | translate">
             {{ (selectedDomainOfInfluence?.initiativeMinSignatureCount | number) ?? '' }}
           </bc-readonly>
-          <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
+          <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
             {{ selectedDomainOfInfluenceMaxElectronicSignatureCount | number }}
           </bc-readonly>
         </div>

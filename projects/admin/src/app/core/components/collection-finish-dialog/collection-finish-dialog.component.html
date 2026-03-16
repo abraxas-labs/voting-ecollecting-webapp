@@ -42,13 +42,13 @@
   </bc-table>
   <div class="flex gap-2 my-2">
     <bc-status-toggle
-      [label]="'COLLECTION.STATES.' + collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT | translate"
+      [label]="'COLLECTION.FINISH_DIALOG.CAME_ABOUT' | translate"
       [active]="cameAbout"
       (activeChange)="cameAbout = $event; cameNotAbout = false; updateValidators()"
       [color]="'info'"
     ></bc-status-toggle>
     <bc-status-toggle
-      [label]="'COLLECTION.STATES.' + collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT | translate"
+      [label]="'COLLECTION.FINISH_DIALOG.CAME_NOT_ABOUT' | translate"
       [active]="cameNotAbout"
       (activeChange)="cameNotAbout = $event; cameAbout = false; updateValidators()"
       [color]="'error'"

@@ -1,9 +1,15 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
-@use '../../../../../../ecollecting-lib/src/styles/gap' as *;
+@use 'gap' as *;
+@use 'color' as *;
 
-.header-card bc-card-header {
-  height: 60px; // same height as app header for better UI
+.header-card {
+  ::ng-deep .mdc-card {
+    border-radius: 0;
+  }
+
+  bc-card-header {
+    height: 60px; // same height as app header for better UI
+  }
 }
 
 .footer-button-bar {
@@ -14,9 +20,9 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  border-top: 1px solid $color-grey-5;
+  border-top: 1px solid $color-border-soft;
   z-index: 100; // button bar is displayed in front of the content
-  background-color: $color-white;
+  background-color: $color-surface-bg-neutral-full;
 
   bc-button ~ bc-button {
     margin-left: 0;

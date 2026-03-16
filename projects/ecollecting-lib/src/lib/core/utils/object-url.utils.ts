@@ -18,22 +18,3 @@ export function newObjectUrlObservableForBlob(input: Blob): Observable<SafeResou
     return () => URL.revokeObjectURL(objUrl);
   });
 }
-
-export function openBlobInNewTab(blob: Blob): void {
-  const url = URL.createObjectURL(blob);
-  window.open(url, '_blank');
-  window.addEventListener('unload', () => URL.revokeObjectURL(url));
-}
-
-export function downloadBlob(filename: string, blob: Blob): void {
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
-  URL.revokeObjectURL(url);
-}

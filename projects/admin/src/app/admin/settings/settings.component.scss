@@ -1,0 +1,21 @@
+@use 'color' as *;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hint {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: $color-text-secondary;
+
+  &.success {
+    color: $color-signal-success;
+  }
+
+  &.error {
+    color: $color-signal-error;
+  }
+}

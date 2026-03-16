@@ -123,7 +123,7 @@ export class SignatureSheetEditDialogComponent
   }
 
   @HostListener('window:beforeunload')
-  private async tryReleaseNumberAsNeeded(): Promise<void> {
+  public async tryReleaseNumberAsNeeded(): Promise<void> {
     if (this.info === undefined || !this.isNew || this.formValue.appliedNumberOnPaper) {
       return;
     }

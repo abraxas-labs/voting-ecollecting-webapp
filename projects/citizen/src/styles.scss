@@ -1,9 +1,5 @@
 @use '../../ecollecting-lib/src/styles';
 
-bc-card-subtitle {
-  color: styles.$color-black !important;
-}
-
 .page-with-user-navigation {
   padding: 1rem;
   min-height: calc(100vh - 234px); // subtract height of app-header (60px), user-navigation (68px), footer (74px) and page padding (32px)

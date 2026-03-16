@@ -25,6 +25,6 @@ export class RoleGuard implements CanActivate {
       return true;
     }
 
-    return this.router.createUrlTree(['-', '404']);
+    return this.router.createUrlTree(['404']);
   }
 }

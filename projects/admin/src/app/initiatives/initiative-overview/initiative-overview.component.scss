@@ -1,4 +1,4 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
 .grid {
   display: grid;
@@ -8,7 +8,7 @@
 
 .municipality-name {
   font-style: italic;
-  color: $color-grey-3;
+  color: $color-text-secondary;
 }
 
 bc-alert-bar::ng-deep .alert-banner {

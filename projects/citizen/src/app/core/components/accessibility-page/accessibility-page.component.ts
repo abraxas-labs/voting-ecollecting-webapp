@@ -17,7 +17,7 @@ import {
   TextModule,
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AsyncInputValidators, EnumItemDescription, InputValidators, VotingLibModule } from '@abraxas/voting-lib';
+import { AsyncInputValidators, EnumItemDescription, InputValidators } from '@abraxas/voting-lib';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EnumItemDescriptionUtils } from 'ecollecting-lib';
 import { AccessibilityCategory, AccessibilitySalutation } from '@abraxas/voting-ecollecting-proto/citizen';
@@ -30,7 +30,6 @@ import { AccessibilityService } from '../../services/accessibility.service';
   imports: [
     SpinnerModule,
     TranslatePipe,
-    VotingLibModule,
     LinkModule,
     ReactiveFormsModule,
     RadioButtonModule,

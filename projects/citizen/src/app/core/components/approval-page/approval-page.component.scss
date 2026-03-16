@@ -1,4 +1,4 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
 :host {
   display: flex;
@@ -16,13 +16,13 @@
   }
 
   .error {
-    border: 1px solid $color-error;
+    border: 1px solid $color-signal-error;
     border-radius: 0.75rem;
-    background-color: $color-error-25;
+    background-color: $color-signal-error-light;
   }
 
   .card-container {
     border-radius: 0.75rem;
-    background-color: $color-primary-10;
+    background-color: $color-primary-95;
   }
 }

@@ -85,6 +85,8 @@
     <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       <bc-status-label
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.' + row.signatureType | translate"
+        [foregroundColor]="'light'"
+        [backgroundColor]="signatureTypeColorMap[row.signatureType]"
       ></bc-status-label>
     </bc-data-cell>
   </ng-container>
@@ -98,6 +100,7 @@
     <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       <bc-status-label
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL_STATES.' + row.approvalState | translate"
+        [backgroundColor]="approvalStateColorMap[row.approvalState]"
       ></bc-status-label>
     </bc-data-cell>
   </ng-container>

@@ -7,6 +7,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
   BaseDialogWithUnsavedChangesCheckComponent,
+  collectionStateColorMap,
   DeepRequired,
   DialogComponent,
   EnumItemDescriptionUtils,
@@ -28,7 +29,7 @@ import {
   TooltipModule,
 } from '@abraxas/base-components';
 import { CollectionState, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
-import { AsyncInputValidators, EnumItemDescription } from '@abraxas/voting-lib';
+import { AsyncInputValidators, EnumItemDescription, MarkdownEditorComponent } from '@abraxas/voting-lib';
 import { TranslatePipe } from '@ngx-translate/core';
 import { InitiativeService } from '../../../core/services/initiative.service';
 import { Initiative } from '../../../core/models/initiative.model';
@@ -51,6 +52,7 @@ import { DomainOfInfluenceService } from '../../../core/services/domain-of-influ
     IconButtonModule,
     ReadonlyModule,
     StatusLabelModule,
+    MarkdownEditorComponent,
   ],
   templateUrl: './admissibility-decision-dialog.component.html',
   styleUrl: './admissibility-decision-dialog.component.scss',
@@ -65,6 +67,8 @@ export class AdmissibilityDecisionDialogComponent
   private readonly doiService = inject(DomainOfInfluenceService);
   private readonly toastService = inject(ToastService);
 
+  protected readonly collectionStateColorMap = collectionStateColorMap;
+  protected readonly collectionStates = CollectionState;
   protected saving: boolean = false;
   protected loading: boolean = true;
   protected form!: FormGroup<Form>;
@@ -165,7 +169,7 @@ export class AdmissibilityDecisionDialogComponent
       ];
       this.form.patchValue({
         initiativeId: this.dialogData.initiative.id,
-        wording: this.dialogData.initiative.wording,
+        wording: this.dialogData.initiative.wording.markdown,
         address: {
           locality: this.dialogData.initiative.collection.address?.locality ?? '',
           zipCode: this.dialogData.initiative.collection.address?.zipCode ?? '',
@@ -241,6 +245,7 @@ export class AdmissibilityDecisionDialogComponent
 
       const id = await this.initiativeService.createWithAdmissibilityDecision({
         ...values,
+        wording: values.wording.trim(),
         subTypeId: values.subType?.id,
       });
       await this.closeSaved(id);
@@ -265,7 +270,7 @@ export class AdmissibilityDecisionDialogComponent
         zipCode: '',
         streetOrPostOfficeBox: '',
       },
-      wording: initiative?.wording,
+      wording: initiative?.wording?.markdown,
       description: initiative?.description,
       subType: this.subTypes.find(s => s.id === initiative?.subType?.id),
     });
@@ -340,7 +345,7 @@ export class AdmissibilityDecisionDialogComponent
       }),
       wording: this.formBuilder.control('', {
         validators: [Validators.maxLength(10_000)],
-        asyncValidators: [AsyncInputValidators.complexMlText],
+        asyncValidators: [AsyncInputValidators.markdownText],
       }),
     });
   }

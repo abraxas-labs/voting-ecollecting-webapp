@@ -14,7 +14,14 @@ import { CollectionService } from '../../../core/services/collection.service';
 import { CollectionPeriodState, CollectionState } from '@abraxas/voting-ecollecting-proto';
 import { Observable } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { generateSecureRandomString, getGrpcErrorOrThrow, storage, storageKeyPrefix, ConfirmDialogService } from 'ecollecting-lib';
+import {
+  generateSecureRandomString,
+  getGrpcErrorOrThrow,
+  storage,
+  storageKeyPrefix,
+  ConfirmDialogService,
+  ToastService,
+} from 'ecollecting-lib';
 import {
   collectionAlreadySignedException,
   collectionMaxElectronicSignatureCountReachedException,
@@ -40,6 +47,7 @@ export class SignPageComponent implements OnInit {
   private readonly auth = inject(AuthenticationService);
   private readonly collectionService = inject(CollectionService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
+  private readonly toastService = inject(ToastService);
 
   protected readonly periodStates = CollectionPeriodState;
   protected readonly states = CollectionState;
@@ -47,7 +55,6 @@ export class SignPageComponent implements OnInit {
   protected image?: Observable<SafeResourceUrl>;
   protected logo?: Observable<SafeResourceUrl>;
   protected signing: boolean = false;
-  protected error?: string;
 
   @Input({ required: true })
   public navbarLabel!: string;
@@ -104,7 +111,7 @@ export class SignPageComponent implements OnInit {
       this.periodState === CollectionPeriodState.COLLECTION_PERIOD_STATE_EXPIRED ||
       this.collection.state === CollectionState.COLLECTION_STATE_ENDED_CAME_ABOUT ||
       this.collection.state === CollectionState.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT;
-    await this.router.navigate(['-', 'user', isExpired ? endedCollectionsUrl : signCollectionUrl]);
+    await this.router.navigate(['user', isExpired ? endedCollectionsUrl : signCollectionUrl]);
   }
 
   protected async downloadSignatureList(): Promise<void> {
@@ -116,7 +123,6 @@ export class SignPageComponent implements OnInit {
   }
 
   private async continueSign(state: string): Promise<void> {
-    delete this.error;
     if (!this.collection) {
       return;
     }
@@ -125,11 +131,10 @@ export class SignPageComponent implements OnInit {
     try {
       await this.auth.login({ state });
       await this.collectionService.sign(this.collection.id, this.collection.type);
-      this.collection.isSigned = true;
-      this.collection.signatureType = CollectionSignatureType.COLLECTION_SIGNATURE_TYPE_ELECTRONIC;
-      this.collection.attestedCollectionCount!.electronicCitizenCount++;
+      this.canSign = false;
+      this.toastService.success('SIGN_COLLECTION.SIGNED');
     } catch (e) {
-      this.error = getGrpcErrorOrThrow(e, [
+      const error = getGrpcErrorOrThrow(e, [
         insufficientAcrException,
         collectionAlreadySignedException,
         decreeAlreadySignedException,
@@ -137,6 +142,7 @@ export class SignPageComponent implements OnInit {
         decreeMaxElectronicSignatureCountReachedException,
         personOrVotingRightNotFoundException,
       ]);
+      this.toastService.error('ERROR_MESSAGES.TITLE', 'ERROR_MESSAGES.' + error);
     } finally {
       this.signing = false;
     }

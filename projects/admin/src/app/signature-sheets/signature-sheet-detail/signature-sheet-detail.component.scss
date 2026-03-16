@@ -1,4 +1,4 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
 bc-readonly {
   width: unset;
@@ -7,13 +7,13 @@ bc-readonly {
 .info {
   display: flex;
   border-radius: 0.5rem;
-  background-color: $color-grey-6;
-  color: $color-grey-1;
+  background-color: $color-surface-bg-neutral-dim;
+  color: $color-text-primary;
 }
 
 .immutable-hint {
   font-style: italic;
-  color: $color-grey-3;
+  color: $color-text-secondary;
 }
 
 .stats {
@@ -29,5 +29,5 @@ bc-readonly {
 app-signature-sheet-citizen-table {
   display: block;
   border-radius: 0.5rem;
-  background-color: $color-grey-7;
+  background-color: $color-surface-bg-neutral-bright;
 }

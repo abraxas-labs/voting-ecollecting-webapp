@@ -17,25 +17,29 @@
     </div>
 
     <div class="layout-content m-3">
-      <div class="flex gap-3">
-        <bc-card [backgroundColor]="'success'" [border]="false">
-          <bc-card-header class="p-3">
-            <bc-card-subtitle [label]="'COLLECTION.CHECK_SAMPLES.VARIANT_1' | translate"></bc-card-subtitle>
-          </bc-card-header>
-        </bc-card>
-        <bc-card [backgroundColor]="'success'" [border]="false">
-          <bc-card-header class="p-3">
-            <bc-card-subtitle [label]="'COLLECTION.CHECK_SAMPLES.VARIANT_2' | translate"></bc-card-subtitle>
-            <bc-button class="ml-3" [label]="'COLLECTION.CHECK_SAMPLES.GENERATE_SAMPLES' | translate" [variant]="'primary'" (buttonClick)="openRandomList()"></bc-button>
-          </bc-card-header>
-        </bc-card>
-      </div>
+      <bc-card [backgroundColor]="'success'" [border]="false">
+        <bc-card-header class="p-3">
+          <bc-card-subtitle class="whitespace-pre-line" [label]="'COLLECTION.CHECK_SAMPLES.INFO' | translate"></bc-card-subtitle>
+          <bc-card-actions>
+            <bc-button
+              [label]="'COLLECTION.CHECK_SAMPLES.GENERATE_SAMPLES' | translate"
+              [variant]="'primary'"
+              (buttonClick)="openRandomList()"
+              [disabled]="!allSignatureSheetsArePastAttested"
+            ></bc-button>
+          </bc-card-actions>
+        </bc-card-header>
+      </bc-card>
 
       @if (loading || !municipalities) {
         <bc-spinner class="m-3"></bc-spinner>
       } @else {
         <div class="table-container">
-          <app-check-samples-municipality-table  [municipalities]="municipalities" [collectionId]="collection.id" (collectionCountChanged)="collection.collection.attestedCollectionCount = $event"></app-check-samples-municipality-table>
+          <app-check-samples-municipality-table
+            [municipalities]="municipalities"
+            [collectionId]="collection.id"
+            (signatureSheetsSubmitted)="updateAllSignatureSheetsArePastAttested()"
+          ></app-check-samples-municipality-table>
         </div>
       }
     </div>

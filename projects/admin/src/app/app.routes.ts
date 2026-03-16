@@ -5,7 +5,8 @@
  */
 
 import { Routes } from '@angular/router';
-import { AuthThemeGuard, NotFoundPageComponent, ThemeService } from '@abraxas/voting-lib';
+import { NotFoundPageComponent } from '@abraxas/voting-lib';
+import { IsAuthenticatedGuard } from '@abraxas/base-components';
 
 export const referendumUrl: string = 'referendums';
 export const initiativeUrl: string = 'initiatives';
@@ -16,38 +17,31 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: ThemeService.NoTheme,
+    redirectTo: referendumUrl,
   },
   {
-    path: ':theme',
-    canActivate: [AuthThemeGuard],
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: referendumUrl,
-      },
-      {
-        path: referendumUrl,
-        loadChildren: () => import('./referendums/referendums.routes').then(m => m.routes),
-      },
-      {
-        path: initiativeUrl,
-        loadChildren: () => import('./initiatives/initiatives.routes').then(m => m.routes),
-      },
-      {
-        path: controlSignUrl,
-        loadChildren: () => import('./control-signs/control-signs.routes').then(m => m.routes),
-      },
-      {
-        path: administrationUrl,
-        loadChildren: () => import('./admin/admin.routes').then(m => m.routes),
-      },
-      {
-        path: '**',
-        component: NotFoundPageComponent,
-        data: { hideHeader: true },
-      },
-    ],
+    path: referendumUrl,
+    canActivate: [IsAuthenticatedGuard],
+    loadChildren: () => import('./referendums/referendums.routes').then(m => m.routes),
+  },
+  {
+    path: initiativeUrl,
+    canActivate: [IsAuthenticatedGuard],
+    loadChildren: () => import('./initiatives/initiatives.routes').then(m => m.routes),
+  },
+  {
+    path: controlSignUrl,
+    canActivate: [IsAuthenticatedGuard],
+    loadChildren: () => import('./control-signs/control-signs.routes').then(m => m.routes),
+  },
+  {
+    path: administrationUrl,
+    canActivate: [IsAuthenticatedGuard],
+    loadChildren: () => import('./admin/admin.routes').then(m => m.routes),
+  },
+  {
+    path: '**',
+    component: NotFoundPageComponent,
+    data: { hideHeader: true },
   },
 ];

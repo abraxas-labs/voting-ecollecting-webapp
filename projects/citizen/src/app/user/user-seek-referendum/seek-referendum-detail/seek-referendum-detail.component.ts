@@ -28,6 +28,7 @@ import {
   ConfirmDialogService,
   newSimpleDecree,
   SHOW_CHAT_QUERY_PARAM,
+  ToastService,
 } from 'ecollecting-lib';
 import { CollectionState, CollectionType } from '@abraxas/voting-ecollecting-proto';
 import { Referendum } from '../../../core/models/referendum.model';
@@ -67,6 +68,7 @@ export class SeekReferendumDetailComponent implements OnDestroy {
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly referendumService = inject(ReferendumService);
   private readonly collectionService = inject(CollectionService);
+  private readonly toastService = inject(ToastService);
 
   public readonly detailOverviewUrl = detailOverviewUrl;
   public readonly detailGeneralInformationUrl = detailGeneralInformationUrl;
@@ -96,13 +98,13 @@ export class SeekReferendumDetailComponent implements OnDestroy {
         startWith(this.router),
       )
       .subscribe(event => {
-        // get sixth url param, as the type of route is stored there
+        // get the fifth url param, as the type of route is stored there
         const pathParts = (event as NavigationEnd).url.split('/');
-        if (pathParts.length < 6) {
+        if (pathParts.length < 5) {
           return;
         }
 
-        this.active = pathParts[5];
+        this.active = pathParts[4];
       });
   }
 
@@ -200,6 +202,7 @@ export class SeekReferendumDetailComponent implements OnDestroy {
     try {
       this.submitting = true;
       await this.referendumService.submit(this.referendum.id);
+      this.toastService.success('SEEK_REFERENDUM.DETAIL.SUBMITTED');
     } finally {
       this.submitting = false;
     }

@@ -4,16 +4,25 @@
  * For license information see LICENSE file.
  */
 
-import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { DomainOfInfluence } from '../../../core/models/domain-of-influence.model';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomainOfInfluenceService, UpdateDomainOfInfluenceRequest } from '../../../core/services/domain-of-influence.service';
+import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
-import { ExpansionPanelModule, IconModule, SpinnerModule, TextModule } from '@abraxas/base-components';
+import {
+  ButtonModule,
+  ExpansionPanelModule,
+  IconButtonModule,
+  IconModule,
+  NumberModule,
+  SpinnerModule,
+  TextModule,
+} from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, filter, merge, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ImageUploadComponent, newObjectUrlObservableForBlob, ToastService } from 'ecollecting-lib';
+import { FileChipComponent, ImageUploadComponent, newObjectUrlObservableForBlob, ToastService } from 'ecollecting-lib';
 import { AsyncPipe } from '@angular/common';
 import { SafeResourceUrl } from '@angular/platform-browser';
 
@@ -28,11 +37,15 @@ import { SafeResourceUrl } from '@angular/platform-browser';
     IconModule,
     SpinnerModule,
     AsyncPipe,
+    NumberModule,
+    ButtonModule,
+    FileChipComponent,
+    IconButtonModule,
   ],
   templateUrl: './domain-of-influence-settings.component.html',
   styleUrl: './domain-of-influence-settings.component.scss',
 })
-export class DomainOfInfluenceSettingsComponent implements OnInit, OnDestroy {
+export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy {
   private readonly domainOfInfluenceService = inject(DomainOfInfluenceService);
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly toast = inject(ToastService);
@@ -40,68 +53,152 @@ export class DomainOfInfluenceSettingsComponent implements OnInit, OnDestroy {
   @Input({ required: true })
   public domainOfInfluence!: DomainOfInfluence;
 
-  protected form!: FormGroup<Form>;
+  @Output()
+  public statusMessageChange: EventEmitter<'saving' | 'saved' | undefined> = new EventEmitter<'saving' | 'saved' | undefined>();
+
+  protected readonly form: FormGroup<Form> = this.buildForm();
   protected logo?: Observable<SafeResourceUrl>;
   protected logoLoading: boolean = false;
   protected updateLogoError: boolean = false;
+  protected isSwitchingDoi: boolean = false;
+  protected readonly emailToAddControl = new FormControl<string>('', {
+    validators: [Validators.email],
+    nonNullable: true,
+  });
 
-  protected message?: 'saving' | 'saved';
+  protected readonly DomainOfInfluenceType = DomainOfInfluenceType;
 
   private formSubscription?: Subscription;
 
-  constructor() {
-    this.form = this.buildForm();
-  }
-
-  public ngOnInit(): void {
-    this.form.patchValue({
-      ...this.domainOfInfluence,
-      ...this.domainOfInfluence.address,
-    });
-    this.loadLogo();
-    this.formSubscription = merge(
-      this.form.valueChanges.pipe(
-        tap(() => delete this.message),
-        filter(() => this.form.valid),
-      ),
-      this.form.statusChanges.pipe(
-        distinctUntilChanged(),
-        filter(x => x === 'VALID'),
-      ),
-    )
-      .pipe(debounceTime(200))
-      .subscribe(() => this.save());
-  }
-
-  public ngOnDestroy(): void {
-    this.formSubscription?.unsubscribe();
-  }
-
-  protected async save(): Promise<void> {
+  public async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    this.isSwitchingDoi = true;
     try {
-      this.message = 'saving';
+      const previousDomainOfInfluence = changes['domainOfInfluence']?.previousValue as DomainOfInfluence | undefined;
+      if (previousDomainOfInfluence && this.form.dirty && previousDomainOfInfluence.userPermissions.canEdit) {
+        await this.save(previousDomainOfInfluence, false);
+      }
+
+      this.formSubscription?.unsubscribe();
+      this.statusMessageChange.emit();
+      this.updateValidators();
+      this.emailToAddControl.reset();
+      this.emailToAddControl.markAsUntouched();
+      this.form.reset(
+        {
+          ...this.domainOfInfluence.address,
+          ...this.domainOfInfluence.settings,
+          ...this.domainOfInfluence,
+          addressName: this.domainOfInfluence.address?.name ?? this.domainOfInfluence.name,
+        },
+        { emitEvent: false },
+      );
+      this.loadLogo();
+
+      if (this.domainOfInfluence.userPermissions.canEdit) {
+        this.form.enable();
+      } else {
+        this.form.disable();
+      }
+
+      this.formSubscription = merge(
+        this.form.valueChanges.pipe(
+          tap(() => this.statusMessageChange.emit()),
+          filter(() => this.form.valid && this.form.dirty),
+        ),
+        this.form.statusChanges.pipe(
+          distinctUntilChanged(),
+          filter(x => x === 'VALID' && this.form.dirty),
+        ),
+      )
+        .pipe(debounceTime(200))
+        .subscribe(() => this.save(this.domainOfInfluence));
+    } finally {
+      this.isSwitchingDoi = false;
+    }
+  }
+
+  @HostListener('window:beforeunload')
+  public beforeUnload(): void {
+    void this.saveIfEditedAndValid();
+  }
+
+  public async ngOnDestroy(): Promise<void> {
+    this.formSubscription?.unsubscribe();
+    await this.saveIfEditedAndValid();
+  }
+
+  protected async save(domainOfInfluence: DomainOfInfluence, setStatusLabel: boolean = true): Promise<void> {
+    if (this.form.invalid) {
+      return;
+    }
+
+    try {
+      if (setStatusLabel) {
+        this.statusMessageChange.emit('saving');
+      }
+
+      this.form.markAsUntouched();
+
+      const formValue = this.form.value as Required<typeof this.form.value>;
       const value = {
-        ...this.form.value,
-        bfs: this.domainOfInfluence.bfs,
-      } as UpdateDomainOfInfluenceRequest;
+        ...formValue,
+        settings: formValue,
+        bfs: domainOfInfluence.bfs,
+      } satisfies UpdateDomainOfInfluenceRequest;
       await this.domainOfInfluenceService.update(value);
-      Object.assign(this.domainOfInfluence, value);
+      Object.assign(domainOfInfluence, value);
 
-      this.domainOfInfluence.address ??= value;
-      Object.assign(this.domainOfInfluence.address, value);
+      domainOfInfluence.address ??= { name: value.addressName, ...value };
+      Object.assign(domainOfInfluence.address, value);
+      domainOfInfluence.address.name = value.addressName;
 
-      // another save operation may already be running
-      if (this.message === 'saving') {
-        this.message = 'saved';
+      domainOfInfluence.settings ??= {} as any;
+      Object.assign(domainOfInfluence.settings, value);
+      if (setStatusLabel) {
+        this.statusMessageChange.emit('saved');
       }
     } catch (e) {
-      // another save operation may already be running
-      if (this.message === 'saving') {
-        delete this.message;
+      if (setStatusLabel) {
+        this.statusMessageChange.emit();
       }
 
       throw e;
     }
+  }
+
+  protected async addEmail(): Promise<void> {
+    if (this.emailToAddControl.invalid) {
+      return;
+    }
+
+    const email = this.emailToAddControl.value.trim();
+    if (!email) {
+      return;
+    }
+
+    const currentEmails = this.form.controls.notificationEmails.value;
+
+    let shouldSave = false;
+    if (!currentEmails.includes(email)) {
+      this.form.controls.notificationEmails.setValue([...currentEmails, email]);
+      this.form.controls.notificationEmails.markAsDirty();
+      shouldSave = true;
+    }
+
+    this.emailToAddControl.reset();
+    this.emailToAddControl.updateValueAndValidity();
+    this.emailToAddControl.markAsUntouched();
+
+    if (shouldSave) {
+      await this.saveIfEditedAndValid();
+    }
+  }
+
+  protected async removeEmail(email: string): Promise<void> {
+    const currentEmails = this.form.controls.notificationEmails.value;
+    this.form.controls.notificationEmails.setValue(currentEmails.filter(e => e !== email));
+    this.form.controls.notificationEmails.markAsDirty();
+    await this.saveIfEditedAndValid();
   }
 
   protected async updateLogo(file: File): Promise<void> {
@@ -128,9 +225,45 @@ export class DomainOfInfluenceSettingsComponent implements OnInit, OnDestroy {
     this.toast.success('ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.REMOVED');
   }
 
+  private updateValidators(): void {
+    const controls = this.form.controls;
+
+    controls.initiativeMinSignatureCount.setValidators([Validators.min(0)]);
+    controls.initiativeMaxElectronicSignaturePercent.setValidators([Validators.min(0), Validators.max(100)]);
+    controls.referendumMinSignatureCount.setValidators([Validators.min(0)]);
+    controls.referendumMaxElectronicSignaturePercent.setValidators([Validators.min(0), Validators.max(100)]);
+
+    switch (this.domainOfInfluence.type) {
+      case DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU:
+        controls.initiativeMinSignatureCount.addValidators(Validators.required);
+        controls.referendumMinSignatureCount.addValidators(Validators.required);
+        break;
+      case DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT:
+        controls.initiativeMaxElectronicSignaturePercent.addValidators(Validators.required);
+        controls.referendumMaxElectronicSignaturePercent.addValidators(Validators.required);
+        controls.referendumMinSignatureCount.addValidators(Validators.required);
+        break;
+      case DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CH:
+        controls.referendumMaxElectronicSignaturePercent.addValidators(Validators.required);
+        controls.referendumMinSignatureCount.addValidators(Validators.required);
+        break;
+    }
+
+    controls.initiativeMinSignatureCount.updateValueAndValidity();
+    controls.initiativeMaxElectronicSignaturePercent.updateValueAndValidity();
+    controls.referendumMinSignatureCount.updateValueAndValidity();
+    controls.referendumMaxElectronicSignaturePercent.updateValueAndValidity();
+  }
+
+  private async saveIfEditedAndValid(): Promise<void> {
+    if (this.form.dirty && this.form.valid && this.domainOfInfluence?.userPermissions?.canEdit) {
+      await this.save(this.domainOfInfluence, false);
+    }
+  }
+
   private buildForm(): FormGroup<Form> {
     return this.formBuilder.group({
-      name: this.formBuilder.control('', {
+      addressName: this.formBuilder.control('', {
         validators: [Validators.required, Validators.maxLength(100)],
         asyncValidators: [AsyncInputValidators.simpleSlText],
       }),
@@ -156,6 +289,22 @@ export class DomainOfInfluenceSettingsComponent implements OnInit, OnDestroy {
         validators: [Validators.maxLength(10000)],
         asyncValidators: [AsyncInputValidators.complexSlText],
       }),
+      initiativeNumberOfMembersCommittee: this.formBuilder.control<number | undefined>(undefined, {
+        validators: [Validators.min(0)],
+      }),
+      initiativeMinSignatureCount: this.formBuilder.control<number | undefined>(undefined, {
+        validators: [Validators.required, Validators.min(0)],
+      }),
+      initiativeMaxElectronicSignaturePercent: this.formBuilder.control<number | undefined>(undefined, {
+        validators: [Validators.required, Validators.min(0), Validators.max(100)],
+      }),
+      referendumMinSignatureCount: this.formBuilder.control<number | undefined>(undefined, {
+        validators: [Validators.required, Validators.min(0)],
+      }),
+      referendumMaxElectronicSignaturePercent: this.formBuilder.control<number | undefined>(undefined, {
+        validators: [Validators.required, Validators.min(0), Validators.max(100)],
+      }),
+      notificationEmails: this.formBuilder.control<string[]>([]),
     });
   }
 
@@ -175,11 +324,17 @@ export class DomainOfInfluenceSettingsComponent implements OnInit, OnDestroy {
 }
 
 export interface Form {
-  name: FormControl<string>;
+  addressName: FormControl<string>;
   street: FormControl<string>;
   zipCode: FormControl<string>;
   locality: FormControl<string>;
   phone: FormControl<string>;
   email: FormControl<string>;
   webpage: FormControl<string>;
+  initiativeNumberOfMembersCommittee: FormControl<number | undefined>;
+  initiativeMinSignatureCount: FormControl<number | undefined>;
+  initiativeMaxElectronicSignaturePercent: FormControl<number | undefined>;
+  referendumMinSignatureCount: FormControl<number | undefined>;
+  referendumMaxElectronicSignaturePercent: FormControl<number | undefined>;
+  notificationEmails: FormControl<string[]>;
 }

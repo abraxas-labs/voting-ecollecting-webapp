@@ -7,13 +7,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonComponent, ButtonModule, DialogModule, IconButtonModule, IconModule } from '@abraxas/base-components';
 import { TranslateModule } from '@ngx-translate/core';
-import { VotingLibModule } from '@abraxas/voting-lib';
 
 @Component({
   selector: 'vo-ecol-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
-  imports: [ButtonModule, TranslateModule, DialogModule, IconModule, VotingLibModule, IconButtonModule],
+  imports: [ButtonModule, TranslateModule, DialogModule, IconModule, IconButtonModule],
 })
 export class DialogComponent {
   @Input()
@@ -29,7 +28,7 @@ export class DialogComponent {
   public showOk: boolean = true;
 
   @Input()
-  public okColor: ButtonComponent['color'] = 'primary';
+  public okColor: ButtonComponent['color'] = 'default';
 
   @Input()
   public saving: boolean = false;

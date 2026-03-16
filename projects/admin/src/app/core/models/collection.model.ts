@@ -6,7 +6,6 @@
 
 import {
   Collection as CollectionProto,
-  CollectionCount as CollectionCountProto,
   CollectionMunicipality as CollectionMunicipalityProto,
   CollectionPermission as CollectionPermissionProto,
   CollectionSignatureSheet as CollectionSignatureSheetProto,
@@ -18,7 +17,7 @@ import {
 import { Collection as CollectionShared } from 'projects/ecollecting-lib/src/lib/shared/models/collection.model';
 import { CollectionPermissionRole } from '@abraxas/voting-ecollecting-proto';
 import { mapToPerson, Person } from './person.model';
-import { CollectionCount, fromProtoDate } from 'ecollecting-lib';
+import { fromProtoDate } from 'ecollecting-lib';
 
 export { CollectionProto };
 
@@ -128,10 +127,11 @@ export interface SubmitSignatureSheetsResponse {
   userPermissions: CollectionUserPermissions;
 }
 
-export interface SubmitCollectionMunicipalitySignatureSheetsResponse
-  extends Omit<SubmitCollectionMunicipalitySignatureSheetsResponseProto, 'municipality' | 'collectionCount'> {
+export interface SubmitCollectionMunicipalitySignatureSheetsResponse extends Omit<
+  SubmitCollectionMunicipalitySignatureSheetsResponseProto,
+  'municipality'
+> {
   municipality: CollectionMunicipality;
-  collectionCount: CollectionCount;
 }
 
 export function mapCollectionToModel(collectionProto: CollectionProto): Collection {
@@ -198,12 +198,5 @@ export function mapToSubmitCollectionMunicipalitySignatureSheetsResponse(
   return {
     ...response.toObject(),
     municipality: mapToMunicipality(response.municipality!),
-    collectionCount: mapToCollectionCount(response.collectionCount!),
   } as SubmitCollectionMunicipalitySignatureSheetsResponse;
-}
-
-export function mapToCollectionCount(collectionCount: CollectionCountProto): CollectionCount {
-  return {
-    ...collectionCount.toObject(),
-  } as CollectionCount;
 }

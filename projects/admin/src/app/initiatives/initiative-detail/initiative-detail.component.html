@@ -20,6 +20,7 @@
                 : 'INITIATIVE.TITLE_PAPER_SUBMISSION'
               ) | translate: { governmentDecisionNumber: initiative.governmentDecisionNumber }
             "
+            [headingLevel]="'h3'"
           ></bc-card-title>
           <div class="flex w-full justify-end gap-3 p-2 items-center">
             @if (initiative.collection.informalReviewRequested && initiative.collection.userPermissions?.isRequestInformalReviewVisible) {
@@ -35,7 +36,9 @@
               <bc-status-label
                 class="self-center"
                 size="large"
-                [label]="'COLLECTION.STATES.' + initiative.collection.state | translate"
+                [label]="'INITIATIVE.STATES.' + initiative.collection.state | translate"
+                [backgroundColor]="collectionStateColorMap[initiative.collection.state]"
+                [foregroundColor]="initiative.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT || initiative.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT ? 'light' : 'dark'"
               ></bc-status-label>
             </div>
           </div>
@@ -52,7 +55,7 @@
     <div class="layout-content">
       <bc-card class="m-3" [border]="false">
         <bc-card-header>
-          <bc-card-title [label]="'COLLECTION.GENERAL_INFORMATION.TITLE' | translate"></bc-card-title>
+          <bc-card-title [label]="'COLLECTION.GENERAL_INFORMATION.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
         </bc-card-header>
         <bc-card-content class="flex flex-col gap-2">
           <div class="flex gap-x-3">
@@ -71,7 +74,7 @@
             <span class="user-text">{{ initiative.collection.description }}</span>
           </bc-readonly>
           <bc-readonly [label]="'INITIATIVE.GENERAL_INFORMATION.WORDING' | translate">
-            <span class="user-text">{{ initiative.wording }}</span>
+            <vo-lib-markdown-preview [markdown]="initiative.wording"></vo-lib-markdown-preview>
           </bc-readonly>
           <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.REASON' | translate">
             <span class="user-text">{{ initiative.collection.reason ? initiative.collection.reason : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}</span>
@@ -128,7 +131,7 @@
       </bc-card>
       <bc-card class="m-3" [border]="false">
         <bc-card-header>
-          <bc-card-title [label]="'COLLECTION.SIGNATURE_SHEET' | translate"></bc-card-title>
+          <bc-card-title [label]="'COLLECTION.SIGNATURE_SHEET' | translate" [headingLevel]="'h3'"></bc-card-title>
         </bc-card-header>
         <bc-card-content>
           @if (initiative.collection.signatureSheetTemplate) {
@@ -148,7 +151,7 @@
         <app-initiative-detail-committee [initiative]="initiative"></app-initiative-detail-committee>
         <bc-card class="m-3" [border]="false">
           <bc-card-header>
-            <bc-card-title [label]="'COLLECTION.PERMISSIONS.TITLE' | translate"></bc-card-title>
+            <bc-card-title [label]="'COLLECTION.PERMISSIONS.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
           </bc-card-header>
           <bc-card-content>
             <app-collection-permissions [collectionId]="initiative.id"></app-collection-permissions>

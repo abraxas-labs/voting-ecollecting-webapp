@@ -1,4 +1,4 @@
-@use '@abraxas/voting-lib/style/color' as *;
+@use 'color' as *;
 
 bc-alert-bar ::ng-deep {
   .alert-banner {
@@ -7,6 +7,6 @@ bc-alert-bar ::ng-deep {
   }
 
   .banner-text {
-    color: $color-info;
+    color: $color-signal-info;
   }
 }

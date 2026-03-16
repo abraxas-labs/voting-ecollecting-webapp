@@ -19,6 +19,7 @@ import {
 import { SignPageComponent } from '../sign-page/sign-page.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CollectionState } from '@abraxas/voting-ecollecting-proto';
+import { MarkdownPreviewComponent } from '@abraxas/voting-lib';
 
 @Component({
   selector: 'app-sign-initiative',
@@ -31,6 +32,7 @@ import { CollectionState } from '@abraxas/voting-ecollecting-proto';
     SignPageComponent,
     LinkModule,
     TranslatePipe,
+    MarkdownPreviewComponent,
   ],
   templateUrl: './sign-initiative.component.html',
   styleUrl: './sign-initiative.component.scss',

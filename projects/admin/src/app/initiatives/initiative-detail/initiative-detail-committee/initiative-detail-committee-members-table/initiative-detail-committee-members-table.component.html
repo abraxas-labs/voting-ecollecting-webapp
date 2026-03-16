@@ -83,7 +83,11 @@
             </span>
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
-      <bc-status-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.SIGNATURE_TYPE.' + row.signatureType | translate"></bc-status-label>
+      <bc-status-label
+        [label]="'INITIATIVE.COMMITTEE.MEMBERS.SIGNATURE_TYPE.' + row.signatureType | translate"
+        [foregroundColor]="'light'"
+        [backgroundColor]="signatureTypeColorMap[row.signatureType]"
+      ></bc-status-label>
     </bc-data-cell>
   </ng-container>
 
@@ -94,7 +98,10 @@
             </span>
     </bc-header-cell>
     <bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
-      <bc-status-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.APPROVAL_STATES.' + row.approvalState | translate"></bc-status-label>
+      <bc-status-label
+        [label]="'INITIATIVE.COMMITTEE.MEMBERS.APPROVAL_STATES.' + row.approvalState | translate"
+        [backgroundColor]="approvalStateColorMap[row.approvalState]"
+      ></bc-status-label>
     </bc-data-cell>
   </ng-container>
 

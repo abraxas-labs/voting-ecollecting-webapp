@@ -6,6 +6,7 @@
 
 import { Collection, CollectionCount } from './collection.model';
 import { CollectionCameNotAboutReason, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
+import { MarkdownString } from '@abraxas/voting-lib';
 
 export interface InitiativeSubType {
   id: string;
@@ -21,7 +22,7 @@ export interface Initiative {
   bfs: string;
   minSignatureCount: number;
   maxElectronicSignatureCount: number;
-  wording: string;
+  wording: MarkdownString;
   collection: Collection;
   governmentDecisionNumber: string;
   subType?: InitiativeSubType;

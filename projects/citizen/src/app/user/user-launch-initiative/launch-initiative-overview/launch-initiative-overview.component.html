@@ -1,9 +1,9 @@
 <div class="page-with-user-navigation">
   @if (!loading) {
-    <h1>{{ 'LAUNCH_INITIATIVE.TITLE' | translate }}</h1>
+    <h2 id="content" tabindex="0">{{ 'LAUNCH_INITIATIVE.TITLE' | translate }}</h2>
     <div class="flex justify-end">
       <bc-button
-        color="primary"
+        color="default"
         variant="tertiary"
         (buttonClick)="createInitiative()"
         icon="plus"
@@ -16,14 +16,14 @@
         <vo-ecol-initiative-card [initiative]="initiative" [role]="initiative.collection.userPermissions?.role" (cardClick)="open(initiative.id)" [showPeriodState]="false">
           @if (initiative.collection.userPermissions) {
             <div class="flex items-center gap-x-2">
-              <bc-button color="primary"
+              <bc-button color="default"
                          variant="tertiary"
                          (buttonClick)="open(initiative.id)"
                          [label]="'LAUNCH_INITIATIVE.DIALOG.SHOW' | translate"></bc-button>
 
               @if (initiative.collection.userPermissions.canDownloadElectronicSignaturesProtocol) {
                 <div class="flex items-center">
-                  <bc-button color="primary"
+                  <bc-button color="default"
                              variant="tertiary"
                              [disabled]="!!isDownloadingElectronicSignaturesProtocolOfId"
                              (buttonClick)="downloadElectronicSignaturesProtocol(initiative.id)"

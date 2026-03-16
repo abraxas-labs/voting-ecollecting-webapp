@@ -34,6 +34,10 @@ export class OverviewComponent {
       link: 'about:blank',
     },
   ];
+
+  protected openLink(link: string): void {
+    window.open(link, '_blank', 'noreferrer');
+  }
 }
 
 export interface ExplainerVideo {

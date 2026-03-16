@@ -12,6 +12,7 @@ import { CollectionPeriodStateLabelComponent } from '../collection-period-state-
 import { CollectionPermissionRole, CollectionState, CollectionType, DecreeState } from '@abraxas/voting-ecollecting-proto';
 import { Decree } from '../../models/decree.model';
 import { InitiativeSubType } from '../../models/initiative.model';
+import { collectionStateColorMap, decreeStateColorMap } from '../../../core/utils/color-state.utils';
 
 @Component({
   selector: 'vo-ecol-collection-card-header',
@@ -24,6 +25,8 @@ export class CollectionCardHeaderComponent {
   protected readonly decreeStates = DecreeState;
   protected readonly collectionStates = CollectionState;
   protected readonly collectionTypes = CollectionType;
+  protected readonly collectionStateColorMap = collectionStateColorMap;
+  protected readonly decreeStateColorMap = decreeStateColorMap;
 
   @Input()
   public showType: boolean = false;
@@ -65,6 +68,10 @@ export class CollectionCardHeaderComponent {
 
   protected collection?: Collection;
   protected decree?: Decree;
+
+  protected openLink(link: string): void {
+    window.open(link, '_blank', 'noreferrer');
+  }
 
   private isCollection(col: Collection | Decree): col is Collection {
     return (col as any).type !== undefined;

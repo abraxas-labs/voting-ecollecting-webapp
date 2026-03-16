@@ -1,9 +1,6 @@
 {
   "APP": {
-    "TITLE": {
-      "default": "E-Collecting Admin Portal",
-      "sg": "E-Collecting Admin Portal"
-    },
+    "TITLE": "E-Collecting Admin Portal",
     "NAVIGATION": {
       "REFERENDUMS": "Referenden",
       "INITIATIVES": "Initiativen",
@@ -103,7 +100,10 @@
         "DATE_OLDER_THAN_START_DATE": "Nur Datum nach Startdatum Sammelfrist wählbar"
       }
     },
-    "SUBMIT_SIGNATURE_SHEETS": "Sammlung eingereicht",
+    "SUBMIT_SIGNATURE_SHEETS": {
+      "TITLE": "Sammlung als eingereicht markieren",
+      "MSG": "Sind Sie sicher, dass die Sammlung als eingereicht markiert werden soll?\nNach der Bestätigung können keine elektronischen Unterschriften mehr abgegeben und keine physischen Unterschriften mehr bescheinigt werden."
+    },
     "CHECK_SAMPLES": "Stichproben prüfen",
     "ADD_SIGNATURE_SHEET": "Unterschriftenliste erfassen",
     "SHOW_SIGNATURE_SHEETS": "Unterschriftenlisten anzeigen",
@@ -186,7 +186,10 @@
     "SHOW": "Anzeigen",
     "DELETE": "Entfernen",
     "NO_DATA": "Keine Referenden gefunden",
-    "SUBMIT_SIGNATURE_SHEETS": "Sammlung eingereicht",
+    "SUBMIT_SIGNATURE_SHEETS": {
+      "TITLE": "Sammlung als eingereicht markieren",
+      "MSG": "Sind Sie sicher, dass die Sammlung als eingereicht markiert werden soll?\nNach der Bestätigung können keine elektronischen Unterschriften mehr abgegeben und keine physischen Unterschriften mehr bescheinigt werden."
+    },
     "CHECK_SAMPLES": "Stichproben prüfen",
     "ADD_SIGNATURE_SHEET": "Unterschriftenliste erfassen",
     "SHOW_SIGNATURE_SHEETS": "Unterschriftenlisten anzeigen",
@@ -254,7 +257,8 @@
         "UNDER_REVIEW": "In Prüfung",
         "REGISTERED": "Angemeldet",
         "NOT_PASSED": "Nicht zulässig",
-        "SIGNATURE_SHEETS_SUBMITTED": "Unterschriftenliste eingereicht"
+        "SIGNATURE_SHEETS_SUBMITTED": "Unterschriftenliste eingereicht",
+        "WITHDRAWN_REFERENDUM": "Nicht gestartet"
       }
     },
     "SIGNATURE_SHEETS": {
@@ -376,6 +380,8 @@
       "FINISH": "Sammlung abschliessen",
       "INFO_1": "{{minSignatureCount}} Unterschriften sind nötig für die Sammlung. Es wurden ",
       "INFO_2": " verifizierte Unterschriften gesammelt / eingereicht.",
+      "CAME_ABOUT": "Zustande gekommen",
+      "CAME_NOT_ABOUT": "Nicht zustande gekommen",
       "CAME_NOT_ABOUT_REASON": "Begründung",
       "SENSITIVE_DATA_EXPIRY_DATE": "Wann wollen Sie erinnert werden, die Kontrollzeichen zu löschen?",
       "TABLE": {
@@ -406,8 +412,7 @@
       "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
       "TOTAL_ATTESTED": "Total bescheinigt",
       "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
-      "VARIANT_1": "Variante 1: Wählen Sie eine beliebige Gemeinde mit dem Tabellenfilter aus",
-      "VARIANT_2": "Variante 2: Führen Sie die Stichprobenkontrolle anhand einer Zufallsliste durch",
+      "INFO": "Bitte überprüfen Sie in einem ersten Schritt die korrekte Anzahl eingereichter Listen.\nSobald alle Listen entwededer als eingereicht oder als nicht eingereicht gesetzt sind, starten Sie mit dem Bestätigen der Listen.",
       "GENERATE_SAMPLES": "Zufallsliste",
       "TABLE": {
         "BFS": "BFS-Nr",
@@ -513,9 +518,35 @@
       "SETTINGS": "Einstellungen"
     },
     "DOMAIN_OF_INFLUENCE_SETTINGS": {
+      "SELECTOR": "Wahlkreis",
       "TITLE": "Einstellungen",
+      "REQUIRED_FIELDS_MISSING": "Erforderliche Felder fehlen",
+      "NO_DOI_SELECTED": "Keinen Wahlkreis ausgewählt",
       "NO_DATA": "Kein Zugriff auf Wahlkreise",
-      "NAME": "Name",
+      "NAME_FOR_PROTOCOL": "Bezeichnung für Protokoll",
+      "ADDRESS_HEADER": "Adresse",
+      "CONTACT_DATA_HEADER": "Kontaktdaten",
+      "LOGO_HEADER": "Logo",
+      "NOTIFICATION_EMAILS": {
+        "HEADER": "E-Mail Prüfstelle",
+        "ADD": "Neue E-Mail hinzufügen",
+        "NO_EMAILS": "Keine E-Mails vorhanden"
+      },
+      "COLLECTIONS": {
+        "HEADER": "Sammlungen",
+        "INITIATIVE": {
+          "HEADER": "Initiative",
+          "COMMITTEE_MEMBER_COUNT": "Anzahl Mitglieder im Initiativkomitee",
+          "MIN_SIGNATURE_COUNT": "Nötige Anzahl Unterschriften",
+          "MAX_ECOLLECTING_THRESHOLD_FOR_MU": "Max. Schwellenwert für Unterschriften E-Collecting für Gemeinden (in %)"
+        },
+        "REFERENDUM": {
+          "HEADER": "Referendum",
+          "MIN_SIGNATURE_COUNT": "Nötige Anzahl Unterschriften",
+          "MAX_ECOLLECTING_THRESHOLD": "Max. Schwellenwert für Unterschriften E-Collecting (in %)"
+        }
+      },
+      "ADDRESS_NAME": "Name für Protokoll",
       "STREET": "Strasse und Hausnummer oder Postfach",
       "ZIP_CODE": "PLZ",
       "LOCALITY": "Ort",
@@ -528,7 +559,7 @@
         "TITLE": "Logo",
         "SAVED": "Logo gespeichert",
         "REMOVED": "Logo entfernt",
-        "REQUIRED_DATA_NEEDED": "Um ein Logo hochzuladen, müssen die erforderlichen Adressdaten erfasst werden."
+        "NO_LOGO": "Kein Logo vorhanden."
       }
     },
     "ADMISSIBILITY_DECISIONS": {
@@ -552,7 +583,7 @@
         "DOI_TYPE": "Ebene",
         "COLLECTION": "Elektronische Sammlung",
         "COLLECTION_STATE": "Status der elektronischen Sammlung",
-        "DATA": "Kopfdaten",
+        "DATA": "Angaben zum Beschluss",
         "DECISION_NR": "Beschluss Nr.",
         "DECISION": "Zulässigkeitsbescheid",
         "SECURE_ID_NUMBER": "Sammlung-Nr.",

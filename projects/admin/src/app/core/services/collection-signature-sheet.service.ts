@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   AddSignatureSheetCitizenRequest,
   AddSignatureSheetRequest,
@@ -35,8 +35,7 @@ import {
   UpdateSignatureSheetRequest,
 } from '@abraxas/voting-ecollecting-proto/admin';
 import { lastValueFrom, map, Observable } from 'rxjs';
-import { mapToPage, openBlobInNewTab, Page, Pageable, toProtoDate } from 'ecollecting-lib';
-import { HttpClient } from '@angular/common/http';
+import { mapToPage, Page, Pageable, toProtoDate } from 'ecollecting-lib';
 import { environment } from '../../../environments/environment';
 import {
   CollectionSignatureSheet,
@@ -49,13 +48,14 @@ import {
 import { CollectionType, SortDirection } from '@abraxas/voting-ecollecting-proto';
 import { Timestamp } from '@ngx-grpc/well-known-types';
 import { mapToPerson, Person, PersonFilterData } from '../models/person.model';
+import { FileDownloadService } from '@abraxas/voting-lib';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CollectionSignatureSheetService {
   private readonly client = inject(CollectionSignatureSheetServiceClient);
-  private readonly http = inject(HttpClient);
+  private readonly fileDownloadService = inject(FileDownloadService);
 
   private readonly restApiUrl: string;
 
@@ -137,8 +137,12 @@ export class CollectionSignatureSheetService {
 
   public async attest(collectionId: string, signatureSheetIds: string[]): Promise<void> {
     const url = `${this.restApiUrl}/${collectionId}/signature-sheets/attest`;
-    const blob = await lastValueFrom(this.http.post(url, signatureSheetIds, { responseType: 'blob' }));
-    openBlobInNewTab(blob);
+    await this.fileDownloadService.postDownloadFile(url, signatureSheetIds);
+  }
+
+  public async reattest(collectionId: string, signatureSheetIds: string[]): Promise<void> {
+    const url = `${this.restApiUrl}/${collectionId}/signature-sheets/reattest`;
+    await this.fileDownloadService.postDownloadFile(url, signatureSheetIds);
   }
 
   public searchPersonCandidates(

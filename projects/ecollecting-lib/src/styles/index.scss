@@ -1,5 +1,3 @@
-@use '@abraxas/voting-lib/style/color' as *;
-
 @forward '../../../../node_modules/normalize.css/normalize.css';
 @forward '@abraxas/voting-lib/style';
 @forward 'flex';
@@ -8,15 +6,13 @@
 @forward 'gap';
 @forward 'layout';
 @forward 'overflow';
+@forward 'color';
 
-h1,
-h2 {
-  color: $color-primary;
-}
+@use 'color' as *;
 
 .no-data {
   font-style: italic;
-  color: $color-grey-2;
+  color: $color-text-secondary;
 }
 
 .content-width {
@@ -32,4 +28,10 @@ h2 {
 
 .h-full {
   height: 100%;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }

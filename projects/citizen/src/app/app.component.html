@@ -1,10 +1,10 @@
-<bc-snackbar horizontalPosition="right" verticalPosition="top" [action]="'APP.CLOSE' | translate"></bc-snackbar>
+<bc-snackbar horizontalPosition="right" verticalPosition="top" [action]="'APP.CLOSE' | translate" [duration]="-1"></bc-snackbar>
 
 @defer (on timer(200ms)) {
   <!-- only display these after a delay of a couple ms to prevent flickering -->
   @if (state === 'initializing' || state === 'authenticating') {
     <header>
-      <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO">
+      <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO" customLogoPath="assets/logo-schalter-e.svg">
       </bc-app-header-bar>
     </header>
     <main class="content m-3 content-width">
@@ -19,8 +19,11 @@
 @defer (when state === 'initialized') {
   @if (!(route.snapshot | routeData: 'hideHeader')) {
     <div class="scroll-area">
+
+      <!-- jump link to content for accessibility, each page should contain an element with id="content" -->
+      <a class="content-jump-link" [routerLink]="[]" fragment="content">{{ 'APP.CONTENT' | translate }}</a>
       <header>
-        <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO">
+        <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO" customLogoPath="assets/logo-schalter-e.svg">
           <div class="header-content">
             <vo-lib-environment-chip></vo-lib-environment-chip>
             @if (!auth.isAuthenticated) {
@@ -48,12 +51,18 @@
       <main class="content content-width">
         <router-outlet></router-outlet>
       </main>
-      <div class="footer">
-        <bc-link [href]="'https://www.sg.ch/f/impressum.html'" [target]="'_blank'">{{ 'APP.FOOTER.IMPRINT' | translate }}</bc-link>
-        <bc-link [href]="'https://www.sg.ch/f/datenschutz-sg-ch.html'" [target]="'_blank'">{{ 'APP.FOOTER.DATA_PROTECTION' | translate }}</bc-link>
-        <bc-link [routerLink]="['-', accessibilityUrl]">{{ 'APP.FOOTER.ACCESSIBILITY' | translate }}</bc-link>
-        <span truncateWithTooltip tooltip>{{ 'APP.FOOTER.COPYRIGHT' | translate: { year: now.getFullYear() } }}</span>
-      </div>
+      <ul class="footer">
+        <li>
+          <bc-link [href]="'https://www.sg.ch/f/impressum.html'" [target]="'_blank'">{{ 'APP.FOOTER.IMPRINT' | translate }}</bc-link>
+        </li>
+        <li>
+          <bc-link [href]="'https://www.sg.ch/f/datenschutz-sg-ch.html'" [target]="'_blank'">{{ 'APP.FOOTER.DATA_PROTECTION' | translate }}</bc-link>
+        </li>
+        <li>
+          <bc-link [routerLink]="[accessibilityUrl]">{{ 'APP.FOOTER.ACCESSIBILITY' | translate }}</bc-link>
+        </li>
+        <p truncateWithTooltip tooltip>{{ 'APP.FOOTER.COPYRIGHT' | translate: { year: now.getFullYear() } }}</p>
+      </ul>
     </div>
 
   } @else {

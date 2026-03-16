@@ -36,13 +36,13 @@ export class AdminComponent implements OnDestroy {
         startWith(this.router),
       )
       .subscribe(event => {
-        // get fourth url param, as the type of route is stored there
+        // get third url param, as the type of route is stored there
         const pathParts = (event as NavigationEnd).url.split('/');
-        if (pathParts.length < 4) {
+        if (pathParts.length < 3) {
           return;
         }
 
-        this.active = pathParts[3];
+        this.active = pathParts[2];
       });
   }
 

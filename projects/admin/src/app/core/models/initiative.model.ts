@@ -50,8 +50,10 @@ export interface InitiativeCommitteeMemberUserPermissions {
   canVerify: boolean;
 }
 
-export interface VerifyInitiativeCommitteeMemberResponse
-  extends Omit<VerifyInitiativeCommitteeMemberResponseProto.AsObject, 'dateOfBirth'> {
+export interface VerifyInitiativeCommitteeMemberResponse extends Omit<
+  VerifyInitiativeCommitteeMemberResponseProto.AsObject,
+  'dateOfBirth'
+> {
   dateOfBirth: Date;
 }
 
@@ -72,6 +74,7 @@ export function mapInitiativeToModel(initiativeProto: InitiativeProto): Initiati
   const collection = mapCollectionToModel(initiativeProto.collection!);
   return {
     ...initiativeProto.toObject(),
+    wording: initiativeProto.wording!.toObject(),
     sensitiveDataExpiryDate: fromProtoDate(initiativeProto.sensitiveDataExpiryDate),
     collection: collection,
   } as Initiative;

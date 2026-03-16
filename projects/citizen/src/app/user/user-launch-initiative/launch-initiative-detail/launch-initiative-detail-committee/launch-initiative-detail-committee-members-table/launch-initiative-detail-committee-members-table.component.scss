@@ -1,5 +1,5 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
+@use 'color' as *;
 
 .members-header {
   display: flex;
@@ -29,7 +29,7 @@
 }
 
 .drag-placeholder {
-  border: 2px dashed $color-grey-6;
+  border: 2px dashed $color-border-soft;
   border-radius: 10px;
   display: flex;
   align-items: center;
