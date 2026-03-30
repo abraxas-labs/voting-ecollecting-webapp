@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.134.4`)
+# ✨ Changelog (`v1.136.5`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,71 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.134.4
-Previous version ---- v1.127.20
+This version -------- v1.136.5
+Previous version ---- v1.134.4
 Initial version ----- v1.115.24
-Total commits ------- 34
+Total commits ------- 10
 ```
+
+## [v1.136.5] - 2026-03-27
+
+### 🔄 Changed
+
+- improve committee members dialog
+
+## [v1.136.4] - 2026-03-25
+
+### 🔄 Changed
+
+- fix(VOTING-6842): filter doi type in decree edit
+
+## [v1.136.3] - 2026-03-24
+
+### 🔄 Changed
+
+- update voting lib
+
+## [v1.136.2] - 2026-03-24
+
+### 🔄 Changed
+
+- update angular and base-components
+
+## [v1.136.1] - 2026-03-23
+
+### 🔄 Changed
+
+- fix(VOTING-6816): add admissibility decision flag and initiative reason
+
+## [v1.136.0] - 2026-03-18
+
+### 🆕 Added
+
+- feat(VOTING-6816): edit initiatives in admin
+
+## [v1.135.1] - 2026-03-17
+
+### 🔄 Changed
+
+- load data on signature sheet only called once
+
+## [v1.135.0] - 2026-03-16
+
+### 🔄 Changed
+
+- edit referendums
+
+## [v1.134.6] - 2026-03-16
+
+### 🔄 Changed
+
+- submit signature sheets removes initiative from collecting filter
+
+## [v1.134.5] - 2026-03-16
+
+### 🔄 Changed
+
+- adjust initiative collecting filter
 
 ## [v1.134.4] - 2026-03-12
 

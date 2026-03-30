@@ -5,10 +5,16 @@
  */
 
 import { Decree, newDecree } from '../../../core/models/decree.model';
-import { BaseDialogWithUnsavedChangesCheckComponent, DialogComponent, getDate, ToastService } from 'ecollecting-lib';
+import {
+  BaseDialogWithUnsavedChangesCheckComponent,
+  DialogComponent,
+  EnumItemDescriptionUtils,
+  getDate,
+  ToastService,
+} from 'ecollecting-lib';
 import { DecreeService } from '../../../core/services/decree.service';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   DateModule,
   DialogService,
@@ -21,10 +27,10 @@ import {
   TextareaModule,
   TextModule,
 } from '@abraxas/base-components';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule, DatePipe } from '@angular/common';
-import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
+import { AsyncInputValidators, EnumItemDescription, InputValidators } from '@abraxas/voting-lib';
 import { cloneDeep, isEqual } from 'lodash';
 import {
   AbstractControl,
@@ -37,6 +43,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DomainOfInfluence } from '../../../core/models/domain-of-influence.model';
+import { DomainOfInfluenceService } from '../../../core/services/domain-of-influence.service';
 
 @Component({
   selector: 'app-decree-edit-dialog',
@@ -60,24 +67,27 @@ import { DomainOfInfluence } from '../../../core/models/domain-of-influence.mode
   ],
   providers: [DecreeService, DialogService],
 })
-export class DecreeEditDialogComponent extends BaseDialogWithUnsavedChangesCheckComponent<DecreeEditDialogData, DecreeEditDialogResult> {
+export class DecreeEditDialogComponent
+  extends BaseDialogWithUnsavedChangesCheckComponent<DecreeEditDialogData, DecreeEditDialogResult>
+  implements OnInit
+{
   private readonly decreeService = inject(DecreeService);
-  private readonly translate = inject(TranslateService);
+  private readonly doiService = inject(DomainOfInfluenceService);
   private readonly toast = inject(ToastService);
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly enumItemDescriptionUtils = inject(EnumItemDescriptionUtils);
 
   public readonly now: Date;
   public readonly domainOfInfluenceTypes: typeof DomainOfInfluenceType = DomainOfInfluenceType;
 
   public decree: Decree = newDecree();
-  public domainOfInfluenceTypeItems: EnumItemDescriptionWithDisabled<DomainOfInfluenceType>[] = [];
+  public domainOfInfluenceTypeItems: EnumItemDescription<DomainOfInfluenceType>[] = [];
   public domainOfInfluenceTree: DomainOfInfluence[] = [];
   public selectedDomainOfInfluence: DomainOfInfluence | undefined;
   public originalDecree: Decree;
   public isNew: boolean = true;
   public hasDataChanged: boolean = false;
   public saving: boolean = false;
-  public isCantonTenant: boolean = false;
   public form!: FormGroup<Form>;
 
   constructor() {
@@ -95,36 +105,32 @@ export class DecreeEditDialogComponent extends BaseDialogWithUnsavedChangesCheck
     this.domainOfInfluenceTree = dialogData.domainOfInfluenceTree ?? [];
     this.selectedDomainOfInfluence = this.getDomainOfInfluenceByType(this.decree.domainOfInfluenceType);
 
-    this.isCantonTenant = this.domainOfInfluenceTree.some(
-      doi =>
-        doi.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CH || doi.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT,
+    this.domainOfInfluenceTypeItems = this.enumItemDescriptionUtils.getArrayWithDescriptions<DomainOfInfluenceType>(
+      DomainOfInfluenceType,
+      'DOMAIN_OF_INFLUENCE.TYPES.',
     );
 
-    this.domainOfInfluenceTypeItems = [
-      {
-        value: DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CH,
-        description: this.translate.instant('DOMAIN_OF_INFLUENCE.TYPES.' + DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CH),
-        disabled: !this.domainOfInfluenceTree.some(doi => doi.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CH),
-      },
-      {
-        value: DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT,
-        description: this.translate.instant('DOMAIN_OF_INFLUENCE.TYPES.' + DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT),
-        disabled: !this.domainOfInfluenceTree.some(doi => doi.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT),
-      },
-      {
-        value: DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU,
-        description: this.translate.instant('DOMAIN_OF_INFLUENCE.TYPES.' + DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU),
-        disabled:
-          this.isCantonTenant || !this.domainOfInfluenceTree.some(doi => doi.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU),
-      },
-    ];
-
     this.buildForm();
-    this.contentChanged();
+  }
+  public async ngOnInit(): Promise<void> {
+    const ownDoiTypes = await this.doiService.listOwnTypes();
+    this.domainOfInfluenceTypeItems = this.domainOfInfluenceTypeItems.filter(x => ownDoiTypes.includes(x.value));
+
+    if (ownDoiTypes.length === 1 && this.isNew) {
+      this.changeDomainOfInfluenceType(ownDoiTypes[0]);
+      this.originalDecree.domainOfInfluenceType = this.decree.domainOfInfluenceType;
+      this.originalDecree.domainOfInfluenceName = this.decree.domainOfInfluenceName;
+    }
+
+    this.hasDataChanged = false;
   }
 
   public get canSave(): boolean {
-    return this.form.valid && this.decree.domainOfInfluenceType !== DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_UNSPECIFIED;
+    return (
+      this.form.valid &&
+      this.decree.domainOfInfluenceType !== DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_UNSPECIFIED &&
+      this.hasDataChanged
+    );
   }
 
   public async save(): Promise<void> {
@@ -282,12 +288,6 @@ export interface DecreeEditDialogData {
 
 export interface DecreeEditDialogResult {
   decree: Decree;
-}
-
-export interface EnumItemDescriptionWithDisabled<T> {
-  value: T;
-  description: string;
-  disabled: boolean;
 }
 
 export interface Form {

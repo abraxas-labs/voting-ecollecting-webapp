@@ -44,6 +44,31 @@
           </div>
           @if (initiative.collection.userPermissions?.canEdit) {
             <bc-card-actions class="mr-3">
+              <!-- cannot put multiple icon buttons into the same block or use else blocks does not work with bc-components. Could not find out why. -->
+              @if (editing) {
+                <bc-icon-button
+                  icon="undo"
+                  [tooltip]="'COLLECTION.GENERAL_INFORMATION.REVERT_TOOLTIP' | translate"
+                  (buttonClick)="cancelEditing()"
+                  [disabled]="savingEdits"
+                  class="mr-1"
+                ></bc-icon-button>
+              }
+
+              @if (editing) {
+                <bc-icon-button
+                  icon="checkmark"
+                  [tooltip]="'COLLECTION.GENERAL_INFORMATION.SAVE_TOOLTIP' | translate"
+                  (buttonClick)="finishEditing()"
+                  [disabled]="savingEdits"
+                  class="mr-1"
+                ></bc-icon-button>
+              }
+
+              @if (!editing) {
+                <bc-icon-button icon="edit" [tooltip]="'COLLECTION.GENERAL_INFORMATION.EDIT_TOOLTIP' | translate" (buttonClick)="edit()" class="mr-1"></bc-icon-button>
+              }
+
               <bc-icon-button icon="add-comment" (buttonClick)="openChat()"></bc-icon-button>
             </bc-card-actions>
           }
@@ -57,8 +82,8 @@
         <bc-card-header>
           <bc-card-title [label]="'COLLECTION.GENERAL_INFORMATION.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
         </bc-card-header>
-        <bc-card-content class="flex flex-col gap-2">
-          <div class="flex gap-x-3">
+        <bc-card-content>
+          <div class="flex gap-x-3 mb-2">
             <bc-readonly class="flex-1 nowrap" [label]="'INITIATIVE.GENERAL_INFORMATION.SUB_TYPE' | translate">
               {{ initiative.subType?.description ?? 'INITIATIVE.GENERAL_INFORMATION.SUB_TYPE_DEFAULT' | translate }}
             </bc-readonly>
@@ -70,28 +95,12 @@
             </bc-readonly>
           </div>
 
-          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.DESCRIPTION' | translate">
-            <span class="user-text">{{ initiative.collection.description }}</span>
-          </bc-readonly>
-          <bc-readonly [label]="'INITIATIVE.GENERAL_INFORMATION.WORDING' | translate">
-            <vo-lib-markdown-preview [markdown]="initiative.wording"></vo-lib-markdown-preview>
-          </bc-readonly>
-          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.REASON' | translate">
-            <span class="user-text">{{ initiative.collection.reason ? initiative.collection.reason : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}</span>
-          </bc-readonly>
-          <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.LINK' | translate">
-            @if (initiative.collection.link) {
-              <bc-link class="wrap-break-word" [href]="initiative.collection.link" [target]="'_blank'">{{ initiative.collection.link }}</bc-link>
-            } @else {
-              {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
-            }
-          </bc-readonly>
-          <div>
-            <bc-label [label]="'COLLECTION.GENERAL_INFORMATION.ADDRESS' | translate"></bc-label>
-            <p>{{ initiative.collection.address.committeeOrPerson }}</p>
-            <p>{{ initiative.collection.address.streetOrPostOfficeBox }}</p>
-            <p>{{ initiative.collection.address.zipCode }} {{ initiative.collection.address.locality }}</p>
-          </div>
+          @if (editing) {
+            <app-initiative-detail-edit [initiative]="initiative"></app-initiative-detail-edit>
+          } @else {
+            <app-initiative-detail-info [initiative]="initiative"></app-initiative-detail-info>
+          }
+
           <div class="flex flex-wrap gap-x-5 mt-1">
             @if (image) {
               <vo-ecol-image-upload

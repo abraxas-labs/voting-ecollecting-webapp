@@ -234,16 +234,20 @@
           "FIRST_NAME": "Vorname",
           "LAST_NAME": "Nachname",
           "POLITICAL_FIRST_NAME": "Politischer Vorname",
+          "POLITICAL_FIRST_NAME_HINT": "Auf Wunsch kann auf der Unterschriftenliste der politische Vorname, unter dem das Mitglied politisch oder im Alltag bekannt ist, aufgeführt werden.",
           "POLITICAL_LAST_NAME": "Politischer Nachname",
+          "POLITICAL_LAST_NAME_HINT": "Auf Wunsch kann auf der Unterschriftenliste der politische Name, unter dem das Mitglied politisch oder im Alltag bekannt ist, aufgeführt werden.",
           "DATE_OF_BIRTH": "Geburtsdatum",
           "RESIDENCE": "Wohnort",
           "POLITICAL_RESIDENCE": "Politischer Wohnort",
+          "POLITICAL_RESIDENCE_HINT": "Auf Wunsch kann auf der Unterschriftenliste die politische Gemeinde anstelle der Wohnsitzgemeinde aufgeführt werden (z.B. Wil statt Rossrüti).",
           "STREET": "Strasse",
           "HOUSE_NUMBER": "Haus-Nr.",
           "ZIP_CODE": "PLZ",
           "EMAIL": "E-Mail-Adresse",
           "STATE": "Status",
           "POLITICAL_DUTY": "Politisches Amt",
+          "POLITICAL_DUTY_HINT": "Auf Wunsch kann auf der Unterschriftenliste ein politisches Amt aufgeführt werden.",
           "ROLE": "Berechtigung",
           "SORTED": "Position gespeichert.",
           "REJECTED_OR_EXPIRED": "Abgelehnte Komiteemitglieder",
@@ -265,7 +269,8 @@
           "ADD_DIALOG": {
             "TITLE": "Neues Komiteemitglied erfassen",
             "SAVE_AND_NEXT": "Speichern und nächstes Mitglied",
-            "SAVED": "Komiteemitglied gespeichert."
+            "SAVED": "Komiteemitglied gespeichert.",
+            "OPTIONAL": "optional"
           },
           "APPROVAL_STATES": {
             "1": "angefordert",

@@ -13,32 +13,32 @@
   </p>
   <bc-table [dataSource]="dataSource">
     <ng-container [columnDef]="descriptionColumn">
-      <bc-header-cell *headerCellDef>
+      <th bc-header-cell *headerCellDef>
         {{ 'COLLECTION.FINISH_DIALOG.TABLE.DESCRIPTION' | translate }}
-      </bc-header-cell>
-      <bc-data-cell *dataCellDef="let row">
+      </th>
+      <td bc-data-cell *dataCellDef="let row">
         <div truncateWithTooltip tooltip>{{ row.description }}</div>
-      </bc-data-cell>
+      </td>
     </ng-container>
     <ng-container [columnDef]="electronicAttestedColumn">
-      <bc-header-cell *headerCellDef class="text-right">
+      <th bc-header-cell *headerCellDef class="text-right">
         {{ 'COLLECTION.FINISH_DIALOG.TABLE.ELECTRONIC_ATTESTED' | translate }}
-      </bc-header-cell>
-      <bc-data-cell *dataCellDef="let row" class="text-right">
+      </th>
+      <td bc-data-cell *dataCellDef="let row" class="text-right">
         {{ row.electronicCitizenCount | number }}
-      </bc-data-cell>
+      </td>
     </ng-container>
     <ng-container [columnDef]="totalAttestedColumn">
-      <bc-header-cell *headerCellDef class="text-right">
+      <th bc-header-cell *headerCellDef class="text-right">
         {{ 'COLLECTION.FINISH_DIALOG.TABLE.TOTAL_ATTESTED' | translate }}
-      </bc-header-cell>
-      <bc-data-cell *dataCellDef="let row" class="text-right">
+      </th>
+      <td bc-data-cell *dataCellDef="let row" class="text-right">
         {{ row.totalCitizenCount | number }}
-      </bc-data-cell>
+      </td>
     </ng-container>
 
-    <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-    <bc-data-row *dataRowDef="let row; columns: columns; let i = index"></bc-data-row>
+    <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+    <tr bc-data-row *dataRowDef="let row; columns: columns; let i = index"></tr>
   </bc-table>
   <div class="flex gap-2 my-2">
     <bc-status-toggle

@@ -1,6 +1,6 @@
 @use '@abraxas/voting-lib/style/responsive' as *;
 @use '@abraxas/voting-lib/style/spacing' as *;
-@use 'color' as *;
+@use '@abraxas/voting-lib/style/color' as *;
 
 .content {
   display: grid;

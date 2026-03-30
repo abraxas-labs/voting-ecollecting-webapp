@@ -87,7 +87,12 @@ export class InitiativeOverviewComponent implements OnInit {
     {
       id: 'COLLECTING',
       criteria: [
+        { state: CollectionState.COLLECTION_STATE_PRE_RECORDED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED },
         { state: CollectionState.COLLECTION_STATE_PRE_RECORDED, periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION },
+        {
+          state: CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION,
+          periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_PUBLISHED,
+        },
         {
           state: CollectionState.COLLECTION_STATE_ENABLED_FOR_COLLECTION,
           periodState: CollectionPeriodState.COLLECTION_PERIOD_STATE_IN_COLLECTION,
@@ -225,7 +230,7 @@ export class InitiativeOverviewComponent implements OnInit {
     await this.router.navigate([initiativeId, signatureSheetsUrl], { relativeTo: this.route });
   }
 
-  protected async submitSignatureSheets(initiative: Initiative): Promise<void> {
+  protected async submitSignatureSheets(initiative: Initiative, group: InitiativeGroup): Promise<void> {
     const ok = await this.confirmDialogService.confirm({
       title: 'INITIATIVE.SUBMIT_SIGNATURE_SHEETS.TITLE',
       message: 'INITIATIVE.SUBMIT_SIGNATURE_SHEETS.MSG',
@@ -237,8 +242,22 @@ export class InitiativeOverviewComponent implements OnInit {
     }
 
     const response = await this.collectionService.submitSignatureSheets(initiative.id);
-    initiative.collection.state = CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED;
-    initiative.collection.userPermissions = response.userPermissions;
+
+    // remove initiative from the "COLLECTING" filter
+    group.initiatives = group.initiatives.filter(x => x.id !== initiative.id);
+
+    const originalGroup = this.groups.find(g => g.domainOfInfluenceType === group.domainOfInfluenceType);
+    if (!originalGroup) {
+      return;
+    }
+
+    const originalInitiative = originalGroup.initiatives.find(x => x.id === initiative.id);
+    if (!originalInitiative) {
+      return;
+    }
+
+    originalInitiative.collection.state = CollectionState.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED;
+    originalInitiative.collection.userPermissions = response.userPermissions;
   }
 
   protected async checkSamples(initiativeId: string): Promise<void> {

@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import {
   ButtonModule,
   DialogService,
@@ -71,7 +71,7 @@ import { SignatureSheetHeaderComponent } from './signature-sheet-header/signatur
   styleUrl: './signature-sheet-detail.component.scss',
   providers: [DialogService],
 })
-export class SignatureSheetDetailComponent implements OnDestroy {
+export class SignatureSheetDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly dialogService = inject(DialogService);
@@ -90,7 +90,6 @@ export class SignatureSheetDetailComponent implements OnDestroy {
 
   private readonly personComparer = createComparer<Person>('officialName', 'firstName', 'dateOfBirth');
 
-  private readonly routeSubscription: Subscription;
   private searchSubscription?: Subscription;
 
   private lastUsedFilter?: PersonFilterData;
@@ -98,16 +97,14 @@ export class SignatureSheetDetailComponent implements OnDestroy {
   @ViewChild('personSearch')
   protected personSearch!: SignatureSheetPersonSearchComponent;
 
-  constructor() {
-    this.routeSubscription = this.route.data.subscribe(({ collection, sheet }) => this.loadData(collection, sheet));
-  }
-
   protected get searching(): boolean {
     return this.searchSubscription?.closed === false;
   }
 
-  public ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
+  public async ngOnInit(): Promise<void> {
+    // Use snapshot instead of data observable to prevent double-execution caused by nested parent/child resolvers.
+    const { collection, sheet } = this.route.snapshot.data;
+    await this.loadData(collection, sheet);
   }
 
   protected async back(): Promise<void> {

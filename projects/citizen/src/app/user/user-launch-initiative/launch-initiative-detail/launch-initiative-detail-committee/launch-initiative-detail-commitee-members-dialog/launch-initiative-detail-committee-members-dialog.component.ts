@@ -62,8 +62,8 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
   protected canEditPoliticalDuty = true;
   protected isNew = true;
 
-  @ViewChild('firstName')
-  protected firstNameInput!: TextComponent;
+  @ViewChild('lastName')
+  protected lastNameInput!: TextComponent;
 
   protected form!: FormGroup<Form>;
   protected readonly roleChoices: RadioButton[];
@@ -151,7 +151,7 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
         this.form.markAsPristine();
         this.form.markAsUntouched();
         this.form.updateValueAndValidity();
-        this.firstNameInput.setFocus();
+        this.lastNameInput.setFocus();
         delete this.selectedDomainOfInfluence;
       }
     } finally {

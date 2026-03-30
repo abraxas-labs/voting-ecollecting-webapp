@@ -1,0 +1,7 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+.content {
+  @include md-up() {
+    min-width: 40rem;
+  }
+}

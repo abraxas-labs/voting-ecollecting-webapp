@@ -13,6 +13,10 @@ import {
   InitiativeDetailCommitteeMembersVerifyDialogComponent,
   InitiativeDetailCommitteeMembersVerifyDialogData,
 } from '../initiative-detail-committee-members-verify-dialog/initiative-detail-committee-members-verify-dialog.component';
+import {
+  InitiativeDetailCommitteeMembersEditDialogComponent,
+  InitiativeDetailCommitteeMembersEditDialogData,
+} from '../initiative-detail-committee-members-edit-dialog/initiative-detail-committee-members-edit-dialog.component';
 import { ToastService } from 'ecollecting-lib';
 import { firstValueFrom } from 'rxjs';
 import { InitiativeDetailCommitteeMembersTableComponent } from '../initiative-detail-committee-members-table/initiative-detail-committee-members-table.component';
@@ -66,6 +70,13 @@ export class InitiativeDetailCommitteeMembersComponent {
       member,
       result.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED,
     );
+  }
+
+  protected async edit(member: InitiativeCommitteeMember) {
+    this.dialogService.open(InitiativeDetailCommitteeMembersEditDialogComponent, {
+      initiativeId: this.initiative.id,
+      member,
+    } satisfies InitiativeDetailCommitteeMembersEditDialogData);
   }
 
   private updateMember(member: InitiativeCommitteeMember, approvalState: InitiativeCommitteeMemberApprovalState): void {

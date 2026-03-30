@@ -1,4 +1,5 @@
-@use 'color' as *;
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/responsive' as *;
 
 mat-hint {
   margin-top: 1rem;
@@ -7,14 +8,15 @@ mat-hint {
   font-weight: 400;
 }
 
-.custom-height {
-  ::ng-deep .mat-mdc-dialog-content {
-    max-height: unset !important;
-  }
+::ng-deep bc-radio-button-group bc-label {
+  margin-bottom: 0 !important;
+}
 
-  ::ng-deep bc-dialog > div {
-    display: flex;
-    flex-direction: column;
-    height: 98vh;
+.container {
+  display: flex;
+  flex-direction: column;
+
+  @include lg-up() {
+    flex-direction: row;
   }
 }

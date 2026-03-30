@@ -96,6 +96,7 @@ export interface CollectionUserPermissions {
   canEditAdmissibilityDecision: boolean;
   canDeleteAdmissibilityDecision: boolean;
   canEditGeneralInformation: boolean;
+  canEditGeneralInformationInAdmissibilityDecision: boolean;
   canReturnForCorrection: boolean;
 }
 

@@ -42,6 +42,7 @@ import {
   SetCollectionPeriodInitiativeRequest,
   SetInitiativeSensitiveDataExpiryDateRequest,
   UpdateAdmissibilityDecisionRequest,
+  UpdateCommitteeMemberRequest,
   UpdateInitiativeRequest,
   VerifyCommitteeMemberRequest,
 } from '@abraxas/voting-ecollecting-proto/admin';
@@ -171,6 +172,10 @@ export class InitiativeService {
 
   public async rejectCommitteeMember(initiativeId: string, id: string): Promise<void> {
     await lastValueFrom(this.client.rejectCommitteeMember(new RejectCommitteeMemberRequest({ id, initiativeId })));
+  }
+
+  public async updateCommitteeMember(request: UpdateCommitteeMemberRequest.AsObject): Promise<void> {
+    await lastValueFrom(this.client.updateCommitteeMember(new UpdateCommitteeMemberRequest(request)));
   }
 
   public async listEligibleForAdmissibilityDecision(): Promise<Initiative[]> {

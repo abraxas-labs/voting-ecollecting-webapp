@@ -74,6 +74,9 @@ export class InitiativeDetailCommitteeMembersTableComponent implements OnChanges
   @Output()
   public resetClicked = new EventEmitter<InitiativeCommitteeMember>();
 
+  @Output()
+  public editClicked = new EventEmitter<InitiativeCommitteeMember>();
+
   protected dataSource = new TableDataSource<InitiativeCommitteeMember>();
 
   public ngOnChanges(): void {

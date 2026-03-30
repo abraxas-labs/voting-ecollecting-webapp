@@ -1,0 +1,27 @@
+<div class="flex flex-col gap-2">
+  <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.DESCRIPTION' | translate">
+    <span class="user-text">{{ referendum.collection.description }}</span>
+  </bc-readonly>
+  <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.REASON_OPTIONAL' | translate">
+    <span
+      class="user-text">{{ referendum.collection.reason ? referendum.collection.reason : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}</span>
+  </bc-readonly>
+  <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.LINK_OPTIONAL' | translate">
+    @if (referendum.collection.link) {
+      <bc-link class="wrap-break-word" [href]="referendum.collection.link"
+               [target]="'_blank'">{{ referendum.collection.link }}
+      </bc-link>
+    } @else {
+      {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
+    }
+  </bc-readonly>
+  <div>
+    <bc-label [label]="'COLLECTION.GENERAL_INFORMATION.ADDRESS' | translate"></bc-label>
+    <p>{{ referendum.collection.address.committeeOrPerson }}</p>
+    <p>{{ referendum.collection.address.streetOrPostOfficeBox }}</p>
+    <p>{{ referendum.collection.address.zipCode }} {{ referendum.collection.address.locality }}</p>
+  </div>
+  <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.MEMBERS_COMMITTEE_OPTIONAL' | translate">
+    {{ referendum.membersCommittee ? referendum.membersCommittee : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}
+  </bc-readonly>
+</div>

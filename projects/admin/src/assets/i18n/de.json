@@ -132,6 +132,7 @@
         "DATE_OF_BIRTH": "Geburtsdatum",
         "RESIDENCE": "Wohnort",
         "POLITICAL_RESIDENCE": "Politischer Wohnort",
+        "ADDRESS": "Adresse",
         "STREET": "Strasse",
         "HOUSE_NUMBER": "Haus-Nr.",
         "ZIP_CODE": "PLZ",
@@ -174,6 +175,10 @@
           "RESET": "Komiteemitglied wurde zurückgesetzt.",
           "NOT_FOUND": "Es wurde keine stimmberechtigte Person unter diesen Angaben gefunden.",
           "NO_PERMISSION": "Keine Berechtigung im Stimmregister vorhanden, um diese Person abzufragen."
+        },
+        "EDIT_DIALOG": {
+          "TITLE": "Komiteemitglied bearbeiten",
+          "SAVED": "Komiteemitglied wurde gespeichert."
         }
       }
     }
@@ -219,15 +224,25 @@
     "GENERAL_INFORMATION": {
       "TITLE": "Allgemeine Angaben",
       "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
-      "REASON": "Begründung (optional)",
+      "REASON": "Begründung",
+      "REASON_OPTIONAL": "Begründung (optional)",
       "ADDRESS": "Adresse Komitee",
-      "MEMBERS_COMMITTEE": "Mitglieder Komitee (optional)",
-      "LINK": "Link auf Webseite (optional)",
+      "ADDRESS_COMMITTEE_OR_PERSON": "Komitee oder Person",
+      "ADDRESS_STREET_OR_POST_OFFICE_BOX": "Strasse und Hausnummer oder Postfach",
+      "ADDRESS_ZIP_CODE": "PLZ",
+      "ADDRESS_LOCALITY": "Ort",
+      "MEMBERS_COMMITTEE": "Mitglieder Komitee",
+      "MEMBERS_COMMITTEE_OPTIONAL": "Mitglieder Komitee (optional)",
+      "LINK": "Link auf Webseite",
+      "LINK_OPTIONAL": "Link auf Webseite (optional)",
       "IMAGE": "Bild zur Sammlung",
       "IMAGE_OPTIONAL": "Bild zur Sammlung (optional)",
       "LOGO": "Logo der sammelnden Organisation",
       "LOGO_OPTIONAL": "Logo der sammelnden Organisation (optional)",
-      "NO_DATA": "Keine Angaben"
+      "NO_DATA": "Keine Angaben",
+      "EDIT_TOOLTIP": "Allgemeine Angaben bearbeiten",
+      "SAVE_TOOLTIP": "Speichern",
+      "REVERT_TOOLTIP": "Änderungen verwerfen"
     },
     "PERMISSIONS": {
       "TITLE": "Vertretung",

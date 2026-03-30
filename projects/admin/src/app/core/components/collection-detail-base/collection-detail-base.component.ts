@@ -29,6 +29,8 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
   protected deleting = false;
   protected imageLoading = false;
   protected logoLoading = false;
+  protected editing = false;
+  protected savingEdits = false;
 
   protected image?: Observable<SafeResourceUrl>;
   protected logo?: Observable<SafeResourceUrl>;
@@ -146,6 +148,30 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
       this.deleting = false;
     }
   }
+
+  protected edit(): void {
+    if (!this.collection) {
+      return;
+    }
+
+    this.editing = true;
+  }
+
+  protected cancelEditing(): void {
+    this.editing = false;
+  }
+
+  protected async finishEditing(): Promise<void> {
+    this.savingEdits = true;
+    try {
+      await this.saveEdits();
+      this.editing = false;
+    } finally {
+      this.savingEdits = false;
+    }
+  }
+
+  protected abstract saveEdits(): Promise<void>;
 
   protected abstract get collection(): Collection | undefined;
 

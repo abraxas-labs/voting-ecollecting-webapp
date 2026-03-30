@@ -1,69 +1,69 @@
 <bc-table
   [dataSource]="dataSource">
   <ng-container [columnDef]="officialNameColumn">
-    <bc-header-cell *headerCellDef>
+    <th bc-header-cell *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.OFFICIAL_NAME' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       @if (row.registerId === loadingRegisterId) {
         <bc-spinner></bc-spinner>
       } @else {
         {{ row.officialName }}
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="firstNameColumn">
-    <bc-header-cell *headerCellDef>
+    <th bc-header-cell *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.FIRST_NAME' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">{{ row.firstName }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let row">{{ row.firstName }}</td>
   </ng-container>
   <ng-container [columnDef]="dateOfBirthColumn">
-    <bc-header-cell *headerCellDef>
+    <th bc-header-cell *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.DATE_OF_BIRTH' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">{{ row.dateOfBirth | date: 'dd.MM.yyyy' }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let row">{{ row.dateOfBirth | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
   <ng-container [columnDef]="residenceAddressStreetColumn">
-    <bc-header-cell *headerCellDef>
+    <th bc-header-cell *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_STREET' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">{{ row.residenceAddressStreet }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let row">{{ row.residenceAddressStreet }}</td>
   </ng-container>
   <ng-container [columnDef]="residenceAddressHouseNumberColumn">
-    <bc-header-cell *headerCellDef>
+    <th bc-header-cell *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_HOUSE_NUMBER' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">{{ row.residenceAddressHouseNumber }}</bc-data-cell>
+    </th>
+    <td bc-data-cell *dataCellDef="let row">{{ row.residenceAddressHouseNumber }}</td>
   </ng-container>
   <ng-container [columnDef]="stateColumn">
-    <bc-header-cell *headerCellDef>
+    <th bc-header-cell *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.REVIEW_STATE' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       @if (row.reviewState) {
         <bc-status-label
           [variant]="row.reviewState === reviewStates.Removed ? 'error' : (row.reviewState === reviewStates.Confirmed ? 'success' : 'neutral')"
           [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.REVIEW_STATES.' + row.reviewState | translate"></bc-status-label>
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="actionsColumn">
-    <bc-header-cell *headerCellDef>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row" align="right">
+    <th bc-header-cell *headerCellDef>
+    </th>
+    <td bc-data-cell *dataCellDef="let row" align="right">
       @if (canRemove) {
         <bc-icon-button (buttonClick)="confirmAndRemove(row)"
                         icon="trash"
@@ -83,11 +83,11 @@
                           variant="tertiary"></bc-icon-button>
         }
       }
-    </bc-data-cell>
+    </td>
   </ng-container>
 
-  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row *dataRowDef="let row; columns: columns"></bc-data-row>
+  <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+  <tr bc-data-row *dataRowDef="let row; columns: columns"></tr>
   <ng-template noDataRow>
     <tr class="bc-row-data">
       <td class="bc-cell" [colSpan]="columns.length">

@@ -1,6 +1,6 @@
 <bc-table sort filter [dataSource]="dataSource">
   <ng-container [columnDef]="domainOfInfluenceTypeColumn">
-    <bc-header-cell sort
+    <th bc-header-cell sort
                     filter
                     filterType="list"
                     [filterItems]="domainOfInfluenceTypes"
@@ -10,24 +10,24 @@
         <span truncateWithTooltip tooltip>
           {{ 'ADMIN.ADMISSIBILITY_DECISIONS.DOI_TYPE' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-status-label
         [label]="'DOMAIN_OF_INFLUENCE.TYPES.' + row.domainOfInfluenceType | translate"></bc-status-label>
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="domainOfInfluenceNameColumn">
-    <bc-header-cell sort filter filterType="text" *headerCellDef>
+    <th bc-header-cell sort filter filterType="text" *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'ADMIN.ADMISSIBILITY_DECISIONS.DOI_TYPE_NAME' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.domainOfInfluenceName }}</div>
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="subTypeColumn">
-    <bc-header-cell sort
+    <th bc-header-cell sort
                     filter
                     filterType="list"
                     [filterItems]="subTypes"
@@ -35,43 +35,43 @@
         <span truncateWithTooltip tooltip>
           {{ 'ADMIN.ADMISSIBILITY_DECISIONS.SUB_TYPE' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-status-label [label]="row.subType?.description ?? defaultSubTypeDescription"></bc-status-label>
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="descriptionColumn">
-    <bc-header-cell sort filter filterType="text" *headerCellDef>
+    <th bc-header-cell sort filter filterType="text" *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'ADMIN.ADMISSIBILITY_DECISIONS.DESCRIPTION' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.collection.description }}</div>
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="collectionStartDateColumn">
-    <bc-header-cell sort filter filterType="date-extended" *headerCellDef>
+    <th bc-header-cell sort filter filterType="date-extended" *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'ADMIN.ADMISSIBILITY_DECISIONS.COLLECTION_START_DATE' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.collection.collectionStartDate | date: 'dd.MM.yyyy' }}</div>
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="collectionEndDateColumn">
-    <bc-header-cell sort filter filterType="date-extended" *headerCellDef>
+    <th bc-header-cell sort filter filterType="date-extended" *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'ADMIN.ADMISSIBILITY_DECISIONS.COLLECTION_END_DATE' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.collection.collectionEndDate | date: 'dd.MM.yyyy' }}</div>
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="admissibilityDecisionStateColumn">
-    <bc-header-cell sort
+    <th bc-header-cell sort
                     filter
                     filterType="list"
                     [filterItems]="admissibilityDecisionStates"
@@ -81,15 +81,15 @@
         <span truncateWithTooltip tooltip>
           {{ 'ADMIN.ADMISSIBILITY_DECISIONS.ADMISSIBILITY_DECISION_STATE' | translate }}
         </span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-status-label
         [label]="'ADMISSIBILITY_DECISION_STATES.' + row.admissibilityDecisionState | translate"></bc-status-label>
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="actionsColumn">
-    <bc-header-cell *headerCellDef></bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    <th bc-header-cell *headerCellDef></th>
+    <td bc-data-cell *dataCellDef="let row">
       <div class="flex flex-wrap gap-1 justify-end">
         <bc-icon-button (buttonClick)="openInitiative.emit(row)"
                         [icon]="'external-link'"
@@ -107,11 +107,11 @@
         }
 
       </div>
-    </bc-data-cell>
+    </td>
   </ng-container>
 
-  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row *dataRowDef="let row; columns: columns"></bc-data-row>
+  <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+  <tr bc-data-row *dataRowDef="let row; columns: columns"></tr>
 
   <ng-template noDataRow>
     <tr class="bc-row-data">

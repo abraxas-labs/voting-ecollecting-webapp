@@ -1,0 +1,71 @@
+<vo-ecol-dialog
+  [header]="'INITIATIVE.COMMITTEE.MEMBERS.EDIT_DIALOG.TITLE'"
+  [showOk]="false"
+  (discard)="closeWithUnsavedChangesCheck()"
+  [formGroup]="form"
+>
+  <bc-button actions
+             color="default"
+             [label]="'APP.SAVE' | translate"
+             [variant]="'primary'"
+             [loading]="saving"
+             (buttonClick)="save()"
+             [disabled]="!form.valid"></bc-button>
+
+  <div class="flex flex-col gap-2 content">
+    <div class="flex gap-2">
+      <bc-readonly [label]="'INITIATIVE.COMMITTEE.MEMBERS.FIRST_NAME' | translate">
+        {{ dialogData.member.firstName }}
+      </bc-readonly>
+      <bc-readonly [label]="'INITIATIVE.COMMITTEE.MEMBERS.LAST_NAME' | translate">
+        {{ dialogData.member.lastName }}
+      </bc-readonly>
+    </div>
+    <bc-readonly [label]="'INITIATIVE.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate">
+      {{ dialogData.member.dateOfBirth | date }}
+    </bc-readonly>
+
+    <div>
+      <bc-label [label]="'INITIATIVE.COMMITTEE.MEMBERS.ADDRESS' | translate"></bc-label>
+      <p class="m-0">{{ dialogData.member.street }} {{ dialogData.member.houseNumber }}</p>
+      <p class="m-0">{{ dialogData.member.zipCode }} {{ dialogData.member.residence }}</p>
+    </div>
+
+    <div class="flex gap-2">
+      <bc-text
+        [label]="'INITIATIVE.COMMITTEE.MEMBERS.POLITICAL_FIRST_NAME' | translate"
+        [formControl]="form.controls.politicalFirstName"
+        [required]="false"
+        [showDefaultErrors]="true"
+        [placeholder]="dialogData.member.firstName"
+        optionalText=""
+        subscriptSizing="dynamic"
+      ></bc-text>
+      <bc-text
+        [label]="'INITIATIVE.COMMITTEE.MEMBERS.POLITICAL_LAST_NAME' | translate"
+        [formControl]="form.controls.politicalLastName"
+        [required]="false"
+        [showDefaultErrors]="true"
+        optionalText=""
+        [placeholder]="dialogData.member.lastName"
+        subscriptSizing="dynamic"
+      ></bc-text>
+    </div>
+
+    <bc-text
+      [label]="'INITIATIVE.COMMITTEE.MEMBERS.POLITICAL_RESIDENCE' | translate"
+      [formControl]="form.controls.politicalResidence"
+      [required]="false"
+      [showDefaultErrors]="true"
+      optionalText=""
+      [placeholder]="dialogData.member.residence"
+      subscriptSizing="dynamic"
+    ></bc-text>
+    <bc-text
+      [label]="'INITIATIVE.COMMITTEE.MEMBERS.POLITICAL_DUTY' | translate"
+      [formControl]="form.controls.politicalDuty"
+      [showDefaultErrors]="true"
+      subscriptSizing="dynamic"
+    ></bc-text>
+  </div>
+</vo-ecol-dialog>

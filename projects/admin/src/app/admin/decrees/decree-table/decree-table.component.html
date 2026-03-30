@@ -9,7 +9,7 @@
   ]"
 >
   <ng-container [columnDef]="domainOfInfluenceTypeColumn">
-    <bc-header-cell
+    <th bc-header-cell
       *headerCellDef
       filter
       filterType="list"
@@ -19,77 +19,77 @@
       filterValueExpr="value"
     >
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.DOMAIN_OF_INFLUENCE_TYPE</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-status-label [label]="'DOMAIN_OF_INFLUENCE.TYPES.' + row.domainOfInfluenceType | translate"></bc-status-label>
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="domainOfInfluenceNameColumn">
-    <bc-header-cell *headerCellDef filter filterType="text" sort>
+    <th bc-header-cell *headerCellDef filter filterType="text" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.DOMAIN_OF_INFLUENCE_NAME</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       {{ row.domainOfInfluenceName }}
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="descriptionColumn">
-    <bc-header-cell *headerCellDef filter filterType="text" sort>
+    <th bc-header-cell *headerCellDef filter filterType="text" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.DESCRIPTION</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       {{ row.description }}
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="collectionStartDateColumn">
-    <bc-header-cell *headerCellDef filter filterType="date" sort>
+    <th bc-header-cell *headerCellDef filter filterType="date" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.COLLECTION_START_DATE</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       {{ row.collectionStartDate | date }}
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="collectionEndDateColumn">
-    <bc-header-cell *headerCellDef filter filterType="date" sort>
+    <th bc-header-cell *headerCellDef filter filterType="date" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.COLLECTION_END_DATE</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       {{ row.collectionEndDate | date }}
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="minSignatureCountColumn">
-    <bc-header-cell *headerCellDef filter filterType="number" sort>
+    <th bc-header-cell *headerCellDef filter filterType="number" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.MIN_SIGNATURE_COUNT</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row" class="text-right">
+    </th>
+    <td bc-data-cell *dataCellDef="let row" class="text-right">
       {{ row.minSignatureCount | number }}
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="totalAttestedColumn">
-    <bc-header-cell *headerCellDef filter filterType="number" sort>
+    <th bc-header-cell *headerCellDef filter filterType="number" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.TOTAL_ATTESTED</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row" class="text-right">
+    </th>
+    <td bc-data-cell *dataCellDef="let row" class="text-right">
       {{ getTotalAttestedCount(row) | number }}
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="maxElectronicSignatureCountColumn">
-    <bc-header-cell *headerCellDef filter filterType="number" sort>
+    <th bc-header-cell *headerCellDef filter filterType="number" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.MAX_ELECTRONIC_SIGNATURE_COUNT</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row" class="text-right">
+    </th>
+    <td bc-data-cell *dataCellDef="let row" class="text-right">
       {{ row.maxElectronicSignatureCount | number }}
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="electronicAttestedColumn">
-    <bc-header-cell *headerCellDef filter filterType="number" sort>
+    <th bc-header-cell *headerCellDef filter filterType="number" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.ELECTRONIC_ATTESTED</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row" class="text-right">
+    </th>
+    <td bc-data-cell *dataCellDef="let row" class="text-right">
       {{ getElectronicAttestedCount(row) | number }}
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="stateColumn">
-    <bc-header-cell
+    <th bc-header-cell
       *headerCellDef
       filter
       filterType="list"
@@ -99,22 +99,22 @@
       filterValueExpr="value"
     >
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.STATE</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-status-label [label]="'DECREE.COLLECTION_PERIOD_STATES.' + row.periodState | translate"
                        [backgroundColor]="collectionPeriodStateColorMap[row.periodState]"
                        [foregroundColor]="row.periodState === collectionPeriodStates.COLLECTION_PERIOD_STATE_EXPIRED ? 'light' : 'dark'"></bc-status-label>
-    </bc-data-cell>
+    </td>
   </ng-container>
   <ng-container [columnDef]="editColumn">
-    <bc-header-cell *headerCellDef></bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    <th bc-header-cell *headerCellDef></th>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-icon-button icon="trash" variant="tertiary" [disabled]="isDisabled(row)" (buttonClick)="deleteDecree.emit(row)"></bc-icon-button>
       <bc-icon-button icon="edit" variant="tertiary" [disabled]="isDisabled(row)" (buttonClick)="decreeSelected.emit(row)"></bc-icon-button>
-    </bc-data-cell>
+    </td>
   </ng-container>
-  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row
+  <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+  <tr bc-data-row
     *dataRowDef="let row; columns: columns; let i = index"
     [selectionDisabled]="isDisabled"
     selectionToggle
@@ -122,7 +122,7 @@
     selectionRow
     [selectionRowValue]="row"
     (click)="!isDisabled(row) ? decreeSelected.emit(row) : null"
-  ></bc-data-row>
+  ></tr>
 
   <ng-template noDataRow>
     <tr class="bc-row-data">

@@ -105,7 +105,8 @@ export class AdmissibilityDecisionDialogComponent
     this.hasInitiative = !this.isNew;
 
     this.canEditAdmissibilityDecision = this.dialogData.initiative?.collection?.userPermissions?.canEditAdmissibilityDecision !== false;
-    this.canEditGeneralInformation = this.dialogData.initiative?.collection?.userPermissions?.canEditGeneralInformation !== false;
+    this.canEditGeneralInformation =
+      this.dialogData.initiative?.collection?.userPermissions?.canEditGeneralInformationInAdmissibilityDecision !== false;
     this.canEditInitiative = !this.hasInitiative;
     this.canEditAdmissibilityDecisionState = this.canEditAdmissibilityDecision;
     this.canEditGovernmentDecisionNumber = this.canEditAdmissibilityDecision;
@@ -208,8 +209,11 @@ export class AdmissibilityDecisionDialogComponent
 
       if (this.hasInitiative) {
         if (this.canEditGeneralInformation) {
+          const initiative = this.initiatives.find(x => x.id === this.form.value.initiativeId);
           await this.initiativeService.update({
             ...values,
+            reason: initiative?.collection?.reason ?? '', // usually this is always empty (a pre-recorded initiative cannot have a reason
+            wording: values.wording.trim(),
             subTypeId: values.subType?.id,
             id: this.dialogData.initiative!.id,
           });

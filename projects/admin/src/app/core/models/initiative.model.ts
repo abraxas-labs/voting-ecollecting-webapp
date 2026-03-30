@@ -48,6 +48,7 @@ export interface InitiativeCommitteeMember extends Omit<InitiativeCommitteeMembe
 export interface InitiativeCommitteeMemberUserPermissions {
   canReset: boolean;
   canVerify: boolean;
+  canEditPoliticalDetails: boolean;
 }
 
 export interface VerifyInitiativeCommitteeMemberResponse extends Omit<

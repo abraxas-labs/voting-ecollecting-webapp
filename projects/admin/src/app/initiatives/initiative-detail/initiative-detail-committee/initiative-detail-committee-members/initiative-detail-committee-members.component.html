@@ -25,6 +25,7 @@
         [readonly]="!initiative.collection.userPermissions?.canEdit"
         (verifyClicked)="verify($event)"
         (resetClicked)="reset($event)"
+        (editClicked)="edit($event)"
       ></app-initiative-detail-committee-members-table>
 
       @if (committee.rejectedOrExpiredCommitteeMembers.length > 0) {
@@ -35,6 +36,7 @@
             [readonly]="!initiative.collection.userPermissions?.canEdit"
             (verifyClicked)="verify($event)"
             (resetClicked)="reset($event)"
+            (editClicked)="edit($event)"
           ></app-initiative-detail-committee-members-table>
         </div>
       }

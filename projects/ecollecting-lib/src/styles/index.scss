@@ -6,9 +6,8 @@
 @forward 'gap';
 @forward 'layout';
 @forward 'overflow';
-@forward 'color';
 
-@use 'color' as *;
+@use '@abraxas/voting-lib/style/color' as *;
 
 .no-data {
   font-style: italic;

@@ -79,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor() {
     const stylingService = inject(StylingService);
 
-    stylingService.setTheme(ColorTokensThemes.SchalterELight);
+    stylingService.setTheme(ColorTokensThemes.SGSchalterELight);
     stylingService.setRadius(CornerRadiusTokensThemes.Large);
 
     // enable automatic silent refresh

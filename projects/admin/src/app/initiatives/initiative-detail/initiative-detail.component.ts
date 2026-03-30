@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { firstValueFrom, Subscription } from 'rxjs';
 import {
   AlertBarModule,
@@ -23,7 +23,7 @@ import {
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { collectionStateColorMap, FileChipComponent, ImageUploadComponent } from 'ecollecting-lib';
+import { collectionStateColorMap, FileChipComponent, ImageUploadComponent, ToastService } from 'ecollecting-lib';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Collection } from '../../core/models/collection.model';
 import { CollectionDetailPermissionsComponent } from '../../core/components/collection-permissions/collection-permissions.component';
@@ -31,7 +31,7 @@ import { Initiative } from '../../core/models/initiative.model';
 import { AbstractCollectionDetailBase } from '../../core/components/collection-detail-base/collection-detail-base.component';
 import { InitiativeService } from '../../core/services/initiative.service';
 import { CollectionState } from '@abraxas/voting-ecollecting-proto';
-import { MarkdownPreviewComponent, VotingLibModule } from '@abraxas/voting-lib';
+import { VotingLibModule } from '@abraxas/voting-lib';
 import {
   InitiativeCollectionPeriodDialogComponent,
   InitiativeCollectionPeriodDialogData,
@@ -43,6 +43,8 @@ import {
   InitiativeReturnForCorrectionDialogData,
 } from '../initiative-return-for-correction-dialog/initiative-return-for-correction-dialog.component';
 import { FormsModule } from '@angular/forms';
+import { InitiativeDetailInfoComponent } from './initiative-detail-info/initiative-detail-info.component';
+import { InitiativeDetailEditComponent } from './initiative-detail-edit/initiative-detail-edit.component';
 
 @Component({
   selector: 'app-initiative-detail',
@@ -70,8 +72,9 @@ import { FormsModule } from '@angular/forms';
     TooltipModule,
     TruncateWithTooltipModule,
     InitiativeDetailCommitteeComponent,
-    MarkdownPreviewComponent,
     FormsModule,
+    InitiativeDetailInfoComponent,
+    InitiativeDetailEditComponent,
   ],
   providers: [DialogService],
 })
@@ -81,6 +84,10 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
   protected readonly collectionStateColorMap = collectionStateColorMap;
   protected initiative?: Initiative;
 
+  @ViewChild(InitiativeDetailEditComponent)
+  private editComponent?: InitiativeDetailEditComponent;
+
+  private readonly toast = inject(ToastService);
   protected updating = false;
 
   private routeSubscription: Subscription;
@@ -96,6 +103,30 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
 
   protected override get collection(): Collection | undefined {
     return this.initiative?.collection;
+  }
+
+  protected override async saveEdits(): Promise<void> {
+    if (!this.initiative || !this.editComponent) {
+      return;
+    }
+
+    const values = this.editComponent.getFormValues();
+    if (!values) {
+      return;
+    }
+
+    await this.initiativeService.update({
+      id: this.initiative.id,
+      subTypeId: this.initiative.subType?.id ?? '',
+      description: values.description,
+      wording: values.wording,
+      address: values.address,
+      reason: values.reason,
+    });
+
+    // refetch to update rendered markdown
+    Object.assign(this.initiative, await this.initiativeService.get(this.initiative.id));
+    this.toast.saved();
   }
 
   public async finishCorrection(): Promise<void> {

@@ -10,6 +10,7 @@ import {
   GetReferendumRequest,
   ListReferendumDecreesRequest,
   ReferendumServiceClient,
+  UpdateReferendumRequest,
 } from '@abraxas/voting-ecollecting-proto/admin';
 import { lastValueFrom } from 'rxjs';
 import { DecreeGroup, mapDecreeGroupToModel, mapReferendumToModel, Referendum } from '../models/referendum.model';
@@ -44,5 +45,27 @@ export class ReferendumService implements EntityGetter<Referendum> {
   public async create(decreeId: string, description: string, address: CollectionAddress): Promise<string> {
     const resp = await lastValueFrom(this.client.create(new CreateReferendumRequest({ decreeId, description, address })));
     return resp.id;
+  }
+
+  public async update(
+    id: string,
+    description: string,
+    reason: string,
+    address: CollectionAddress,
+    membersCommittee: string,
+    link: string,
+  ): Promise<void> {
+    await lastValueFrom(
+      this.client.update(
+        new UpdateReferendumRequest({
+          id,
+          description,
+          reason,
+          address,
+          membersCommittee,
+          link,
+        }),
+      ),
+    );
   }
 }

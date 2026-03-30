@@ -141,7 +141,7 @@ export class AdmissibilityDecisionsComponent implements OnInit {
   }
 
   protected async openInitiative(id: string): Promise<void> {
-    await this.router.navigate(['-', initiativeUrl, id]);
+    await this.router.navigate([initiativeUrl, id]);
   }
 
   private async loadData(): Promise<void> {

@@ -1,0 +1,24 @@
+<div class="flex flex-col gap-2">
+  <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.DESCRIPTION' | translate">
+    <span class="user-text">{{ initiative.collection.description }}</span>
+  </bc-readonly>
+  <bc-readonly [label]="'INITIATIVE.GENERAL_INFORMATION.WORDING' | translate">
+    <vo-lib-markdown-preview [markdown]="initiative.wording"></vo-lib-markdown-preview>
+  </bc-readonly>
+  <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.REASON' | translate">
+    <span class="user-text">{{ initiative.collection.reason ? initiative.collection.reason : ('COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate) }}</span>
+  </bc-readonly>
+  <bc-readonly [label]="'COLLECTION.GENERAL_INFORMATION.LINK_OPTIONAL' | translate">
+    @if (initiative.collection.link) {
+      <bc-link class="wrap-break-word" [href]="initiative.collection.link" [target]="'_blank'">{{ initiative.collection.link }}</bc-link>
+    } @else {
+      {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
+    }
+  </bc-readonly>
+  <div>
+    <bc-label [label]="'COLLECTION.GENERAL_INFORMATION.ADDRESS' | translate"></bc-label>
+    <p>{{ initiative.collection.address.committeeOrPerson }}</p>
+    <p>{{ initiative.collection.address.streetOrPostOfficeBox }}</p>
+    <p>{{ initiative.collection.address.zipCode }} {{ initiative.collection.address.locality }}</p>
+  </div>
+</div>

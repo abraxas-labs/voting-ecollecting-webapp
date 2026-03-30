@@ -36,11 +36,11 @@
       [label]="'DECREE.DIALOG.COLLECTION_START_DATE' | translate"
       [required]="true"
       [formControl]="form.controls.collectionStartDate"
-      [error]="form.controls.collectionStartDate.invalid"
+      [error]="form.controls.collectionStartDate.invalid && form.controls.collectionStartDate.touched"
       [adjustFormControlErrors]="false"
       subscriptSizing="dynamic"
     >
-      @if (form.controls.collectionStartDate.errors?.['dateNotInFuture']) {
+      @if (form.controls.collectionStartDate.touched && form.controls.collectionStartDate.errors?.['dateNotInFuture']) {
         <bc-error>{{ 'DECREE.DIALOG.ERRORS.DATE_IN_FUTURE' | translate }}</bc-error>
       }
     </bc-date>
@@ -50,11 +50,11 @@
       [label]="'DECREE.DIALOG.COLLECTION_END_DATE' | translate"
       [required]="true"
       [formControl]="form.controls.collectionEndDate"
-      [error]="form.controls.collectionEndDate.invalid"
+      [error]="form.controls.collectionEndDate.invalid && form.controls.collectionEndDate.touched"
       [adjustFormControlErrors]="false"
       subscriptSizing="dynamic"
     >
-      @if (form.controls.collectionEndDate.errors?.['dateNotOlderThanStartDate']) {
+      @if (form.controls.collectionEndDate.touched && form.controls.collectionEndDate.errors?.['dateNotOlderThanStartDate']) {
         <bc-error>{{ 'DECREE.DIALOG.ERRORS.DATE_OLDER_THAN_START_DATE' | translate }}</bc-error>
       }
     </bc-date>
@@ -66,7 +66,7 @@
       [required]="true"
       [formControl]="form.controls.minSignatureCount"
       [showDefaultErrors]="true"
-      [error]="form.controls.minSignatureCount.invalid && form.controls.minSignatureCount.dirty"
+      [error]="form.controls.minSignatureCount.invalid && form.controls.minSignatureCount.touched"
       subscriptSizing="dynamic"
     ></bc-number>
     <bc-number
@@ -76,7 +76,7 @@
       [readonly]="true"
       [required]="true"
       [formControl]="form.controls.maxElectronicSignatureCount"
-      [error]="form.controls.maxElectronicSignatureCount.invalid && form.controls.maxElectronicSignatureCount.dirty"
+      [error]="form.controls.maxElectronicSignatureCount.invalid && form.controls.maxElectronicSignatureCount.touched"
       [showDefaultErrors]="true"
       subscriptSizing="dynamic"
     ></bc-number>

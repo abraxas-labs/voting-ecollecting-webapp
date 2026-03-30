@@ -1,0 +1,64 @@
+<div class="flex flex-col gap-2">
+  <bc-text
+    [formControl]="form.controls.description"
+    [label]="'COLLECTION.GENERAL_INFORMATION.DESCRIPTION' | translate"
+    [required]="true"
+    [showDefaultErrors]="true"
+    [error]="(form.controls.description.touched) && form.controls.description.invalid"
+    subscriptSizing="dynamic"
+  ></bc-text>
+  <bc-textarea
+    [formControl]="form.controls.reason"
+    [label]="'COLLECTION.GENERAL_INFORMATION.REASON' | translate"
+    [showDefaultErrors]="true"
+    [rows]="6"
+    subscriptSizing="dynamic"
+  ></bc-textarea>
+  <bc-text
+    [formControl]="form.controls.link"
+    [label]="'COLLECTION.GENERAL_INFORMATION.LINK' | translate"
+    [showDefaultErrors]="true"
+    subscriptSizing="dynamic"
+  ></bc-text>
+  <bc-text
+    [formControl]="form.controls.address.controls.committeeOrPerson"
+    [label]="'COLLECTION.GENERAL_INFORMATION.ADDRESS_COMMITTEE_OR_PERSON' | translate"
+    [required]="true"
+    [showDefaultErrors]="true"
+    [error]="(form.controls.address.controls.committeeOrPerson.touched) && form.controls.address.controls.committeeOrPerson.invalid"
+    subscriptSizing="dynamic"
+  ></bc-text>
+  <bc-text
+    [formControl]="form.controls.address.controls.streetOrPostOfficeBox"
+    [label]="'COLLECTION.GENERAL_INFORMATION.ADDRESS_STREET_OR_POST_OFFICE_BOX' | translate"
+    [required]="true"
+    [showDefaultErrors]="true"
+    [error]="(form.controls.address.controls.streetOrPostOfficeBox.touched) && form.controls.address.controls.streetOrPostOfficeBox.invalid"
+    subscriptSizing="dynamic"
+  ></bc-text>
+  <div class="zip-code-locality-container">
+    <bc-text
+      [formControl]="form.controls.address.controls.zipCode"
+      [label]="'COLLECTION.GENERAL_INFORMATION.ADDRESS_ZIP_CODE' | translate"
+      [required]="true"
+      [showDefaultErrors]="true"
+      [error]="(form.controls.address.controls.zipCode.touched) && form.controls.address.controls.zipCode.invalid"
+      subscriptSizing="dynamic"
+    ></bc-text>
+    <bc-text
+      [formControl]="form.controls.address.controls.locality"
+      [label]="'COLLECTION.GENERAL_INFORMATION.ADDRESS_LOCALITY' | translate"
+      [required]="true"
+      [showDefaultErrors]="true"
+      [error]="form.controls.address.controls.locality.touched && form.controls.address.controls.locality.invalid"
+      subscriptSizing="dynamic"
+    ></bc-text>
+  </div>
+  <bc-textarea
+    [formControl]="form.controls.membersCommittee"
+    [label]="'COLLECTION.GENERAL_INFORMATION.MEMBERS_COMMITTEE' | translate"
+    [showDefaultErrors]="true"
+    [rows]="6"
+    subscriptSizing="dynamic"
+  ></bc-textarea>
+</div>

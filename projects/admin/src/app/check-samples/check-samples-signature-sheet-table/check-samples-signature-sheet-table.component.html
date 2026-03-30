@@ -14,124 +14,124 @@
   [sticky]="true"
 >
   <ng-container [columnDef]="bfsColumn">
-    <bc-header-cell sort *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
       <span [tooltip]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.BFS' | translate">{{
         'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.BFS' | translate
       }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.bfs }}</div>
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef>
+    </td>
+    <td bc-footer-cell *footerCellDef>
       {{ 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.TOTAL' | translate }}
-    </bc-footer-cell>
+    </td>
   </ng-container>
 
   <ng-container [columnDef]="municipalityNameColumn">
-    <bc-header-cell sort *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
       <span [tooltip]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.MUNICIPALITY_NAME' | translate">{{
         'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.MUNICIPALITY_NAME' | translate
       }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.municipalityName }}</div>
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef> </bc-footer-cell>
+    </td>
+    <td bc-footer-cell *footerCellDef> </td>
   </ng-container>
 
   <ng-container [columnDef]="numberColumn">
-    <bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+    <th bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
       <span [tooltip]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.NUMBER' | translate">{{
         'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.NUMBER' | translate
       }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+    </th>
+    <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       <div truncateWithTooltip tooltip>{{ row.number | number }}</div>
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef> </bc-footer-cell>
+    </td>
+    <td bc-footer-cell *footerCellDef> </td>
   </ng-container>
 
   <ng-container [columnDef]="receivedAtColumn">
-    <bc-header-cell sort *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
       <span [tooltip]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.RECEIVED_AT' | translate">{{
         'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.RECEIVED_AT' | translate
       }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.receivedAt | date: 'dd.MM.yyyy' }}</div>
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef> </bc-footer-cell>
+    </td>
+    <td bc-footer-cell *footerCellDef> </td>
   </ng-container>
 
   <ng-container [columnDef]="signatureCountTotalColumn">
-    <bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+    <th bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
       <span [tooltip]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.SIGNATURE_COUNT_TOTAL' | translate">{{
         'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.SIGNATURE_COUNT_TOTAL' | translate
       }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+    </th>
+    <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       @if (row.state !== collectionSignatureSheetStates.COLLECTION_SIGNATURE_SHEET_STATE_NOT_SUBMITTED) {
         <div truncateWithTooltip tooltip>{{ row.count.total | number }}</div>
       }
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef class="text-right">{{ footerSignatureCountTotal | number }}</bc-footer-cell>
+    </td>
+    <td bc-footer-cell *footerCellDef class="text-right">{{ footerSignatureCountTotal | number }}</td>
   </ng-container>
 
   <ng-container [columnDef]="signatureCountValidColumn">
-    <bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+    <th bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
       <span [tooltip]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.SIGNATURE_COUNT_VALID' | translate">{{
         'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.SIGNATURE_COUNT_VALID' | translate
       }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+    </th>
+    <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       @if (row.state !== collectionSignatureSheetStates.COLLECTION_SIGNATURE_SHEET_STATE_NOT_SUBMITTED) {
         <div truncateWithTooltip tooltip>{{ row.count.valid | number }}</div>
       }
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef class="text-right">{{ footerSignatureCountValid | number }}</bc-footer-cell>
+    </td>
+    <td bc-footer-cell *footerCellDef class="text-right">{{ footerSignatureCountValid | number }}</td>
   </ng-container>
 
   <ng-container [columnDef]="signatureCountInvalidColumn">
-    <bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
+    <th bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
       <span [tooltip]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.SIGNATURE_COUNT_INVALID' | translate">{{
         'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.SIGNATURE_COUNT_INVALID' | translate
       }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row" [align]="'right'">
+    </th>
+    <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       @if (row.state !== collectionSignatureSheetStates.COLLECTION_SIGNATURE_SHEET_STATE_NOT_SUBMITTED) {
         <div truncateWithTooltip tooltip>{{ row.count.invalid | number }}</div>
       }
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef class="text-right">{{ footerSignatureCountInvalid | number }}</bc-footer-cell>
+    </td>
+    <td bc-footer-cell *footerCellDef class="text-right">{{ footerSignatureCountInvalid | number }}</td>
   </ng-container>
 
   <ng-container [columnDef]="modifiedByNameColumn">
-    <bc-header-cell sort *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
       <span [tooltip]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.MODIFIED_BY_NAME' | translate">{{
         'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.MODIFIED_BY_NAME' | translate
       }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.modifiedByName || row.createdByName }}</div>
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef> </bc-footer-cell>
+    </td>
+    <td bc-footer-cell *footerCellDef> </td>
   </ng-container>
 
   <ng-container [columnDef]="stateColumn">
-    <bc-header-cell sort *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
       <span [tooltip]="'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.STATE' | translate">{{
         'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.TABLE.STATE' | translate
       }}</span>
-    </bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-status-label [label]="'COLLECTION.SIGNATURE_SHEETS.STATES.' + row.state | translate"></bc-status-label>
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef> </bc-footer-cell>
+    </td>
+    <td bc-footer-cell *footerCellDef> </td>
   </ng-container>
 
   <ng-container [columnDef]="actionsColumn">
-    <bc-header-cell *headerCellDef></bc-header-cell>
-    <bc-data-cell *dataCellDef="let row">
+    <th bc-header-cell *headerCellDef></th>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-button [icon]="'ellipsis-v'" [variant]="'tertiary'" [matMenuTriggerFor]="menu"></bc-button>
       <mat-menu #menu="matMenu">
         @if (row.userPermissions?.canSubmit) {
@@ -147,11 +147,11 @@
           <div mat-menu-item (click)="restore(row)">{{ 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.RESTORE' | translate }}</div>
         }
       </mat-menu>
-    </bc-data-cell>
-    <bc-footer-cell *footerCellDef> </bc-footer-cell>
+    </td>
+    <td bc-footer-cell *footerCellDef> </td>
   </ng-container>
 
-  <bc-header-row *headerRowDef="let row; columns: columns"></bc-header-row>
-  <bc-data-row *dataRowDef="let row; columns: columns; let i = index" (click)="openSignatureSheet(row)" class="selectable"></bc-data-row>
-  <bc-footer-row *footerRowDef="let row; columns: columns; sticky: true; let i = index"></bc-footer-row>
+  <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+  <tr bc-data-row *dataRowDef="let row; columns: columns; let i = index" (click)="openSignatureSheet(row)" class="selectable"></tr>
+  <tr bc-footer-row *footerRowDef="let row; columns: columns; sticky: true; let i = index"></tr>
 </bc-table>

@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, HostListener, inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import {
   ButtonModule,
   DialogService,
@@ -70,7 +70,7 @@ import { cloneDeep, isEqual } from 'lodash';
   ],
   providers: [DialogService],
 })
-export class CheckSamplesSignatureSheetDetailComponent implements OnDestroy {
+export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly collectionSignatureSheetService = inject(CollectionSignatureSheetService);
@@ -85,7 +85,6 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnDestroy {
   protected personCandidatesPage: Page<CollectionSignatureSheetCandidate> = emptyPage<CollectionSignatureSheetCandidate>();
 
   private readonly personComparer = createComparer<Person>('officialName', 'firstName', 'dateOfBirth');
-  private readonly routeSubscription: Subscription;
   private searchSubscription?: Subscription;
   private lastUsedFilter?: PersonFilterData;
   private addedPersonRegisterIds: string[] = [];
@@ -95,8 +94,10 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnDestroy {
   @ViewChild(SignatureSheetPersonSearchComponent)
   protected personSearchComponent?: SignatureSheetPersonSearchComponent;
 
-  constructor() {
-    this.routeSubscription = this.route.data.subscribe(({ collection, sheet }) => this.loadData(collection, sheet));
+  public async ngOnInit(): Promise<void> {
+    // Use snapshot instead of data observable to prevent double-execution caused by nested parent/child resolvers.
+    const { collection, sheet } = this.route.snapshot.data;
+    await this.loadData(collection, sheet);
   }
 
   @HostListener('window:beforeunload')
@@ -110,10 +111,6 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnDestroy {
 
   protected get hasChanges(): boolean {
     return this.citizens.some(x => !!x.reviewState) || !isEqual(this.sheet, this.originalSheet);
-  }
-
-  public ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
   }
 
   protected async backWithUnsavedChangesCheck(): Promise<void> {

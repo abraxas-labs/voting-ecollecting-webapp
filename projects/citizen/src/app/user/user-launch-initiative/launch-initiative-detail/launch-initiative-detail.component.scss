@@ -1,6 +1,6 @@
 @use '@abraxas/voting-lib/style/spacing' as *;
+@use '@abraxas/voting-lib/style/color' as *;
 @use 'gap' as *;
-@use 'color' as *;
 
 .footer-button-bar {
   @extend .p-3;

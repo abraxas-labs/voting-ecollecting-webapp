@@ -1,4 +1,4 @@
-@use '../../../styles/color' as *;
+@use '@abraxas/voting-lib/style/color' as *;
 
 ::ng-deep bc-file-input .file-list-container {
   display: none;
