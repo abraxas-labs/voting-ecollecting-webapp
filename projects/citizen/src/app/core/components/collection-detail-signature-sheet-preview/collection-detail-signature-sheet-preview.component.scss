@@ -1,0 +1,101 @@
+@use '@abraxas/voting-lib/style/color' as *;
+@use '@abraxas/voting-lib/style/table' as *;
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+.page {
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  @include sm-up() {
+    flex-wrap: nowrap;
+  }
+}
+
+.signature {
+  border-bottom: 1px solid $color-border-primary;
+}
+
+.signature-small {
+  width: 100px;
+  border-bottom: 1px solid $color-border-primary;
+}
+
+.signature-large {
+  width: 200px;
+  border-bottom: 1px solid $color-border-primary;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid $color-border-primary;
+
+  @include sm-up() {
+    flex-wrap: nowrap;
+  }
+}
+
+.overflow {
+  overflow-x: auto;
+}
+
+bc-table {
+  min-width: 40rem;
+}
+
+.bc-column-number {
+  width: 2.5rem;
+}
+
+.bc-column-date-of-birth {
+  width: 7rem;
+}
+
+.bc-column-check {
+  width: 5rem;
+  border-right: 1px solid $color-border-primary !important;
+}
+
+.bc-cell-header {
+  border-top: 1px solid $color-border-primary !important;
+  font-weight: bold !important;
+  color: $color-text-primary;
+}
+
+.bc-cell {
+  border-left: 1px solid $color-border-primary !important;
+  border-bottom: 1px solid $color-border-primary !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 6rem 1fr 10rem 1fr;
+  gap: 2rem 1rem;
+}
+
+.large-margin {
+  margin-top: 5rem;
+}
+
+.date-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+
+  @include sm-up() {
+    gap: 3rem;
+  }
+}

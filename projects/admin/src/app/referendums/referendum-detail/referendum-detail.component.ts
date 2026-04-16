@@ -25,15 +25,15 @@ import {
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { collectionStateColorMap, FileChipComponent, ImageUploadComponent, ToastService } from 'ecollecting-lib';
+import { collectionStateColorMap, FileChipComponent, ImagePreviewComponent, ToastService } from 'ecollecting-lib';
 import { Collection } from '../../core/models/collection.model';
 import { CollectionDetailPermissionsComponent } from '../../core/components/collection-permissions/collection-permissions.component';
 import { AbstractCollectionDetailBase } from '../../core/components/collection-detail-base/collection-detail-base.component';
 import { CollectionState } from '@abraxas/voting-ecollecting-proto';
 import { ReferendumDetailInfoComponent } from './referendum-detail-info/referendum-detail-info.component';
-import { AsyncPipe } from '@angular/common';
 import { ReferendumDetailEditComponent } from './referendum-detail-edit/referendum-detail-edit.component';
 import { ReferendumService } from '../../core/services/referendum.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-referendum-detail',
@@ -54,13 +54,13 @@ import { ReferendumService } from '../../core/services/referendum.service';
     ReadonlyModule,
     LinkModule,
     SpinnerModule,
-    ImageUploadComponent,
     LabelModule,
     CollectionDetailPermissionsComponent,
     TextModule,
     ReferendumDetailInfoComponent,
-    AsyncPipe,
     ReferendumDetailEditComponent,
+    ImagePreviewComponent,
+    AsyncPipe,
   ],
   providers: [DialogService],
 })

@@ -1,0 +1,190 @@
+<div class="page">
+  @if (collection) {
+    <div class="flex pt-5 justify-between">
+      <h2 id="content" tabindex="0">{{ collection.description }}</h2>
+      @if (collection.link) {
+        <qrcode
+          [qrdata]="collection.link"
+          [width]="72"
+          [errorCorrectionLevel]="'M'"
+          [margin]="0"
+          [elementType]="'img'"
+          [alt]="'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.QR_CODE_ALT' | translate"
+        ></qrcode>
+      }
+    </div>
+    <div class="container">
+      <div>
+        @if (initiative) {
+          <h3>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.INITIATIVE.TITLE' | translate }}</h3>
+          <vo-lib-markdown-preview [markdown]="initiative.wording"></vo-lib-markdown-preview>
+          <p class="mt-4">{{ collection.reason }}</p>
+          @if (committee?.activeCommitteeMembers?.length ?? 0 > 0) {
+            <h3 class="mt-5">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.INITIATIVE.COMMITTEE_MEMBERS' | translate }}</h3>
+            <p>
+              @for (member of committee?.activeCommitteeMembers; track member.id; let isLast = $last) {
+                <span>{{ member.politicalLastName }} {{ member.politicalFirstName }}, {{ member.politicalResidence }}</span>
+                @if (!isLast) {
+                  <span> | </span>
+                }
+              }
+            </p>
+          }
+        } @else if (referendum) {
+          <h3>{{ referendum.decree?.description }}</h3>
+          <p class="mt-4">{{ collection.reason }}</p>
+          @if (referendum.membersCommittee) {
+            <h3 class="mt-5">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.REFERENDUM.COMMITTEE_MEMBERS' | translate }}</h3>
+            <p>{{ referendum.membersCommittee }}</p>
+          }
+        }
+      </div>
+      <div class="flex flex-col gap-3">
+        @if (image) {
+          <img [src]="image | async" [alt]="'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.IMAGE_ALT' | translate" [width]="186" />
+        }
+        @if (logo) {
+          <img [src]="logo | async" [alt]="'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.LOGO_ALT' | translate" [width]="186" />
+        }
+      </div>
+    </div>
+
+    <bc-divider class="my-3"></bc-divider>
+
+    <h2 class="pt-3">{{ collection.description }}</h2>
+    @if (initiative) {
+      <p>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.INITIATIVE.INFO' | translate }}</p>
+    } @else if (referendum) {
+      <p>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.REFERENDUM.INFO' | translate }}</p>
+    }
+
+    <div class="box text-small">
+      <strong>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.MUNICIPALITY.NAME' | translate }}</strong>
+      <div class="flex gap-1">
+        <strong>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.MUNICIPALITY.ZIP' | translate }}</strong>
+        <div class="signature-small"></div>
+      </div>
+      <div class="flex gap-1">
+        <strong>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.MUNICIPALITY.LOCALITY' | translate }}</strong>
+        <div class="signature-large"></div>
+      </div>
+      <strong>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.MUNICIPALITY.INFO' | translate }}</strong>
+    </div>
+
+    <div class="overflow">
+      <bc-table [dataSource]="dataSource">
+        <ng-container [columnDef]="numberColumn">
+          <th bc-header-cell *headerCellDef [align]="'center'">
+          <span>
+            {{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.NUMBER' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef="let i = index" [align]="'center'">
+            {{ `${i + 1}.` }}
+          </td>
+        </ng-container>
+        <ng-container [columnDef]="nameColumn">
+          <th bc-header-cell *headerCellDef>
+          <span class="whitespace-pre-line">
+            {{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.NAME' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef></td>
+        </ng-container>
+        <ng-container [columnDef]="dateOfBirthColumn">
+          <th bc-header-cell *headerCellDef [align]="'center'">
+          <span>
+            {{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.DATE_OF_BIRTH' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef></td>
+        </ng-container>
+        <ng-container [columnDef]="residenceColumn">
+          <th bc-header-cell *headerCellDef>
+          <span class="whitespace-pre-line">
+            {{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.RESIDENCE' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef></td>
+        </ng-container>
+        <ng-container [columnDef]="signatureColumn">
+          <th bc-header-cell *headerCellDef>
+          <span class="whitespace-pre-line">
+            {{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef="let row"></td>
+        </ng-container>
+        <ng-container [columnDef]="checkColumn">
+          <th bc-header-cell *headerCellDef>
+          <span class="whitespace-pre-line">
+            {{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.CHECK' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef></td>
+        </ng-container>
+        <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+        <tr bc-data-row *dataRowDef="let row; columns: columns"></tr>
+      </bc-table>
+    </div>
+
+    <p class="date-container">
+      <span>{{
+        'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.COLLECTION_START_DATE'
+          | translate: { date: collection.collectionStartDate ?? minDate | date: 'dd.MM.yyyy' }
+      }}</span>
+      <span>{{
+        'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.COLLECTION_END_DATE'
+          | translate: { date: collection.collectionEndDate ?? minDate | date: 'dd.MM.yyyy' }
+      }}</span>
+    </p>
+
+    <p class="mb-0">
+      <em>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.HINT' | translate }}</em>
+    </p>
+    @if (initiative) {
+      <p>
+        <strong>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.INFO_INITIATIVE' | translate }}</strong>
+      </p>
+    } @else if (referendum) {
+      <p>
+        <strong>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.INFO_REFERENDUM' | translate }}</strong>
+      </p>
+    }
+
+    <div class="grid mt-3">
+      <span>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.LOCALITY' | translate }}</span>
+      <div class="signature"></div>
+      <span>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.STAMP' | translate }}</span>
+      <div></div>
+      <span>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.DATE' | translate }}</span>
+      <div class="signature"></div>
+    </div>
+
+    <div class="grid large-margin">
+      <span>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.SIGNATURE' | translate }}</span>
+      <div class="signature"></div>
+      <span>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.CAPACITY' | translate }}</span>
+      <div class="signature"></div>
+    </div>
+
+    <p class="mb-0 mt-5">
+      {{
+        'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.SEND'
+          | translate: { date: collection.signatureListSubmissionEndDate ?? minDate | date: 'dd. MMMM yyyy' }
+      }}
+    </p>
+    <p>
+      {{
+        'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.COMMITTEE_ADDRESS'
+          | translate
+            : {
+                committee: collection.address.committeeOrPerson,
+                street: collection.address.streetOrPostOfficeBox,
+                zip: collection.address.zipCode,
+                locality: collection.address.locality,
+              }
+      }}
+    </p>
+  }
+</div>

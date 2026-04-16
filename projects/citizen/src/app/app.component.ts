@@ -24,7 +24,6 @@ import {
   TooltipModule,
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
-import { Title } from '@angular/platform-browser';
 import { firstValueFrom, Subscription } from 'rxjs';
 import 'moment/locale/de';
 import { AuthenticationService } from './core/services/authentication.service';
@@ -55,7 +54,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public readonly auth = inject(AuthenticationService);
   private readonly translations = inject(TranslateService);
   private readonly languageService = inject(LanguageService);
-  private readonly title = inject(Title);
   private readonly router = inject(Router);
   private readonly snackbarService = inject(SnackbarService);
   protected readonly accessibilityUrl = accessibilityUrl;
@@ -83,7 +81,6 @@ export class AppComponent implements OnInit, OnDestroy {
     // Cannot use translations.instant here, as the translations may not have been loaded yet
     // It would then just display the non-translated string
     this.appTitle = await firstValueFrom(this.translations.get('APP.TITLE'));
-    this.title.setTitle(this.appTitle);
 
     this.snackbarSubscription = this.snackbarService.message$.subscribe(m => {
       if (!this.snackbarComponent) {

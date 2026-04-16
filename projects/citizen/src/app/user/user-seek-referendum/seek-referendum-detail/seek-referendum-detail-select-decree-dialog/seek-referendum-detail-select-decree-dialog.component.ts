@@ -17,6 +17,7 @@ import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 @Component({
   selector: 'app-seek-referendum-detail-select-decree-dialog',
   templateUrl: './seek-referendum-detail-select-decree-dialog.component.html',
+  styleUrl: './seek-referendum-detail-select-decree-dialog.component.scss',
   imports: [DecreeDoiTypeCardComponent, SpinnerModule, ButtonModule, ErrorModule, ReferendumCardComponent, TranslatePipe, DialogComponent],
 })
 export class SeekReferendumDetailSelectDecreeDialogComponent

@@ -1,4 +1,5 @@
 @use '../../ecollecting-lib/src/styles';
+@use '@abraxas/voting-lib/style/color' as *;
 
 .page-with-user-navigation {
   padding: 1rem;
@@ -11,4 +12,23 @@
 
 .page-with-fixed-footer {
   height: calc(100vh - 134px); // subtract height of app-header (60px) and footer (74px)
+}
+
+// jump links should not be visible without focus
+// https://www.accessibility-developer-guide.com/examples/hiding-elements/visually/#toggling-visibility-on-focus
+.accessible-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
+  padding: 10px;
+  background-color: $color-surface-bg-neutral-full;
+  z-index: 100;
+}
+
+.accessible-link:focus {
+  left: 20px;
+  width: auto;
+  height: auto;
 }

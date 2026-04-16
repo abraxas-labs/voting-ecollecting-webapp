@@ -60,6 +60,7 @@ export interface CollectionUserPermissions {
 
 export interface Collection extends CollectionShared {
   userPermissions?: CollectionUserPermissions;
+  signatureListSubmissionEndDate?: Date;
 }
 
 export function mapCollectionToModel(collectionProto: CollectionProto): Collection {
@@ -67,5 +68,6 @@ export function mapCollectionToModel(collectionProto: CollectionProto): Collecti
     ...collectionProto.toObject(),
     collectionStartDate: fromProtoDate(collectionProto.collectionStartDate),
     collectionEndDate: fromProtoDate(collectionProto.collectionEndDate),
+    signatureListSubmissionEndDate: fromProtoDate(collectionProto.signatureListSubmissionEndDate),
   } as Collection;
 }

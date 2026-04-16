@@ -1,0 +1,15 @@
+<bc-file-input
+  [containerLabel]="label"
+  [dragDropEnabled]="dragDropEnabled"
+  [fileDisplayType]="fileDisplayType"
+  [layout]="layout"
+  [accept]="accept"
+  [hint]="hint"
+  [readonly]="readonly"
+  [maxFileSize]="maxFileSize"
+  [multiple]="multiple"
+  [required]="required"
+  (fileLinkClicked)="fileClicked.emit()"
+  [value]="value"
+  (valueChange)="onFilesChange($event)"
+></bc-file-input>

@@ -1,18 +1,10 @@
-@use '@abraxas/voting-lib/style/color' as *;
-
-::ng-deep bc-file-input .file-list-container {
-  display: none;
+// workaround to make file input responsive
+::ng-deep bc-file-input .upload-area {
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 0.5rem;
 }
 
-.remove {
-  margin-left: -2.25rem;
-}
-
-img {
-  max-width: min(100%, 50rem);
-  max-height: 7rem;
-}
-
-.error {
-  color: $color-signal-error;
+::ng-deep bc-file-input .file-preview {
+  width: unset !important; // workaround to not limiting preview image to 160px width
 }

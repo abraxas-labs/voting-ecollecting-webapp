@@ -33,6 +33,9 @@ export class ReferendumCardComponent {
   @Input()
   public role?: CollectionPermissionRole;
 
+  @Input()
+  public headingLevel: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h4';
+
   @Output()
   public cardClick: EventEmitter<void> = new EventEmitter<void>();
 }

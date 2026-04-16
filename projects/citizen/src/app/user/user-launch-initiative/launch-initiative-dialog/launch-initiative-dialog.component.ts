@@ -31,6 +31,7 @@ import { DomainOfInfluenceService } from '../../../core/services/domain-of-influ
 import { DecimalPipe, KeyValuePipe } from '@angular/common';
 import { insufficientAcrException } from '../../../core/exceptions';
 import { DomainOfInfluence } from '../../../core/models/domain-of-influence.model';
+import { LaunchInitiativeSubTypeComponent } from '../launch-initiative-sub-type/launch-initiative-sub-type.component';
 
 const initiativeNotFoundException = 'InitiativeNotFoundException';
 const initiativeAlreadyInPreparationException = 'InitiativeAlreadyInPreparationException';
@@ -54,6 +55,7 @@ const initiativeAdmissibilityDecisionRejectedException = 'InitiativeAdmissibilit
     KeyValuePipe,
     DecimalPipe,
     AlertBarModule,
+    LaunchInitiativeSubTypeComponent,
   ],
 })
 export class LaunchInitiativeDialogComponent

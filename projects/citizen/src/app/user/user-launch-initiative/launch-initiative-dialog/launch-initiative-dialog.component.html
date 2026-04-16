@@ -53,16 +53,11 @@
         form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CH ||
         form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CT
         ) {
-        <bc-dropdown
-          class="subtype"
-          [formControl]="form.controls.subType"
+        <app-launch-initiative-sub-type
+          [control]="form.controls.subType"
           [items]="filteredSubTypes"
           (valueChange)="updateElectronicSubmissionValidators()"
-          displayExpr="description"
-          [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE' | translate"
-          [required]="true"
-          subscriptSizing="dynamic"
-        ></bc-dropdown>
+          [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE'"></app-launch-initiative-sub-type>
       } @else if (form.controls.domainOfInfluenceType.value === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU) {
         <vo-ecol-municipality-filter
           class="my-1 municipality"
@@ -73,19 +68,6 @@
         ></vo-ecol-municipality-filter>
       }
       @if (
-        (form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CH ||
-          form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CT) &&
-        form.value.subType
-        ) {
-        <div class="flex gap-3 subtype-values">
-          <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DIALOG.MIN_SIGNATURE_COUNT' | translate">
-            {{ form.value.subType.minSignatureCount | number }}
-          </bc-readonly>
-          <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
-            {{ form.value.subType.maxElectronicSignatureCount | number }}
-          </bc-readonly>
-        </div>
-      } @else if (
         form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU &&
         form.value.bfs
         ) {

@@ -31,7 +31,6 @@ import {
   InitiativeCommitteeMemberSignatureType,
 } from '@abraxas/voting-ecollecting-proto';
 import { Initiative, InitiativeCommitteeMember } from '../../../../../core/models/initiative.model';
-import { MatHint } from '@angular/material/form-field';
 import { InitiativeService } from '../../../../../core/services/initiative.service';
 
 @Component({
@@ -43,7 +42,6 @@ import { InitiativeService } from '../../../../../core/services/initiative.servi
     ReactiveFormsModule,
     DateModule,
     RadioButtonModule,
-    MatHint,
     ButtonModule,
     AutocompleteModule,
   ],

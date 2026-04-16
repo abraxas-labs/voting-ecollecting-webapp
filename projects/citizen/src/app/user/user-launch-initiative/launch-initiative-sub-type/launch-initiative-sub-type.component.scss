@@ -1,0 +1,33 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+:host {
+  width: 100%;
+}
+
+.subtype {
+  @include sm-up() {
+    .description-text {
+      width: 10rem;
+    }
+  }
+
+  .subtype-value-container {
+    display: flex;
+    column-gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .subtype-value {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 0.5rem;
+  }
+
+  ::ng-deep .formfield .mat-mdc-form-field-flex {
+    height: unset !important;
+
+    @include lg-up() {
+      height: 44px !important;
+    }
+  }
+}

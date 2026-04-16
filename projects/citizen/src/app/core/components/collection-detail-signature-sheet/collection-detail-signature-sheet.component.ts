@@ -8,15 +8,15 @@ import { Component, inject, OnDestroy, SecurityContext } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { ButtonModule, CardModule, ErrorModule, IconModule, LinkModule, RadioButtonModule, SpinnerModule } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ConfirmDialogService, FileChipComponent, FileUploadComponent, ToastService } from 'ecollecting-lib';
+import { ConfirmDialogService, FileChipComponent, FileInputComponent, ToastService } from 'ecollecting-lib';
 import { FormsModule } from '@angular/forms';
 import { CollectionService } from '../../services/collection.service';
 import { Collection } from '../../models/collection.model';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { signInitiativeUrl, signReferendumUrl } from '../../../user/user.routes';
+import { detailSignatureSheetPreviewUrl, signInitiativeUrl, signReferendumUrl } from '../../../user/user.routes';
 import { userUrl } from '../../../app.routes';
 import { CollectionType } from '@abraxas/voting-ecollecting-proto';
 
@@ -27,7 +27,6 @@ import { CollectionType } from '@abraxas/voting-ecollecting-proto';
     TranslatePipe,
     RadioButtonModule,
     SpinnerModule,
-    FileUploadComponent,
     FormsModule,
     ButtonModule,
     LinkModule,
@@ -35,6 +34,8 @@ import { CollectionType } from '@abraxas/voting-ecollecting-proto';
     ErrorModule,
     IconModule,
     QRCodeComponent,
+    FileInputComponent,
+    RouterLink,
   ],
   templateUrl: './collection-detail-signature-sheet.component.html',
   styleUrl: './collection-detail-signature-sheet.component.scss',
@@ -47,11 +48,15 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
   private readonly platformLocation = inject(PlatformLocation);
   private readonly router = inject(Router);
 
+  protected readonly detailSignatureSheetPreviewUrl = detailSignatureSheetPreviewUrl;
+
   protected collection?: Collection;
   protected settingFile: boolean = false;
   protected isGeneratingPreview: boolean = false;
   protected maxSizeInBytes: number = 5 * 1024 * 1024; // 5 MB
   protected qrCodeData?: string;
+  protected signatureSheetTemplateFile?: File;
+  protected signatureSheetTemplateFileError = false;
 
   // download url to download the qr code svg
   protected qrCodeDownloadUrl?: SafeUrl;
@@ -63,6 +68,9 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
 
     this.routeSubscription = route.parent!.data.subscribe(({ initiative, referendum }) => {
       this.collection = initiative?.collection ?? referendum?.collection;
+      if (this.collection?.signatureSheetTemplate) {
+        this.signatureSheetTemplateFile = new File([], this.collection.signatureSheetTemplate.name);
+      }
       this.buildQrCodeData();
     });
   }
@@ -71,39 +79,33 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
-  public async setFile(file: File): Promise<void> {
-    if (!this.collection) {
+  protected async updateFiles(files?: File[]): Promise<void> {
+    if (!this.collection || !files || files.length !== 1) {
       return;
     }
 
-    if (this.collection.signatureSheetTemplate) {
-      const ok = await this.confirmDialogService.confirm({
-        title: 'COLLECTION.DETAIL.SIGNATURE_SHEET.OVERWRITE_FILE_CONFIRMATION.TITLE',
-        message: 'COLLECTION.DETAIL.SIGNATURE_SHEET.OVERWRITE_FILE_CONFIRMATION.MSG',
-        confirmText: 'APP.YES',
-        discardText: 'APP.DISCARD',
-      });
-      if (!ok) {
-        return;
-      }
-    }
-
+    const file = files[0];
     try {
+      this.signatureSheetTemplateFileError = false;
       this.settingFile = true;
       this.collection.signatureSheetTemplate = { id: '', name: file.name };
       await this.collectionService.setSignatureSheet(this.collection.id, file);
       this.toast.success('COLLECTION.DETAIL.SIGNATURE_SHEET.UPLOADED');
+    } catch (e) {
+      this.signatureSheetTemplateFileError = true;
+      throw e;
     } finally {
       this.settingFile = false;
     }
   }
 
-  public async removeFile(): Promise<void> {
-    if (!this.collection) {
+  protected async deleteFile(): Promise<void> {
+    if (!this.collection || !this.collection.userPermissions?.canDeleteSignatureSheetTemplate || !this.collection.signatureSheetTemplate) {
       return;
     }
 
     if (!(await this.confirmRemoveFile())) {
+      this.signatureSheetTemplateFile = new File([], this.collection.signatureSheetTemplate.name);
       return;
     }
 
@@ -131,6 +133,7 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
 
     this.collection.signatureSheetTemplateGenerated = generated;
     delete this.collection.signatureSheetTemplate;
+    delete this.signatureSheetTemplateFile;
 
     if (!generated) {
       return;
@@ -139,6 +142,7 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
     // if generated=true automatically generate new preview
     this.isGeneratingPreview = true;
     try {
+      this.toast.info('COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATING');
       this.collection.signatureSheetTemplate = await this.collectionService.setSignatureSheetFileTemplateGenerated(
         this.collection.id,
         this.collection.type,
@@ -165,6 +169,7 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
 
     try {
       this.isGeneratingPreview = true;
+      this.toast.info('COLLECTION.DETAIL.SIGNATURE_SHEET.GENERATING');
       this.collection.signatureSheetTemplate = await this.collectionService.generateSignatureSheetTemplatePreview(
         this.collection.id,
         this.collection.type,

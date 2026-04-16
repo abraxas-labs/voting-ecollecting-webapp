@@ -70,6 +70,9 @@ export class FileUploadComponent implements OnInit {
   @Input()
   public fileLoading: boolean = false;
 
+  @Input()
+  public uploading: boolean = false;
+
   @Output()
   public fileChanged: EventEmitter<File> = new EventEmitter<File>();
 

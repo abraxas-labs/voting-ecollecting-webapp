@@ -196,6 +196,14 @@ export class CollectionService implements CollectionMessagesService {
       .pipe(switchMap(x => newObjectUrlObservableForBlob(x)));
   }
 
+  public async getImageFile(collectionId: string): Promise<Blob> {
+    return lastValueFrom(this.http.get(`${this.restApiUrl}/${collectionId}/image`, { responseType: 'blob' }));
+  }
+
+  public async getLogoFile(collectionId: string): Promise<Blob> {
+    return lastValueFrom(this.http.get(`${this.restApiUrl}/${collectionId}/logo`, { responseType: 'blob' }));
+  }
+
   public async downloadSignatureSheetTemplate(collectionId: string, preview: boolean): Promise<void> {
     let url = `${this.restApiUrl}/${collectionId}/signature-sheet-template`;
     if (preview) {

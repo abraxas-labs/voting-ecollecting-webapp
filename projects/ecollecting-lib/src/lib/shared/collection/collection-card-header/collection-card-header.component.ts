@@ -57,14 +57,17 @@ export class CollectionCardHeaderComponent {
     return this.collectionOrDecreeValue;
   }
 
-  @Input({ required: true })
+  @Input()
   public collectionStartDate?: Date;
 
-  @Input({ required: true })
+  @Input()
   public collectionEndDate?: Date;
 
   @Input()
   public subType?: InitiativeSubType;
+
+  @Input()
+  public headingLevel: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h4';
 
   protected collection?: Collection;
   protected decree?: Decree;

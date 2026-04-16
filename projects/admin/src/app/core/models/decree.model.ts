@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Decree as DecreeProto } from '@abraxas/voting-ecollecting-proto/admin';
+import { Decree as DecreeProto, GetDecreeForDeleteResponse } from '@abraxas/voting-ecollecting-proto/admin';
 import { Decree as DecreeShared, fromProtoDate } from 'ecollecting-lib';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { mapReferendumToModel, Referendum } from './referendum.model';
@@ -25,6 +25,17 @@ export interface DecreeUserPermissions {
   canDelete: boolean;
 }
 
+export interface ReferendumDeleteInfo {
+  referendum: Referendum;
+  creatorName: string;
+  creatorEmail: string;
+}
+
+export interface DecreeForDeleteResult {
+  decree: Decree;
+  referendums: ReferendumDeleteInfo[];
+}
+
 export function mapDecreeToModel(decreeProto: DecreeProto, includeCollections: boolean = true): Decree {
   const collections = includeCollections ? decreeProto.collections?.map(x => mapReferendumToModel(x)) : [];
   return {
@@ -34,6 +45,17 @@ export function mapDecreeToModel(decreeProto: DecreeProto, includeCollections: b
     sensitiveDataExpiryDate: fromProtoDate(decreeProto.sensitiveDataExpiryDate),
     collections: collections,
   } as Decree;
+}
+
+export function mapDecreeForDeleteToModel(resp: GetDecreeForDeleteResponse): DecreeForDeleteResult {
+  return {
+    decree: mapDecreeToModel(resp.decree!),
+    referendums: resp.referendums!.map(r => ({
+      referendum: mapReferendumToModel(r.referendum!),
+      creatorName: r.creatorFullName,
+      creatorEmail: r.creatorEmail,
+    })),
+  };
 }
 
 export function newDecree(): Decree {

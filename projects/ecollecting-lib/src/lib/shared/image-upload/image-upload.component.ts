@@ -5,21 +5,17 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FileInputModule, IconButtonModule, LabelModule } from '@abraxas/base-components';
-import { MatHint } from '@angular/material/form-field';
-import { FileUploadComponent } from '../file-upload/file-upload.component';
-import { SafeResourceUrl } from '@angular/platform-browser';
-import { TranslatePipe } from '@ngx-translate/core';
+import { FileInputComponent } from '../file-input/file-input.component';
 
 @Component({
   selector: 'vo-ecol-image-upload',
   templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.scss'],
-  imports: [FileInputModule, LabelModule, MatHint, IconButtonModule, FileUploadComponent, TranslatePipe],
+  styleUrl: './image-upload.component.scss',
+  imports: [FileInputComponent],
 })
 export class ImageUploadComponent {
   @Input()
-  public imageSrc?: SafeResourceUrl | null;
+  public image?: File;
 
   @Input()
   public label: string = '';
@@ -28,22 +24,16 @@ export class ImageUploadComponent {
   public hint: string = '';
 
   @Input()
-  public error: boolean = false;
-
-  @Input()
-  public filename?: string;
-
-  @Input()
-  public fileLoading: boolean = false;
-
-  @Input()
-  public canUpload: boolean = true;
-
-  @Input()
-  public canDelete: boolean = true;
+  public readonly: boolean = false;
 
   @Input()
   public required: boolean = false;
+
+  @Input()
+  public error: boolean = false;
+
+  @Input()
+  public fileLoading: boolean = false;
 
   @Output()
   public imageChanged: EventEmitter<File> = new EventEmitter<File>();
@@ -51,7 +41,7 @@ export class ImageUploadComponent {
   @Output()
   public imageDeleted: EventEmitter<void> = new EventEmitter<void>();
 
-  protected readonly acceptedFileTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+  protected readonly acceptedFileTypes = 'image/png,image/jpeg,image/jpg';
 
   protected maxSizeInBytes: number = 3 * 1024 * 1024; // 3 MB
 }

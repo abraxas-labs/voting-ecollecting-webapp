@@ -11,7 +11,11 @@
   }
 
   .collection-period bc-readonly {
-    min-width: 13rem;
+    min-width: 9rem;
+
+    @include sm-up() {
+      min-width: 13rem;
+    }
   }
 
   @include lg-up() {

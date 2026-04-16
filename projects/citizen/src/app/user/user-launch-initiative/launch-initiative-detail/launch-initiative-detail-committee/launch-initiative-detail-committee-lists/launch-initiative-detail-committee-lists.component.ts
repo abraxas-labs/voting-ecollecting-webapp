@@ -10,14 +10,18 @@ import { Initiative, InitiativeCommittee } from '../../../../../core/models/init
 import { InitiativeService } from '../../../../../core/services/initiative.service';
 import { ConfirmDialogService, FileChipComponent, FileUploadComponent, StoredFile, ToastService } from 'ecollecting-lib';
 import { TranslatePipe } from '@ngx-translate/core';
+import { RouterLink } from '@angular/router';
+import { detailCommitteeListPreviewUrl } from '../../../../user.routes';
 
 @Component({
-  selector: 'app-launch-initiative-detail-comittee-lists',
-  imports: [ButtonModule, CardModule, SpinnerModule, TranslatePipe, FileUploadComponent, FileChipComponent],
-  templateUrl: './launch-initiative-detail-comittee-lists.component.html',
-  styleUrl: './launch-initiative-detail-comittee-lists.component.scss',
+  selector: 'app-launch-initiative-detail-committee-lists',
+  imports: [ButtonModule, CardModule, SpinnerModule, TranslatePipe, FileUploadComponent, FileChipComponent, RouterLink],
+  templateUrl: './launch-initiative-detail-committee-lists.component.html',
+  styleUrl: './launch-initiative-detail-committee-lists.component.scss',
 })
-export class LaunchInitiativeDetailComitteeListsComponent {
+export class LaunchInitiativeDetailCommitteeListsComponent {
+  protected readonly detailCommitteeListPreviewUrl = detailCommitteeListPreviewUrl;
+
   private readonly initiativeService = inject(InitiativeService);
   private readonly toast = inject(ToastService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
@@ -39,7 +43,10 @@ export class LaunchInitiativeDetailComitteeListsComponent {
 
     this.downloadingTemplate = true;
     try {
+      this.toast.info('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.GENERATING');
       await this.initiativeService.downloadCommitteeListTemplate(this.initiative.id);
+
+      this.toast.success('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.GENERATED');
     } finally {
       this.downloadingTemplate = false;
     }

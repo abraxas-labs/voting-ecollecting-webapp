@@ -8,18 +8,6 @@
   border: 1px solid $color-border-soft;
 }
 
-.generating {
-  display: flex;
-  align-items: center;
-
-  span {
-    @extend .ml-2;
-
-    font-style: italic;
-    color: $color-text-secondary;
-  }
-}
-
 .files {
   @extend .gap-1;
 

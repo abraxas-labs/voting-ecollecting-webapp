@@ -14,6 +14,8 @@ import {
   NavigationModule,
   NavLayoutModule,
   SubNavigationBarModule,
+  TooltipModule,
+  TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { Initiative } from '../../../core/models/initiative.model';
 import { UserHelpMenuDialogComponent } from '../../user-help-menu-dialog/user-help-menu-dialog.component';
@@ -42,7 +44,17 @@ import {
 
 @Component({
   selector: 'app-launch-initiative-detail',
-  imports: [SubNavigationBarModule, IconButtonModule, TranslatePipe, NavLayoutModule, NavigationModule, ButtonModule, RouterOutlet],
+  imports: [
+    SubNavigationBarModule,
+    IconButtonModule,
+    TranslatePipe,
+    NavLayoutModule,
+    NavigationModule,
+    ButtonModule,
+    RouterOutlet,
+    TooltipModule,
+    TruncateWithTooltipModule,
+  ],
   templateUrl: './launch-initiative-detail.component.html',
   styleUrls: ['./launch-initiative-detail.component.scss'],
   providers: [DialogService],

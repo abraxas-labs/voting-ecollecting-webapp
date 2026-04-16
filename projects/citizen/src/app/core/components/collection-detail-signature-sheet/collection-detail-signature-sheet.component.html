@@ -33,6 +33,7 @@
             <vo-ecol-file-chip [label]="collection.signatureSheetTemplate.name"
                                (open)="openFile()"
                                [canRemove]="false"></vo-ecol-file-chip>
+            <a class="accessible-link" tabindex="0" [routerLink]="['..', detailSignatureSheetPreviewUrl]">{{ 'APP.OPEN_ACCESSIBLE_PDF' | translate }}</a>
           }
         </div>
         <div class="box">
@@ -42,24 +43,24 @@
                            [disabled]="!collection.userPermissions?.canEditSignatureSheetTemplate"
                            [subscriptSizing]="'dynamic'"></bc-radio-button>
           @if (!collection.signatureSheetTemplateGenerated) {
-            <vo-ecol-file-upload
-              (fileChanged)="setFile($event)"
-              (fileRemoved)="removeFile()"
-              (openFile)="openFile()"
-              [fileLoading]="settingFile"
-              [allowedContentTypes]="['application/pdf']"
-              [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.FILE_UPLOAD.LABEL'"
-              [inlineHint]="'COLLECTION.DETAIL.SIGNATURE_SHEET.FILE_UPLOAD.HINT'"
-              [filename]="collection.signatureSheetTemplate?.name"
-              [canRemoveFile]="!!collection.userPermissions?.canDeleteSignatureSheetTemplate"
-              [disabled]="!collection.userPermissions?.canEditSignatureSheetTemplate"
-              [maxSizeInBytes]="maxSizeInBytes"
-            ></vo-ecol-file-upload>
+            <vo-ecol-file-input
+              [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.FILE_UPLOAD.LABEL' | translate"
+              [dragDropEnabled]="true"
+              [layout]="'area'"
+              [accept]="'application/pdf'"
+              [hint]="'COLLECTION.DETAIL.SIGNATURE_SHEET.FILE_UPLOAD.HINT' | translate"
+              [readonly]="!collection.userPermissions?.canEditSignatureSheetTemplate"
+              [maxFileSize]="maxSizeInBytes"
+              (fileClicked)="openFile()"
+              [files]="signatureSheetTemplateFile ? [signatureSheetTemplateFile] : []"
+              (fileDeleted)="deleteFile()"
+              (filesChanged)="updateFiles($event)"
+            ></vo-ecol-file-input>
           }
         </div>
 
       @if (qrCodeData) {
-        <div class="mt-3">
+        <div class="mt-5">
           <h3 tabindex="0">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.TITLE' | translate }}</h3>
           <p tabindex="0">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.MSG' | translate }}</p>
           <qrcode (qrCodeURL)="qrCodeDownloadUrlChanged($event)" [width]="192" [qrdata]="qrCodeData" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>

@@ -34,7 +34,8 @@
                                      [clickable]="true"
                                      [showState]="false"
                                      [role]="referendum.collection.userPermissions?.role"
-                                     (cardClick)="signOnline(referendum.collection)">
+                                     (cardClick)="signOnline(referendum.collection)"
+                                     [headingLevel]="'h5'">
               <app-sign-collection-extension [collection]="referendum"></app-sign-collection-extension>
             </vo-ecol-referendum-card>
           }

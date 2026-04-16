@@ -127,6 +127,7 @@
     "ADD": "Mitteilung hinzufügen",
     "CLOSE": "Schliessen",
     "SEND": "Senden",
+    "SENT": "Mitteilung wurde gesendet.",
     "REQUEST_INFORMAL_REVIEW": "Informelle Vorprüfung veranlassen",
     "UNSAVED_CHANGES": {
       "MESSAGE": "Sind Sie sicher, dass Sie die Nachricht nicht senden möchten?",

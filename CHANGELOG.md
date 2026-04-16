@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.136.5`)
+# ✨ Changelog (`v1.138.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,95 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.136.5
-Previous version ---- v1.134.4
+This version -------- v1.138.0
+Previous version ---- v1.136.5
 Initial version ----- v1.115.24
-Total commits ------- 10
+Total commits ------- 15
 ```
+
+## [v1.138.0] - 2026-04-10
+
+### 🆕 Added
+
+- add accessible pdf version
+
+## [v1.137.5] - 2026-04-09
+
+### 🔄 Changed
+
+- improve initiative sub type selection
+
+## [v1.137.4] - 2026-04-09
+
+### 🔄 Changed
+
+- accessibility feedback
+
+## [v1.137.3] - 2026-04-09
+
+### 🔄 Changed
+
+- remove logo, adjust titles and spaces for qr code
+
+## [v1.137.2] - 2026-04-08
+
+### 🔄 Changed
+
+- feedback accessibility review
+
+## [v1.137.1] - 2026-04-08
+
+### 🔄 Changed
+
+- replace image file uploader
+
+## [v1.137.0] - 2026-04-08
+
+### 🆕 Added
+
+- feat(VOTING-6569): add decree delete dialog
+
+## [v1.136.12] - 2026-04-02
+
+### 🔄 Changed
+
+- update base components
+
+## [v1.136.11] - 2026-04-01
+
+### 🔄 Changed
+
+- change control sign filter order
+
+## [v1.136.10] - 2026-04-01
+
+### 🔄 Changed
+
+- allow deleting committee member
+
+## [v1.136.9] - 2026-04-01
+
+### 🔄 Changed
+
+- update angular and base-components version
+
+## [v1.136.8] - 2026-04-01
+
+### 🔄 Changed
+
+- add custom dropdown for initiative sub type
+
+## [v1.136.7] - 2026-03-31
+
+### 🔄 Changed
+
+- set page titles
+
+## [v1.136.6] - 2026-03-31
+
+### 🔄 Changed
+
+- accessiblity feedback
 
 ## [v1.136.5] - 2026-03-27
 

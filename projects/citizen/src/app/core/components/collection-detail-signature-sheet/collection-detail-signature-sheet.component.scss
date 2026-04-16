@@ -12,16 +12,11 @@
 .generated-content {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 
   .actions {
     display: flex;
     align-items: center;
-
-    .generating {
-      @extend .ml-2;
-
-      font-style: italic;
-      color: $color-text-secondary;
-    }
+    flex-wrap: wrap;
   }
 }

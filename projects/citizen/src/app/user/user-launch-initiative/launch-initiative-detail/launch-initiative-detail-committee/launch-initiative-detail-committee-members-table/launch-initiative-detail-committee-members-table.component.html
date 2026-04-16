@@ -108,7 +108,7 @@
   <ng-container [columnDef]="actionsColumn">
     <th bc-header-cell *headerCellDef></th>
     <td bc-data-cell *dataCellDef="let element" align="right">
-      @if ((element.userPermissions?.canEdit || element.userPermissions?.canEditPoliticalDuty) && !readonly) {
+      @if ((element.userPermissions?.canEdit || element.userPermissions?.canEditPoliticalDuty || canRemove) && !readonly) {
         <bc-icon-button
           (buttonClick)="editClicked.emit(element)"
           [disabled]="!element.userPermissions?.canEdit && !element.userPermissions?.canEditPoliticalDuty"
@@ -121,7 +121,6 @@
           icon="repeat"
           variant="tertiary"
           [disabled]="!element.userPermissions?.canResend"
-          [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.RESEND' | translate"
           [ariaLabel]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.RESEND' | translate"
         ></bc-icon-button>
         <bc-icon-button

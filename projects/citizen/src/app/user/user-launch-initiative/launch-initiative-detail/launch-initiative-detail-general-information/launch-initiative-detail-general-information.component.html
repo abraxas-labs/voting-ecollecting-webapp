@@ -1,7 +1,12 @@
 @if (initiative && !loading) {
   <bc-card class="m-3" [border]="false">
     <bc-card-header>
-      <bc-card-title id="content" tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
+      <bc-card-title
+        id="content"
+        tabindex="0"
+        [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.TITLE' | translate"
+        [headingLevel]="'h3'"
+      ></bc-card-title>
     </bc-card-header>
     <bc-card-content class="flex flex-col gap-y-2">
       <div class="flex flex-wrap gap-x-3">
@@ -9,26 +14,12 @@
           initiative.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CH ||
           initiative.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CT
         ) {
-          <bc-dropdown
-            class="subtype"
-            [formControl]="form.controls.subType"
+          <app-launch-initiative-sub-type
+            [control]="form.controls.subType"
             [items]="subTypes"
-            displayExpr="description"
             [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.SUB_TYPE' | translate"
-            [required]="true"
             [readonly]="!initiative.collection.userPermissions?.canEditSubType"
-            subscriptSizing="dynamic"
-          ></bc-dropdown>
-          @if (form.value.subType) {
-            <div class="flex gap-x-3 subtype-values">
-              <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MIN_SIGNATURE_COUNT' | translate">
-                {{ form.value.subType.minSignatureCount | number }}
-              </bc-readonly>
-              <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
-                {{ form.value.subType.maxElectronicSignatureCount | number }}
-              </bc-readonly>
-            </div>
-          }
+          ></app-launch-initiative-sub-type>
         } @else if (initiative.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU) {
           <bc-text
             [readonly]="true"
@@ -39,7 +30,7 @@
           ></bc-text>
         }
         @if (initiative.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU) {
-          <div class="flex gap-3 subtype-values">
+          <div class="flex gap-3 subtype-values flex-wrap">
             <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.MIN_SIGNATURE_COUNT' | translate">
               {{ initiative.minSignatureCount | number }}
             </bc-readonly>
@@ -81,7 +72,10 @@
         [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.ADDRESS.COMMITTEE_OR_PERSON' | translate"
         [required]="true"
         [showDefaultErrors]="true"
-        [error]="(showValidationErrors || form.controls.address.controls.committeeOrPerson.touched) && form.controls.address.controls.committeeOrPerson.invalid"
+        [error]="
+          (showValidationErrors || form.controls.address.controls.committeeOrPerson.touched) &&
+          form.controls.address.controls.committeeOrPerson.invalid
+        "
         [readonly]="!initiative.collection.userPermissions?.canEdit"
         subscriptSizing="dynamic"
       ></bc-text>
@@ -90,7 +84,10 @@
         [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.ADDRESS.STREET_OR_POST_OFFICE_BOX' | translate"
         [required]="true"
         [showDefaultErrors]="true"
-        [error]="(showValidationErrors || form.controls.address.controls.streetOrPostOfficeBox.touched) && form.controls.address.controls.streetOrPostOfficeBox.invalid"
+        [error]="
+          (showValidationErrors || form.controls.address.controls.streetOrPostOfficeBox.touched) &&
+          form.controls.address.controls.streetOrPostOfficeBox.invalid
+        "
         [readonly]="!initiative.collection.userPermissions?.canEdit"
         subscriptSizing="dynamic"
       ></bc-text>
@@ -100,7 +97,9 @@
           [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.ADDRESS.ZIP_CODE' | translate"
           [required]="true"
           [showDefaultErrors]="true"
-          [error]="(showValidationErrors || form.controls.address.controls.zipCode.touched) && form.controls.address.controls.zipCode.invalid"
+          [error]="
+            (showValidationErrors || form.controls.address.controls.zipCode.touched) && form.controls.address.controls.zipCode.invalid
+          "
           [readonly]="!initiative.collection.userPermissions?.canEdit"
           subscriptSizing="dynamic"
         ></bc-text>
@@ -109,7 +108,9 @@
           [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.ADDRESS.LOCALITY' | translate"
           [required]="true"
           [showDefaultErrors]="true"
-          [error]="(showValidationErrors || form.controls.address.controls.locality.touched) && form.controls.address.controls.locality.invalid"
+          [error]="
+            (showValidationErrors || form.controls.address.controls.locality.touched) && form.controls.address.controls.locality.invalid
+          "
           [readonly]="!initiative.collection.userPermissions?.canEdit"
           subscriptSizing="dynamic"
         ></bc-text>
@@ -124,29 +125,25 @@
       <div class="flex flex-wrap gap-x-5 mt-1">
         <vo-ecol-image-upload
           class="flex-1"
-          [imageSrc]="image | async"
+          [image]="image"
           (imageChanged)="updateImage($event)"
           (imageDeleted)="deleteImage()"
           [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.IMAGE' | translate"
           [hint]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.IMAGE_HINT' | translate"
-          [error]="updateImageError"
-          [filename]="initiative.collection.image?.name ?? ''"
+          [readonly]="!initiative.collection.userPermissions?.canEdit"
+          [error]="imageError"
           [fileLoading]="imageLoading"
-          [canUpload]="initiative.collection.userPermissions?.canEdit ?? false"
-          [canDelete]="initiative.collection.userPermissions?.canEdit ?? false"
         ></vo-ecol-image-upload>
         <vo-ecol-image-upload
           class="flex-1"
-          [imageSrc]="logo | async"
+          [image]="logo"
           (imageChanged)="updateLogo($event)"
           (imageDeleted)="deleteLogo()"
           [label]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.LOGO' | translate"
           [hint]="'LAUNCH_INITIATIVE.DETAIL.GENERAL_INFORMATION.IMAGE_HINT' | translate"
-          [error]="updateLogoError"
-          [filename]="initiative.collection.logo?.name ?? ''"
+          [readonly]="!initiative.collection.userPermissions?.canEdit"
+          [error]="logoError"
           [fileLoading]="logoLoading"
-          [canUpload]="initiative.collection.userPermissions?.canEdit ?? false"
-          [canDelete]="initiative.collection.userPermissions?.canEdit ?? false"
         ></vo-ecol-image-upload>
       </div>
       @if (initiative.collection.userPermissions?.canEdit) {

@@ -17,6 +17,7 @@ import {
   SnackbarModule,
   SpinnerModule,
   StylingService,
+  Tenant,
 } from '@abraxas/base-components';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';

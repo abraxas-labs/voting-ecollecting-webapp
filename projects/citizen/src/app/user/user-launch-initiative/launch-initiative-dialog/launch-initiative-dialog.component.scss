@@ -4,15 +4,15 @@ bc-readonly {
   white-space: nowrap;
 }
 
+::ng-deep .formfield .label-content {
+  right: 0; // overflowing label truncate
+}
+
 .municipality {
   width: 100%;
 }
 
 @include sm-up() {
-  .subtype {
-    flex: 1;
-  }
-
   .subtype-values {
     margin-top: 1.5rem;
   }

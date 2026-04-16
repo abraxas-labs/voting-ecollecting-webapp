@@ -1,30 +1,27 @@
-<div class="page-with-fixed-footer layout">
+<div class="page layout">
   @if (initiative) {
     <bc-sub-navigation-bar
       class="layout-header"
       [type]="'subpage'"
       [border]="false"
-      [label]="
-      (initiative.collection.isElectronicSubmission
-        ? 'LAUNCH_INITIATIVE.DETAIL.TITLE_ELECTRONIC_SUBMISSION'
-        : 'LAUNCH_INITIATIVE.DETAIL.TITLE_PAPER_SUBMISSION'
-      ) | translate: { description: initiative.collection.description, governmentDecisionNumber: initiative.governmentDecisionNumber }
-    "
       (actionClick)="back()"
       [backBtnAriaLabel]="'APP.BACK' | translate"
     >
-      <bc-icon-button icon="add-comment" (buttonClick)="openChat()" [ariaLabel]="'CHAT.OPEN' | translate"></bc-icon-button>
+      <h2 sub-navigation-title tooltip truncateWithTooltip>
+        {{
+          (initiative.collection.isElectronicSubmission
+              ? 'LAUNCH_INITIATIVE.DETAIL.TITLE_ELECTRONIC_SUBMISSION'
+              : 'LAUNCH_INITIATIVE.DETAIL.TITLE_PAPER_SUBMISSION'
+          ) | translate: { description: initiative.collection.description, governmentDecisionNumber: initiative.governmentDecisionNumber }
+        }}
+      </h2>
+      <bc-icon-button class="ml-2" icon="add-comment" (buttonClick)="openChat()" [ariaLabel]="'CHAT.OPEN' | translate"></bc-icon-button>
       <bc-icon-button class="ml-2" icon="question-circle-o" (buttonClick)="openHelpMenu()" [ariaLabel]="'HELP.OPEN' | translate"></bc-icon-button>
     </bc-sub-navigation-bar>
     <bc-nav-layout class="layout-content">
-      <!-- fixedToGap = 120 is app header height (60px) + user navigation height (60px) -->
-      <!-- fixedBottomGap = button footer height + app footer (74px) -->
       <!-- collapseBreakpoint = medium break point https://getbootstrap.com/docs/5.3/layout/breakpoints/#available-breakpoints -->
       <bc-nav-drawer
         [opened]="true"
-        [fixedInViewport]="true"
-        [fixedTopGap]="120"
-        [fixedBottomGap]="footer.offsetHeight + 74"
         [collapseBreakpoint]="768"
         [expandable]="true"
         [rounded]="true"

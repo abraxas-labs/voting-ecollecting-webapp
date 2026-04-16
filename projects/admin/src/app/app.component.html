@@ -7,16 +7,13 @@
           [link]="['/']"
           [title]="appTitle"
           (tenantChanged)="switchTenant()"
-          [applications]="[]"
-          [languages]="[]"
-          [themes]="[]"
-          customLogoPath="assets/logo-schalter-e.svg"
+          [showThemes]="false"
           logo="VO"
         >
           <vo-lib-environment-chip></vo-lib-environment-chip>
         </bc-app-header-bar-iam>
       } @else {
-        <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO" customLogoPath="assets/logo-schalter-e.svg"></bc-app-header-bar>
+        <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO"></bc-app-header-bar>
       }
     </header>
     <main class="layout-content content-width" [class.large-content-width]="route.snapshot | routeData: 'largeView'">

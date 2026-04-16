@@ -201,6 +201,7 @@ export class SeekReferendumDetailComponent implements OnDestroy {
 
     try {
       this.submitting = true;
+      this.toastService.info('SEEK_REFERENDUM.DETAIL.SUBMITTING');
       await this.referendumService.submit(this.referendum.id);
       this.toastService.success('SEEK_REFERENDUM.DETAIL.SUBMITTED');
     } finally {

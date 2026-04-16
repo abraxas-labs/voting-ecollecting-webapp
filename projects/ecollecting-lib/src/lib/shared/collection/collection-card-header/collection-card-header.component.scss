@@ -39,3 +39,16 @@ bc-status-label {
     height: 100%;
   }
 }
+
+// the card title should always be the same, regardless of which heading level is selected
+::ng-deep bc-card-title {
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    line-height: 1.2rem !important;
+  }
+}

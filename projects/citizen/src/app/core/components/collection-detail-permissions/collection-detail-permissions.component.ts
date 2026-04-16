@@ -23,7 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ConfirmDialogService, ToastService } from 'ecollecting-lib';
 import { CollectionDetailPermissionDialogComponent } from '../collection-detail-permission-dialog/collection-detail-permission-dialog.component';
 import { Collection, CollectionPermission } from '../../models/collection.model';
-import { CollectionPermissionState } from '@abraxas/voting-ecollecting-proto';
+import { CollectionPermissionRole, CollectionPermissionState } from '@abraxas/voting-ecollecting-proto';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
@@ -94,7 +94,8 @@ export class CollectionDetailPermissionsComponent implements AfterViewInit, OnDe
 
   public async loadData(collection: Collection): Promise<void> {
     this.collection = collection;
-    this.dataSource.data = await this.collectionService.listPermissions(this.collection.id);
+    const permissions = await this.collectionService.listPermissions(this.collection.id);
+    this.dataSource.data = permissions.filter(x => x.role !== CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_OWNER);
   }
 
   public async create(): Promise<void> {

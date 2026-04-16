@@ -11,5 +11,6 @@ export const routes: Routes = [
   {
     path: '',
     component: OverviewComponent,
+    title: 'APP.TITLES.OVERVIEW',
   },
 ];

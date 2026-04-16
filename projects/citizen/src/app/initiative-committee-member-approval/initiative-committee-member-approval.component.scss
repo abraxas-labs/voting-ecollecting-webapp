@@ -1,18 +1,6 @@
 @use '@abraxas/voting-lib/style/spacing' as *;
 @use '@abraxas/voting-lib/style/color' as *;
 
-.spinner-container {
-  display: flex;
-  align-items: center;
-
-  .generating {
-    @extend .ml-2;
-
-    font-style: italic;
-    color: $color-text-secondary;
-  }
-}
-
 [actions] {
   display: flex;
   align-items: center;

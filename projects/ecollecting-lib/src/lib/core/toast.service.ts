@@ -19,6 +19,10 @@ export class ToastService {
     this.snackBar.success(this.i18n.instant(message));
   }
 
+  public info(message: string): void {
+    this.snackBar.info(this.i18n.instant(message));
+  }
+
   public saved(): void {
     this.snackBar.success(this.i18n.instant('APP.SAVED'));
   }

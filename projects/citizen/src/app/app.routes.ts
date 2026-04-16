@@ -33,15 +33,18 @@ export const routes: Routes = [
   {
     // this path is sent in emails, do not change!
     path: 'permission-approval',
+    title: 'APP.TITLES.PERMISSION_APPROVAL',
     loadChildren: () => import('./permission-approval/permission-approval.routes').then(x => x.routes),
   },
   {
     // this path is sent in emails, do not change!
     path: 'initiative-committee-membership-approval',
+    title: 'APP.TITLES.INITIATIVE_COMMITTEE_MEMBERSHIP_APPROVAL',
     loadChildren: () => import('./initiative-committee-member-approval/initiative-committee-member-approval.routes').then(x => x.routes),
   },
   {
     path: 'overview',
+    title: 'APP.TITLES.OVERVIEW',
     loadChildren: () => import('./overview/overview.routes').then(x => x.routes),
   },
   {
@@ -50,6 +53,7 @@ export const routes: Routes = [
   },
   {
     path: accessibilityUrl,
+    title: 'APP.TITLES.ACCESSIBILITY',
     component: AccessibilityPageComponent,
   },
   {

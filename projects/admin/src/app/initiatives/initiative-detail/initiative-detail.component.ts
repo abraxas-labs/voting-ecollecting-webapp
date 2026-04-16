@@ -23,7 +23,7 @@ import {
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { collectionStateColorMap, FileChipComponent, ImageUploadComponent, ToastService } from 'ecollecting-lib';
+import { collectionStateColorMap, FileChipComponent, ToastService, ImagePreviewComponent } from 'ecollecting-lib';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Collection } from '../../core/models/collection.model';
 import { CollectionDetailPermissionsComponent } from '../../core/components/collection-permissions/collection-permissions.component';
@@ -63,7 +63,6 @@ import { InitiativeDetailEditComponent } from './initiative-detail-edit/initiati
     ReadonlyModule,
     LinkModule,
     AsyncPipe,
-    ImageUploadComponent,
     LabelModule,
     CollectionDetailPermissionsComponent,
     DecimalPipe,
@@ -75,6 +74,7 @@ import { InitiativeDetailEditComponent } from './initiative-detail-edit/initiati
     FormsModule,
     InitiativeDetailInfoComponent,
     InitiativeDetailEditComponent,
+    ImagePreviewComponent,
   ],
   providers: [DialogService],
 })

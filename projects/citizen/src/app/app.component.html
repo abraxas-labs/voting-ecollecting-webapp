@@ -4,10 +4,10 @@
   <!-- only display these after a delay of a couple ms to prevent flickering -->
   @if (state === 'initializing' || state === 'authenticating') {
     <header>
-      <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO" customLogoPath="assets/logo-schalter-e.svg">
+      <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO">
       </bc-app-header-bar>
     </header>
-    <main class="content m-3 content-width">
+    <main class="content my-3 px-3 content-width">
       <div class="flex gap-2">
         <bc-spinner></bc-spinner>
         <span>{{('APP.' + (state === 'initializing' ? 'INITIALIZING' : 'AUTHENTICATING')) | translate}}</span>
@@ -23,7 +23,7 @@
       <!-- jump link to content for accessibility, each page should contain an element with id="content" -->
       <a class="content-jump-link" [routerLink]="[]" fragment="content">{{ 'APP.CONTENT' | translate }}</a>
       <header>
-        <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO" customLogoPath="assets/logo-schalter-e.svg">
+        <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO">
           <div class="header-content">
             <vo-lib-environment-chip></vo-lib-environment-chip>
             @if (!auth.isAuthenticated) {

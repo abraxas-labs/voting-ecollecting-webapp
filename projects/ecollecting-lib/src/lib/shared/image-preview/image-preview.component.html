@@ -1,0 +1,21 @@
+@if (imageSrc) {
+  <div class="flex flex-col">
+    <bc-label [label]="label"></bc-label>
+    <div class="flex mt-2">
+      <img [src]="imageSrc" alt="preview" />
+      @if (canDelete) {
+        <bc-icon-button
+          class="remove"
+          [icon]="'remove'"
+          (click)="imageDeleted.emit()"
+          [variant]="'tertiary'"
+          [ariaLabel]="'APP.DELETE.TITLE' | translate"
+        ></bc-icon-button>
+      }
+    </div>
+  </div>
+} @else {
+  <bc-readonly class="flex-1" [label]="label">
+    {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
+  </bc-readonly>
+}

@@ -1,28 +1,16 @@
-<!-- class formfield is required for the styles to be applied to mat-hint. -->
-<div class="formfield">
-  <vo-ecol-file-upload [allowedContentTypes]="acceptedFileTypes"
-                       [label]="label"
-                       inlineHint="FILE_UPLOAD.IMAGE_HINT"
-                       [optional]="!required"
-                       [canRemoveFile]="false"
-                       [error]="error"
-                       [disabled]="!canUpload"
-                       [filename]="fileLoading ? filename : ''"
-                       [fileLoading]="fileLoading"
-                       [maxSizeInBytes]="maxSizeInBytes"
-                       (fileChanged)="imageChanged.emit($event)">
-    @if (hint && canUpload) {
-      <mat-hint [class.error]="error" tabindex="0"><p>{{ hint }}</p></mat-hint>
-    }
-  </vo-ecol-file-upload>
-</div>
-
-@if (imageSrc) {
-  <div class="flex mt-2">
-    <img [src]="imageSrc" alt="preview" />
-    @if (canDelete) {
-      <bc-icon-button class="remove" [icon]="'remove'" (click)="imageDeleted.emit()"
-                      [variant]="'tertiary'" [ariaLabel]="'APP.DELETE.TITLE' | translate"></bc-icon-button>
-    }
-  </div>
-}
+<vo-ecol-file-input
+  [label]="label"
+  [dragDropEnabled]="true"
+  [fileDisplayType]="'preview'"
+  [layout]="'area'"
+  [accept]="acceptedFileTypes"
+  [hint]="hint"
+  [files]="image ? [image] : []"
+  (filesChanged)="imageChanged.emit($event[0])"
+  (fileDeleted)="imageDeleted.emit()"
+  [fileLoading]="fileLoading"
+  [readonly]="readonly"
+  [maxFileSize]="maxSizeInBytes"
+  [multiple]="false"
+  [required]="required"
+></vo-ecol-file-input>

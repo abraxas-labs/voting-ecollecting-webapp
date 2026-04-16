@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { Decree, mapDecreeToModel } from '../models/decree.model';
+import { Decree, DecreeForDeleteResult, mapDecreeForDeleteToModel, mapDecreeToModel } from '../models/decree.model';
 import {
   CameAboutDecreeRequest,
   CameNotAboutDecreeRequest,
@@ -14,6 +14,7 @@ import {
   DecreeServiceClient,
   DeleteDecreeRequest,
   DeletePublishedDecreeRequest,
+  GetDecreeForDeleteRequest,
   ListDecreesRequest,
   PrepareDeleteDecreeRequest,
   SecondFactorTransaction,
@@ -67,6 +68,11 @@ export class DecreeService {
         }),
       ),
     );
+  }
+
+  public async getForDelete(decreeId: string): Promise<DecreeForDeleteResult> {
+    const resp = await lastValueFrom(this.client.getForDelete(new GetDecreeForDeleteRequest({ decreeId })));
+    return mapDecreeForDeleteToModel(resp);
   }
 
   public async deletePublished(decree: Decree): Promise<void> {

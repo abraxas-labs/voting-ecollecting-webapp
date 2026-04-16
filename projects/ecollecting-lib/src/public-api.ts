@@ -42,6 +42,7 @@ export * from './lib/shared/decree/decree-card/decree-card.component';
 export * from './lib/shared/collection/initiative-card/initiative-card.component';
 export * from './lib/shared/collection/referendum-card/referendum-card.component';
 export * from './lib/shared/collection/collection-messages/collection-messages.component';
+export * from './lib/shared/collection/collection-card-header/collection-card-header.component';
 export * from './lib/shared/image-upload/image-upload.component';
 export * from './lib/shared/file-upload/file-upload.component';
 export * from './lib/shared/file-chip/file-chip.component';
@@ -50,6 +51,8 @@ export * from './lib/shared/doi-type-card/doi-type-card.component';
 export * from './lib/shared/collection/collection-filter/collection-filter.component';
 export * from './lib/shared/paginator/paginator.component';
 export * from './lib/shared/loading-bar/loading-bar.component';
+export * from './lib/shared/image-preview/image-preview.component';
+export * from './lib/shared/file-input/file-input.component';
 
 // directives
 export * from './lib/shared/dialog/base-dialog-with-unsaved-changes-check-component.directive';

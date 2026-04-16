@@ -10,7 +10,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { PreloadAllModules, provideRouter, withInMemoryScrolling, withPreloading } from '@angular/router';
+import { PreloadAllModules, provideRouter, TitleStrategy, withInMemoryScrolling, withPreloading } from '@angular/router';
 import { routes } from './app/app.routes';
 import { TranslationLoader } from './app/core/translation-loader';
 import { AuthenticationConfig, AuthStorageService, FORMFIELD_DEFAULT_OPTIONS } from '@abraxas/base-components';
@@ -37,6 +37,7 @@ import { CollectionService } from './app/core/services/collection.service';
 import { AuthenticationService } from './app/core/services/authentication.service';
 import { httpAuthInterceptor } from './app/core/interceptors/http-auth.interceptor';
 import { DomainOfInfluenceService } from './app/core/services/domain-of-influence.service';
+import { TranslatableTitleStrategy } from './app/core/translatable-title.strategy';
 
 if (environment.production) {
   enableProdMode();
@@ -133,6 +134,10 @@ bootstrapApplication(AppComponent, {
     {
       provide: AUTHENTICATION_SERVICE_TOKEN,
       useExisting: AuthenticationService,
+    },
+    {
+      provide: TitleStrategy,
+      useClass: TranslatableTitleStrategy,
     },
   ],
 }).catch(err => console.error(err));

@@ -1,10 +1,9 @@
 <bc-dialog>
   <div header class="header">
+    <h2 class="mb-0">{{ header | translate }}</h2>
     @if (showDiscard) {
       <bc-icon-button variant="tertiary" icon="cancel" (buttonClick)="discard.emit()" [ariaLabel]="'APP.CLOSE' | translate"></bc-icon-button>
     }
-
-    <h2 class="mb-0">{{ header | translate }}</h2>
   </div>
   <ng-content></ng-content>
   <div buttons class="flex gap-2">
@@ -14,7 +13,7 @@
 
     <ng-content select="[actions]"></ng-content>
     @if (showOk) {
-      <bc-button cdkFocusInitial [loading]="saving" [color]="okColor" [label]="okText | translate" variant="primary" (buttonClick)="ok.emit()" [disabled]="!canOk"></bc-button>
+      <bc-button [loading]="saving" [color]="okColor" [label]="okText | translate" variant="primary" (buttonClick)="ok.emit()" [disabled]="!canOk"></bc-button>
     }
   </div>
 </bc-dialog>

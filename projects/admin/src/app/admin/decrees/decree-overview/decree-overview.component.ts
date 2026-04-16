@@ -8,7 +8,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ButtonModule, DialogService, SpinnerModule } from '@abraxas/base-components';
 import { TranslateModule } from '@ngx-translate/core';
 import { DecreeEditDialogComponent } from '../decree-edit-dialog/decree-edit-dialog.component';
-import { Decree } from '../../../core/models/decree.model';
+import { Decree, ReferendumDeleteInfo } from '../../../core/models/decree.model';
 import { ConfirmDialogService, ToastService } from 'ecollecting-lib';
 import { DecreeService } from '../../../core/services/decree.service';
 import { DecreeTableComponent } from '../decree-table/decree-table.component';
@@ -16,6 +16,7 @@ import { DomainOfInfluenceService } from '../../../core/services/domain-of-influ
 import { VotingLibModule } from '@abraxas/voting-lib';
 import { firstValueFrom } from 'rxjs';
 import { DomainOfInfluence } from '../../../core/models/domain-of-influence.model';
+import { DecreeDeleteDialogComponent } from '../../../core/components/decree-delete-dialog/decree-delete-dialog.component';
 
 @Component({
   selector: 'app-decree-overview',
@@ -65,12 +66,16 @@ export class DecreeOverviewComponent implements OnInit {
   }
 
   public async deleteDecree(decree: Decree): Promise<void> {
-    const ok = await this.confirmDialogService.confirm({
-      title: 'APP.DELETE.TITLE',
-      message: 'APP.DELETE.MSG',
-      confirmText: 'APP.YES',
-      discardText: 'APP.DISCARD',
-    });
+    const decreeForDelete = await this.decreeService.getForDelete(decree.id);
+    const ok =
+      decreeForDelete.referendums.length > 0
+        ? await this.confirmDeleteWithCollections(decreeForDelete.referendums)
+        : await this.confirmDialogService.confirm({
+            title: 'APP.DELETE.TITLE',
+            message: 'APP.DELETE.MSG',
+            confirmText: 'APP.YES',
+            discardText: 'APP.DISCARD',
+          });
     if (!ok) {
       return;
     }
@@ -78,6 +83,11 @@ export class DecreeOverviewComponent implements OnInit {
     await this.decreeService.deletePublished(decree);
     this.decrees = this.decrees.filter(d => d.id !== decree.id);
     this.toast.deleted();
+  }
+
+  private async confirmDeleteWithCollections(referendums: ReferendumDeleteInfo[]): Promise<boolean> {
+    const dialogRef = this.dialogService.open(DecreeDeleteDialogComponent, { referendums });
+    return (await firstValueFrom(dialogRef.afterClosed())) ?? false;
   }
 
   private async loadData(): Promise<void> {

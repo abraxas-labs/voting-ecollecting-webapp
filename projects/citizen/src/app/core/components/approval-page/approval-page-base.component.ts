@@ -13,6 +13,7 @@ import {
   isGrpcNotFoundError,
   storage,
   storageKeyPrefix,
+  ToastService,
 } from 'ecollecting-lib';
 import { emailDoesNotMatchException, insufficientAcrException } from '../../exceptions';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -23,6 +24,7 @@ const acceptKey = storageKeyPrefix + 'accept';
 @Directive()
 export abstract class ApprovalPageBaseComponent<T> implements OnInit {
   protected readonly router = inject(Router);
+  protected readonly toast = inject(ToastService);
   private readonly route = inject(ActivatedRoute);
   private readonly auth = inject(AuthenticationService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
@@ -113,6 +115,7 @@ export abstract class ApprovalPageBaseComponent<T> implements OnInit {
       await this.acceptByToken(this.token);
     } catch (e) {
       this.error = getGrpcErrorOrThrow(e, [insufficientAcrException, emailDoesNotMatchException]);
+      this.toast.error('ERROR_MESSAGES.TITLE', 'ERROR_MESSAGES.' + this.error);
     }
   }
 

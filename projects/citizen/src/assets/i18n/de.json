@@ -24,7 +24,18 @@
       "TITLE": "Fehlerhafte Eingaben",
       "MSG": "Es gibt noch Textfelder mit fehlerhaften Eingaben. Wenn Sie die Seite verlassen, gehen die Eingaben verloren.\nWollen Sie die Seite trotzdem verlassen?"
     },
-    "CONTENT": "Inhalt"
+    "CONTENT": "Inhalt",
+    "TITLES": {
+      "OVERVIEW": "Übersicht - E-Collecting",
+      "SEEK_REFERENDUM": "Referendum ergreifen - E-Collecting",
+      "LAUNCH_INITIATIVE": "Initiative lancieren - E-Collecting",
+      "SIGN_COLLECTION": "Sammlung unterzeichnen - E-Collecting",
+      "ENDED_COLLECTIONS": "Beendete Sammlungen - E-Collecting",
+      "INITIATIVE_COMMITTEE_MEMBERSHIP_APPROVAL": "Bestätigung Teilnahme Komitee - E-Collecting",
+      "PERMISSION_APPROVAL": "Bestätigung Verwaltung Sammlung - E-Collecting",
+      "ACCESSIBILITY": "Barrierefreiheitserklärung - E-Collecting"
+    },
+    "OPEN_ACCESSIBLE_PDF": "Anstelle des nicht zugänglichen PDFs nutzen Sie bitte die barrierefreie HTML-Version."
   },
   "AUTH": {
     "LOGIN_FAILED": {
@@ -95,8 +106,8 @@
       "SELECT_DECREE_INFO": "Bitte wählen Sie den Erlass aus, gegen den Sie das Referendum ergreifen möchten! Ihre Sammlung muss sich spätestens beim Prüfen oder Einreichen auf einen Erlass beziehen!",
       "REQUEST_INFORMAL_REVIEW": "Informelle Vorprüfung",
       "SUBMIT": "Erfassung abschliessen",
-      "SUBMITTING": "Erfassung wird abgeschlossen, bitte warten.",
-      "SUBMITTED": "Erfassung wurde erfolgreich abgeschlossen",
+      "SUBMITTING": "Erfassung wird abgeschlossen.",
+      "SUBMITTED": "Erfassung wurde erfolgreich abgeschlossen.",
       "WITHDRAW": {
         "TITLE": "Sammlung löschen",
         "MSG": "Sind Sie sicher, dass Sie Ihre Sammlung löschen möchten?"
@@ -127,9 +138,9 @@
         },
         "MEMBERS_COMMITTEE": "Mitglieder Komitee",
         "LINK": "Link auf Webseite",
-        "IMAGE": "Bild zur Sammlung",
-        "LOGO": "Logo der sammelnden Organisation",
-        "IMAGE_HINT": "Bitte Mindestbreite von 400px beachten."
+        "IMAGE": "Bild zur Sammlung (optional)",
+        "LOGO": "Logo der sammelnden Organisation (optional)",
+        "IMAGE_HINT": "Erlaubt sind JPG oder PNG (max. 3MB). Mindestbreite von 400px beachten."
       },
       "SELECT_DECREE_DIALOG": {
         "TITLE": "Erlass auswählen",
@@ -210,20 +221,50 @@
         },
         "LINK": "Link auf Webseite",
         "MUNICIPALITY": "Gemeinde",
-        "IMAGE": "Bild zur Sammlung",
-        "LOGO": "Logo der sammelnden Organisation",
-        "IMAGE_HINT": "Bitte Mindestbreite von 400px beachten."
+        "IMAGE": "Bild zur Sammlung (optional)",
+        "LOGO": "Logo der sammelnden Organisation (optional)",
+        "IMAGE_HINT": "Erlaubt sind JPG oder PNG (max. 3MB). Mindestbreite von 400px beachten."
       },
       "COMMITTEE": {
         "LISTS": {
           "TITLE": "Komiteelisten",
           "DOWNLOAD": "Vorlage für Komiteeliste herunterladen",
           "UPLOAD": "Komiteeliste hochladen",
-          "GENERATING": "generieren…",
+          "GENERATING": "Komiteeliste wird generiert.",
+          "GENERATED": "Komiteeliste erfolgreich generiert.",
           "UPLOADED": "Komiteeliste gespeichert.",
           "REMOVE_CONFIRMATION": {
             "TITLE": "Löschen",
             "MSG": "Möchten Sie die Komiteeliste wirklich entfernen?"
+          },
+          "PREVIEW": {
+            "TITLE": "Initiativkomitee der {{type}} {{subType}} «{{description}}»",
+            "SUB_TITLE": "(bestehend aus mindestens {{count}} Stimmberechtigten in kantonalen Angelegenheiten)",
+            "TYPES": {
+              "1": "eidgenössischen",
+              "2": "kantonalen",
+              "3": "kommunalen"
+            },
+            "SUB_TYPE_DEFAULT": "Volksinitiative",
+            "HEADER": {
+              "TITLE_1": "Kanton St.Gallen",
+              "TITLE_2": "Staatskanzlei",
+              "TITLE_3": "Recht und Legistik",
+              "TITLE_4": "Dienst für politische Rechte"
+            },
+            "NUMBER": "Nr.",
+            "LAST_NAME": "Name(n)\n\n1. Zeile amtlich\n2. Zeile politisch",
+            "FIRST_NAME": "Vorname(n)\n\n1. Zeile amtlich\n2. Zeile politisch",
+            "DATE_OF_BIRTH": "Geburtsdatum",
+            "RESIDENCE": "Wohnort\n\n1. Zeile amtlich\n2. Zeile politisch",
+            "SIGNATURE": "Unterschrift\n(handschriftlich)",
+            "CHECK": "Kontrolle\n(leer lassen)",
+            "APPROVED": "Stimmberechtigung bereits bestätigt",
+            "REQUESTED_HINT": "* Bestätigung der Stimmberechtigung wurde elektronisch angefordert. Überprüfung kann auch mit physischer Unterschrift im vorliegenden Dokument angefordert werden.",
+            "SIGNATURE_BLOCK": "Unterschrift:",
+            "EMAIL": "E-Mail: {{email}}",
+            "OWNER": "Vertretung durch: {{firstName}} {{lastName}}",
+            "DEPUTY": "Stellvertretung durch: {{firstName}} {{lastName}}"
           }
         },
         "MEMBERS": {
@@ -304,8 +345,8 @@
               "TITLE": "Bestätigung via Unterschrift",
               "TEXT": "Sie können die Komiteemitgliedschaft durch eine händische Unterschrift bestätigen. Laden Sie die Vorlage herunter, füllen Sie das Dokument aus und laden sie dieses wieder hoch.",
               "DOWNLOAD_TEMPLATE_ACTION": "Formular herunterladen",
-              "GENERATING": "generieren…",
-              "UPLOADING": "hochladen…",
+              "GENERATING": "Formular wird generiert.",
+              "GENERATED": "Formular erfolgreich generiert.",
               "ACTION": "Formular mit Unterschrift hochladen",
               "ACCEPTED": "Die Unterschrift wurde erfolgreich hochgeladen und wird geprüft."
             },
@@ -313,7 +354,7 @@
               "TITLE": "Ablehnen",
               "TEXT": "Sie möchten nicht ein Komiteemitglied dieser Initiative sein? Dann können Sie diese Anfrage ablehnen.",
               "ACTION": "Ablehnen",
-              "DONE": "Anfrage abgelehnt.",
+              "DONE": "Anfrage erfolgreich abgelehnt.",
               "CONFIRM": {
                 "TITLE": "Ablehnen?",
                 "MESSAGE": "Möchten Sie die Anfrage wirklich ablehnen?"
@@ -330,6 +371,10 @@
         "TITLE": "Erfassung abschliessen und Initiative einreichen",
         "INFO": "Bitte beachten Sie, dass nach dem Abschliessen keine Änderungen mehr vorgenommen werden können."
       }
+    },
+    "SUB_TYPE": {
+      "MIN_SIGNATURE_COUNT": "Total Erforderlich:",
+      "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich:"
     }
   },
   "SIGN_COLLECTION": {
@@ -378,7 +423,7 @@
   },
   "COLLECTION": {
     "HEADER": {
-      "EXTERNAL_LINK": "Externer Link öffnen"
+      "EXTERNAL_LINK": "Externe Webseite der Sammlung öffnen"
     },
     "DETAIL": {
       "GENERAL_INFORMATION": {
@@ -437,7 +482,7 @@
             "TITLE": "Ablehnen",
             "TEXT": "Sie möchten den Zugriff ablehnen?",
             "ACTION": "Ablehnen",
-            "DONE": "Berechtigung abgelehnt.",
+            "DONE": "Berechtigung erfolgreich abgelehnt.",
             "CONFIRM": {
               "TITLE": "Ablehnen?",
               "MESSAGE": "Möchten Sie die Berechtigung wirklich ablehnen?"
@@ -455,26 +500,62 @@
         },
         "GENERATE_NOW": "Jetzt generieren",
         "GENERATE_NEW": "Erneut generieren",
-        "GENERATING": "Unterschriftenliste wird generiert, bitte warten.",
+        "GENERATING": "Unterschriftenliste wird generiert.",
         "GENERATED": "Unterschriftenliste erfolgreich generiert.",
-        "GENERATE_NOT_VALID": "Alle allgemeinen Angaben müssen ausgefüllt werden.",
+        "GENERATE_NOT_VALID": "Alle Angaben im Menüpunkt \"Allgemeine Angaben\" müssen ausgefüllt werden.",
         "FILE_UPLOAD": {
           "LABEL": "Unterschriftenliste",
-          "HINT": "PDF, max. 5MB"
+          "HINT": "PDF (max. 5MB)"
         },
         "REMOVE_FILE_CONFIRMATION": {
           "TITLE": "Löschen",
           "MSG": "Möchten Sie die Unterschriftenliste wirklich entfernen?"
-        },
-        "OVERWRITE_FILE_CONFIRMATION": {
-          "TITLE": "Überschreiben",
-          "MSG": "Möchten Sie die Unterschriftenliste wirklich überschreiben?"
         },
         "UPLOADED": "Unterschriftenliste aktualisiert.",
         "QR_CODE": {
           "TITLE": "QR-Code mit Direktlink zur Sammlung",
           "MSG": "Dieser QR-Code kann heruntergeladen und beispielsweise für eigenständig gestaltete Unterschriftenlisten verwendet werden.",
           "DOWNLOAD": "QR-Code herunterladen"
+        },
+        "PREVIEW": {
+          "INITIATIVE": {
+            "TITLE": "Initiativbegehren:",
+            "COMMITTEE_MEMBERS": "Mitglieder des Initiativkomitee:",
+            "INFO": "Das Initiativkomitee ist berechtigt, die Initiative vorbehaltlos und gesamthaft mit einfacher Mehrheit seiner Mitglieder, die zum Zeitpunkt des Rückzugs in kantonalen Angelegenheiten stimmberechtigt sind, zurückzuziehen (Art. 55 Abs. 1 des Gesetzes über Referendum und Initiative [sGS 125.1; abgekürzt RIG]). Wer das Ergebnis einer Unterschriftensammlung für ein Initiativbegehren fälscht (Art. 282 des Schweizerischen Strafgesetzbuches [311.0; abgekürzt StGB]) oder wer bei der Unterschriftensammlung besticht oder sich bestechen lässt (Art. 281 StGB), macht sich strafbar."
+          },
+          "REFERENDUM": {
+            "COMMITTEE_MEMBERS": "Mitglieder des Referendumskomitee:",
+            "INFO": "Wer das Ergebnis einer Unterschriftensammlung für ein Referendumsbegehren fälscht (Art. 282 des Schweizerischen Strafgesetzbuches [311.0; abgekürzt StGB]) oder wer bei der Unterschriftensammlung besticht oder sich bestechen lässt (Art. 281 StGB), macht sich strafbar."
+          },
+          "LOGO_ALT": "Logo der Sammlung",
+          "IMAGE_ALT": "Bild der Sammlung",
+          "QR_CODE_ALT": "QR-Code der Sammlung",
+          "NUMBER": "Nr.",
+          "NAME": "Name und Vorname\n(eigenhändig und leserlich)",
+          "DATE_OF_BIRTH": "Geburtsdatum",
+          "RESIDENCE": "Wohnadresse\n(Strasse und Hausnummer)",
+          "SIGNATURE": "Unterschrift\n(eigenhändig)",
+          "CHECK": "Kontrolle\n(amtlich)",
+          "MUNICIPALITY": {
+            "NAME": "Politische Gemeinde",
+            "ZIP": "PLZ:",
+            "LOCALITY": "Ort:",
+            "INFO": "Nur Stimmberechtigte aus der nebenstehend aufgeführten Gemeinde dürfen unterschreiben!"
+          },
+          "COLLECTION_START_DATE": "Beginn der Unterschriftensammlung: {{date}}",
+          "COLLECTION_END_DATE": "Einreichefrist: {{date}}",
+          "SIGNATURE_SECTION": {
+            "HINT": "Durch die Gemeinde auszufüllen:",
+            "INFO_INITIATIVE": "Die unterzeichnende Amtsperson bescheinigt hiermit, dass obenstehende ______ (Anzahl) Unterzeichnende der Initiative in kantonalen Angelegenheiten stimmberechtigt sind und ihre politischen Rechte in dieser Gemeinde ausüben.",
+            "INFO_REFERENDUM": "Die unterzeichnende Amtsperson bescheinigt hiermit, dass obenstehende ______ (Anzahl) Unterzeichnende des Referendums in kantonalen Angelegenheiten stimmberechtigt sind und ihre politischen Rechte in dieser Gemeinde ausüben.",
+            "LOCALITY": "Ort:",
+            "STAMP": "Amtsstempel:",
+            "DATE": "Datum:",
+            "SIGNATURE": "Unterschrift:",
+            "CAPACITY": "Amtliche Eigenschaft:",
+            "SEND": "Bitte die ganz oder teilweise ausgefüllte Unterschriftenliste möglichst bald, spätestens bis zum {{date}} an folgende Adresse senden:",
+            "COMMITTEE_ADDRESS": "{{committee}}, {{street}}, {{zip}} {{locality}}"
+          }
         }
       }
     },

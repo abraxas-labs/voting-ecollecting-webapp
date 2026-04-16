@@ -1,15 +1,13 @@
-@use '@abraxas/voting-lib/style/color' as *;
 @use '@abraxas/voting-lib/style/responsive' as *;
 
-mat-hint {
-  margin-top: 1rem;
-  color: $color-text-secondary;
-  font-size: 13px;
-  font-weight: 400;
-}
+::ng-deep bc-radio-button-group {
+  bc-label {
+    margin-bottom: 0 !important;
+  }
 
-::ng-deep bc-radio-button-group bc-label {
-  margin-bottom: 0 !important;
+  .mat-mdc-form-field-bottom-align::before {
+    display: none;
+  }
 }
 
 .container {

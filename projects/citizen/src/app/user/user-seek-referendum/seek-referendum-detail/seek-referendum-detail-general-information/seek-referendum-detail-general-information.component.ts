@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy, OnInit, inject, HostListener } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   CardModule,
   DropdownModule,
@@ -16,13 +16,11 @@ import {
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ImageUploadComponent, newObjectUrlObservableForBlob, CollectionAddress } from 'ecollecting-lib';
+import { CollectionAddress, ImageUploadComponent } from 'ecollecting-lib';
 import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
 import { CollectionService } from '../../../../core/services/collection.service';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { ReferendumService } from '../../../../core/services/referendum.service';
 import { Referendum } from '../../../../core/models/referendum.model';
 import { HasUnsavedChanges } from '../../../../core/guards/has-unsaved-changes.guard';
@@ -42,7 +40,6 @@ import { HasUnsavedChanges } from '../../../../core/guards/has-unsaved-changes.g
     SpinnerModule,
     FileInputModule,
     ImageUploadComponent,
-    AsyncPipe,
   ],
 })
 export class SeekReferendumDetailGeneralInformationComponent implements OnInit, OnDestroy, HasUnsavedChanges {
@@ -55,14 +52,14 @@ export class SeekReferendumDetailGeneralInformationComponent implements OnInit, 
 
   public loading = true;
 
-  public updateImageError = false;
-  public imageLoading = false;
-  public updateLogoError = false;
-  public logoLoading = false;
-
-  public image?: Observable<SafeResourceUrl>;
-  public logo?: Observable<SafeResourceUrl>;
+  public image?: File;
+  public logo?: File;
   public showValidationErrors = false;
+
+  protected imageLoading: boolean = false;
+  protected logoLoading: boolean = false;
+  protected imageError: boolean = false;
+  protected logoError: boolean = false;
 
   private routeSubscription?: Subscription;
 
@@ -108,8 +105,8 @@ export class SeekReferendumDetailGeneralInformationComponent implements OnInit, 
   }
 
   public async ngOnInit(): Promise<void> {
-    this.loadLogo();
-    this.loadImage();
+    await this.loadLogo();
+    await this.loadImage();
   }
 
   public ngOnDestroy(): void {
@@ -139,20 +136,19 @@ export class SeekReferendumDetailGeneralInformationComponent implements OnInit, 
     this.referendum.collection.userPermissions.canGenerateSignatureSheetTemplatePreview = true;
   }
 
-  public async updateImage(file: File): Promise<void> {
-    if (!this.referendum) {
+  public async updateImage(file?: File): Promise<void> {
+    if (!this.referendum || !file) {
       return;
     }
 
     try {
-      this.updateImageError = false;
+      this.imageError = false;
       this.imageLoading = true;
-      delete this.image;
       this.referendum.collection.image = { id: '', name: file.name };
       await this.collectionService.updateImage(this.referendum.id, file);
-      this.image = newObjectUrlObservableForBlob(file);
+      this.image = file;
     } catch (e) {
-      this.updateImageError = true;
+      this.imageError = true;
       throw e;
     } finally {
       this.imageLoading = false;
@@ -160,29 +156,27 @@ export class SeekReferendumDetailGeneralInformationComponent implements OnInit, 
   }
 
   public async deleteImage(): Promise<void> {
-    if (!this.referendum) {
+    if (!this.referendum || !this.image) {
       return;
     }
 
-    this.updateImageError = false;
     delete this.image;
     await this.collectionService.deleteImage(this.referendum.id);
   }
 
-  public async updateLogo(file: File): Promise<void> {
-    if (!this.referendum) {
+  public async updateLogo(file?: File): Promise<void> {
+    if (!this.referendum || !file) {
       return;
     }
 
     try {
-      this.updateLogoError = false;
+      this.logoError = false;
       this.logoLoading = true;
-      delete this.logo;
       this.referendum.collection.logo = { id: '', name: file.name };
       await this.collectionService.updateLogo(this.referendum.id, file);
-      this.logo = newObjectUrlObservableForBlob(file);
+      this.logo = file;
     } catch (e) {
-      this.updateLogoError = true;
+      this.logoError = true;
       throw e;
     } finally {
       this.logoLoading = false;
@@ -190,41 +184,32 @@ export class SeekReferendumDetailGeneralInformationComponent implements OnInit, 
   }
 
   public async deleteLogo(): Promise<void> {
-    if (!this.referendum) {
+    if (!this.referendum || !this.logo) {
       return;
     }
 
-    this.updateLogoError = false;
     delete this.logo;
     await this.collectionService.deleteLogo(this.referendum.id);
   }
 
-  private loadLogo(): void {
+  private async loadLogo(): Promise<void> {
     if (!this.referendum?.collection.logo) {
       delete this.logo;
       return;
     }
 
-    try {
-      this.logoLoading = true;
-      this.logo = this.collectionService.getLogo(this.referendum.id);
-    } finally {
-      this.logoLoading = false;
-    }
+    const blob = await this.collectionService.getLogoFile(this.referendum.id);
+    this.logo = new File([blob], this.referendum.collection.logo.name, { type: blob.type });
   }
 
-  private loadImage(): void {
+  private async loadImage(): Promise<void> {
     if (!this.referendum?.collection.image) {
       delete this.image;
       return;
     }
 
-    try {
-      this.imageLoading = true;
-      this.image = this.collectionService.getImage(this.referendum.id);
-    } finally {
-      this.imageLoading = false;
-    }
+    const blob = await this.collectionService.getImageFile(this.referendum.id);
+    this.image = new File([blob], this.referendum.collection.image.name, { type: blob.type });
   }
 
   private async loadData(referendum: Referendum): Promise<void> {

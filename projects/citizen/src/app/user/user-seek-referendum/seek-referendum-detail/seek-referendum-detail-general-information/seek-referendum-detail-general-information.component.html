@@ -77,29 +77,25 @@
       <div class="flex flex-wrap gap-x-5 mt-1">
         <vo-ecol-image-upload
           class="flex-1"
-          [imageSrc]="image | async"
+          [image]="image"
           (imageChanged)="updateImage($event)"
           (imageDeleted)="deleteImage()"
           [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.IMAGE' | translate"
           [hint]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.IMAGE_HINT' | translate"
-          [error]="updateImageError"
-          [filename]="referendum.collection.image?.name ?? ''"
+          [readonly]="!referendum.collection.userPermissions?.canEdit"
+          [error]="imageError"
           [fileLoading]="imageLoading"
-          [canUpload]="referendum.collection.userPermissions?.canEdit ?? false"
-          [canDelete]="referendum.collection.userPermissions?.canEdit ?? false"
         ></vo-ecol-image-upload>
         <vo-ecol-image-upload
           class="flex-1"
-          [imageSrc]="logo | async"
+          [image]="logo"
           (imageChanged)="updateLogo($event)"
           (imageDeleted)="deleteLogo()"
           [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.LOGO' | translate"
           [hint]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.IMAGE_HINT' | translate"
-          [error]="updateLogoError"
-          [filename]="referendum.collection.logo?.name ?? ''"
+          [readonly]="!referendum.collection.userPermissions?.canEdit"
+          [error]="logoError"
           [fileLoading]="logoLoading"
-          [canUpload]="referendum.collection.userPermissions?.canEdit ?? false"
-          [canDelete]="referendum.collection.userPermissions?.canEdit ?? false"
         ></vo-ecol-image-upload>
       </div>
       @if (referendum.collection.userPermissions?.canEdit) {

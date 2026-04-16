@@ -1,0 +1,8 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+::ng-deep bc-error {
+  &,
+  bc-icon mat-icon.error {
+    color: $color-signal-error-action-inverse;
+  }
+}

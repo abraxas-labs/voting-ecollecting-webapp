@@ -52,12 +52,14 @@ export class PermissionApprovalComponent extends ApprovalPageBaseComponent<Pendi
     return this.data?.acceptAcceptedAcrs ?? [];
   }
 
-  protected override rejectByToken(token: string): Promise<void> {
-    return this.collectionService.rejectPermissionByToken(token);
+  protected override async rejectByToken(token: string): Promise<void> {
+    await this.collectionService.rejectPermissionByToken(token);
+    this.toast.success('COLLECTION.DETAIL.PERMISSIONS.APPROVAL.REJECT.DONE');
   }
 
   protected override async acceptByToken(token: string): Promise<void> {
     await this.collectionService.acceptPermissionByToken(token);
+    this.toast.success('COLLECTION.DETAIL.PERMISSIONS.APPROVAL.IAM.ACCEPTED');
     this.accepted = true;
   }
 

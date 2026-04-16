@@ -13,20 +13,11 @@ bc-app-header-bar {
   right: 0;
   z-index: 100; // header bar is displayed in front of the content
 
-  ::ng-deep .img {
-    height: 25px !important;
-  }
-
-  ::ng-deep .link {
-    flex-wrap: wrap; // wrap title for small viewports
-    gap: 0.25rem 1rem;
-
-    .title {
-      margin-left: 0;
-    }
+  ::ng-deep .link bc-logo {
+    display: none;
 
     @include sm-up() {
-      flex-wrap: nowrap;
+      display: block;
     }
   }
 }

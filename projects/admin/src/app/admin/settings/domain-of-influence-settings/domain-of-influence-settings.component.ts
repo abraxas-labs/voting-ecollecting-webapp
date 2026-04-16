@@ -20,11 +20,9 @@ import {
   TextModule,
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { debounceTime, distinctUntilChanged, filter, merge, Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, merge, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FileChipComponent, ImageUploadComponent, newObjectUrlObservableForBlob, ToastService } from 'ecollecting-lib';
-import { AsyncPipe } from '@angular/common';
-import { SafeResourceUrl } from '@angular/platform-browser';
+import { FileChipComponent, ImageUploadComponent, ToastService } from 'ecollecting-lib';
 
 @Component({
   selector: 'app-domain-of-influence-settings',
@@ -36,7 +34,6 @@ import { SafeResourceUrl } from '@angular/platform-browser';
     ExpansionPanelModule,
     IconModule,
     SpinnerModule,
-    AsyncPipe,
     NumberModule,
     ButtonModule,
     FileChipComponent,
@@ -57,9 +54,9 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
   public statusMessageChange: EventEmitter<'saving' | 'saved' | undefined> = new EventEmitter<'saving' | 'saved' | undefined>();
 
   protected readonly form: FormGroup<Form> = this.buildForm();
-  protected logo?: Observable<SafeResourceUrl>;
+  protected logo?: File;
+  protected logoError: boolean = false;
   protected logoLoading: boolean = false;
-  protected updateLogoError: boolean = false;
   protected isSwitchingDoi: boolean = false;
   protected readonly emailToAddControl = new FormControl<string>('', {
     validators: [Validators.email],
@@ -92,7 +89,7 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
         },
         { emitEvent: false },
       );
-      this.loadLogo();
+      await this.loadLogo();
 
       if (this.domainOfInfluence.userPermissions.canEdit) {
         this.form.enable();
@@ -201,28 +198,44 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
     await this.saveIfEditedAndValid();
   }
 
-  protected async updateLogo(file: File): Promise<void> {
+  public async updateLogo(file?: File): Promise<void> {
+    if (!file) {
+      return;
+    }
+
     try {
-      this.updateLogoError = false;
+      this.logoError = false;
       this.logoLoading = true;
-      delete this.logo;
       this.domainOfInfluence.logo = { id: '', name: file.name };
       await this.domainOfInfluenceService.updateLogo(this.domainOfInfluence.bfs, file);
-      this.logo = newObjectUrlObservableForBlob(file);
+      this.logo = file;
       this.toast.success('ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.SAVED');
     } catch (e) {
-      this.updateLogoError = true;
+      this.logoError = true;
       throw e;
     } finally {
       this.logoLoading = false;
     }
   }
 
-  protected async deleteLogo(): Promise<void> {
-    this.updateLogoError = false;
+  public async deleteLogo(): Promise<void> {
+    if (!this.logo) {
+      return;
+    }
+
     delete this.logo;
     await this.domainOfInfluenceService.deleteLogo(this.domainOfInfluence.bfs);
     this.toast.success('ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.REMOVED');
+  }
+
+  private async loadLogo(): Promise<void> {
+    if (!this.domainOfInfluence.logo) {
+      delete this.logo;
+      return;
+    }
+
+    const blob = await this.domainOfInfluenceService.getLogo(this.domainOfInfluence.bfs);
+    this.logo = new File([blob], this.domainOfInfluence.logo.name, { type: blob.type });
   }
 
   private updateValidators(): void {
@@ -306,20 +319,6 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
       }),
       notificationEmails: this.formBuilder.control<string[]>([]),
     });
-  }
-
-  private loadLogo(): void {
-    if (!this.domainOfInfluence?.logo) {
-      delete this.logo;
-      return;
-    }
-
-    try {
-      this.logoLoading = true;
-      this.logo = this.domainOfInfluenceService.getLogo(this.domainOfInfluence.bfs);
-    } finally {
-      this.logoLoading = false;
-    }
   }
 }
 

@@ -3,14 +3,15 @@
     <h2 id="content" tabindex="0">{{ 'SEEK_REFERENDUM.TITLE' | translate }}</h2>
     <div class="flex flex-col gap-3" [class.mt-3]="myDecrees.length > 0">
       @for (decree of myDecrees; track decree.id) {
-        <vo-ecol-decree-card [decree]="decree">
+        <vo-ecol-decree-card [decree]="decree" [headingLevel]="'h3'">
           <div class="flex flex-col gap-3 mt-3">
             @for (referendum of decree.collections; track referendum.collection.id) {
               <vo-ecol-referendum-card [referendum]="referendum"
                                        [decree]="decree"
                                        [clickable]="true"
                                        [role]="referendum.collection.userPermissions?.role"
-                                       (cardClick)="open(referendum.id)">
+                                       (cardClick)="open(referendum.id)"
+                                       [headingLevel]="'h4'">
                 <ng-container [ngTemplateOutlet]="referendumActions"
                               [ngTemplateOutletContext]="{ $implicit: referendum }">
                 </ng-container>
@@ -26,7 +27,7 @@
       <h2 class="mt-3">{{ 'SEEK_REFERENDUM.WITHOUT_DECREE_TITLE' | translate }}</h2>
       <div class="flex flex-col gap-3 mt-3">
         @for (referendum of myReferendumsWithoutDecree; track referendum.collection.id) {
-          <vo-ecol-referendum-card [referendum]="referendum" [clickable]="true" [role]="referendum.collection.userPermissions?.role" (cardClick)="open(referendum.id)">
+          <vo-ecol-referendum-card [referendum]="referendum" [clickable]="true" [role]="referendum.collection.userPermissions?.role" (cardClick)="open(referendum.id)" [headingLevel]="'h3'">
             <ng-container [ngTemplateOutlet]="referendumActions"
                           [ngTemplateOutletContext]="{ $implicit: referendum }">
             </ng-container>
@@ -35,8 +36,8 @@
       </div>
     }
 
-    <h2 tabindex="0" class="mt-3">{{ 'SEEK_REFERENDUM.LIST_IN_COLLECTION_TITLE' | translate }}</h2>
-    <div class="flex justify-end">
+    <div class="mt-3 flex flex-wrap justify-between items-center">
+      <h2 tabindex="0" class="mb-0">{{ 'SEEK_REFERENDUM.LIST_IN_COLLECTION_TITLE' | translate }}</h2>
       <bc-button color="default"
                  variant="tertiary"
                  (buttonClick)="createReferendum()"
@@ -89,7 +90,8 @@
                                [decree]="decree"
                                [clickable]="!!referendum.collection.userPermissions"
                                [role]="referendum.collection.userPermissions?.role"
-                               (cardClick)="open(referendum.id)">
+                               (cardClick)="open(referendum.id)"
+                               [headingLevel]="'h5'">
         <ng-container [ngTemplateOutlet]="referendumActions"
                       [ngTemplateOutletContext]="{ $implicit: referendum }">
         </ng-container>

@@ -17,6 +17,7 @@ import { ConfirmDialogService } from '../../../core/confirm-dialog.service';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AsyncInputValidators } from '@abraxas/voting-lib';
 import { CollectionType } from '@abraxas/voting-ecollecting-proto';
+import { ToastService } from '../../../core/toast.service';
 
 export const SHOW_CHAT_QUERY_PARAM = 'showChat';
 
@@ -55,6 +56,7 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
   private readonly dialogRef = inject<MatDialogRef<CollectionMessagesComponent, CollectionMessagesComponentResult>>(MatDialogRef);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly toast = inject(ToastService);
 
   public loading = false;
   public messages: CollectionMessage[] = [];
@@ -127,6 +129,7 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
         createdByName: this.auth.userProfile.name,
       },
     ];
+    this.toast.success('COLLECTION_MESSAGES.SENT');
   }
 
   public async close(): Promise<void> {
@@ -150,6 +153,7 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
 
     const message = await this.messagesService.updateRequestInformalReview(this.data.collectionId, requestInformalReview);
     this.messages = [...this.messages, message];
+    this.toast.success(message.content);
   }
 
   private async confirmClose(): Promise<void> {

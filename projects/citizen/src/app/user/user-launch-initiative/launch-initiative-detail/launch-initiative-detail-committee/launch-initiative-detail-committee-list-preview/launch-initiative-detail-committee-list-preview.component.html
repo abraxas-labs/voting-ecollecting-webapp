@@ -1,0 +1,154 @@
+<div class="page">
+  @if (initiative && committee && dataSource.data) {
+    <div class="flex justify-between py-3">
+      <div>
+        <p class="mb-0">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.HEADER.TITLE_1' | translate }}</p>
+        <p>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.HEADER.TITLE_2' | translate }}</p>
+        <strong class="mb-0">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.HEADER.TITLE_3' | translate }}</strong>
+        <p>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.HEADER.TITLE_4' | translate }}</p>
+      </div>
+      <img ngSrc="assets/pdf-preview-logo.png" alt="Staatskanzlei Logo" height="68" width="56" />
+    </div>
+
+    <h2 id="content" class="mb-0" tabindex="0">
+      {{
+        'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.TITLE'
+          | translate
+            : {
+                type: 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.TYPES.' + initiative.domainOfInfluenceType | translate,
+                subType:
+                  initiative.subType?.description ?? ('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SUB_TYPE_DEFAULT' | translate),
+                description: initiative.collection.description,
+              }
+      }}
+    </h2>
+    <p>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SUB_TITLE' | translate: { count: committee.requiredApprovedMembersCount } }}</p>
+
+    <div class="overflow-auto">
+      <bc-table [dataSource]="dataSource">
+        <ng-container [columnDef]="numberColumn">
+          <th bc-header-cell *headerCellDef [align]="'center'">
+          <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.NUMBER' | translate">
+            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.NUMBER' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef="let row; let i = index" truncateWithTooltip tooltip [align]="'center'">
+            {{ `${i + 1}.` }}
+          </td>
+        </ng-container>
+        <ng-container [columnDef]="lastNameColumn">
+          <th bc-header-cell *headerCellDef [align]="'center'">
+          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.LAST_NAME' | translate">
+            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.LAST_NAME' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip [align]="'center'">
+            <span>{{ row.lastName }}</span>
+            <bc-divider></bc-divider>
+            <span>{{ row.politicalLastName }}</span>
+          </td>
+        </ng-container>
+        <ng-container [columnDef]="firstNameColumn">
+          <th bc-header-cell *headerCellDef [align]="'center'">
+          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.FIRST_NAME' | translate">
+            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.FIRST_NAME' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip [align]="'center'">
+            <span>{{ row.firstName }}</span>
+            <bc-divider></bc-divider>
+            <span>{{ row.politicalFirstName }}</span>
+          </td>
+        </ng-container>
+        <ng-container [columnDef]="dateOfBirthColumn">
+          <th bc-header-cell *headerCellDef [align]="'center'">
+          <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.DATE_OF_BIRTH' | translate">
+            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.DATE_OF_BIRTH' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip [align]="'center'">
+            <span>{{ row.dateOfBirth | date }}</span>
+          </td>
+        </ng-container>
+        <ng-container [columnDef]="residenceColumn">
+          <th bc-header-cell *headerCellDef [align]="'center'">
+          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.RESIDENCE' | translate">
+            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.RESIDENCE' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip [align]="'center'">
+            <span>{{ row.residence }}</span>
+            <bc-divider></bc-divider>
+            <span>{{ row.politicalResidence }}</span>
+          </td>
+        </ng-container>
+        <ng-container [columnDef]="signatureColumn">
+          <th bc-header-cell *headerCellDef [align]="'center'">
+          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SIGNATURE' | translate">
+            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SIGNATURE' | translate }}
+          </span>
+          </th>
+          <td
+            bc-data-cell
+            *dataCellDef="let row"
+            [align]="row.approvalState === approvalStates.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED ? 'right' : 'left'"
+          >
+            @if (row.approvalState === approvalStates.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED) {
+              <span>*</span>
+            } @else if (row.approvalState === approvalStates.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED) {
+              <span>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.APPROVED' | translate }}</span>
+            }
+          </td>
+        </ng-container>
+        <ng-container [columnDef]="checkColumn">
+          <th bc-header-cell *headerCellDef [align]="'center'">
+          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.CHECK' | translate">
+            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.CHECK' | translate }}
+          </span>
+          </th>
+          <td bc-data-cell *dataCellDef="let row"></td>
+        </ng-container>
+        <tr bc-header-row *headerRowDef="let row; columns: columns"></tr>
+        <tr bc-data-row *dataRowDef="let row; columns: columns; let i = index"></tr>
+      </bc-table>
+    </div>
+
+    @if (hasAnyRequestedState) {
+      <p class="hint">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.REQUESTED_HINT' | translate }}</p>
+    }
+
+    <div class="grid py-3">
+      @if (ownerPermission) {
+        <span>{{
+          'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.OWNER'
+            | translate
+              : {
+                  firstName: ownerPermission.iamFirstName || ownerPermission.firstName,
+                  lastName: ownerPermission.iamLastName || ownerPermission.lastName,
+                }
+        }}</span>
+        <span>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.EMAIL' | translate: { email: ownerPermission.email } }}</span>
+        <div class="flex gap-1 justify-end">
+          <span>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SIGNATURE_BLOCK' | translate }}</span>
+          <div class="signature"></div>
+        </div>
+      }
+
+      @for (deputyPermission of deputyPermissions; track deputyPermission.id) {
+        <span>{{
+          'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.DEPUTY'
+            | translate
+              : {
+                  firstName: deputyPermission.iamFirstName || deputyPermission.firstName,
+                  lastName: deputyPermission.iamLastName || deputyPermission.lastName,
+                }
+        }}</span>
+        <span>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.EMAIL' | translate: { email: deputyPermission.email } }}</span>
+        <div class="flex gap-1 justify-end">
+          <span>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SIGNATURE_BLOCK' | translate }}</span>
+          <div class="signature"></div>
+        </div>
+      }
+    </div>
+  }
+</div>

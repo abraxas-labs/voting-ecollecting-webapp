@@ -16,6 +16,7 @@
         <bc-button (buttonClick)="fileInput.click()"
                    icon="upload"
                    [label]="'FILE_UPLOAD.CHOOSE' | translate"
+                   [loading]="uploading"
                    [ariaLabelledby]="'file-upload-label-' + instanceId"
                    [ariaDescribedby]="'file-upload-hints-' + instanceId"
                    [variant]="buttonVariant"></bc-button>

@@ -67,8 +67,8 @@ export class DomainOfInfluenceService {
     await lastValueFrom(this.client.update(new UpdateDomainOfInfluenceRequestProto(updateReq)));
   }
 
-  public getLogo(bfs: string): Observable<SafeResourceUrl> {
-    return this.http.get(`${this.restApiUrl}/${bfs}/logo`, { responseType: 'blob' }).pipe(switchMap(x => newObjectUrlObservableForBlob(x)));
+  public async getLogo(bfs: string): Promise<Blob> {
+    return lastValueFrom(this.http.get(`${this.restApiUrl}/${bfs}/logo`, { responseType: 'blob' }));
   }
 
   public async deleteLogo(bfs: string): Promise<void> {

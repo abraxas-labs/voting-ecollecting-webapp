@@ -17,23 +17,17 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  CollectionAddress,
-  DomainOfInfluence,
-  ImageUploadComponent,
-  InitiativeSubType,
-  newObjectUrlObservableForBlob,
-} from 'ecollecting-lib';
+import { CollectionAddress, DomainOfInfluence, ImageUploadComponent, InitiativeSubType } from 'ecollecting-lib';
 import { Initiative } from '../../../../core/models/initiative.model';
 import { InitiativeService } from '../../../../core/services/initiative.service';
 import { DomainOfInfluenceService } from '../../../../core/services/domain-of-influence.service';
 import { AsyncInputValidators, InputValidators, MarkdownEditorComponent } from '@abraxas/voting-lib';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { CollectionService } from '../../../../core/services/collection.service';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { HasUnsavedChanges } from '../../../../core/guards/has-unsaved-changes.guard';
+import { LaunchInitiativeSubTypeComponent } from '../../launch-initiative-sub-type/launch-initiative-sub-type.component';
 
 @Component({
   selector: 'app-launch-initiative-detail-general-information',
@@ -52,7 +46,7 @@ import { HasUnsavedChanges } from '../../../../core/guards/has-unsaved-changes.g
     FileInputModule,
     ImageUploadComponent,
     MarkdownEditorComponent,
-    AsyncPipe,
+    LaunchInitiativeSubTypeComponent,
   ],
 })
 export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit, OnDestroy, HasUnsavedChanges {
@@ -71,14 +65,14 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
 
   public loading = true;
 
-  public updateImageError = false;
-  public imageLoading = false;
-  public updateLogoError = false;
-  public logoLoading = false;
-
-  public image?: Observable<SafeResourceUrl>;
-  public logo?: Observable<SafeResourceUrl>;
+  public image?: File;
+  public logo?: File;
   public showValidationErrors = false;
+
+  protected imageLoading: boolean = false;
+  protected logoLoading: boolean = false;
+  protected imageError: boolean = false;
+  protected logoError: boolean = false;
 
   private routeSubscription?: Subscription;
 
@@ -129,8 +123,8 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
   }
 
   public async ngOnInit(): Promise<void> {
-    this.loadLogo();
-    this.loadImage();
+    await this.loadLogo();
+    await this.loadImage();
   }
 
   public ngOnDestroy(): void {
@@ -161,20 +155,19 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
     this.initiative.collection.userPermissions.canGenerateSignatureSheetTemplatePreview = true;
   }
 
-  public async updateImage(file: File): Promise<void> {
-    if (!this.initiative) {
+  public async updateImage(file?: File): Promise<void> {
+    if (!this.initiative || !file) {
       return;
     }
 
     try {
-      this.updateImageError = false;
+      this.imageError = false;
       this.imageLoading = true;
-      delete this.image;
       this.initiative.collection.image = { id: '', name: file.name };
       await this.collectionService.updateImage(this.initiative.id, file);
-      this.image = newObjectUrlObservableForBlob(file);
+      this.image = file;
     } catch (e) {
-      this.updateImageError = true;
+      this.imageError = true;
       throw e;
     } finally {
       this.imageLoading = false;
@@ -182,29 +175,27 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
   }
 
   public async deleteImage(): Promise<void> {
-    if (!this.initiative) {
+    if (!this.initiative || !this.image) {
       return;
     }
 
-    this.updateImageError = false;
     delete this.image;
     await this.collectionService.deleteImage(this.initiative.id);
   }
 
-  public async updateLogo(file: File): Promise<void> {
-    if (!this.initiative) {
+  public async updateLogo(file?: File): Promise<void> {
+    if (!this.initiative || !file) {
       return;
     }
 
     try {
-      this.updateLogoError = false;
+      this.logoError = false;
       this.logoLoading = true;
-      delete this.logo;
       this.initiative.collection.logo = { id: '', name: file.name };
       await this.collectionService.updateLogo(this.initiative.id, file);
-      this.logo = newObjectUrlObservableForBlob(file);
+      this.logo = file;
     } catch (e) {
-      this.updateLogoError = true;
+      this.logoError = true;
       throw e;
     } finally {
       this.logoLoading = false;
@@ -212,41 +203,32 @@ export class LaunchInitiativeDetailGeneralInformationComponent implements OnInit
   }
 
   public async deleteLogo(): Promise<void> {
-    if (!this.initiative) {
+    if (!this.initiative || !this.logo) {
       return;
     }
 
-    this.updateLogoError = false;
     delete this.logo;
     await this.collectionService.deleteLogo(this.initiative.id);
   }
 
-  private loadLogo(): void {
+  private async loadLogo(): Promise<void> {
     if (!this.initiative?.collection.logo) {
       delete this.logo;
       return;
     }
 
-    try {
-      this.logoLoading = true;
-      this.logo = this.collectionService.getLogo(this.initiative.id);
-    } finally {
-      this.logoLoading = false;
-    }
+    const blob = await this.collectionService.getLogoFile(this.initiative.id);
+    this.logo = new File([blob], this.initiative.collection.logo.name, { type: blob.type });
   }
 
-  private loadImage(): void {
+  private async loadImage(): Promise<void> {
     if (!this.initiative?.collection.image) {
       delete this.image;
       return;
     }
 
-    try {
-      this.imageLoading = true;
-      this.image = this.collectionService.getImage(this.initiative.id);
-    } finally {
-      this.imageLoading = false;
-    }
+    const blob = await this.collectionService.getImageFile(this.initiative.id);
+    this.image = new File([blob], this.initiative.collection.image.name, { type: blob.type });
   }
 
   private async loadData(initiative: Initiative): Promise<void> {

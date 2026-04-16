@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Initiative, InitiativeCommittee } from '../../../../core/models/initiative.model';
 import { InitiativeService } from '../../../../core/services/initiative.service';
-import { LaunchInitiativeDetailComitteeListsComponent } from './launch-initiative-detail-comittee-lists/launch-initiative-detail-comittee-lists.component';
+import { LaunchInitiativeDetailCommitteeListsComponent } from './launch-initiative-detail-committee-lists/launch-initiative-detail-committee-lists.component';
 import { LaunchInitiativeDetailCommitteeMembersComponent } from './launch-initiative-detail-commitee-members/launch-initiative-detail-committee-members.component';
 
 @Component({
@@ -31,7 +31,7 @@ import { LaunchInitiativeDetailCommitteeMembersComponent } from './launch-initia
     TableModule,
     TooltipModule,
     IconButtonModule,
-    LaunchInitiativeDetailComitteeListsComponent,
+    LaunchInitiativeDetailCommitteeListsComponent,
     LaunchInitiativeDetailCommitteeMembersComponent,
   ],
   templateUrl: './launch-initiative-detail-committee.component.html',

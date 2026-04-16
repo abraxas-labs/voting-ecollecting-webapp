@@ -1,0 +1,24 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+
+// workaround to make file input responsive
+::ng-deep bc-file-input .upload-area {
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 0.5rem;
+}
+
+::ng-deep bc-file-input .file-preview {
+  width: unset !important; // workaround to not limiting preview image to 160px width
+}
+
+::ng-deep bc-file-input .file-status-label {
+  white-space: pre-line;
+
+  @include sm-up() {
+    white-space: nowrap;
+  }
+
+  label {
+    height: 100%;
+  }
+}

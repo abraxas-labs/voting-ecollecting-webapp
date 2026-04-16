@@ -1,0 +1,50 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+bc-table {
+  min-width: 60rem;
+}
+
+.bc-column-number {
+  width: 2.5rem;
+  background-color: $color-surface-bg-neutral-dim;
+}
+
+.bc-column-check {
+  width: 5rem;
+  background-color: $color-surface-bg-neutral-dim;
+  border-right: 1px solid $color-border-primary !important;
+}
+
+.bc-cell-header {
+  background-color: $color-surface-bg-neutral-dim;
+  border-top: 1px solid $color-border-primary !important;
+  font-weight: bold !important;
+  color: $color-text-primary;
+}
+
+.bc-cell {
+  border-left: 1px solid $color-border-primary !important;
+  border-bottom: 1px solid $color-border-primary !important;
+}
+
+bc-divider {
+  width: 50%;
+  margin: auto;
+}
+
+.hint {
+  font-size: 0.75rem;
+}
+
+.grid {
+  display: grid;
+
+  // limit columns to max 3
+  grid-template-columns: repeat(auto-fit, minmax(clamp(33.33%, 250px, 100%), 1fr));
+  row-gap: 0.5rem;
+}
+
+.signature {
+  width: 250px;
+  border-bottom: 1px solid $color-border-primary;
+}

@@ -5,7 +5,7 @@
  */
 
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { AlertBarModule, ButtonModule, SpinnerModule, SubNavigationBarModule } from '@abraxas/base-components';
+import { AlertBarModule, ButtonModule, SpinnerModule, SubNavigationBarModule, TruncateWithTooltipModule } from '@abraxas/base-components';
 import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { endedCollectionsUrl, signCollectionUrl } from '../../user.routes';
@@ -15,11 +15,11 @@ import { CollectionPeriodState, CollectionState } from '@abraxas/voting-ecollect
 import { Observable } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import {
+  ConfirmDialogService,
   generateSecureRandomString,
   getGrpcErrorOrThrow,
   storage,
   storageKeyPrefix,
-  ConfirmDialogService,
   ToastService,
 } from 'ecollecting-lib';
 import {
@@ -32,13 +32,12 @@ import {
 } from '../../../core/exceptions';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { Collection } from '../../../core/models/collection.model';
-import { CollectionSignatureType } from '@abraxas/voting-ecollecting-proto/citizen';
 
 const signKey = storageKeyPrefix + 'sign';
 
 @Component({
   selector: 'app-sign-page',
-  imports: [AlertBarModule, AsyncPipe, ButtonModule, SpinnerModule, SubNavigationBarModule, TranslatePipe],
+  imports: [AlertBarModule, AsyncPipe, ButtonModule, SpinnerModule, SubNavigationBarModule, TranslatePipe, TruncateWithTooltipModule],
   templateUrl: './sign-page.component.html',
   styleUrl: './sign-page.component.scss',
 })

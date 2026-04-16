@@ -75,15 +75,13 @@
     } @else {
       <vo-ecol-image-upload
         class="flex-1"
-        [imageSrc]="logo | async"
+        [image]="logo"
         (imageChanged)="updateLogo($event)"
         (imageDeleted)="deleteLogo()"
-        [required]="true"
-        [canUpload]="domainOfInfluence.userPermissions.canEdit"
-        [canDelete]="domainOfInfluence.userPermissions.canEdit"
         [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.TITLE' | translate"
-        [error]="updateLogoError"
-        [filename]="domainOfInfluence.logo?.name ?? ''"
+        [readonly]="!domainOfInfluence.userPermissions.canEdit"
+        [required]="true"
+        [error]="logoError"
         [fileLoading]="logoLoading"
       ></vo-ecol-image-upload>
     }

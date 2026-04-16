@@ -1,0 +1,50 @@
+<vo-ecol-dialog
+  [header]="'DECREE.DELETE_WARNING.TITLE'"
+  [okText]="'DECREE.DELETE_WARNING.CONFIRM'"
+  [showDiscard]="true"
+  (ok)="confirm()"
+  (discard)="close()"
+>
+  <p>{{ 'DECREE.DELETE_WARNING.MSG' | translate }}</p>
+
+  <div class="contact-list">
+    @for (info of referendumInfos; track info.referendum.id) {
+      <bc-card>
+        <vo-ecol-collection-card-header [collectionOrDecree]="info.referendum.collection">
+          @if (info.referendum.collection.state !== states.COLLECTION_STATE_IN_PREPARATION) {
+            <bc-status-label
+              size="large"
+              backgroundColor="#d12a33"
+              foregroundColor="light"
+              [label]="'DECREE.DELETE_WARNING.DELETE_HINT' | translate"
+            ></bc-status-label>
+          }
+        </vo-ecol-collection-card-header>
+        <bc-card-content>
+          <div class="contact-sections">
+            <div class="contact-section">
+              <p class="contact-label">{{ 'DECREE.DELETE_WARNING.CREATOR' | translate }}</p>
+              <p>{{ info.creatorName }}</p>
+              <p>{{ info.creatorEmail }}</p>
+            </div>
+
+            @if (info.referendum.collection.address) {
+              <div class="contact-section">
+                <p class="contact-label">{{ 'DECREE.DELETE_WARNING.ADDRESS' | translate }}</p>
+                @if (info.referendum.collection.address.committeeOrPerson) {
+                  <p>{{ info.referendum.collection.address.committeeOrPerson }}</p>
+                }
+                @if (info.referendum.collection.address.streetOrPostOfficeBox) {
+                  <p>{{ info.referendum.collection.address.streetOrPostOfficeBox }}</p>
+                }
+                @if (info.referendum.collection.address.zipCode || info.referendum.collection.address.locality) {
+                  <p>{{ info.referendum.collection.address.zipCode || '' }} {{ info.referendum.collection.address.locality || '' }}</p>
+                }
+              </div>
+            }
+          </div>
+        </bc-card-content>
+      </bc-card>
+    }
+  </div>
+</vo-ecol-dialog>

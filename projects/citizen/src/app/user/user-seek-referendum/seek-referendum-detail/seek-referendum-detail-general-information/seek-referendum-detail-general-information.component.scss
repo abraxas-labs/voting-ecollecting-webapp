@@ -6,3 +6,7 @@
     gap: 1rem;
   }
 }
+
+::ng-deep .formfield .label-content {
+  right: 0; // overflowing label truncate
+}

@@ -12,9 +12,9 @@
       <bc-expansion-panel
         class="initiative-details"
         [header]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.INITIATIVE_DETAIL.TITLE' | translate"
-        [headingLevel]="'h3'">
+        [headingLevel]="'h4'">
         <div class="content">
-          <h4 class="user-text">{{ data.description }}</h4>
+          <h5 class="user-text">{{ data.description }}</h5>
 
           @if (data.subType) {
             <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE' | translate">
@@ -60,35 +60,21 @@
         hint="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.TEXT"
         [success]="acceptedUpload ? 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.ACCEPTED' : undefined">
         <div actions>
-          @if (generating) {
-            <div class="spinner-container">
-              <bc-spinner></bc-spinner>
-              <span
-                class="generating">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.GENERATING' | translate }}</span>
-            </div>
-          } @else {
-            <bc-button
-              color="default"
-              icon="download"
-              [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.DOWNLOAD_TEMPLATE_ACTION' | translate"
-              (buttonClick)="downloadTemplate()"></bc-button>
-          }
+          <bc-button
+            color="default"
+            icon="download"
+            [loading]="generating"
+            [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.DOWNLOAD_TEMPLATE_ACTION' | translate"
+            (buttonClick)="downloadTemplate()"></bc-button>
 
-          @if (uploading) {
-            <div class="spinner-container">
-              <bc-spinner></bc-spinner>
-              <span
-                class="generating">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.UPLOADING' | translate }}</span>
-            </div>
-          } @else {
-            <vo-ecol-file-upload
-              [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.ACTION' | translate"
-              variant="simple-button"
-              buttonVariant="secondary"
-              (fileChanged)="uploadFile($event)"
-              [allowedContentTypes]="['application/pdf']"
-              [maxSizeInBytes]="maxFileSize"></vo-ecol-file-upload>
-          }
+          <vo-ecol-file-upload
+            [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.ACTION' | translate"
+            variant="simple-button"
+            buttonVariant="secondary"
+            (fileChanged)="uploadFile($event)"
+            [uploading]="uploading"
+            [allowedContentTypes]="['application/pdf']"
+            [maxSizeInBytes]="maxFileSize"></vo-ecol-file-upload>
         </div>
       </app-approval-page-card>
     }

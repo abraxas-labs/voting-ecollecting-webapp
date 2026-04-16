@@ -56,7 +56,9 @@ export class InitiativeCommitteeMemberApprovalComponent extends ApprovalPageBase
 
     this.generating = true;
     try {
+      this.toast.info('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.GENERATING');
       await this.initiativeService.downloadCommitteeListTemplateByToken(this.data.initiativeId, this.token);
+      this.toast.success('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.GENERATED');
     } finally {
       this.generating = false;
     }
@@ -70,14 +72,16 @@ export class InitiativeCommitteeMemberApprovalComponent extends ApprovalPageBase
     this.uploading = true;
     try {
       await this.initiativeService.acceptCommitteeMembershipWithCommitteeList(this.data.initiativeId, this.token, file);
+      this.toast.success('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.UPLOAD.ACCEPTED');
       this.acceptedUpload = true;
     } finally {
       this.uploading = false;
     }
   }
 
-  protected override rejectByToken(token: string): Promise<void> {
-    return this.initiativeService.rejectCommitteeMembershipByToken(token);
+  protected override async rejectByToken(token: string): Promise<void> {
+    await this.initiativeService.rejectCommitteeMembershipByToken(token);
+    this.toast.success('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.REJECT.DONE');
   }
 
   protected override async acceptByToken(token: string): Promise<void> {
@@ -85,6 +89,9 @@ export class InitiativeCommitteeMemberApprovalComponent extends ApprovalPageBase
 
     if (!accepted) {
       this.error = 'InitiativeCommitteeMemberApprovalNoVotingRightException';
+      this.toast.error('ERROR_MESSAGES.TITLE', 'ERROR_MESSAGES.' + this.error);
+    } else {
+      this.toast.success('LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.IAM.ACCEPTED');
     }
 
     this.acceptedIAM = true;

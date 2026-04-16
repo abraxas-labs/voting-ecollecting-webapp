@@ -41,6 +41,15 @@
     "CARD": {
       "TOTAL_ATTESTED": "Total bescheinigt"
     },
+    "DELETE_WARNING": {
+      "TITLE": "Erlass löschen",
+      "MSG": "Bitte nehmen Sie vor der Löschung mit dem Komitee Kontakt auf. Mit der Löschung wird der Erlass und alle Sammlungen die sich nicht in Erfassung befinden, unwiderruflich gelöscht.",
+      "DELETE_HINT": "wird gelöscht",
+      "CONFIRM": "Erlass löschen",
+      "CREATOR": "Kontaktperson",
+      "ADDRESS": "Komiteeangaben",
+      "LOAD_ERROR": "Die Kontaktangaben konnten nicht geladen werden. Der Erlass kann deshalb momentan nicht gelöscht werden."
+    },
     "COLLECTION_PERIOD_STATES": {
       "1": "publiziert",
       "2": "in Sammlung",

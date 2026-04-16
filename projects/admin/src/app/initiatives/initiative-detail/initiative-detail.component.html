@@ -102,39 +102,20 @@
           }
 
           <div class="flex flex-wrap gap-x-5 mt-1">
-            @if (image) {
-              <vo-ecol-image-upload
-                class="flex-1"
-                [imageSrc]="image | async"
-                (imageDeleted)="deleteImage()"
-                [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE' | translate"
-                [filename]="initiative.collection.image?.name ?? ''"
-                [fileLoading]="imageLoading"
-                [canUpload]="false"
-                [canDelete]="initiative.collection.userPermissions?.canEdit ?? false"
-              ></vo-ecol-image-upload>
-            } @else {
-              <bc-readonly class="flex-1" [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE_OPTIONAL' | translate">
-                {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
-              </bc-readonly>
-            }
-
-            @if (logo) {
-              <vo-ecol-image-upload
-                class="flex-1"
-                [imageSrc]="logo | async"
-                (imageDeleted)="deleteLogo()"
-                [label]="'COLLECTION.GENERAL_INFORMATION.LOGO' | translate"
-                [filename]="initiative.collection.logo?.name ?? ''"
-                [fileLoading]="logoLoading"
-                [canUpload]="false"
-                [canDelete]="initiative.collection.userPermissions?.canEdit ?? false"
-              ></vo-ecol-image-upload>
-            } @else {
-              <bc-readonly class="flex-1" [label]="'COLLECTION.GENERAL_INFORMATION.LOGO_OPTIONAL' | translate">
-                {{ 'COLLECTION.GENERAL_INFORMATION.NO_DATA' | translate }}
-              </bc-readonly>
-            }
+            <vo-ecol-image-preview
+              class="flex-1"
+              [imageSrc]="image | async"
+              [label]="'COLLECTION.GENERAL_INFORMATION.IMAGE_OPTIONAL' | translate"
+              [canDelete]="initiative.collection.userPermissions?.canEdit ?? false"
+              (imageDeleted)="deleteImage()"
+            ></vo-ecol-image-preview>
+            <vo-ecol-image-preview
+              class="flex-1"
+              [imageSrc]="logo | async"
+              [label]="'COLLECTION.GENERAL_INFORMATION.LOGO_OPTIONAL' | translate"
+              [canDelete]="initiative.collection.userPermissions?.canEdit ?? false"
+              (imageDeleted)="deleteLogo()"
+            ></vo-ecol-image-preview>
           </div>
         </bc-card-content>
       </bc-card>

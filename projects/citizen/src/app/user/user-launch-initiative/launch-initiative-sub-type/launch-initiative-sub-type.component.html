@@ -1,0 +1,33 @@
+<bc-dropdown
+  class="subtype"
+  [formControl]="control"
+  [items]="items"
+  (valueChange)="valueChange.emit()"
+  displayExpr="description"
+  [label]="label | translate"
+  [required]="true"
+  [readonly]="readonly"
+  subscriptSizing="dynamic"
+>
+  <ng-template #triggerTemplate>
+    @if (control.value) {
+      <ng-container [ngTemplateOutlet]="optionTemplate" [ngTemplateOutletContext]="{ $implicit: control.value }"></ng-container>
+    }
+  </ng-template>
+
+  <ng-template #optionTemplate let-item>
+    <div class="flex flex-wrap items-center">
+      <span class="description-text">{{ item.description }}</span>
+      <div class="subtype-value-container">
+        <div class="subtype-value">
+          <bc-label [label]="'LAUNCH_INITIATIVE.SUB_TYPE.MIN_SIGNATURE_COUNT' | translate"></bc-label>
+          <span> {{ item.minSignatureCount | number }} </span>
+        </div>
+        <div class="subtype-value">
+          <bc-label [label]="'LAUNCH_INITIATIVE.SUB_TYPE.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate"></bc-label>
+          <span> {{ item.maxElectronicSignatureCount | number }} </span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</bc-dropdown>
