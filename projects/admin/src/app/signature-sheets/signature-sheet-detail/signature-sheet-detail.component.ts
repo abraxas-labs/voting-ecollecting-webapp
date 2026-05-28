@@ -4,13 +4,14 @@
  * For license information see LICENSE file.
  */
 
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import {
   ButtonModule,
   DialogService,
   DividerModule,
   ExpansionPanelModule,
   IconButtonModule,
+  IconModule,
   LoadingBarModule,
   SpinnerModule,
   SubNavigationBarModule,
@@ -29,16 +30,7 @@ import {
   SignatureSheetEditDialogComponent,
   SignatureSheetEditDialogData,
 } from '../signature-sheet-edit-dialog/signature-sheet-edit-dialog.component';
-import {
-  ConfirmDialogService,
-  createComparer,
-  emptyPage,
-  insertSorted,
-  LoadingBarComponent,
-  Page,
-  Pageable,
-  ToastService,
-} from 'ecollecting-lib';
+import { ConfirmDialogService, emptyPage, LoadingBarComponent, Page, Pageable, ToastService } from 'ecollecting-lib';
 import { SignatureSheetPersonSearchComponent } from './signature-sheet-person-search/signature-sheet-person-search.component';
 import { Person, PersonFilterData } from '../../core/models/person.model';
 import { SignatureSheetCandidatesTableComponent } from './signature-sheet-candidates-table/signature-sheet-candidates-table.component';
@@ -66,18 +58,20 @@ import { SignatureSheetHeaderComponent } from './signature-sheet-header/signatur
     SignatureSheetCitizenTableComponent,
     LoadingBarComponent,
     SignatureSheetHeaderComponent,
+    IconModule,
   ],
   templateUrl: './signature-sheet-detail.component.html',
   styleUrl: './signature-sheet-detail.component.scss',
   providers: [DialogService],
 })
-export class SignatureSheetDetailComponent implements OnInit {
+export class SignatureSheetDetailComponent implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly dialogService = inject(DialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly collectionSignatureSheetService = inject(CollectionSignatureSheetService);
+  private readonly routeSubscription: Subscription;
 
   protected collection?: Referendum | Initiative;
   protected sheet?: CollectionSignatureSheet;
@@ -88,8 +82,6 @@ export class SignatureSheetDetailComponent implements OnInit {
   protected loadingPersonRegisterId?: string;
   protected loadingCitizens: boolean = true;
 
-  private readonly personComparer = createComparer<Person>('officialName', 'firstName', 'dateOfBirth');
-
   private searchSubscription?: Subscription;
 
   private lastUsedFilter?: PersonFilterData;
@@ -97,14 +89,16 @@ export class SignatureSheetDetailComponent implements OnInit {
   @ViewChild('personSearch')
   protected personSearch!: SignatureSheetPersonSearchComponent;
 
-  protected get searching(): boolean {
-    return this.searchSubscription?.closed === false;
+  constructor() {
+    this.routeSubscription = this.route.data.subscribe(({ collection, sheet }) => this.loadData(collection, sheet));
   }
 
-  public async ngOnInit(): Promise<void> {
-    // Use snapshot instead of data observable to prevent double-execution caused by nested parent/child resolvers.
-    const { collection, sheet } = this.route.snapshot.data;
-    await this.loadData(collection, sheet);
+  public ngOnDestroy(): void {
+    this.routeSubscription.unsubscribe();
+  }
+
+  protected get searching(): boolean {
+    return this.searchSubscription?.closed === false;
   }
 
   protected async back(): Promise<void> {
@@ -198,10 +192,12 @@ export class SignatureSheetDetailComponent implements OnInit {
         signatureSheetNumber: this.sheet.number,
         electronic: false,
       };
-      this.citizens = [...insertSorted(this.citizens, { ...candidate.person }, this.personComparer)];
+      this.citizens = [...this.citizens, { ...candidate.person }];
       this.sheet.count.invalid--;
       this.sheet.count.valid++;
       this.toast.success('COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.ADDED');
+      this.personSearch.clearInputsAndFocus();
+      delete this.lastUsedFilter;
     } finally {
       delete this.loadingPersonRegisterId;
     }

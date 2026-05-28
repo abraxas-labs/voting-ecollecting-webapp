@@ -7,11 +7,10 @@
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { UserNavigationComponent } from './user-navigation/user-navigation.component';
 import { IsAuthenticatedGuard } from '../core/guards/is-authenticated.guard';
-import { hasUnsavedChangesGuard } from '../core/guards/has-unsaved-changes.guard';
 import { InitiativeService } from '../core/services/initiative.service';
 import { ReferendumService } from '../core/services/referendum.service';
 import { inject } from '@angular/core';
-import { getEntityResolver } from 'ecollecting-lib';
+import { getEntityResolver, hasUnsavedChangesGuard } from 'ecollecting-lib';
 
 export const signCollectionUrl: string = 'sign-collection';
 export const endedCollectionsUrl: string = 'ended-collections';
@@ -26,8 +25,8 @@ export const detailSignatureSheetUrl: string = 'signature-sheet';
 export const detailCommitteeUrl: string = 'committee';
 export const detailCommitteeListPreviewUrl: string = 'committee-list-preview';
 export const detailSignatureSheetPreviewUrl: string = 'signature-sheet-preview';
-export const signInitiativeUrl: string = 'sign-initiative';
-export const signReferendumUrl: string = 'sign-referendum';
+export const signInitiativeUrl: string = 'initiative';
+export const signReferendumUrl: string = 'referendum';
 
 export const routes: Routes = [
   {
@@ -66,13 +65,10 @@ export const routes: Routes = [
       },
       {
         path: [seekReferendumUrl, idUrlSegment, detailSignatureSheetPreviewUrl].join('/'),
-        title: 'APP.TITLES.SEEK_REFERENDUM',
+        title: 'APP.TITLES.SIGNATURE_SHEET_PREVIEW',
         canActivate: [IsAuthenticatedGuard()],
         resolve: {
           referendum: getEntityResolver(ReferendumService),
-        },
-        data: {
-          hideNavigation: true,
         },
         loadComponent: () =>
           import('../core/components/collection-detail-signature-sheet-preview/collection-detail-signature-sheet-preview.component').then(
@@ -81,13 +77,10 @@ export const routes: Routes = [
       },
       {
         path: [seekReferendumUrl, idUrlSegment].join('/'),
-        title: 'APP.TITLES.SEEK_REFERENDUM',
+        title: 'APP.TITLES.SEEK_REFERENDUM_DETAIL',
         canActivate: [IsAuthenticatedGuard()],
         resolve: {
           referendum: getEntityResolver(ReferendumService),
-        },
-        data: {
-          hideNavigation: true,
         },
         loadComponent: () =>
           import('./user-seek-referendum/seek-referendum-detail/seek-referendum-detail.component').then(
@@ -140,13 +133,10 @@ export const routes: Routes = [
       },
       {
         path: [launchInitiativeUrl, idUrlSegment, detailCommitteeListPreviewUrl].join('/'),
-        title: 'APP.TITLES.LAUNCH_INITIATIVE',
+        title: 'APP.TITLES.COMMITTEE_LIST_PREVIEW',
         canActivate: [IsAuthenticatedGuard()],
         resolve: {
           initiative: getEntityResolver(InitiativeService),
-        },
-        data: {
-          hideNavigation: true,
         },
         loadComponent: () =>
           import('./user-launch-initiative/launch-initiative-detail/launch-initiative-detail-committee/launch-initiative-detail-committee-list-preview/launch-initiative-detail-committee-list-preview.component').then(
@@ -155,13 +145,10 @@ export const routes: Routes = [
       },
       {
         path: [launchInitiativeUrl, idUrlSegment, detailSignatureSheetPreviewUrl].join('/'),
-        title: 'APP.TITLES.LAUNCH_INITIATIVE',
+        title: 'APP.TITLES.SIGNATURE_SHEET_PREVIEW',
         canActivate: [IsAuthenticatedGuard()],
         resolve: {
           initiative: getEntityResolver(InitiativeService),
-        },
-        data: {
-          hideNavigation: true,
         },
         loadComponent: () =>
           import('../core/components/collection-detail-signature-sheet-preview/collection-detail-signature-sheet-preview.component').then(
@@ -170,13 +157,10 @@ export const routes: Routes = [
       },
       {
         path: [launchInitiativeUrl, idUrlSegment].join('/'),
-        title: 'APP.TITLES.LAUNCH_INITIATIVE',
+        title: 'APP.TITLES.LAUNCH_INITIATIVE_DETAIL',
         canActivate: [IsAuthenticatedGuard()],
         resolve: {
           initiative: getEntityResolver(InitiativeService),
-        },
-        data: {
-          hideNavigation: true,
         },
         loadComponent: () =>
           import('./user-launch-initiative/launch-initiative-detail/launch-initiative-detail.component').then(
@@ -227,25 +211,19 @@ export const routes: Routes = [
         ],
       },
       {
-        path: [signInitiativeUrl, idUrlSegment].join('/'),
-        title: 'APP.TITLES.SIGN_COLLECTION',
+        path: [signCollectionUrl, signInitiativeUrl, idUrlSegment].join('/'),
+        title: 'APP.TITLES.SIGN_COLLECTION_DETAIL',
         loadComponent: () => import('./sign-collection/sign-initiative/sign-initiative.component').then(m => m.SignInitiativeComponent),
         resolve: {
           initiative: (route: ActivatedRouteSnapshot) => inject(InitiativeService).get(route.params['id'], true, true),
         },
-        data: {
-          hideNavigation: true,
-        },
       },
       {
-        path: [signReferendumUrl, idUrlSegment].join('/'),
-        title: 'APP.TITLES.SIGN_COLLECTION',
+        path: [signCollectionUrl, signReferendumUrl, idUrlSegment].join('/'),
+        title: 'APP.TITLES.SIGN_COLLECTION_DETAIL',
         loadComponent: () => import('./sign-collection/sign-referendum/sign-referendum.component').then(m => m.SignReferendumComponent),
         resolve: {
           referendum: (route: ActivatedRouteSnapshot) => inject(ReferendumService).get(route.params['id'], true),
-        },
-        data: {
-          hideNavigation: true,
         },
       },
     ],

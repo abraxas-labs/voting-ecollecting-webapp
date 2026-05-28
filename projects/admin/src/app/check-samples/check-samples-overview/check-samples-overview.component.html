@@ -38,6 +38,7 @@
           <app-check-samples-municipality-table
             [municipalities]="municipalities"
             [collectionId]="collection.id"
+            [electronicCollectionEnabled]="electronicCollectionEnabled"
             (signatureSheetsSubmitted)="updateAllSignatureSheetsArePastAttested()"
           ></app-check-samples-municipality-table>
         </div>

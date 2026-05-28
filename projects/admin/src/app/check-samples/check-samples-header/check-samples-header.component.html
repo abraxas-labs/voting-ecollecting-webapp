@@ -11,26 +11,32 @@
             <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MIN_SIGNATURE_COUNT' | translate">{{
               referendum.decree.minSignatureCount | number
             }}</bc-readonly>
-            <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{
-              referendum.decree.maxElectronicSignatureCount | number
-            }}</bc-readonly>
+            @if (referendum.decree.electronicCollectionEnabled) {
+              <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{
+                referendum.decree.maxElectronicSignatureCount | number
+              }}</bc-readonly>
+            }
           }
         }
         @if (collection | isInitiative; as initiative) {
           <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MIN_SIGNATURE_COUNT' | translate">{{
             initiative.minSignatureCount | number
           }}</bc-readonly>
-          <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{
-            initiative.maxElectronicSignatureCount | number
-          }}</bc-readonly>
+          @if (initiative.electronicCollectionEnabled) {
+            <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{
+              initiative.maxElectronicSignatureCount | number
+            }}</bc-readonly>
+          }
         }
         @if (collection.collection.attestedCollectionCount) {
           <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.TOTAL_ATTESTED' | translate">{{
             collection.collection.attestedCollectionCount.totalCitizenCount | number
           }}</bc-readonly>
-          <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.ELECTRONIC_ATTESTED' | translate">{{
-            collection.collection.attestedCollectionCount.electronicCitizenCount | number
-          }}</bc-readonly>
+          @if (electronicCollectionEnabled) {
+            <bc-readonly [label]="'COLLECTION.CHECK_SAMPLES.ELECTRONIC_ATTESTED' | translate">{{
+              collection.collection.attestedCollectionCount.electronicCitizenCount | number
+            }}</bc-readonly>
+          }
         }
       </div>
     </bc-card-header>

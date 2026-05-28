@@ -1,0 +1,25 @@
+<div class="page">
+  <div class="p-5">
+    <h2 id="content">{{ 'SITEMAP.TITLE' | translate }}</h2>
+
+    <nav [ariaLabel]="'SITEMAP.TITLE' | translate">
+      <ul>
+        <li>
+          <bc-link [routerLink]="[overviewUrl]">{{ 'APP.NAVIGATION.OVERVIEW' | translate }}</bc-link>
+        </li>
+        <li>
+          <bc-link [routerLink]="[signCollectionsUrl]">{{ 'APP.NAVIGATION.SIGN_COLLECTION' | translate }}</bc-link>
+        </li>
+        <li>
+          <bc-link [routerLink]="[endedCollectionsUrl]">{{ 'APP.NAVIGATION.ENDED_COLLECTIONS' | translate }}</bc-link>
+        </li>
+        <li>
+          <bc-link [routerLink]="[seekReferendumUrl]">{{ 'APP.NAVIGATION.SEEK_REFERENDUM' | translate }}</bc-link>
+        </li>
+        <li>
+          <bc-link [routerLink]="[launchInitiativeUrl]">{{ 'APP.NAVIGATION.LAUNCH_INITIATIVE' | translate }}</bc-link>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

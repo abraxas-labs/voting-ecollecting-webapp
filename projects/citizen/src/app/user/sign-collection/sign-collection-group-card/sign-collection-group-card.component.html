@@ -2,30 +2,36 @@
   @if (group.domainOfInfluenceType === municipalityDoiType && domainOfInfluences && domainOfInfluences.length > 0) {
     <vo-ecol-municipality-filter
       [domainOfInfluences]="domainOfInfluences"
+      [displayShowButton]="true"
       [(selectedDomainOfInfluence)]="selectedDomainOfInfluence"
-      (selectedDomainOfInfluenceChange)="applyFilter()"></vo-ecol-municipality-filter>
+      (selectedDomainOfInfluenceChange)="clearFilter()"
+      (showClicked)="applyFilter()"></vo-ecol-municipality-filter>
   }
 
   <div class="flex flex-col gap-3 mt-3">
     @for (initiative of initiatives; track initiative.collection.id) {
-      <vo-ecol-initiative-card [initiative]="initiative" [role]="initiative.collection.userPermissions?.role" (cardClick)="signOnline(initiative.collection)" [showType]="true">
+      <vo-ecol-initiative-card
+        [initiative]="initiative"
+        [role]="initiative.collection.userPermissions?.role"
+        (cardClick)="signOnline(initiative.collection)"
+        [showElectronicCounters]="true"
+        [showType]="true">
         <app-sign-collection-extension [collection]="initiative">
-          <bc-alert-bar
-            cameNotAboutReason
-            [displayDismissAction]="false"
-            [message]="'SIGN_INITIATIVE.CAME_NOT_ABOUT' | translate: { reason: 'COLLECTION.CAME_NOT_ABOUT_REASONS.' + initiative.cameNotAboutReason | translate }"
-          ></bc-alert-bar>
+          <div cameNotAboutReason class="hint">
+            <bc-icon [icon]="'info-circle-o'"></bc-icon>
+            <span>{{ 'SIGN_INITIATIVE.CAME_NOT_ABOUT' | translate: { reason: 'COLLECTION.CAME_NOT_ABOUT_REASONS.' + initiative.cameNotAboutReason | translate } }}</span>
+          </div>
         </app-sign-collection-extension>
       </vo-ecol-initiative-card>
     }
 
     @for (decree of referendumDecrees; track decree.id) {
-      <vo-ecol-decree-card [decree]="decree" [showState]="true" [showType]="true">
+      <vo-ecol-decree-card [decree]="decree" [showState]="true" [showType]="true" [showElectronicCounters]="true">
         @if (decree.collections && decree.state === decreeStates.DECREE_STATE_ENDED_CAME_NOT_ABOUT) {
-          <bc-alert-bar
-            [displayDismissAction]="false"
-            [message]="'SIGN_REFERENDUM.CAME_NOT_ABOUT' | translate: { reason: 'COLLECTION.CAME_NOT_ABOUT_REASONS.' + decree.cameNotAboutReason | translate }"
-          ></bc-alert-bar>
+          <div class="hint">
+            <bc-icon [icon]="'info-circle-o'"></bc-icon>
+            <span>{{ 'SIGN_REFERENDUM.CAME_NOT_ABOUT' | translate: { reason: 'COLLECTION.CAME_NOT_ABOUT_REASONS.' + decree.cameNotAboutReason | translate } }}</span>
+          </div>
         }
         <div class="flex flex-col gap-3 mt-3">
           @for (referendum of decree.collections; track referendum.collection.id) {
@@ -45,7 +51,7 @@
 
     @if (loading) {
       <bc-spinner></bc-spinner>
-    } @else if (referendumDecrees.length === 0 && initiatives.length === 0 && (group.domainOfInfluenceType !== municipalityDoiType || !!selectedDomainOfInfluence)) {
+    } @else if (referendumDecrees.length === 0 && initiatives.length === 0 && (group.domainOfInfluenceType !== municipalityDoiType || !!selectedDomainOfInfluence) && this.filterApplied) {
       <p class="no-data">{{ 'SIGN_COLLECTION.NO_DATA' + (group.domainOfInfluenceType === municipalityDoiType ? '_MU' : '') | translate }}</p>
     }
   </div>

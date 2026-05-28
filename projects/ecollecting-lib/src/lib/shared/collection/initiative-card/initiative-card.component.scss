@@ -1,7 +1,18 @@
+@use '@abraxas/voting-lib/style/responsive' as *;
+@use '@abraxas/voting-lib/style/color' as *;
+
 .container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  .details-list {
+    margin-left: auto;
+
+    @include lg-up() {
+      justify-content: flex-end;
+    }
+  }
 
   li bc-readonly {
     width: unset;
@@ -10,5 +21,12 @@
 
   .collection-period bc-readonly {
     min-width: 13rem;
+  }
+}
+
+bc-card:has(bc-button:hover, bc-icon-button:hover) {
+  ::ng-deep mat-card {
+    background-color: $color-surface-bg-neutral-full;
+    background-image: none !important;
   }
 }

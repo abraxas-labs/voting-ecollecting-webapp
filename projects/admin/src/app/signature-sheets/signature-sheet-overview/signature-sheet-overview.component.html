@@ -6,8 +6,13 @@
         [border]="false"
         (actionClick)="back()"
       >
-        <h4 sub-navigation-title truncateWithTooltip
-            tooltip>{{ 'COLLECTION.TITLE' | translate: { description: collection.collection.description } | translate }}</h4>
+        <h4 sub-navigation-title truncateWithTooltip tooltip>
+          {{
+            (collection.collection.type === collectionTypes.COLLECTION_TYPE_INITIATIVE ? 'INITIATIVE.TITLE' : 'REFERENDUM.TITLE')
+              | translate: { description: collection.collection.description }
+              | translate
+          }}
+        </h4>
         <div></div>
         <!-- placeholder which is forcing divider to be displayed -->
       </bc-sub-navigation-bar>

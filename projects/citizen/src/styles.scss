@@ -3,7 +3,11 @@
 
 .page-with-user-navigation {
   padding: 1rem;
-  min-height: calc(100vh - 234px); // subtract height of app-header (60px), user-navigation (68px), footer (74px) and page padding (32px)
+  min-height: calc(100vh - 246px); // subtract height of app-header (60px), user-navigation (80px), footer (74px) and page padding (32px)
+}
+
+.page-with-user-navigation-without-padding {
+  min-height: calc(100vh - 214px); // subtract height of app-header (60px), user-navigation (80px), footer (74px)
 }
 
 .page {
@@ -24,7 +28,7 @@
   left: -10000px;
   padding: 10px;
   background-color: $color-surface-bg-neutral-full;
-  z-index: 100;
+  z-index: 999;
 }
 
 .accessible-link:focus {

@@ -270,6 +270,8 @@ export class InitiativeOverviewComponent implements OnInit {
       electronicCitizenCount: initiative.collection.attestedCollectionCount?.electronicCitizenCount ?? 0,
       totalCitizenCount: initiative.collection.attestedCollectionCount?.totalCitizenCount ?? 0,
       collectionCounts: [{ ...initiative.collection.attestedCollectionCount, description: initiative.collection.description }],
+      collectionType: initiative.collection.type,
+      electronicCollectionEnabled: initiative.electronicCollectionEnabled,
     } as CollectionFinishDialogData);
     const result = (await firstValueFrom(ref.afterClosed())) as CollectionFinishDialogResult;
     if (!result) {

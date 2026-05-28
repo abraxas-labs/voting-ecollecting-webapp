@@ -9,10 +9,12 @@
           <p>
             @if (committee.approvedMembersCountOk) {
               <bc-icon [icon]="'check-circle'"
-                       [iconColor]="'success'"></bc-icon>
+                       [iconColor]="'success'"
+                       [ariaLabel]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ENOUGH' | translate"></bc-icon>
             } @else {
               <bc-icon [icon]="'exclamation-triangle-o'"
-                       [iconColor]="'warning'"></bc-icon>
+                       [iconColor]="'warning'"
+                       [ariaLabel]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.NOT_ENOUGH' | translate"></bc-icon>
             }
             {{
               'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.HINT'

@@ -1,11 +1,10 @@
 <app-approval-page
   [loading]="loading"
-  [header]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.TITLE.' + data?.collectionType | translate"
-  [subHeader]="data?.collectionDescription ?? ''"
-  [hint]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.TEXT.' + data?.collectionType | translate: { data, action: 'COLLECTION_PERMISSION_ROLES_ACTION.' + data?.role | translate }"
+  [header]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.TITLE' | translate"
+  [hint]="'COLLECTION.DETAIL.PERMISSIONS.APPROVAL.' + (data?.collectionType === collectionTypes.COLLECTION_TYPE_INITIATIVE ? 'INITIATIVE.' : 'REFERENDUM.') + data?.role | translate: data"
   [notFound]="notFound"
-  notFoundHeader="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.TITLE.NOT_FOUND"
-  notFoundDetail="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.NOT_FOUND">
+  notFoundHeader="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.NOT_FOUND.TITLE"
+  notFoundDetail="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.NOT_FOUND.MSG">
   @if (!rejected) {
     <app-approval-page-card
       header="COLLECTION.DETAIL.PERMISSIONS.APPROVAL.IAM.TITLE"

@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   AlertBarModule,
   BreadcrumbItemModule,
@@ -30,6 +30,7 @@ import { CollectionMunicipality } from '../../core/models/collection.model';
 import { CheckSamplesMunicipalityTableComponent } from '../check-samples-municipality-table/check-samples-municipality-table.component';
 import { CheckSamplesHeaderComponent } from '../check-samples-header/check-samples-header.component';
 import { CollectionMunicipalityService } from '../../core/services/collection-municipality.service';
+import { isInitiative, isReferendum } from '../../core/models/collections-group.model';
 
 @Component({
   selector: 'app-check-samples-overview',
@@ -63,6 +64,22 @@ export class CheckSamplesOverviewComponent implements OnInit, OnDestroy {
   protected municipalities?: CollectionMunicipality[];
   protected loading = false;
   protected allSignatureSheetsArePastAttested = false;
+
+  protected get electronicCollectionEnabled(): boolean {
+    if (!this.collection) {
+      return false;
+    }
+
+    if (isReferendum(this.collection)) {
+      return this.collection.decree?.electronicCollectionEnabled === true;
+    }
+
+    if (isInitiative(this.collection)) {
+      return this.collection.electronicCollectionEnabled;
+    }
+
+    return false;
+  }
 
   private routeSubscription: Subscription;
 

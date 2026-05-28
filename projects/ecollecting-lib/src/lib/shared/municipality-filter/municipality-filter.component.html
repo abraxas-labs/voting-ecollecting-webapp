@@ -1,33 +1,66 @@
 <!-- If component is inside of a reactive form use formControl, otherwise use ngModel. -->
 <!-- This is needed for bc-autocomplete to work with displayExpr inside of ngFor loops, otherwise the control would always be reset.  -->
 @if (control) {
-  <bc-autocomplete
-    [label]="'MUNICIPALITY_FILTER.TITLE' | translate"
-    optionalText=""
-    [hint]="showHint ? ('MUNICIPALITY_FILTER.HINT' | translate) : ''"
-    [placeholder]="'MUNICIPALITY_FILTER.PLACEHOLDER' | translate"
-    [value]="selectedDomainOfInfluence?.bfs"
-    (valueChange)="selectDoi($event)"
-    [items]="domainOfInfluences ?? []"
-    [showOptionsOnSelected]="true"
-    [clearable]="true"
-    [formControl]="control"
-    displayExpr="name"
-    valueExpr="bfs"
-    subscriptSizing="dynamic"
-  ></bc-autocomplete>
+  <div class="flex flex-row flex-wrap gap-2 items-center">
+    <bc-autocomplete
+      [label]="'MUNICIPALITY_FILTER.TITLE' | translate"
+      optionalText=""
+      [hint]="showHint ? ('MUNICIPALITY_FILTER.HINT' | translate) : ''"
+      [placeholder]="'MUNICIPALITY_FILTER.PLACEHOLDER' | translate"
+      [value]="selectedDomainOfInfluence?.bfs"
+      (valueChange)="selectDoi($event)"
+      [items]="domainOfInfluences ?? []"
+      [showOptionsOnSelected]="true"
+      [clearable]="true"
+      [formControl]="control"
+      displayExpr="name"
+      valueExpr="bfs"
+      subscriptSizing="dynamic"
+    >
+      @if (optionTemplateInput) {
+        <ng-template #optionTemplate let-item>
+          <ng-container [ngTemplateOutlet]="optionTemplateInput" [ngTemplateOutletContext]="{ $implicit: item }"></ng-container>
+        </ng-template>
+      }
+    </bc-autocomplete>
+    @if (displayShowButton) {
+      <bc-button
+        [disabled]="!selectedDomainOfInfluence"
+        [label]="'MUNICIPALITY_FILTER.SHOW' | translate"
+        [variant]="'tertiary'"
+        (buttonClick)="showClicked.emit()"
+      ></bc-button>
+    }
+  </div>
 } @else {
-  <bc-autocomplete
-    optionalText=""
-    [label]="'MUNICIPALITY_FILTER.TITLE' | translate"
-    [hint]="showHint ? ('MUNICIPALITY_FILTER.HINT' | translate) : ''"
-    [placeholder]="'MUNICIPALITY_FILTER.PLACEHOLDER' | translate"
-    [ngModel]="selectedDomainOfInfluence"
-    (ngModelChange)="selectDoi($event?.bfs)"
-    [items]="domainOfInfluences ?? []"
-    [showOptionsOnSelected]="true"
-    [clearable]="true"
-    displayExpr="name"
-    subscriptSizing="dynamic"
-  ></bc-autocomplete>
+  <div class="flex flex-row flex-wrap gap-2 items-center">
+    <bc-autocomplete
+      class="flex-1"
+      optionalText=""
+      [label]="'MUNICIPALITY_FILTER.TITLE' | translate"
+      [hint]="showHint ? ('MUNICIPALITY_FILTER.HINT' | translate) : ''"
+      [placeholder]="'MUNICIPALITY_FILTER.PLACEHOLDER' | translate"
+      [ngModel]="selectedDomainOfInfluence"
+      (ngModelChange)="selectDoi($event?.bfs)"
+      [items]="domainOfInfluences ?? []"
+      [showOptionsOnSelected]="true"
+      [clearable]="true"
+      displayExpr="name"
+      subscriptSizing="dynamic"
+    >
+      @if (optionTemplateInput) {
+        <ng-template #optionTemplate let-item>
+          <ng-container [ngTemplateOutlet]="optionTemplateInput" [ngTemplateOutletContext]="{ $implicit: item }"></ng-container>
+        </ng-template>
+      }
+    </bc-autocomplete>
+    @if (displayShowButton) {
+      <bc-button
+        [disabled]="!selectedDomainOfInfluence"
+        [label]="'MUNICIPALITY_FILTER.SHOW' | translate"
+        [variant]="'tertiary'"
+        (buttonClick)="showClicked.emit()"
+      ></bc-button>
+    }
+  </div>
 }

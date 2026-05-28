@@ -14,11 +14,11 @@
 
   <div class="flex flex-col gap-2 content">
     <div class="flex gap-2">
-      <bc-readonly [label]="'INITIATIVE.COMMITTEE.MEMBERS.FIRST_NAME' | translate">
-        {{ dialogData.member.firstName }}
-      </bc-readonly>
       <bc-readonly [label]="'INITIATIVE.COMMITTEE.MEMBERS.LAST_NAME' | translate">
         {{ dialogData.member.lastName }}
+      </bc-readonly>
+      <bc-readonly [label]="'INITIATIVE.COMMITTEE.MEMBERS.FIRST_NAME' | translate">
+        {{ dialogData.member.firstName }}
       </bc-readonly>
     </div>
     <bc-readonly [label]="'INITIATIVE.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate">
@@ -33,21 +33,21 @@
 
     <div class="flex gap-2">
       <bc-text
-        [label]="'INITIATIVE.COMMITTEE.MEMBERS.POLITICAL_FIRST_NAME' | translate"
-        [formControl]="form.controls.politicalFirstName"
-        [required]="false"
-        [showDefaultErrors]="true"
-        [placeholder]="dialogData.member.firstName"
-        optionalText=""
-        subscriptSizing="dynamic"
-      ></bc-text>
-      <bc-text
         [label]="'INITIATIVE.COMMITTEE.MEMBERS.POLITICAL_LAST_NAME' | translate"
         [formControl]="form.controls.politicalLastName"
         [required]="false"
         [showDefaultErrors]="true"
         optionalText=""
         [placeholder]="dialogData.member.lastName"
+        subscriptSizing="dynamic"
+      ></bc-text>
+      <bc-text
+        [label]="'INITIATIVE.COMMITTEE.MEMBERS.POLITICAL_FIRST_NAME' | translate"
+        [formControl]="form.controls.politicalFirstName"
+        [required]="false"
+        [showDefaultErrors]="true"
+        [placeholder]="dialogData.member.firstName"
+        optionalText=""
         subscriptSizing="dynamic"
       ></bc-text>
     </div>

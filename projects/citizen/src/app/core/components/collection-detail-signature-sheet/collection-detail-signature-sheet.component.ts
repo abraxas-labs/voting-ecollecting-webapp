@@ -16,7 +16,7 @@ import { CollectionService } from '../../services/collection.service';
 import { Collection } from '../../models/collection.model';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { detailSignatureSheetPreviewUrl, signInitiativeUrl, signReferendumUrl } from '../../../user/user.routes';
+import { detailSignatureSheetPreviewUrl, signCollectionUrl, signInitiativeUrl, signReferendumUrl } from '../../../user/user.routes';
 import { userUrl } from '../../../app.routes';
 import { CollectionType } from '@abraxas/voting-ecollecting-proto';
 
@@ -139,6 +139,10 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
       return;
     }
 
+    if (!this.collection.userPermissions?.canGenerateSignatureSheetTemplatePreview) {
+      return;
+    }
+
     // if generated=true automatically generate new preview
     this.isGeneratingPreview = true;
     try {
@@ -211,7 +215,7 @@ export class CollectionDetailSignatureSheetComponent implements OnDestroy {
 
     // the base href (e.g., /ecollecting/citizen/)
     const baseHref = this.platformLocation.getBaseHrefFromDOM();
-    const tree = this.router.createUrlTree([baseHref, userUrl, signUrl, this.collection.id]);
+    const tree = this.router.createUrlTree([baseHref, userUrl, signCollectionUrl, signUrl, this.collection.id]);
     const path = this.router.serializeUrl(tree);
 
     // combine with Origin for a full absolute URL

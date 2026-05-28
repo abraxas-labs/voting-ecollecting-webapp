@@ -36,25 +36,24 @@
       [label]="'DECREE.DIALOG.COLLECTION_START_DATE' | translate"
       [required]="true"
       [formControl]="form.controls.collectionStartDate"
-      [error]="form.controls.collectionStartDate.invalid && form.controls.collectionStartDate.touched"
+      [error]="form.controls.collectionStartDate.invalid"
       [adjustFormControlErrors]="false"
       subscriptSizing="dynamic"
-    >
-      @if (form.controls.collectionStartDate.touched && form.controls.collectionStartDate.errors?.['dateNotInFuture']) {
-        <bc-error>{{ 'DECREE.DIALOG.ERRORS.DATE_IN_FUTURE' | translate }}</bc-error>
-      }
-    </bc-date>
+    ></bc-date>
     <bc-date
       [value]="(decree.collectionEndDate | date)!"
       (valueChange)="updateCollectionEndDate($event)"
       [label]="'DECREE.DIALOG.COLLECTION_END_DATE' | translate"
       [required]="true"
       [formControl]="form.controls.collectionEndDate"
-      [error]="form.controls.collectionEndDate.invalid && form.controls.collectionEndDate.touched"
+      [error]="form.controls.collectionEndDate.invalid"
       [adjustFormControlErrors]="false"
       subscriptSizing="dynamic"
     >
-      @if (form.controls.collectionEndDate.touched && form.controls.collectionEndDate.errors?.['dateNotOlderThanStartDate']) {
+      @if (form.controls.collectionEndDate.errors?.['dateNotInFuture']) {
+        <bc-error>{{ 'DECREE.DIALOG.ERRORS.DATE_IN_FUTURE' | translate }}</bc-error>
+      }
+      @else if (form.controls.collectionEndDate.errors?.['dateNotOlderThanStartDate']) {
         <bc-error>{{ 'DECREE.DIALOG.ERRORS.DATE_OLDER_THAN_START_DATE' | translate }}</bc-error>
       }
     </bc-date>
@@ -69,17 +68,17 @@
       [error]="form.controls.minSignatureCount.invalid && form.controls.minSignatureCount.touched"
       subscriptSizing="dynamic"
     ></bc-number>
-    <bc-number
-      [value]="decree.maxElectronicSignatureCount"
-      (valueChange)="decree.maxElectronicSignatureCount = $event!; contentChanged()"
-      [label]="'DECREE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate"
-      [readonly]="true"
-      [required]="true"
-      [formControl]="form.controls.maxElectronicSignatureCount"
-      [error]="form.controls.maxElectronicSignatureCount.invalid && form.controls.maxElectronicSignatureCount.touched"
-      [showDefaultErrors]="true"
-      subscriptSizing="dynamic"
-    ></bc-number>
+    @if (decree.electronicCollectionEnabled) {
+      <bc-number
+        [value]="decree.maxElectronicSignatureCount"
+        (valueChange)="decree.maxElectronicSignatureCount = $event!; contentChanged()"
+        [label]="'DECREE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate"
+        [readonly]="true"
+        optionalText=""
+        [formControl]="form.controls.maxElectronicSignatureCount"
+        subscriptSizing="dynamic"
+      ></bc-number>
+    }
     @if (
       decree.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_CT ||
       decree.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU

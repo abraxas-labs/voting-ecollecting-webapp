@@ -44,11 +44,17 @@
     </div>
   </bc-expansion-panel>
   <bc-expansion-panel [header]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.CONTACT_DATA_HEADER' | translate">
+    @if (form.controls.phone.invalid || form.controls.email.invalid) {
+      <div header class="hint error">
+        <p class="m-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.REQUIRED_FIELDS_MISSING' | translate }}</p>
+      </div>
+    }
     <div class="flex gap-x-2">
       <bc-text
         [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.PHONE' | translate"
         subscriptSizing="dynamic"
         [showDefaultErrors]="true"
+        [required]="true"
         [readonly]="!domainOfInfluence.userPermissions.canEdit"
         [error]="form.controls.phone.touched && form.controls.phone.invalid"
         [formControl]="form.controls.phone"></bc-text>
@@ -56,6 +62,7 @@
         [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.E_MAIL' | translate"
         subscriptSizing="dynamic"
         [showDefaultErrors]="true"
+        [required]="true"
         [readonly]="!domainOfInfluence.userPermissions.canEdit"
         [error]="form.controls.email.touched && form.controls.email.invalid"
         [formControl]="form.controls.email"></bc-text>
@@ -78,7 +85,7 @@
         [image]="logo"
         (imageChanged)="updateLogo($event)"
         (imageDeleted)="deleteLogo()"
-        [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOGO.TITLE' | translate"
+        [hint]="'FILE_UPLOAD.IMAGE_HINT' | translate"
         [readonly]="!domainOfInfluence.userPermissions.canEdit"
         [required]="true"
         [error]="logoError"
@@ -87,7 +94,7 @@
     }
   </bc-expansion-panel>
 
-  <bc-expansion-panel [header]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.HEADER' | translate">
+  <bc-expansion-panel [header]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.HEADER.' + domainOfInfluence.type | translate">
     @if (form.controls.initiativeMaxElectronicSignaturePercent.invalid
     || form.controls.initiativeNumberOfMembersCommittee.invalid
     || form.controls.initiativeMinSignatureCount.invalid
@@ -102,7 +109,7 @@
 
       @if (domainOfInfluence.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CH || domainOfInfluence.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT) {
         <div>
-          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.HEADER' | translate }}</h5>
+          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.HEADER.' + domainOfInfluence.type | translate }}</h5>
           <div class="flex gap-2">
             <bc-number
               [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.COMMITTEE_MEMBER_COUNT' | translate"
@@ -126,7 +133,7 @@
         </div>
 
         <div>
-          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.HEADER' | translate }}</h5>
+          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.HEADER.' + domainOfInfluence.type | translate }}</h5>
           <div class="flex gap-2">
             <bc-number
               [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.MIN_SIGNATURE_COUNT' | translate"
@@ -150,7 +157,7 @@
 
       @if (domainOfInfluence.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU) {
         <div>
-          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.HEADER' | translate }}</h5>
+          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.HEADER.' + domainOfInfluence.type | translate }}</h5>
           <div class="flex gap-2">
             <bc-number
               [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.MIN_SIGNATURE_COUNT' | translate"
@@ -171,7 +178,7 @@
         </div>
 
         <div>
-          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.HEADER' | translate }}</h5>
+          <h5 class="mb-0">{{ 'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.HEADER.' + domainOfInfluence.type | translate }}</h5>
           <div class="flex gap-2">
             <bc-number
               [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.MIN_SIGNATURE_COUNT' | translate"

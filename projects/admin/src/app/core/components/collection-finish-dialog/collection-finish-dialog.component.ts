@@ -12,7 +12,7 @@ import {
   EnumItemDescriptionUtils,
   getDate,
 } from 'ecollecting-lib';
-import { CollectionCameNotAboutReason, CollectionState } from '@abraxas/voting-ecollecting-proto';
+import { CollectionCameNotAboutReason, CollectionState, CollectionType } from '@abraxas/voting-ecollecting-proto';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   DateModule,
@@ -58,13 +58,14 @@ export class CollectionFinishDialogComponent extends BaseDialogWithUnsavedChange
   private readonly formBuilder = inject(NonNullableFormBuilder);
 
   protected readonly collectionStates = CollectionState;
+  protected readonly collectionTypes = CollectionType;
   protected readonly cameNotAboutReasonChoices: RadioButton[];
   protected readonly now: Date = new Date();
 
   protected readonly descriptionColumn = 'description';
   protected readonly electronicAttestedColumn = 'electronicAttested';
   protected readonly totalAttestedColumn = 'totalAttested';
-  protected readonly columns = [this.descriptionColumn, this.electronicAttestedColumn, this.totalAttestedColumn];
+  protected readonly columns: string[];
 
   protected cameAbout: boolean;
   protected cameNotAbout: boolean;
@@ -78,6 +79,10 @@ export class CollectionFinishDialogComponent extends BaseDialogWithUnsavedChange
 
     this.cameAbout = this.dialogData.totalCitizenCount >= this.dialogData.minSignatureCount;
     this.cameNotAbout = !this.cameAbout;
+
+    this.columns = this.dialogData.electronicCollectionEnabled
+      ? [this.descriptionColumn, this.electronicAttestedColumn, this.totalAttestedColumn]
+      : [this.descriptionColumn, this.totalAttestedColumn];
 
     this.cameNotAboutReasonChoices = enumItemDescriptionUtils
       .getArrayWithDescriptions<CollectionCameNotAboutReason>(CollectionCameNotAboutReason, 'COLLECTION.CAME_NOT_ABOUT_REASONS.')
@@ -132,6 +137,8 @@ export interface CollectionFinishDialogData {
   electronicCitizenCount: number;
   totalCitizenCount: number;
   collectionCounts: CollectionCountWithDescription[];
+  collectionType: CollectionType;
+  electronicCollectionEnabled: boolean;
 }
 
 export interface CollectionFinishDialogResult {

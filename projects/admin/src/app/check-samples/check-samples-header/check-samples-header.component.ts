@@ -14,6 +14,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { IsReferendumPipe } from '../../core/pipes/is-referendum.pipe';
 import { IsInitiativePipe } from '../../core/pipes/is-initiative.pipe';
+import { isInitiative, isReferendum } from '../../core/models/collections-group.model';
 
 @Component({
   selector: 'app-check-samples-header',
@@ -25,6 +26,22 @@ export class CheckSamplesHeaderComponent implements OnDestroy {
   protected readonly route = inject(ActivatedRoute);
 
   protected collection?: Initiative | Referendum;
+
+  protected get electronicCollectionEnabled(): boolean {
+    if (!this.collection) {
+      return false;
+    }
+
+    if (isReferendum(this.collection)) {
+      return this.collection.decree?.electronicCollectionEnabled === true;
+    }
+
+    if (isInitiative(this.collection)) {
+      return this.collection.electronicCollectionEnabled;
+    }
+
+    return false;
+  }
 
   private routeSubscription: Subscription;
 

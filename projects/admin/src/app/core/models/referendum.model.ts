@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Referendum as ReferendumProto, DecreeGroup as DecreeGroupProto } from '@abraxas/voting-ecollecting-proto/admin';
+import { DecreeGroup as DecreeGroupProto, Referendum as ReferendumProto } from '@abraxas/voting-ecollecting-proto/admin';
 import { Referendum as ReferendumShared } from 'ecollecting-lib';
 import { Decree, mapDecreeToModel } from './decree.model';
 import { Collection, mapCollectionToModel } from './collection.model';

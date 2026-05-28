@@ -14,7 +14,7 @@
   <bc-table [dataSource]="dataSource">
     <ng-container [columnDef]="descriptionColumn">
       <th bc-header-cell *headerCellDef>
-        {{ 'COLLECTION.FINISH_DIALOG.TABLE.DESCRIPTION' | translate }}
+        {{ 'COLLECTION.FINISH_DIALOG.TABLE.DESCRIPTION.' + (dialogData.collectionType === collectionTypes.COLLECTION_TYPE_INITIATIVE ? 'INITIATIVE' : 'REFERENDUM')  | translate }}
       </th>
       <td bc-data-cell *dataCellDef="let row">
         <div truncateWithTooltip tooltip>{{ row.description }}</div>

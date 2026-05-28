@@ -20,7 +20,7 @@
 
           <div class="flex flex-col gap-3 mt-3">
             @for (initiative of group.initiatives; track initiative.collection.id) {
-              <vo-ecol-initiative-card [initiative]="initiative">
+              <vo-ecol-initiative-card [initiative]="initiative" [showElectronicCounters]="initiative.electronicCollectionEnabled">
                 <p class="mt-2">
                   <span>{{ 'CONTROL_SIGNS.DELETE_AS_OF' | translate }}</span>
                   <span>{{ initiative.sensitiveDataExpiryDate | date: 'dd.MM.yyyy' }}</span>
@@ -47,7 +47,7 @@
             }
 
             @for (decree of group.decrees; track decree.id) {
-              <vo-ecol-decree-card [decree]="decree" [showState]="true">
+              <vo-ecol-decree-card [decree]="decree" [showElectronicCounters]="decree.electronicCollectionEnabled" [showState]="true">
                 <p class="mt-2">
                   <span>{{ 'CONTROL_SIGNS.DELETE_AS_OF' | translate }}</span>
                   <span>{{ decree.sensitiveDataExpiryDate | date: 'dd.MM.yyyy' }}</span>

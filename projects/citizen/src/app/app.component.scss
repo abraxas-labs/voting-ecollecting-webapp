@@ -13,12 +13,13 @@ bc-app-header-bar {
   right: 0;
   z-index: 100; // header bar is displayed in front of the content
 
+  ::ng-deep .title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 400 !important;
+  }
+
   ::ng-deep .link bc-logo {
     display: none;
-
-    @include sm-up() {
-      display: block;
-    }
   }
 }
 
@@ -55,7 +56,7 @@ bc-app-header-bar {
     font-weight: 500; // copied from base-components footer
   }
 
-  p {
+  li {
     color: $color-text-inverse;
     font-size: 12px; // copied from base-components footer
     font-weight: 500; // copied from base-components footer
@@ -73,7 +74,7 @@ bc-app-header-bar {
   left: -10000px;
   padding: 10px;
   background-color: $color-surface-bg-neutral-full;
-  z-index: 100;
+  z-index: 999;
 }
 
 .content-jump-link:focus {

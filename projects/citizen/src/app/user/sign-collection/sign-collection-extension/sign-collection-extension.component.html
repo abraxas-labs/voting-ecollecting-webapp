@@ -7,7 +7,7 @@
       color="default"
       variant="tertiary"
       (buttonClick)="signOnline()"
-      [label]="(collection.collection.isSigned || isOtherCollectionOfSameDecreeSigned ? 'SIGN_COLLECTION.SHOW_DETAILS' : 'SIGN_COLLECTION.SIGN_ONLINE') | translate"
+      [label]="(collection.collection.isSigned || isOtherCollectionOfSameDecreeSigned || isMaxElectronicSignatureCountReached ? 'SIGN_COLLECTION.SHOW_DETAILS' : 'SIGN_COLLECTION.SIGN_ONLINE') | translate"
     ></bc-button>
     <bc-button
       color="default"
@@ -21,13 +21,27 @@
   @if (collection.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT) {
     <ng-content select="[cameNotAboutReason]"></ng-content>
   } @else if (collection.collection.isSigned) {
-    <bc-alert-bar [displayDismissAction]="false" [message]="('SIGN_COLLECTION.ALREADY_SIGNED.' + collection.collection.signatureType) | translate"></bc-alert-bar>
+    <div class="hint">
+      <bc-icon [icon]="'info-circle-o'"></bc-icon>
+      <span>{{ ('SIGN_COLLECTION.ALREADY_SIGNED.' + collection.collection.signatureType) | translate }}</span>
+    </div>
   } @else if (isOtherCollectionOfSameDecreeSigned) {
-    <bc-alert-bar [displayDismissAction]="false" [message]="'SIGN_COLLECTION.ALREADY_SIGNED_OTHER_COLLECTION' | translate"></bc-alert-bar>
+    <div class="hint">
+      <bc-icon [icon]="'info-circle-o'"></bc-icon>
+      <span>{{ 'SIGN_COLLECTION.ALREADY_SIGNED_OTHER_COLLECTION' | translate }}</span>
+    </div>
+  } @else if (isMaxElectronicSignatureCountReached) {
+    <div class="hint">
+      <bc-icon [icon]="'info-circle-o'"></bc-icon>
+      <span>{{ 'ERROR_MESSAGES.CollectionMaxElectronicSignatureCountReachedException' | translate }}</span>
+    </div>
   } @else if (
     collection.collection.periodState === collectionPeriodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION &&
     collection.collection.state === collectionStates.COLLECTION_STATE_SIGNATURE_SHEETS_SUBMITTED
   ) {
-    <bc-alert-bar [displayDismissAction]="false" [message]="'SIGN_COLLECTION.SIGNATURE_SHEETS_SUBMITTED' | translate"></bc-alert-bar>
+    <div class="hint">
+      <bc-icon [icon]="'info-circle-o'"></bc-icon>
+      <span>{{ 'SIGN_COLLECTION.SIGNATURE_SHEETS_SUBMITTED' | translate }}</span>
+    </div>
   }
 </div>

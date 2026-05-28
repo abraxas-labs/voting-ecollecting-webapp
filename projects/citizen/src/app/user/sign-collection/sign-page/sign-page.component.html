@@ -1,8 +1,6 @@
-<div class="page layout">
+<div class="page-with-user-navigation-without-padding layout">
   <bc-sub-navigation-bar class="layout-header" [type]="'subpage'" [border]="false" (actionClick)="back()" [backBtnAriaLabel]="'APP.BACK' | translate">
     <h2 sub-navigation-title tooltip truncateWithTooltip>{{ navbarLabel | translate }}</h2>
-    <div></div>
-    <!-- placeholder which is forcing divider to be displayed -->
   </bc-sub-navigation-bar>
 
   <div class="layout-content p-3 content gap-3">

@@ -18,6 +18,7 @@ import { CollectionService } from '../../services/collection.service';
 @Component({
   selector: 'app-collection-detail-permission-dialog',
   templateUrl: './collection-detail-permission-dialog.component.html',
+  styleUrls: ['./collection-detail-permission-dialog.component.scss'],
   imports: [DialogComponent, TextModule, TranslatePipe, ReactiveFormsModule, RadioButtonModule],
 })
 export class CollectionDetailPermissionDialogComponent extends BaseDialogWithUnsavedChangesCheckComponent<

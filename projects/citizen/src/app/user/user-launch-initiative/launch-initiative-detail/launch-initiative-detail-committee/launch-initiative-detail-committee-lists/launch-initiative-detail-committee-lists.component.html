@@ -1,8 +1,14 @@
 <bc-card class="m-3" [border]="false">
   <bc-card-header>
-    <bc-card-title id="content" tabindex="0" [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
+    <bc-card-title id="content" [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
   </bc-card-header>
   <bc-card-content>
+    <p>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.INFO.HEADER' | translate }}</p>
+    <ol>
+      <li>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.INFO.1' | translate }}</li>
+      <li>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.INFO.2' | translate }}</li>
+    </ol>
+    <p class="whitespace-pre-line">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.INFO.FOOTER' | translate }}</p>
     <div class="box">
       <div class="flex flex-wrap">
         <!-- hidden link for accessible html version of the pdf -->
@@ -12,7 +18,7 @@
                    [loading]="downloadingTemplate"
                    [disabled]="!initiative.collection.userPermissions?.canDownloadCommitteeList"
                    (buttonClick)="downloadTemplate()"></bc-button>
-        <a class="accessible-link" tabindex="0" [routerLink]="['..', detailCommitteeListPreviewUrl]">{{ 'APP.OPEN_ACCESSIBLE_PDF' | translate }}</a>
+        <a class="accessible-link" [routerLink]="['..', detailCommitteeListPreviewUrl]">{{ 'APP.OPEN_ACCESSIBLE_PDF' | translate }}</a>
         @if (initiative.collection.userPermissions?.canEdit && !initiative.lockedFields?.committeeMembers) {
           <vo-ecol-file-upload [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.UPLOAD' | translate"
                                variant="simple-button"

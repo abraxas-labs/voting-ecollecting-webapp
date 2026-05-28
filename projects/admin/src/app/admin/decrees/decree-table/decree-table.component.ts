@@ -44,25 +44,22 @@ export class DecreeTableComponent implements AfterViewInit {
   protected readonly collectionStartDateColumn = 'collectionStartDate';
   protected readonly collectionEndDateColumn = 'collectionEndDate';
   protected readonly minSignatureCountColumn = 'minSignatureCount';
-  protected readonly totalAttestedColumn = 'totalAttested';
   protected readonly maxElectronicSignatureCountColumn = 'maxElectronicSignatureCount';
-  protected readonly electronicAttestedColumn = 'electronicAttested';
   protected readonly stateColumn = 'state';
   protected readonly editColumn = 'edit';
 
-  public readonly columns = [
+  public readonly defaultColumns = [
     this.domainOfInfluenceTypeColumn,
     this.domainOfInfluenceNameColumn,
     this.descriptionColumn,
     this.collectionStartDateColumn,
     this.collectionEndDateColumn,
     this.minSignatureCountColumn,
-    this.totalAttestedColumn,
-    this.maxElectronicSignatureCountColumn,
-    this.electronicAttestedColumn,
     this.stateColumn,
     this.editColumn,
   ];
+
+  public columns: string[] = [...this.defaultColumns];
 
   protected readonly collectionPeriodStateColorMap = collectionPeriodStateColorMap;
   protected readonly collectionPeriodStates = CollectionPeriodState;
@@ -70,6 +67,7 @@ export class DecreeTableComponent implements AfterViewInit {
   @Input()
   public set decrees(decrees: Decree[]) {
     this.dataSource.data = decrees;
+    this.updateColumns(decrees);
   }
 
   @Output()
@@ -100,18 +98,6 @@ export class DecreeTableComponent implements AfterViewInit {
       CollectionPeriodState,
       'DECREE.COLLECTION_PERIOD_STATES.',
     );
-
-    this.dataSource.sortingDataAccessor = this.dataSource.filterDataAccessor = (row, property) => {
-      const col = property as unknown as (typeof this.columns)[number];
-      switch (col) {
-        case this.totalAttestedColumn:
-          return this.getTotalAttestedCount(row);
-        case this.electronicAttestedColumn:
-          return this.getElectronicAttestedCount(row);
-        default:
-          return (row as any)[col];
-      }
-    };
   }
 
   public ngAfterViewInit(): void {
@@ -123,11 +109,16 @@ export class DecreeTableComponent implements AfterViewInit {
     return !decree.userPermissions?.canEdit;
   }
 
-  protected getTotalAttestedCount(decree: Decree): number {
-    return decree.attestedCollectionCount?.totalCitizenCount ?? 0;
-  }
-
-  protected getElectronicAttestedCount(decree: Decree): number {
-    return decree.attestedCollectionCount?.electronicCitizenCount ?? 0;
+  private updateColumns(decrees: Decree[]): void {
+    if (decrees.some(d => d.electronicCollectionEnabled)) {
+      const stateIndex = this.defaultColumns.indexOf(this.stateColumn);
+      this.columns = [
+        ...this.defaultColumns.slice(0, stateIndex),
+        this.maxElectronicSignatureCountColumn,
+        ...this.defaultColumns.slice(stateIndex),
+      ];
+    } else {
+      this.columns = [...this.defaultColumns];
+    }
   }
 }

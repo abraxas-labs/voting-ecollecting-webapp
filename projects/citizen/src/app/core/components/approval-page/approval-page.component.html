@@ -1,17 +1,17 @@
 <div class="page">
   <div class="container m-3">
     @if (notFound) {
-      <h2 id="content" tabindex="0">{{ notFoundHeader | translate }}</h2>
-      <p class="error p-3">{{ notFoundDetail | translate }}</p>
+      <h2 id="content">{{ notFoundHeader | translate }}</h2>
+      <p class="whitespace-pre-line error p-3">{{ notFoundDetail | translate }}</p>
     } @else if (loading) {
       <!-- show spinner only after 0.5s to prevent flickering -->
       @defer (on timer(500ms)) {
         <bc-spinner size="large"></bc-spinner>
       }
     } @else {
-      <h2 id="content" tabindex="0">{{ header | translate }}</h2>
+      <h2 id="content">{{ header | translate }}</h2>
       <p class="hint">{{ hint | translate }}</p>
-      <h3 tabindex="0" class="user-text">{{ subHeader | translate }}</h3>
+      <h3 class="user-text">{{ subHeader | translate }}</h3>
       <ng-content select="[sub-header-content]"></ng-content>
       <div class="card-container p-3">
         <ng-content></ng-content>

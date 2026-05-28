@@ -34,3 +34,8 @@ ul {
   padding: 0;
   margin: 0;
 }
+
+// bc-expansion-panel overwrites all bc-icon with a margin-right, this should not be applied for bc-alert-bar
+bc-alert-bar bc-icon {
+  margin-right: 0 !important;
+}

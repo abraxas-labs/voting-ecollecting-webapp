@@ -207,6 +207,16 @@ export class LaunchInitiativeDialogComponent
     return this.form.valid;
   }
 
+  protected getMaxElectronicSignatureCount(domainOfInfluence: DomainOfInfluence): string {
+    if (!domainOfInfluence) {
+      return '';
+    }
+
+    return Math.round(
+      (domainOfInfluence.initiativeMinSignatureCount * domainOfInfluence.initiativeMaxElectronicSignaturePercent) / 100,
+    ).toString();
+  }
+
   private buildForm(): void {
     this.form = this.formBuilder.group<Form>({
       domainOfInfluenceType: this.formBuilder.control({ value: undefined, disabled: true }),

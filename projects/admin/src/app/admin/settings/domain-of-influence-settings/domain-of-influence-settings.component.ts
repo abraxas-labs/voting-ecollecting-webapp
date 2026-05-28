@@ -64,8 +64,26 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
   });
 
   protected readonly DomainOfInfluenceType = DomainOfInfluenceType;
+  private showValidationErrorsValue: boolean = false;
 
   private formSubscription?: Subscription;
+
+  public get hasUnsavedChanges(): boolean {
+    // valid changes are autosaved, so only consider invalid changes as unsaved changes
+    return this.domainOfInfluence?.userPermissions?.canEdit && this.form.dirty && !this.form.valid;
+  }
+
+  public get showValidationErrors(): boolean {
+    return this.showValidationErrorsValue;
+  }
+
+  public set showValidationErrors(value: boolean) {
+    this.showValidationErrorsValue = value;
+
+    if (value) {
+      this.form.markAllAsTouched();
+    }
+  }
 
   public async ngOnChanges(changes: SimpleChanges): Promise<void> {
     this.isSwitchingDoi = true;
@@ -115,8 +133,9 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
   }
 
   @HostListener('window:beforeunload')
-  public beforeUnload(): void {
+  public beforeUnload(): boolean {
     void this.saveIfEditedAndValid();
+    return !this.hasUnsavedChanges;
   }
 
   public async ngOnDestroy(): Promise<void> {
@@ -293,10 +312,10 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
         asyncValidators: [AsyncInputValidators.complexSlText],
       }),
       phone: this.formBuilder.control('', {
-        validators: [Validators.maxLength(254), InputValidators.phone],
+        validators: [Validators.required, Validators.maxLength(254), InputValidators.phone],
       }),
       email: this.formBuilder.control('', {
-        validators: [Validators.maxLength(254), Validators.email],
+        validators: [Validators.required, Validators.maxLength(254), Validators.email],
       }),
       webpage: this.formBuilder.control('', {
         validators: [Validators.maxLength(10000)],

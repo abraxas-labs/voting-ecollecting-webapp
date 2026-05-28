@@ -20,7 +20,7 @@
                    [ariaLabelledby]="'file-upload-label-' + instanceId"
                    [ariaDescribedby]="'file-upload-hints-' + instanceId"
                    [variant]="buttonVariant"></bc-button>
-        <div [id]="'file-upload-hints-' + instanceId" class="hints" tabindex="0">
+        <div [id]="'file-upload-hints-' + instanceId" class="hints">
           <p>{{ 'FILE_UPLOAD.TEXT' | translate }}</p>
           @if (inlineHint) {
             <p translate>{{ inlineHint | translate }}</p>

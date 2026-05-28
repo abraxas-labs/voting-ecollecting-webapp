@@ -4,19 +4,20 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { AutocompleteModule } from '@abraxas/base-components';
+import { Component, EventEmitter, inject, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { AutocompleteModule, ButtonModule } from '@abraxas/base-components';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DOMAIN_OF_INFLUENCE_SERVICE_TOKEN, DomainOfInfluenceService } from '../../core/domain-of-influence.service';
 import { DomainOfInfluence } from '../models/domain-of-influence.model';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'vo-ecol-municipality-filter',
   templateUrl: './municipality-filter.component.html',
-  imports: [AutocompleteModule, TranslateModule, ReactiveFormsModule, FormsModule],
+  imports: [AutocompleteModule, TranslateModule, ReactiveFormsModule, FormsModule, NgTemplateOutlet, ButtonModule],
 })
 export class MunicipalityFilterComponent<T extends DomainOfInfluence = DomainOfInfluence> implements OnInit {
   private readonly domainOfInfluenceService = inject<DomainOfInfluenceService<T>>(DOMAIN_OF_INFLUENCE_SERVICE_TOKEN);
@@ -36,8 +37,17 @@ export class MunicipalityFilterComponent<T extends DomainOfInfluence = DomainOfI
   @Input()
   public control?: FormControl;
 
+  @Input()
+  public optionTemplateInput?: TemplateRef<any>;
+
+  @Input()
+  public displayShowButton: boolean = false;
+
   @Output()
   public selectedDomainOfInfluenceChange = new EventEmitter<T | undefined>();
+
+  @Output()
+  public showClicked = new EventEmitter<void>();
 
   public async ngOnInit(): Promise<void> {
     if (!this.domainOfInfluences) {

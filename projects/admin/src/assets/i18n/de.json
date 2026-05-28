@@ -11,13 +11,13 @@
   "DECREE": {
     "CREATE": "Erlass erfassen",
     "DIALOG": {
-      "TITLE": "Referendumsfähiger Erlass",
-      "DOMAIN_OF_INFLUENCE_TYPE": "Ebene",
-      "OFFICIAL_DESCRIPTION": "Offizielle Bezeichnung",
-      "COLLECTION_START_DATE": "Sammelfrist ab",
-      "COLLECTION_END_DATE": "Sammelfrist bis",
-      "MIN_SIGNATURE_COUNT": "Nötige Anzahl Unterschriften",
-      "MAX_ELECTRONIC_SIGNATURE_COUNT": "Max. Anzahl Unterschriften E-Collecting",
+      "TITLE": "Referendumsfähigen Erlass erfassen",
+      "DOMAIN_OF_INFLUENCE_TYPE": "Föderale Ebene",
+      "OFFICIAL_DESCRIPTION": "Offizielle Bezeichnung des Erlasses",
+      "COLLECTION_START_DATE": "Start Sammelfrist",
+      "COLLECTION_END_DATE": "Ende Sammelfrist",
+      "MIN_SIGNATURE_COUNT": "Erforderliche Anzahl Unterschriften",
+      "MAX_ELECTRONIC_SIGNATURE_COUNT": "Maximale Anzahl elektronischer Unterschriften",
       "LINK": "Link auf offizielle Detailseite",
       "ERRORS": {
         "DATE_IN_FUTURE": "Nur Datum in der Zukunft wählbar",
@@ -25,15 +25,12 @@
       }
     },
     "TABLE": {
-      "DOMAIN_OF_INFLUENCE_TYPE": "Ebene",
-      "DOMAIN_OF_INFLUENCE_NAME": "Name",
-      "DESCRIPTION": "Referendumsbegehren",
+      "DOMAIN_OF_INFLUENCE_TYPE": "Föderale Ebene",
+      "DOMAIN_OF_INFLUENCE_NAME": "Bezeichnung",
+      "DESCRIPTION": "Offizielle Bezeichnung des Erlasses",
       "COLLECTION_START_DATE": "Start Sammelfrist",
       "COLLECTION_END_DATE": "Ende Sammelfrist",
-      "SIGNATURES_ATTESTED": "Unterschriften bescheinigt",
-      "MIN_SIGNATURE_COUNT": "Total Erforderlich",
-      "TOTAL_ATTESTED": "Total bescheinigt",
-      "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
+      "MIN_SIGNATURE_COUNT": "Total erforderlich",
       "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
       "STATE": "Status",
       "NO_DATA": "Kein Erlass vorhanden..."
@@ -60,44 +57,45 @@
     "TITLE": "Initiative \"{{description}}\"",
     "TITLE_ELECTRONIC_SUBMISSION": "Vollelektronische Erfassung",
     "TITLE_PAPER_SUBMISSION": "Regierungsbeschluss ({{governmentDecisionNumber}})",
-    "SHOW": "Anzeigen",
-    "DELETE": "Entfernen",
+    "SHOW": "Details anzeigen",
+    "DELETE": "Löschen",
     "NO_DATA": "Keine Initiativen gefunden",
-    "FINISH_CORRECTION": {
-      "TITLE": "Korrektur abgeschlossen",
+    "FINISH_CORRECTION": "Korrektur abgeschlossen",
+    "FINISH_CORRECTION_DIALOG": {
+      "TITLE": "Korrektur abschliessen",
       "MSG": "Sind Sie sicher, dass Sie Korrektur abschliessen möchten?"
     },
     "SET_COLLECTION_PERIOD": {
       "TITLE": "Sammelfrist setzen",
-      "MSG": "Sind Sie sicher, dass Sie die Sammelfrist setzen möchten?"
+      "MSG": "Sind Sie sicher, dass Sie diese Sammelfrist setzen möchten?"
     },
     "ENABLE": {
       "TITLE": "Freigabe",
-      "MSG": "Sind Sie sicher, dass Sie die Sammlung freigeben möchten?"
+      "MSG": "Sind Sie sicher, dass Sie diese Sammelfrist setzen möchten?"
     },
     "RETURN_FOR_CORRECTION": {
       "TITLE": "Zur Korrektur",
-      "MSG": "Nachfolgend können einzelne Felder freigegeben werden, die durch das Komitee korrigiert werden müssen.",
-      "CONFIRM": "Sind Sie sicher, dass Sie die Sammlung zur Korrektur geben möchten?",
+      "MSG": "Folgende Felder können einzeln zur Korrektur freigegeben werden:",
+      "CONFIRM": "Sind Sie sicher, dass Sie die Initiative zur Korrektur freigeben möchten?",
       "WORDING": {
         "LABEL": "Wortlaut",
         "LOCKED_HINT": {
-          "true": "Der Wortlaut ist gesperrt und kann vom Komitee nicht bearbeitet werden. Klicken um den Wortlaut freizugeben.",
-          "false": "Der Wortlaut kann bearbeitet werden. Klicken um die Bezeichnung des Wortlauts sperren."
+          "true": "Der Wortlaut des Initiativbegehrens ist gesperrt und kann vom Komitee nicht bearbeitet werden. Klicken um für die Bearbeitung freizugeben.",
+          "false": "Der Wortlaut des Initiativbegehrens kann bearbeitet werden. Klicken um die Bearbeitung zu sperren."
         }
       },
       "DESCRIPTION": {
-        "LABEL": "Bezeichnung",
+        "LABEL": "Bezeichnung der Initiative",
         "LOCKED_HINT": {
-          "true": "Die Bezeichnung der Unterschriftensammlung ist gesperrt und kann vom Komitee nicht bearbeitet werden. Klicken um die Bezeichnung der Unterschriftensammlung freizugeben.",
-          "false": "Die Bezeichnung der Unterschriftensammlung kann bearbeitet werden. Klicken um die Bezeichnung der Unterschriftensammlung zu sperren."
+          "true": "Die Bezeichnung der Initiative ist gesperrt und kann vom Komitee nicht bearbeitet werden. Klicken um für die Bearbeitung freizugeben.",
+          "false": "Die Bezeichnung der Initiative kann bearbeitet werden. Klicken um die Bearbeitung zu sperren."
         }
       },
       "COMMITTEE_MEMBERS": {
         "LABEL": "Komiteemitglieder",
         "LOCKED_HINT": {
-          "true": "Die Komiteemitglieder sind gesperrt und können vom Komitee nicht bearbeitet werden. Klicken um die Komiteemitglieder freizugeben.",
-          "false": "Die Komiteemitglieder können bearbeitet werden. Klicken um die Komiteemitglieder zu sperren."
+          "true": "Die Erfassung von Angaben zu Komiteemitgliedern ist gesperrt. Klicken um für die Bearbeitung freizugeben.",
+          "false": "Die Erfassung von Angaben zu Komiteemitgliedern ist möglich. Klicken um die Bearbeitung zu sperren."
         }
       }
     },
@@ -111,33 +109,35 @@
     },
     "SUBMIT_SIGNATURE_SHEETS": {
       "TITLE": "Sammlung als eingereicht markieren",
-      "MSG": "Sind Sie sicher, dass die Sammlung als eingereicht markiert werden soll?\nNach der Bestätigung können keine elektronischen Unterschriften mehr abgegeben und keine physischen Unterschriften mehr bescheinigt werden."
+      "MSG": "Sind Sie sicher, dass die Sammlung als eingereicht markiert werden soll?\nNach der Bestätigung können keine Unterschriften mehr abgegeben oder bescheinigt werden."
     },
     "CHECK_SAMPLES": "Stichproben prüfen",
-    "ADD_SIGNATURE_SHEET": "Unterschriftenliste erfassen",
+    "VIEW_CHECK_SAMPLES": "Unterschriftenlisten einsehen",
+    "ADD_SIGNATURE_SHEET": "Unterschriftenlisten erfassen",
     "SHOW_SIGNATURE_SHEETS": "Unterschriftenlisten anzeigen",
     "FINISH": "Abschliessen",
     "GENERATE_DOCUMENTS": "Dokumente generieren",
     "GENERAL_INFORMATION": {
       "SUB_TYPE": "Art der Initiative",
       "SUB_TYPE_DEFAULT": "Volksinitiative",
-      "MIN_SIGNATURE_COUNT": "Total Erforderlich",
+      "MIN_SIGNATURE_COUNT": "Total erforderlich",
       "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
-      "WORDING": "Wortlaut des Initiativbegehrens"
+      "WORDING": "Wortlaut des Initiativbegehrens",
+      "DESCRIPTION": "Bezeichnung der Initiative"
     },
     "COMMITTEE": {
       "LISTS": {
-        "TITLE": "Komiteelisten",
-        "NO_DATA": "Keine Komiteelisten vorhanden"
+        "TITLE": "Mitgliederliste Initiativkomitee",
+        "NO_DATA": "Keine Mitgliederlisten vorhanden"
       },
       "MEMBERS": {
         "TITLE": "Komiteemitglieder",
-        "HINT": "{{requiredApprovedMembersCount}} Komiteemitglieder sind nötig ({{totalMembersCount}} erfasst / {{approvedMembersCount}} geprüft)",
+        "HINT": "Das Komitee muss aus mindestens {{requiredApprovedMembersCount}} Mitgliedern bestehen: {{totalMembersCount}} erfasst / {{approvedMembersCount}} bestätigt",
         "NO_DATA": "Es sind noch keine Komiteemitglieder erfasst.",
         "FIRST_NAME": "Vorname",
-        "LAST_NAME": "Nachname",
+        "LAST_NAME": "Name",
         "POLITICAL_FIRST_NAME": "Politischer Vorname",
-        "POLITICAL_LAST_NAME": "Politischer Nachname",
+        "POLITICAL_LAST_NAME": "Politischer Name",
         "DATE_OF_BIRTH": "Geburtsdatum",
         "RESIDENCE": "Wohnort",
         "POLITICAL_RESIDENCE": "Politischer Wohnort",
@@ -147,12 +147,12 @@
         "ZIP_CODE": "PLZ",
         "STATE": "Status",
         "POLITICAL_DUTY": "Politisches Amt",
-        "ROLE": "Berechtigung",
+        "ROLE": "Art der Berechtigung",
         "VERIFY": "Prüfen",
         "RESET": "Komiteemitglied wurde zurückgesetzt.",
         "REJECTED_OR_EXPIRED": "Abgelehnte Komiteemitglieder",
         "SIGNATURE_TYPE": {
-          "LABEL": "Bestätigungstyp",
+          "LABEL": "Art der Bestätigung",
           "0": "AGOV",
           "1": "Upload",
           "2": "AGOV"
@@ -166,23 +166,23 @@
           "6": "Einladung abgelaufen"
         },
         "VERIFY_DIALOG": {
-          "TITLE": "Stimmrecht zu Person prüfen",
+          "TITLE": "Stimmberechtigung prüfen",
           "LAST_NAME": "Name",
           "FIRST_NAME": "Vorname",
           "DATE_OF_BIRTH": "Geburtsdatum",
-          "STREET_HOUSE_NUMBER": "Strasse HNr.",
-          "ZIP_CODE_LOCALITY": "PLZ Ort",
+          "STREET_HOUSE_NUMBER": "Strasse und Haus-Nr.",
+          "ZIP_CODE_LOCALITY": "PLZ und Ort",
           "HAS_VOTING_RIGHT": {
             "TITLE": "Stimmrecht",
             "TRUE": "Ja",
             "FALSE": "Nein"
           },
-          "APPROVE": "Geprüft",
+          "APPROVE": "Bestätigt",
           "REJECT": "Ablehnen",
           "APPROVED": "Komiteemitglied wurde geprüft.",
           "REJECTED": "Komiteemitglied wurde abgelehnt.",
           "RESET": "Komiteemitglied wurde zurückgesetzt.",
-          "NOT_FOUND": "Es wurde keine stimmberechtigte Person unter diesen Angaben gefunden.",
+          "NOT_FOUND": "Mit diesen Angaben kann keine Person gefunden werden.",
           "NO_PERMISSION": "Keine Berechtigung im Stimmregister vorhanden, um diese Person abzufragen."
         },
         "EDIT_DIALOG": {
@@ -197,15 +197,16 @@
     "TITLE_ELECTRONIC_SUBMISSION": "Vollelektronische Erfassung",
     "TITLE_PAPER_SUBMISSION": "Vorerfasste Sammlung \"{{description}}\" (Nummer {{secureIdNumber}})",
     "STATE": "Status Referendum",
-    "SHOW": "Anzeigen",
-    "DELETE": "Entfernen",
-    "NO_DATA": "Keine Referenden gefunden",
+    "SHOW": "Details anzeigen",
+    "DELETE": "Löschen",
+    "NO_DATA": "Keine laufenden Referenden gefunden",
     "SUBMIT_SIGNATURE_SHEETS": {
       "TITLE": "Sammlung als eingereicht markieren",
-      "MSG": "Sind Sie sicher, dass die Sammlung als eingereicht markiert werden soll?\nNach der Bestätigung können keine elektronischen Unterschriften mehr abgegeben und keine physischen Unterschriften mehr bescheinigt werden."
+      "MSG": "Sind Sie sicher, dass die Sammlung als eingereicht markiert werden soll?\nNach der Bestätigung können keine Unterschriften mehr abgegeben oder bescheinigt werden."
     },
     "CHECK_SAMPLES": "Stichproben prüfen",
-    "ADD_SIGNATURE_SHEET": "Unterschriftenliste erfassen",
+    "VIEW_CHECK_SAMPLES": "Unterschriftenlisten einsehen",
+    "ADD_SIGNATURE_SHEET": "Unterschriftenlisten erfassen",
     "SHOW_SIGNATURE_SHEETS": "Unterschriftenlisten anzeigen",
     "FINISH": "Abschliessen",
     "GENERATE_DOCUMENTS": "Dokumente generieren",
@@ -213,10 +214,10 @@
     "ADD_COLLECTION_DIALOG": {
       "TITLE": "Neue Sammlung erfassen",
       "DECREE_DESCRIPTION": "Offizielle Bezeichnung Erlass",
-      "DOMAIN_OF_INFLUENCE_TYPE": "Ebene",
-      "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
+      "DOMAIN_OF_INFLUENCE_TYPE": "Föderale Ebene",
+      "DESCRIPTION": "Bezeichnung der Sammlung",
       "ADDRESS": {
-        "COMMITTEE_OR_PERSON": "Komitee oder Person",
+        "COMMITTEE_OR_PERSON": "Name der verantwortlichen Person oder des Komitees",
         "STREET_OR_POST_OFFICE_BOX": "Strasse und Hausnummer oder Postfach",
         "ZIP_CODE": "PLZ",
         "LOCALITY": "Ort"
@@ -227,27 +228,27 @@
     "TITLE": "Sammlung \"{{description}}\"",
     "SIGNATURE_SHEET": "Unterschriftenliste",
     "NO_SIGNATURE_SHEET": "Keine Unterschriftenliste vorhanden.",
-    "INFORMAL_REVIEW_REQUESTED": "Informelle Vorprüfung verlangt",
+    "INFORMAL_REVIEW_REQUESTED": "Informelle Vorprüfung beantragt",
     "SIGNATURE_SHEETS_SUBMITTED": "Sammlung bereits eingereicht. Keine Bescheinigungen mehr möglich.",
     "MUNICIPALITY_UNLOCKED": "Zur Nacherfassung",
     "GENERAL_INFORMATION": {
       "TITLE": "Allgemeine Angaben",
-      "DESCRIPTION": "Bezeichnung der Unterschriftensammlung",
+      "DESCRIPTION": "Bezeichnung der Sammlung",
       "REASON": "Begründung",
       "REASON_OPTIONAL": "Begründung (optional)",
-      "ADDRESS": "Adresse Komitee",
-      "ADDRESS_COMMITTEE_OR_PERSON": "Komitee oder Person",
+      "ADDRESS": "Adresse der verantwortlichen Person oder des Komitees",
+      "ADDRESS_COMMITTEE_OR_PERSON": "Name der verantwortlichen Person oder des Komitees",
       "ADDRESS_STREET_OR_POST_OFFICE_BOX": "Strasse und Hausnummer oder Postfach",
       "ADDRESS_ZIP_CODE": "PLZ",
       "ADDRESS_LOCALITY": "Ort",
-      "MEMBERS_COMMITTEE": "Mitglieder Komitee",
-      "MEMBERS_COMMITTEE_OPTIONAL": "Mitglieder Komitee (optional)",
-      "LINK": "Link auf Webseite",
-      "LINK_OPTIONAL": "Link auf Webseite (optional)",
+      "MEMBERS_COMMITTEE": "Komiteemitglieder",
+      "MEMBERS_COMMITTEE_OPTIONAL": "Komiteemitglieder (optional)",
+      "LINK": "Link auf Webseite zur Sammlung",
+      "LINK_OPTIONAL": "Link auf Webseite zur Sammlung (optional)",
       "IMAGE": "Bild zur Sammlung",
       "IMAGE_OPTIONAL": "Bild zur Sammlung (optional)",
-      "LOGO": "Logo der sammelnden Organisation",
-      "LOGO_OPTIONAL": "Logo der sammelnden Organisation (optional)",
+      "LOGO": "Logo der sammelnden Organisation(en)",
+      "LOGO_OPTIONAL": "Logo der sammelnden Organisation(en) (optional)",
       "NO_DATA": "Keine Angaben",
       "EDIT_TOOLTIP": "Allgemeine Angaben bearbeiten",
       "SAVE_TOOLTIP": "Speichern",
@@ -257,7 +258,7 @@
       "TITLE": "Vertretung",
       "FULL_NAME": "Name",
       "EMAIL": "E-Mail-Adresse",
-      "ROLE": "Berechtigung",
+      "ROLE": "Art der Berechtigung",
       "NO_DATA": "Keine Berechtigung vorhanden."
     },
     "FILTER": {
@@ -281,7 +282,7 @@
         "UNDER_REVIEW": "In Prüfung",
         "REGISTERED": "Angemeldet",
         "NOT_PASSED": "Nicht zulässig",
-        "SIGNATURE_SHEETS_SUBMITTED": "Unterschriftenliste eingereicht",
+        "SIGNATURE_SHEETS_SUBMITTED": "Unterschriftenlisten eingereicht",
         "WITHDRAWN_REFERENDUM": "Nicht gestartet"
       }
     },
@@ -296,7 +297,7 @@
         "ATTESTED": "Es ist keine bescheinigte Liste vorhanden"
       },
       "NUMBER": "Listen-Nr.",
-      "RECEIVED_AT": "Datum",
+      "RECEIVED_AT": "Eingangsdatum",
       "ATTESTED_TIMESTAMP": "Bescheinigt am",
       "MODIFIED_BY_NAME": "Zuletzt bearbeitet durch",
       "STATE": "Status",
@@ -321,15 +322,16 @@
         "MUNICIPALITY": "Gemeinde",
         "SIGNATURES_COUNT_TOTAL": "Anzahl Unterschriften total",
         "APPLIED_ON_PAPER": {
-          "LABEL": "Ich habe die Listen-Nr. auf die Papierliste übertragen",
-          "INFO": "Bitte übertragen Sie die Listen-Nr. auf die Papierliste. Die Staatskanzlei benötigt diese als Unterstützung für die Stichprobenkontrollen."
+          "LABEL": "Ich habe die Listennummer auf die Unterschriftenliste übertragen",
+          "INFO": "Bitte übertragen Sie die Listennummer auf die physische Unterschriftenliste. Die Staatskanzlei benötigt die Nummer zur Durchführung der Stichprobenkontrolle."
         },
         "SAVED": "Unterschriftenliste gespeichert"
       },
       "DETAIL": {
         "TITLE": "Unterschriftenliste erfassen",
         "DECREE": "Erlass",
-        "COLLECTION": "Sammlung",
+        "REFERENDUM": "Sammlung",
+        "INITIATIVE": "Initiative",
         "MODIFIED_BY_SUPERIOR_AUTHORITY": {
           "TITLE": "Korrigiert",
           "MSG": "Korrektur durch Oberbehörde erfolgt."
@@ -340,10 +342,11 @@
         "NEXT": "Nächste Liste",
         "DELETE": "Liste löschen",
         "CLOSE": "Schliessen",
-        "IMMUTABLE_HINT": "Diese Liste wurde bereits bescheinigt und kann nicht mehr geändert werden.",
+        "IMMUTABLE_HINT": "Die Unterschriften auf dieser Liste wurden bereits bescheinigt. Es können keine Anpassungen mehr vorgenommen werden.",
         "INFO": {
-          "MAIN": "Bitte übertragen Sie die Personen der Unterschriftenliste auf die Tabelle unten.\n1. Suchen Sie zuerst die Person.\n2. Die gefundene Person können Sie dann abhaken, um Sie der Tabelle mit gültigen unterschriften hinzuzufügen.",
-          "INVALID": "Für ungültige Personen gelten folgende Codes:\nA - Lorem\nB - Ipsum\nC - Dolor"
+          "MAIN": "Bitte übertragen Sie die Angaben der Personen, die auf der physischen Unterschriftenliste aufgeführt sind, in die untenstehende Tabelle. Gehen Sie dazu wie folgt vor:\n1. Aufrufen der Person mittels Ausfüllen der Suchfelder.\n2. Erfassung mittels Setzen des Hakens in der Checkbox, sofern die Unterschrift gültig ist.\nFälschlicherweise erfasste Unterschriften können durch Anklicken des Abfalleimer-Icons in der grauen Box unten auf der Seite rückgängig gemacht werden.",
+          "INVALID": "Im Falle einer ungültigen Unterschrift vermerken Sie bitte das entsprechende Kurzbegründungszeichen auf der physischen Unterschriftenliste.",
+          "INVALID_HINT": "a. unleserlich\nb. nicht identifizierbar\nc. mehrfach unterschrieben\nd. von gleicher Hand\ne. Name und/oder Vornamen und/oder Unterschrift nicht eigenhändig\nf. nicht im Stimmregister – bitte genauer begründen mit:\n\tf1. kein Stimmrecht in eidgenössischen Angelegenheiten (z.B. da kein Schweizer Bürgerrecht)\n\tf2. minderjährig\n\tf3. nicht in der Gemeinde wohnhaft (weggezogen)\n\tf4. gestorben\n\tf5. Vorsorgeauftrag (Art. 360 ff. ZGB ) oder unter umfassender Beistandschaft (Art. 398 ZGB)\n\tf6. die unterzeichnende Person ist zum Bescheinigungszeitpunkt trotz Niederlassung nicht in Ihrer Gemeinde stimmberechtigt (z.B. Wochenaufenthalt)\ng. eigenhändige Unterschrift fehlt\nh. falsches Geburtsdatum\ni. Unterschrift war bereits bei Einreichung der Liste bei der Gemeinde gestrichen"
         },
         "SEARCH": "Suchen",
         "RESET": "Zurücksetzen",
@@ -372,17 +375,17 @@
             "true": "Ja",
             "false": "Nein",
             "REASON": {
-              "AGE": "Nicht 18-Jährig",
-              "NATIONALITY": "Nicht Schweizer",
+              "AGE": "Nicht volljährig",
+              "NATIONALITY": "Kein Schweizer Bürgerrecht",
               "OTHER": "Stimmverzicht"
             }
           },
           "NONE_FOUND": "Keine Personen gefunden",
           "ADDED": "Hinzugefügt",
           "COUNT": {
-            "TOTAL": "total",
-            "INVALID": "ungültig",
-            "VALID": "gültig"
+            "TOTAL": "Total",
+            "INVALID": "Ungültig",
+            "VALID": "Gültig"
           },
           "NONE_ADDED": "Keine Personen auf der Liste"
         },
@@ -402,22 +405,25 @@
     "FINISH_DIALOG": {
       "TITLE": "Sammlung abschliessen",
       "FINISH": "Sammlung abschliessen",
-      "INFO_1": "{{minSignatureCount}} Unterschriften sind nötig für die Sammlung. Es wurden ",
-      "INFO_2": " verifizierte Unterschriften gesammelt / eingereicht.",
+      "INFO_1": "{{minSignatureCount}} gültige Unterschriften sind für das Zustandekommen erforderlich. Es wurden ",
+      "INFO_2": " gültige Unterschriften eingereicht.",
       "CAME_ABOUT": "Zustande gekommen",
       "CAME_NOT_ABOUT": "Nicht zustande gekommen",
       "CAME_NOT_ABOUT_REASON": "Begründung",
-      "SENSITIVE_DATA_EXPIRY_DATE": "Wann wollen Sie erinnert werden, die Kontrollzeichen zu löschen?",
+      "SENSITIVE_DATA_EXPIRY_DATE": "Wann wollen Sie daran erinnert werden, die Kontrollzeichen für diese Sammlung zu löschen?",
       "TABLE": {
-        "DESCRIPTION": "Titel der Sammlung",
-        "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
+        "DESCRIPTION": {
+          "INITIATIVE": "Bezeichnung der Initiative",
+          "REFERENDUM": "Bezeichnung der Sammlung"
+        },
+        "ELECTRONIC_ATTESTED": "Elektronisch eingegangen",
         "TOTAL_ATTESTED": "Total bescheinigt"
       }
     },
     "COMMITTEE_ADDRESS": {
       "HINT": "Die Adresse des Komitees muss erfasst werden…",
       "TITLE": "Komiteeadresse",
-      "COMMITTEE_OR_PERSON": "Komitee oder Person",
+      "COMMITTEE_OR_PERSON": "Name der verantwortlichen Person oder des Komitees",
       "STREET_OR_POST_OFFICE_BOX": "Strasse und Hausnummer oder Postfach",
       "ZIP_CODE": "PLZ",
       "LOCALITY": "Ort"
@@ -432,29 +438,29 @@
       },
       "COLLECTION_PERIOD": "Sammelfrist",
       "SIGNATURES_ATTESTED": "Unterschriften bescheinigt",
-      "MIN_SIGNATURE_COUNT": "Total Erforderlich",
+      "MIN_SIGNATURE_COUNT": "Total erforderlich",
       "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
       "TOTAL_ATTESTED": "Total bescheinigt",
-      "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
-      "INFO": "Bitte überprüfen Sie in einem ersten Schritt die korrekte Anzahl eingereichter Listen.\nSobald alle Listen entwededer als eingereicht oder als nicht eingereicht gesetzt sind, starten Sie mit dem Bestätigen der Listen.",
+      "ELECTRONIC_ATTESTED": "Elektronisch eingegangen",
+      "INFO": "Bitte überprüfen Sie in einem ersten Schritt, ob die Anzahl der  eingereichten Listen mit dem unten ausgewiesenen Total übereinstimmt.\nSobald alle Listen entweder als eingereicht oder als nicht eingereicht markiert sind, kann mit der Stichprobenprüfung begonnen werden.",
       "GENERATE_SAMPLES": "Zufallsliste",
       "TABLE": {
-        "BFS": "BFS-Nr",
+        "BFS": "BFS-Nr.",
         "MUNICIPALITY_NAME": "Gemeinde",
         "TOTAL_SIGNATURE_SHEETS_COUNT": "Total Listen",
         "TOTAL_SUBMITTED_OR_CONFIRMED_SIGNATURE_SHEETS_COUNT": "Eingereichte Listen",
-        "TOTAL_NOT_SUBMITTED_SIGNATURE_SHEETS_COUNT": "Nicht Eingereicht",
+        "TOTAL_NOT_SUBMITTED_SIGNATURE_SHEETS_COUNT": "Nicht eingereichte Listen",
         "TOTAL_CONFIRMED_SIGNATURE_SHEETS_COUNT": "Kontrolliert",
-        "PHYSICAL_COUNT_INVALID": "Ungültige Unterschriften",
-        "PHYSICAL_COUNT_VALID": "Gültige Unterschriften",
-        "ELECTRONIC_CITIZEN_COUNT": "E-Collecting",
-        "TOTAL_VALID_CITIZEN_COUNT": "Total gültig",
+        "PHYSICAL_COUNT_INVALID": "Ungültige physische Unterschriften",
+        "PHYSICAL_COUNT_VALID": "Gültige physische Unterschriften",
+        "ELECTRONIC_CITIZEN_COUNT": "Elektronische Unterschriften",
+        "TOTAL_VALID_CITIZEN_COUNT": "Total gültige Unterschriften",
         "IS_LOCKED": {
           "TITLE": "Status",
           "true": "gesperrt",
           "false": "zur Nacherfassung"
         },
-        "UNLOCK": "Gemeinde zur Nacherfassung zurück",
+        "UNLOCK": "Nacherfassung durch Gemeinde notwendig",
         "LOCK": "Gemeinde sperren",
         "SUBMIT_SIGNATURE_SHEETS": "Alle Listen als eingereicht markieren",
         "TOTAL": "Total",
@@ -463,9 +469,9 @@
       "SIGNATURE_SHEETS": {
         "TITLE": "Gemeinde {{municipalityName}}",
         "TABLE": {
-          "BFS": "BFS-Nr",
+          "BFS": "BFS-Nr.",
           "MUNICIPALITY_NAME": "Gemeinde",
-          "NUMBER": "Listen-Nr",
+          "NUMBER": "Listen-Nr.",
           "RECEIVED_AT": "Eingangsdatum",
           "SIGNATURE_COUNT_TOTAL": "Total Unterschriften",
           "SIGNATURE_COUNT_VALID": "Gültige Unterschriften",
@@ -476,16 +482,16 @@
         },
         "SUBMIT_ALL": {
           "TITLE": "Alle Listen auf Eingereicht setzen",
-          "MSG": "Wollen Sie alle bescheinigten Listen auf eingereicht setzen?\nStellen Sie sicher, dass alle nicht eingereichten Listen zuerst entsprechen markiert wurden.\nDiese Aktion kann nicht rückgängig gemacht werden."
+          "MSG": "Wollen Sie alle bescheinigten Listen in den Status \"eingereicht\" setzen?\n\nStellen Sie sicher, dass Sie vorgängig alle nicht eingereichten Listen entsprechend markiert haben.\nDiese Aktion kann nicht rückgängig gemacht werden."
         },
-        "SUBMIT": "Status auf \"eingereicht\"",
+        "SUBMIT": "Status auf \"eingereicht\" setzen",
         "SUBMITTED": "Status auf \"eingereicht\" gesetzt.",
-        "UNSUBMIT": "Status zurück auf \"bescheinigt\"",
-        "UNSUBMITTED": "Zurück auf bescheinigt gesetzt.",
-        "DISCARD": "Status auf \"nicht eingereicht\"",
+        "UNSUBMIT": "Status zurück auf \"bescheinigt\" setzen",
+        "UNSUBMITTED": "Status zurück auf \"bescheinigt\" gesetzt.",
+        "DISCARD": "Status auf \"nicht eingereicht\" setzen",
         "DISCARDED": "Status auf \"nicht eingereicht\" gesetzt.",
-        "RESTORE": "Status zurück auf \"bescheinigt\"",
-        "RESTORED": "Zurück auf bescheinigt gesetzt.",
+        "RESTORE": "Status zurück auf \"bescheinigt\" setzen",
+        "RESTORED": "Status zurück auf \"bescheinigt\" gesetzt.",
         "DETAIL": {
           "TITLE": "Stichprobenkontrolle",
           "RESET_CHANGES": {
@@ -498,24 +504,24 @@
             "NEXT_LIST": "Bestätigen und nächste Liste",
             "SAVE_AND_CLOSE": "Bestätigen und schließen"
           },
-          "INFO": "Bitte überprüfen Sie die Unterschriftenliste. Sie können Änderungen direkt vornehmen.",
-          "SEARCH_HINT": "Verwenden Sie folgende Suche, zusätzliche Personen der Unterschriftenliste zu erfassen (Stichdatum der Suche: {{receivedAt}})",
+          "INFO": "Bitte überprüfen Sie die Unterschriftenliste. Allfällige Änderungen können direkt auf dieser Seite vorgenommen werden.",
+          "SEARCH_HINT": "Verwenden Sie die folgenden Suchfelder, um zusätzliche Personen auf der Unterschriftenliste zu erfassen (Stichtag der Suche: {{receivedAt}})",
           "LIST_FULL": {
             "TITLE": "Liste voll",
             "MESSAGE": "Das Total an möglichen Unterschriften auf dieser Liste wurde erreicht. Es können keine weiteren Unterschriften erfasst werden."
           },
           "FOUND": "Gefundene Personen: {{ count }}",
           "COUNT": {
-            "TOTAL": "total",
-            "INVALID": "ungültig",
-            "VALID": "gültig"
+            "TOTAL": "Total",
+            "INVALID": "Ungültig",
+            "VALID": "Gültig"
           },
-          "IMMUTABLE_HINT": "Diese Liste kann nicht geändert werden.",
+          "IMMUTABLE_HINT": "An dieser Liste können keine Anpassungen mehr vorgenommen werden.",
           "MUNICIPALITY_NAME": "Gemeinde"
         }
       },
       "SAMPLES": {
-        "NO_SAMPLES": "Es ist noch keine Zufallsliste vorhanden. Bitte generieren Sie die Zufallsliste.",
+        "NO_SAMPLES": "Es ist noch keine Zufallsliste vorhanden. Bitte generieren Sie diese jetzt.",
         "ADD": "Zufallsliste generieren",
         "ADD_ADDITIONAL": "Zusätzliche Einträge generieren",
         "ADD_DIALOG": {
@@ -549,28 +555,40 @@
       "NO_DATA": "Kein Zugriff auf Wahlkreise",
       "NAME_FOR_PROTOCOL": "Bezeichnung für Protokoll",
       "ADDRESS_HEADER": "Adresse",
-      "CONTACT_DATA_HEADER": "Kontaktdaten",
+      "CONTACT_DATA_HEADER": "Kontaktangaben",
       "LOGO_HEADER": "Logo",
       "NOTIFICATION_EMAILS": {
-        "HEADER": "E-Mail Prüfstelle",
-        "ADD": "Neue E-Mail hinzufügen",
+        "HEADER": "E-Mail-Adresse(n) für automatische Notifikationen",
+        "ADD": "Neue E-Mail-Adresse hinzufügen",
         "NO_EMAILS": "Keine E-Mails vorhanden"
       },
       "COLLECTIONS": {
-        "HEADER": "Sammlungen",
+        "HEADER": {
+          "1": "Sammlungen",
+          "2": "Sammlungen",
+          "3": "Einstellungen für kommunale Sammlungen"
+        },
         "INITIATIVE": {
-          "HEADER": "Initiative",
-          "COMMITTEE_MEMBER_COUNT": "Anzahl Mitglieder im Initiativkomitee",
-          "MIN_SIGNATURE_COUNT": "Nötige Anzahl Unterschriften",
-          "MAX_ECOLLECTING_THRESHOLD_FOR_MU": "Max. Schwellenwert für Unterschriften E-Collecting für Gemeinden (in %)"
+          "HEADER": {
+            "1": "Eidgenössische Initiative",
+            "2": "Kantonale Initiative",
+            "3": "Kommunale Initiative"
+          },
+          "COMMITTEE_MEMBER_COUNT": "Mindestanzahl Mitglieder in einem Initiativkomitee",
+          "MIN_SIGNATURE_COUNT": "Benötigte Anzahl Unterschriften",
+          "MAX_ECOLLECTING_THRESHOLD_FOR_MU": "Quorum für elektronische Unterschriften in Prozent"
         },
         "REFERENDUM": {
-          "HEADER": "Referendum",
-          "MIN_SIGNATURE_COUNT": "Nötige Anzahl Unterschriften",
-          "MAX_ECOLLECTING_THRESHOLD": "Max. Schwellenwert für Unterschriften E-Collecting (in %)"
+          "HEADER": {
+            "1": "Eidgenössisches Referendum",
+            "2": "Kantonales Referendum",
+            "3": "Kommunales Referendum"
+          },
+          "MIN_SIGNATURE_COUNT": "Benötigte Anzahl Unterschriften",
+          "MAX_ECOLLECTING_THRESHOLD": "Quorum für elektronische Unterschriften in Prozent"
         }
       },
-      "ADDRESS_NAME": "Name für Protokoll",
+      "ADDRESS_NAME": "Name der Gemeinde",
       "STREET": "Strasse und Hausnummer oder Postfach",
       "ZIP_CODE": "PLZ",
       "LOCALITY": "Ort",
@@ -589,58 +607,58 @@
     "ADMISSIBILITY_DECISIONS": {
       "TITLE": "Zulässigkeitsbeschlüsse",
       "FILTER": {
-        "ALL": "alle Beschlüsse",
-        "ACTIVE": "aktive Beschlüsse"
+        "ALL": "Alle Beschlüsse",
+        "ACTIVE": "Anmeldung erfolgt"
       },
-      "DOI_TYPE": "Ebene",
-      "DOI_TYPE_NAME": "Name",
+      "DOI_TYPE": "Föderale Ebene",
+      "DOI_TYPE_NAME": "Bezeichnung",
       "SUB_TYPE": "Art der Initiative",
       "SUB_TYPE_DEFAULT": "Volksinitiative",
       "DESCRIPTION": "Bezeichnung der Initiative",
-      "COLLECTION_START_DATE": "Sammelfrist von",
-      "COLLECTION_END_DATE": "Sammelfrist bis",
-      "ADMISSIBILITY_DECISION_STATE": "Zulässigkeitsbescheid",
+      "COLLECTION_START_DATE": "Start Sammelfrist",
+      "COLLECTION_END_DATE": "Ende Sammelfrist",
+      "ADMISSIBILITY_DECISION_STATE": "Zulässigkeitsentscheid",
       "NO_DATA": "Keine Zulässigkeitsbeschlüsse vorhanden",
       "NEW": "Beschluss erfassen",
       "EDIT_DIALOG": {
-        "TITLE": "Zulässigkeitsbeschluss",
-        "DOI_TYPE": "Ebene",
+        "TITLE": "Zulässigkeitsbeschluss erfassen",
+        "DOI_TYPE": "Föderale Ebene",
         "COLLECTION": "Elektronische Sammlung",
         "COLLECTION_STATE": "Status der elektronischen Sammlung",
         "DATA": "Angaben zum Beschluss",
         "DECISION_NR": "Beschluss Nr.",
-        "DECISION": "Zulässigkeitsbescheid",
+        "DECISION": "Entscheid über Zulässigkeit",
         "SECURE_ID_NUMBER": "Sammlung-Nr.",
         "COMMITTEE_ADDRESS": {
-          "TITLE": "Komiteeadresse",
-          "COMMITTEE_OR_PERSON": "Komitee oder Person",
+          "TITLE": "Adresse des Komitees",
+          "COMMITTEE_OR_PERSON": "Name der verantwortlichen Person oder des Komitees",
           "STREET_OR_POST_OFFICE_BOX": "Strasse und Hausnummer oder Postfach",
           "ZIP_CODE": "PLZ",
           "LOCALITY": "Ort"
         },
         "DETAILS": {
-          "TITLE": "Detailangaben",
+          "TITLE": "Angaben zur Initaitive",
           "SUB_TYPE": "Art der Initiative",
           "WORDING":{
             "LABEL":  "Wortlaut des Initiativbegehrens"
           },
           "DESCRIPTION": {
-            "LABEL": "Bezeichnung der Unterschriftensammlung"
+            "LABEL": "Bezeichnung der Initiative"
           }
         },
         "CONFIRM_ADMISSIBILITY_DECISION_STATE": {
           "TITLE": "Änderungen speichern",
-          "2": "Sie ändern den Zulässigkeitsbeschluss auf \"Zulässig unter Auflagen\". \nDie verknüpfte Sammlung kann anschliessend auf der Detailseite an das Komitee zur Korrektur gegeben werden. \nSind Sie sicher, dass Sie speichern wollen?",
-          "3": "Sie ändern den Zulässigkeitsbeschluss auf \"Zulässig\". \nDie verknüpfte Sammlung wird nun automatisch zur Anmeldung bereit gemacht. \nSind Sie sicher, dass Sie speichern wollen?",
-          "4": "Sie ändern den Zulässigkeitsbeschluss auf \"Nicht zulässig\". \nDie verknüpfte Sammlung wird nun automatisch in den gleichnamigen Status gesetzt. \nSind Sie sicher, dass Sie speichern wollen?"
+          "2": "Sie sind dabei, den Zulässigkeitsentscheid auf \"Zulässig unter Auflagen\" zu setzen. Die Sammlung kann anschliessend auf der Detailseite zur Korrektur freigegeben werden.\n\nSind Sie sicher, dass Sie fortfahren möchten?",
+          "3": "Sie sind dabei, den Zulässigkeitsentscheid auf \"Zulässig\" zu setzen. Die Sammlung wird dadurch für die Anmeldung freigegeben.\n\nSind Sie sicher, dass Sie fortfahren möchten?",
+          "4": "Sie sind dabei, den Zulässigkeitsentscheid auf \"Nicht zulässig\" zu setzen. Die Sammlung wird automatisch in den gleichnamigen Status gesetzt.\n\nSind Sie sicher, dass Sie fortfahren möchten?"
         }
       }
     },
     "CERTS": {
       "TITLE": "Schlüsselmanagement",
       "PAST": {
-        "TITLE": "Aufgehobene Public-Backup-Zertifikate",
-        "NO_DATA": "Keine aufgehobenen Zertifikate"
+        "TITLE": "Abgelaufene Public-Backup-Zertifikate",
+        "NO_DATA": "Keine abgelaufene Zertifikate"
       },
       "ACTIVE": {
         "TITLE": "Aktuelle Schlüssel",
@@ -658,8 +676,8 @@
         "ACTION": "Schlüssel importieren",
         "LABEL": "Bezeichnung",
         "CERTIFICATE": "Public-Backup-Zertifikat",
-        "CERTIFICATE_HINT": "PEM, max. 5MB",
-        "INFO": "Durch das Hinzufügen eines neuen Schlüssels wird der aktive Schlüssel ersetzt.",
+        "CERTIFICATE_HINT": "Format PEM, max. 5MB",
+        "INFO": "Durch das Hinzufügen eines neuen Schlüssels wird der aktuelle Schlüssel ersetzt.",
         "IMPORTED": "Schlüssel importiert",
         "VALIDATIONS": {
           "ContainsSingleEntry": "Enthält mehrere PEM-Einträge",
@@ -690,16 +708,16 @@
       "READY_TO_DELETE": "Bereit zum Löschen"
     },
     "NO_DATA": "Keine Einträge vorhanden.",
-    "DELETE_AS_OF": "Kontrollzeichen löschen per ",
+    "DELETE_AS_OF": "Kontrollzeichen sollen gelöscht werden am ",
     "DELETE": {
       "ACTION": "Kontrollzeichen löschen",
-      "MSG": "Sind Sie sicher, dass Sie dieses Kontrollzeichen löschen wollen?\nDie Daten werden unwiederruflich gelöscht und können nicht wiederhergestellt werden. Diese Aktion ist nicht umkehrbar.",
-      "CONFIRM": "Löschen"
+      "MSG": "Sind Sie sicher, dass Sie die Kontrollzeichen für diese Sammlung löschen wollen?\n\nDie Daten werden unwiderruflich gelöscht und können nicht wiederhergestellt werden.",
+      "CONFIRM": "Kontrollzeichen löschen"
     },
     "SENSITIVE_DATA_EXPIRY_DATE": {
-      "ACTION": "Erinnerung verlängern",
-      "TITLE": "Erinnerung zur Kontrollzeichenlöschung",
-      "MSG": "Wann wollen Sie erinnert werden, die Kontrollzeichen zu löschen?",
+      "ACTION": "Neue Erinnerung setzen",
+      "TITLE": "Erinnerung an Kontrollzeichenlöschung",
+      "MSG": "Wann wollen Sie daran erinnert werden, die Kontrollzeichen für diese Sammlung zu löschen?",
       "DATE": "Datum",
       "SAVED": "Erinnerungsdatum aktualisiert"
     }
@@ -717,6 +735,7 @@
   "ERROR_MESSAGES": {
     "NoPermissionStimmregisterException": "Fehlende Berechtigungen im Stimmregister.",
     "CollectionAlreadyExistsException": "Eine Sammlung mit dieser Bezeichnung existiert bereits.",
+    "DecreeAlreadyExistsException": "Ein Erlass mit dieser Bezeichnung existiert bereits.",
     "CollectionAlreadySignedException": "Die Sammlung wurde von der Person bereits unterschrieben.",
     "DecreeAlreadySignedException": "Von der Person wurde bereits eine andere Sammlung dieses Erlasses unterschrieben.",
     "TooManyCollectionSignatureSheetSamplesException": "Es gibt nicht genügend Unterschriftenlisten.",

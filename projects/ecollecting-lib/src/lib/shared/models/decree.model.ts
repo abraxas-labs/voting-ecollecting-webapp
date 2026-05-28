@@ -31,6 +31,7 @@ export interface SimpleDecree {
   description: string;
   minSignatureCount: number;
   maxElectronicSignatureCount: number;
+  electronicCollectionEnabled: boolean;
 }
 
 export function newSimpleDecree(): SimpleDecree {
@@ -39,5 +40,6 @@ export function newSimpleDecree(): SimpleDecree {
     description: '',
     minSignatureCount: 0,
     maxElectronicSignatureCount: 0,
+    electronicCollectionEnabled: false,
   } as SimpleDecree;
 }

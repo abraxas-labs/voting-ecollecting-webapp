@@ -77,12 +77,15 @@ export class SeekReferendumDialogComponent extends BaseDialogWithUnsavedChangesC
 
   public async save(): Promise<void> {
     if (this.isElectronicSubmission) {
-      const ok = await this.confirmDialogService.confirm({
-        title: 'SEEK_REFERENDUM.DIALOG.ELECTRONIC_SUBMISSION.TITLE',
-        message: 'SEEK_REFERENDUM.DIALOG.ELECTRONIC_SUBMISSION.CONFIRM',
-        confirmText: 'APP.YES',
-        discardText: 'APP.DISCARD',
-      });
+      const ok = await this.confirmDialogService.confirm(
+        {
+          title: 'SEEK_REFERENDUM.DIALOG.ELECTRONIC_SUBMISSION.CONFIRM.TITLE',
+          message: 'SEEK_REFERENDUM.DIALOG.ELECTRONIC_SUBMISSION.CONFIRM.MSG',
+          confirmText: 'APP.YES',
+          discardText: 'APP.DISCARD',
+        },
+        '50%',
+      );
       if (!ok) {
         return;
       }

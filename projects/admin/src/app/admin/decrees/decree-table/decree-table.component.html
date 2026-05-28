@@ -64,28 +64,12 @@
       {{ row.minSignatureCount | number }}
     </td>
   </ng-container>
-  <ng-container [columnDef]="totalAttestedColumn">
-    <th bc-header-cell *headerCellDef filter filterType="number" sort>
-      <span translate truncateWithTooltip tooltip>DECREE.TABLE.TOTAL_ATTESTED</span>
-    </th>
-    <td bc-data-cell *dataCellDef="let row" class="text-right">
-      {{ getTotalAttestedCount(row) | number }}
-    </td>
-  </ng-container>
   <ng-container [columnDef]="maxElectronicSignatureCountColumn">
     <th bc-header-cell *headerCellDef filter filterType="number" sort>
       <span translate truncateWithTooltip tooltip>DECREE.TABLE.MAX_ELECTRONIC_SIGNATURE_COUNT</span>
     </th>
     <td bc-data-cell *dataCellDef="let row" class="text-right">
       {{ row.maxElectronicSignatureCount | number }}
-    </td>
-  </ng-container>
-  <ng-container [columnDef]="electronicAttestedColumn">
-    <th bc-header-cell *headerCellDef filter filterType="number" sort>
-      <span translate truncateWithTooltip tooltip>DECREE.TABLE.ELECTRONIC_ATTESTED</span>
-    </th>
-    <td bc-data-cell *dataCellDef="let row" class="text-right">
-      {{ getElectronicAttestedCount(row) | number }}
     </td>
   </ng-container>
   <ng-container [columnDef]="stateColumn">

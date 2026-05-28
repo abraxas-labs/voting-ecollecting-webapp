@@ -5,6 +5,7 @@
  */
 
 import { Routes } from '@angular/router';
+import { hasUnsavedChangesGuard } from 'ecollecting-lib';
 import { AdminComponent } from './admin.component';
 import { CertificatesComponent } from './certificates/certificates.component';
 import { DecreeOverviewComponent } from './decrees/decree-overview/decree-overview.component';
@@ -60,6 +61,7 @@ export const routes: Routes = [
         path: settingsUrl,
         component: SettingsComponent,
         canActivate: [RoleGuard],
+        canDeactivate: [hasUnsavedChangesGuard],
         data: {
           role: 'Stammdatenverwalter' satisfies Role,
         },

@@ -74,6 +74,7 @@ export class DecreeDoiTypeCardComponent implements OnInit, OnChanges {
   protected loading = false;
   protected initialBfsFilter = persistentStorage.getItem(bfsFilterStorageKey);
   protected domainOfInfluences?: DomainOfInfluence[];
+  protected filterApplied = false;
 
   public async ngOnInit(): Promise<void> {
     this.domainOfInfluences = await this.domainOfInfluenceService.list(undefined, [DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU]);
@@ -91,6 +92,7 @@ export class DecreeDoiTypeCardComponent implements OnInit, OnChanges {
   }
 
   public async applyFilter(): Promise<void> {
+    this.filterApplied = true;
     if (this.doiType !== this.municipalityDoiType) {
       this.filteredDecrees = this.decrees;
       return;
@@ -116,5 +118,10 @@ export class DecreeDoiTypeCardComponent implements OnInit, OnChanges {
     } finally {
       this.loading = false;
     }
+  }
+
+  protected clearFilter(): void {
+    this.filteredDecrees = [];
+    this.filterApplied = false;
   }
 }

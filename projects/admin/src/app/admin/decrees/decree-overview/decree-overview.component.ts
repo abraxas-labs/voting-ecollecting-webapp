@@ -94,7 +94,7 @@ export class DecreeOverviewComponent implements OnInit {
     try {
       this.loading = true;
       this.decrees = await this.decreeService.list();
-      this.domainOfInfluenceTree = await this.domainOfInfluenceService.list(true);
+      this.domainOfInfluenceTree = await this.domainOfInfluenceService.list();
     } finally {
       this.loading = false;
     }

@@ -27,7 +27,7 @@
               <p class="no-data">{{ 'INITIATIVE.NO_DATA' | translate }}</p>
             } @else {
               @for (initiative of group.initiatives; track initiative.collection?.id) {
-                <vo-ecol-initiative-card [initiative]="initiative" (cardClick)="open(initiative.id)" [showPeriodState]="false">
+                <vo-ecol-initiative-card [initiative]="initiative" (cardClick)="open(initiative.id)" [showPeriodState]="false" [showElectronicCounters]="initiative.electronicCollectionEnabled">
                   <div class="mt-2 flex gap-3 items-center">
                     <bc-button class="self-end"
                                color="default"
@@ -52,7 +52,13 @@
                         class="self-end"
                         variant="tertiary"
                         (buttonClick)="checkSamples(initiative.id)"
-                        [label]="'INITIATIVE.CHECK_SAMPLES' | translate"
+                        [label]="
+                          (initiative.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT ||
+                          initiative.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT
+                            ? 'INITIATIVE.VIEW_CHECK_SAMPLES'
+                            : 'INITIATIVE.CHECK_SAMPLES'
+                          ) | translate
+                        "
                       ></bc-button>
                     }
                     @if (initiative.collection.userPermissions?.canSubmitSignatureSheets) {

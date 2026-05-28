@@ -29,7 +29,7 @@
               <p class="no-data">{{ 'REFERENDUM.NO_DATA' | translate }}</p>
             } @else {
               @for (decree of group.decrees; track decree.id) {
-                <vo-ecol-decree-card [decree]="decree" [showState]="true">
+                <vo-ecol-decree-card [decree]="decree" [showState]="true" [showElectronicCounters]="decree.electronicCollectionEnabled">
                   <div class="flex flex-col gap-2 mt-3">
                     @for (referendum of decree.collections; track referendum.collection.id) {
                       <vo-ecol-referendum-card
@@ -64,7 +64,13 @@
                               class="self-end"
                               variant="tertiary"
                               (buttonClick)="checkSamples(referendum.id)"
-                              [label]="'REFERENDUM.CHECK_SAMPLES' | translate"
+                              [label]="
+                                (referendum.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_ABOUT ||
+                                referendum.collection.state === collectionStates.COLLECTION_STATE_ENDED_CAME_NOT_ABOUT
+                                  ? 'REFERENDUM.VIEW_CHECK_SAMPLES'
+                                  : 'REFERENDUM.CHECK_SAMPLES'
+                                ) | translate
+                              "
                             ></bc-button>
                           }
                           @if (referendum.collection.userPermissions?.canSubmitSignatureSheets) {

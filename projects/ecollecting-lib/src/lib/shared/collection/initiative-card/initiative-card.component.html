@@ -12,16 +12,18 @@
   <bc-card-content>
     <div class="container">
       <span class="text-secondary">{{ 'COLLECTION.ADDRESS' | translate: initiative.collection.address }}</span>
-      <ul class="flex flex-wrap">
+      <ul class="details-list flex flex-wrap gap-x-2">
         <li class="collection-period">
           <bc-readonly [label]="'INITIATIVE.COLLECTION_PERIOD' | translate">{{ initiative.collection.collectionStartDate | date }} - {{ initiative.collection.collectionEndDate | date }}</bc-readonly>
         </li>
         <li>
           <bc-readonly [label]="'INITIATIVE.MIN_SIGNATURE_COUNT' | translate">{{ initiative.minSignatureCount | number }}</bc-readonly>
         </li>
-        <li>
-          <bc-readonly [label]="'INITIATIVE.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{ initiative.maxElectronicSignatureCount | number }}</bc-readonly>
-        </li>
+        @if (showElectronicCounters) {
+          <li>
+            <bc-readonly [label]="'INITIATIVE.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{ initiative.maxElectronicSignatureCount | number }}</bc-readonly>
+          </li>
+        }
 
         @if (initiative.collection.attestedCollectionCount !== undefined && initiative.collection.attestedCollectionCount.totalCitizenCount !== undefined) {
           <li>
@@ -29,7 +31,7 @@
           </li>
         }
 
-        @if (initiative.collection.attestedCollectionCount !== undefined) {
+        @if (showElectronicCounters && initiative.collection.attestedCollectionCount !== undefined) {
           <li>
             <bc-readonly [label]="'INITIATIVE.ELECTRONIC_ATTESTED' | translate">{{ initiative.collection.attestedCollectionCount.electronicCitizenCount | number }}</bc-readonly>
           </li>

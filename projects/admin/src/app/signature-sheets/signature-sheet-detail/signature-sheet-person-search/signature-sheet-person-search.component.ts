@@ -4,8 +4,8 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, Output, inject } from '@angular/core';
-import { ButtonModule, FilterModule, FilterOperation, FilterOperationId, TextModule } from '@abraxas/base-components';
+import { Component, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import { ButtonModule, FilterModule, FilterOperation, FilterOperationId, FilterTextComponent, TextModule } from '@abraxas/base-components';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   FormControl,
@@ -41,6 +41,9 @@ export class SignatureSheetPersonSearchComponent {
   @Output()
   public searchReset: EventEmitter<void> = new EventEmitter<void>();
 
+  @ViewChild('officialNameInput')
+  private officialNameInput!: FilterTextComponent;
+
   constructor() {
     this.form = this.buildForm();
     this.textFilterOperations = [
@@ -62,6 +65,11 @@ export class SignatureSheetPersonSearchComponent {
   public reset(): void {
     this.form.reset();
     this.searchReset.emit();
+  }
+
+  public clearInputsAndFocus(): void {
+    this.form.reset();
+    this.officialNameInput.setFocus();
   }
 
   protected onSearch(): void {

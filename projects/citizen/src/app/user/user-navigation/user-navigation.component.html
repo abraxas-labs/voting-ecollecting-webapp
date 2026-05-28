@@ -2,7 +2,7 @@
   @if (!(route.snapshot | routeData: 'hideNavigation')) {
     <div class="layout-header">
       <div class="user-navigation">
-        <div class="flex justify-between items-center m-3">
+        <div class="flex justify-between items-center m-3 mr-4">
           <bc-nav-bar class="nav-bar" [rounded]="false">
             <bc-nav-bar-item [link]="[signCollectionUrl]">
               {{ 'APP.NAVIGATION.SIGN_COLLECTION' | translate }}

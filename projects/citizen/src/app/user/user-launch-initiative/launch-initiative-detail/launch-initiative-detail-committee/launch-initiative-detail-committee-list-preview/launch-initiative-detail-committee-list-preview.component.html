@@ -1,5 +1,6 @@
-<div class="page">
+<div class="page-with-user-navigation">
   @if (initiative && committee && dataSource.data) {
+    <h2 id="content">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.TITLE' | translate }}</h2>
     <div class="flex justify-between py-3">
       <div>
         <p class="mb-0">{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.HEADER.TITLE_1' | translate }}</p>
@@ -10,9 +11,9 @@
       <img ngSrc="assets/pdf-preview-logo.png" alt="Staatskanzlei Logo" height="68" width="56" />
     </div>
 
-    <h2 id="content" class="mb-0" tabindex="0">
+    <h3 class="mb-0">
       {{
-        'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.TITLE'
+        'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.TITLE_INITIATIVE'
           | translate
             : {
                 type: 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.TYPES.' + initiative.domainOfInfluenceType | translate,
@@ -21,8 +22,8 @@
                 description: initiative.collection.description,
               }
       }}
-    </h2>
-    <p>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SUB_TITLE' | translate: { count: committee.requiredApprovedMembersCount } }}</p>
+    </h3>
+    <p>{{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SUB_TITLE_INITIATIVE' | translate: { count: committee.requiredApprovedMembersCount } }}</p>
 
     <div class="overflow-auto">
       <bc-table [dataSource]="dataSource">
@@ -32,9 +33,9 @@
             {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.NUMBER' | translate }}
           </span>
           </th>
-          <td bc-data-cell *dataCellDef="let row; let i = index" truncateWithTooltip tooltip [align]="'center'">
+          <th bc-row-header-cell *dataCellDef="let row; let i = index" truncateWithTooltip tooltip [align]="'center'">
             {{ `${i + 1}.` }}
-          </td>
+          </th>
         </ng-container>
         <ng-container [columnDef]="lastNameColumn">
           <th bc-header-cell *headerCellDef [align]="'center'">

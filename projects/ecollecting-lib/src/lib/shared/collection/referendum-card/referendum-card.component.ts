@@ -15,6 +15,7 @@ import { CollectionPermissionRole } from '@abraxas/voting-ecollecting-proto';
 @Component({
   selector: 'vo-ecol-referendum-card',
   templateUrl: './referendum-card.component.html',
+  styleUrl: './referendum-card.component.scss',
   imports: [StatusLabelModule, TranslateModule, CardModule, IconButtonModule, ReadonlyModule, CollectionCardHeaderComponent],
 })
 export class ReferendumCardComponent {

@@ -6,10 +6,10 @@
 
 import { Component, OnDestroy, inject } from '@angular/core';
 import { ButtonModule, NavigationModule, NavLayoutModule } from '@abraxas/base-components';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { admissibilityDecisionsUrl, certificatesUrl, decreesUrl, settingsUrl } from './admin.routes';
-import { filter, startWith, Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { HasAnyRoleDirective } from '../core/directives/has-any-role.directive';
 
 @Component({
@@ -19,6 +19,7 @@ import { HasAnyRoleDirective } from '../core/directives/has-any-role.directive';
 })
 export class AdminComponent implements OnDestroy {
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly certificatesUrl = certificatesUrl;
   protected readonly decreesUrl = decreesUrl;
@@ -30,20 +31,10 @@ export class AdminComponent implements OnDestroy {
   private routerEventsSubscription: Subscription;
 
   constructor() {
-    this.routerEventsSubscription = this.router.events
-      .pipe(
-        filter(evt => evt instanceof NavigationEnd),
-        startWith(this.router),
-      )
-      .subscribe(event => {
-        // get third url param, as the type of route is stored there
-        const pathParts = (event as NavigationEnd).url.split('/');
-        if (pathParts.length < 3) {
-          return;
-        }
-
-        this.active = pathParts[2];
-      });
+    this.routerEventsSubscription = this.router.events.pipe(filter(evt => evt instanceof NavigationEnd)).subscribe(() => {
+      this.active = this.route.firstChild?.routeConfig?.path;
+    });
+    this.active = this.route.firstChild?.routeConfig?.path;
   }
 
   public ngOnDestroy(): void {

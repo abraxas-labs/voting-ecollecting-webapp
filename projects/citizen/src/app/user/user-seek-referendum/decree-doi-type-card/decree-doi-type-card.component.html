@@ -3,8 +3,10 @@
     <div class="mb-4">
       <vo-ecol-municipality-filter
         [domainOfInfluences]="domainOfInfluences"
+        [displayShowButton]="true"
         [(selectedDomainOfInfluence)]="selectedDomainOfInfluence"
-        (selectedDomainOfInfluenceChange)="applyFilter()"
+        (selectedDomainOfInfluenceChange)="clearFilter()"
+        (showClicked)="applyFilter()"
       ></vo-ecol-municipality-filter>
     </div>
   }
@@ -19,6 +21,7 @@
         [decree]="decree"
         (cardClick)="cardClick.emit(decree)"
         [selected]="selectedDecreeId === decree.id"
+        [showElectronicCounters]="true"
         [clickable]="selectable && (originalSelectedDecreeId === decree.id || (!!decree.userPermissions?.canCreateReferendum && !decree.userPermissions?.hasMaximumReferendumsBeenReached))"
         [disabled]="selectable && (originalSelectedDecreeId !== decree.id && (!decree.userPermissions?.canCreateReferendum || !!decree.userPermissions?.hasMaximumReferendumsBeenReached))"
       >
@@ -29,7 +32,7 @@
         }
       </vo-ecol-decree-card>
     } @empty {
-      @if ((doiType !== municipalityDoiType || !!selectedDomainOfInfluence) && !loading) {
+      @if ((doiType !== municipalityDoiType || !!selectedDomainOfInfluence) && !loading && filterApplied) {
         <p class="no-data">{{ 'DECREES.NO_DATA' | translate }}</p>
       }
     }

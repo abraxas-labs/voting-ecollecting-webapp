@@ -5,9 +5,9 @@
         {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate }}
       </span>
     </th>
-    <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <th bc-row-header-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       {{ row.politicalLastName }}
-    </td>
+    </th>
   </ng-container>
 
   <ng-container [columnDef]="firstNameColumn">
@@ -16,9 +16,9 @@
         {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate }}
       </span>
     </th>
-    <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <th bc-row-header-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       {{ row.politicalFirstName }}
-    </td>
+    </th>
   </ng-container>
 
   <ng-container [columnDef]="dateOfBirthColumn">
@@ -106,30 +106,36 @@
   </ng-container>
 
   <ng-container [columnDef]="actionsColumn">
-    <th bc-header-cell *headerCellDef></th>
-    <td bc-data-cell *dataCellDef="let element" align="right">
+    <th bc-header-cell *headerCellDef [align]="'right'">
+       <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ACTIONS' | translate">
+        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ACTIONS' | translate }}
+      </span>
+    </th>
+    <td bc-data-cell *dataCellDef="let element" [align]="'right'">
       @if ((element.userPermissions?.canEdit || element.userPermissions?.canEditPoliticalDuty || canRemove) && !readonly) {
-        <bc-icon-button
-          (buttonClick)="editClicked.emit(element)"
-          [disabled]="!element.userPermissions?.canEdit && !element.userPermissions?.canEditPoliticalDuty"
-          icon="edit"
-          variant="tertiary"
-          [ariaLabel]="'APP.EDIT' | translate"
-        ></bc-icon-button>
-        <bc-icon-button
-          (buttonClick)="resendClicked.emit(element)"
-          icon="repeat"
-          variant="tertiary"
-          [disabled]="!element.userPermissions?.canResend"
-          [ariaLabel]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.RESEND' | translate"
-        ></bc-icon-button>
-        <bc-icon-button
-          (buttonClick)="removedClicked.emit(element)"
-          [disabled]="!canRemove"
-          icon="trash"
-          variant="tertiary"
-          [ariaLabel]="'APP.DELETE.TITLE' | translate"
-        ></bc-icon-button>
+        <div class="flex flex-nowrap justify-end">
+          <bc-icon-button
+            (buttonClick)="editClicked.emit(element)"
+            [disabled]="!element.userPermissions?.canEdit && !element.userPermissions?.canEditPoliticalDuty"
+            icon="edit"
+            variant="tertiary"
+            [ariaLabel]="'APP.EDIT' | translate"
+          ></bc-icon-button>
+          <bc-icon-button
+            (buttonClick)="resendClicked.emit(element)"
+            icon="repeat"
+            variant="tertiary"
+            [disabled]="!element.userPermissions?.canResend"
+            [ariaLabel]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.RESEND' | translate"
+          ></bc-icon-button>
+          <bc-icon-button
+            (buttonClick)="removedClicked.emit(element)"
+            [disabled]="!canRemove"
+            icon="trash"
+            variant="tertiary"
+            [ariaLabel]="'APP.DELETE.TITLE' | translate"
+          ></bc-icon-button>
+        </div>
       }
     </td>
   </ng-container>

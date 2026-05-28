@@ -15,6 +15,7 @@ export interface Decree extends Omit<DecreeShared, 'collections'> {
   collections?: Referendum[];
   userPermissions?: DecreeUserPermissions;
   sensitiveDataExpiryDate?: Date;
+  electronicCollectionEnabled: boolean;
 }
 
 export interface DecreeUserPermissions {

@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { CardModule, DividerModule, IconButtonModule } from '@abraxas/base-components';
+import { CardModule, DividerModule, IconButtonModule, LinkModule } from '@abraxas/base-components';
 import { TranslateModule } from '@ngx-translate/core';
 import { OverviewNavigationComponent } from './overview-navigation/overview-navigation.component';
 import { SignCollectionOverviewComponent } from '../user/sign-collection/sign-collection-overview/sign-collection-overview.component';
@@ -14,7 +14,15 @@ import { SignCollectionOverviewComponent } from '../user/sign-collection/sign-co
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
-  imports: [TranslateModule, CardModule, IconButtonModule, DividerModule, OverviewNavigationComponent, SignCollectionOverviewComponent],
+  imports: [
+    TranslateModule,
+    CardModule,
+    IconButtonModule,
+    DividerModule,
+    OverviewNavigationComponent,
+    SignCollectionOverviewComponent,
+    LinkModule,
+  ],
 })
 export class OverviewComponent {
   public explainerVideos: ExplainerVideo[] = [

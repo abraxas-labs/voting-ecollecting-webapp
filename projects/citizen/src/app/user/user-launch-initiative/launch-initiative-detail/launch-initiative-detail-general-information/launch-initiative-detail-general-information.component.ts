@@ -17,7 +17,7 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CollectionAddress, DomainOfInfluence, ImageUploadComponent, InitiativeSubType } from 'ecollecting-lib';
+import { CollectionAddress, DomainOfInfluence, HasUnsavedChanges, ImageUploadComponent, InitiativeSubType } from 'ecollecting-lib';
 import { Initiative } from '../../../../core/models/initiative.model';
 import { InitiativeService } from '../../../../core/services/initiative.service';
 import { DomainOfInfluenceService } from '../../../../core/services/domain-of-influence.service';
@@ -26,7 +26,6 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 import { CollectionService } from '../../../../core/services/collection.service';
-import { HasUnsavedChanges } from '../../../../core/guards/has-unsaved-changes.guard';
 import { LaunchInitiativeSubTypeComponent } from '../../launch-initiative-sub-type/launch-initiative-sub-type.component';
 
 @Component({

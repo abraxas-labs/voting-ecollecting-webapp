@@ -17,7 +17,12 @@ export class TranslatableTitleStrategy extends TitleStrategy {
   private readonly i18n = inject(TranslateService);
 
   override updateTitle(snapshot: RouterStateSnapshot): void {
-    const title = this.buildTitle(snapshot) ?? 'APP.TITLE';
-    this.titleService.setTitle(this.i18n.instant(title));
+    const extension = this.i18n.instant('APP.TITLES.EXTENSION');
+    const snapshotTitle = this.buildTitle(snapshot);
+    if (snapshotTitle) {
+      this.titleService.setTitle(`${this.i18n.instant(snapshotTitle)} - ${extension}`);
+    } else {
+      this.titleService.setTitle(extension);
+    }
   }
 }

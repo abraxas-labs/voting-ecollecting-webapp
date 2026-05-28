@@ -120,6 +120,8 @@ export class DecreeEditDialogComponent
       this.changeDomainOfInfluenceType(ownDoiTypes[0]);
       this.originalDecree.domainOfInfluenceType = this.decree.domainOfInfluenceType;
       this.originalDecree.domainOfInfluenceName = this.decree.domainOfInfluenceName;
+    } else if (this.isNew) {
+      this.decree.electronicCollectionEnabled = this.domainOfInfluenceTree.every(x => x.eCollectingEnabled);
     }
 
     this.hasDataChanged = false;
@@ -173,6 +175,7 @@ export class DecreeEditDialogComponent
         this.selectedDomainOfInfluence.settings.referendumMaxElectronicSignaturePercent ?? 0,
       );
       this.decree.bfs = this.selectedDomainOfInfluence.bfs;
+      this.decree.electronicCollectionEnabled = this.selectedDomainOfInfluence.eCollectingEnabled;
     }
 
     this.contentChanged();
@@ -228,19 +231,6 @@ export class DecreeEditDialogComponent
     return this.domainOfInfluenceTree.find(doi => doi.type === type);
   }
 
-  private collectionStartDateValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
-
-      if (!value) {
-        return null;
-      }
-
-      let date = getDate(value, 0, 0);
-      return date && date < this.now ? { dateNotInFuture: true } : null;
-    };
-  }
-
   private collectionEndDateValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
@@ -250,9 +240,13 @@ export class DecreeEditDialogComponent
       }
 
       let date = getDate(value, 0, 0);
-      return date && this.decree.collectionStartDate && date <= this.decree.collectionStartDate
-        ? { dateNotOlderThanStartDate: true }
-        : null;
+
+      if (date && date < this.now) {
+        return { dateNotInFuture: true };
+      } else if (date && this.decree.collectionStartDate && date <= this.decree.collectionStartDate) {
+        return { dateNotOlderThanStartDate: true };
+      }
+      return null;
     };
   }
 
@@ -263,17 +257,13 @@ export class DecreeEditDialogComponent
         asyncValidators: [AsyncInputValidators.complexMlText],
       }),
       collectionStartDate: this.formBuilder.control(this.decree.collectionStartDate, {
-        validators: [Validators.required, this.collectionStartDateValidator()],
+        validators: [Validators.required],
       }),
       collectionEndDate: this.formBuilder.control(this.decree.collectionEndDate, {
         validators: [Validators.required, this.collectionEndDateValidator()],
       }),
-      minSignatureCount: this.formBuilder.control(this.decree.minSignatureCount, {
-        validators: [Validators.required, Validators.min(0), Validators.max(100000)],
-      }),
-      maxElectronicSignatureCount: this.formBuilder.control(this.decree.maxElectronicSignatureCount, {
-        validators: [Validators.required, Validators.min(0), Validators.max(100000)],
-      }),
+      minSignatureCount: this.formBuilder.control(this.decree.minSignatureCount),
+      maxElectronicSignatureCount: this.formBuilder.control(this.decree.maxElectronicSignatureCount),
       link: this.formBuilder.control(this.decree.link, {
         validators: [Validators.minLength(1), Validators.maxLength(2000), InputValidators.httpsUrl],
       }),

@@ -90,9 +90,14 @@
             <bc-readonly class="flex-1 nowrap" [label]="'INITIATIVE.GENERAL_INFORMATION.MIN_SIGNATURE_COUNT' | translate">
               {{ initiative.minSignatureCount | number }}
             </bc-readonly>
-            <bc-readonly [label]="'INITIATIVE.GENERAL_INFORMATION.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
-              {{ initiative.maxElectronicSignatureCount | number }}
-            </bc-readonly>
+            @if (initiative.electronicCollectionEnabled) {
+              <bc-readonly [label]="'INITIATIVE.GENERAL_INFORMATION.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
+                {{ initiative.maxElectronicSignatureCount | number }}
+              </bc-readonly>
+            }
+            @else {
+              <bc-readonly></bc-readonly>
+            }
           </div>
 
           @if (editing) {
@@ -155,7 +160,7 @@
         @if (initiative.collection.userPermissions?.canFinishCorrection) {
           <bc-button
             [icon]="'checkmark'"
-            [label]="'INITIATIVE.FINISH_CORRECTION.TITLE' | translate"
+            [label]="'INITIATIVE.FINISH_CORRECTION' | translate"
             (buttonClick)="finishCorrection()"
           ></bc-button>
         }

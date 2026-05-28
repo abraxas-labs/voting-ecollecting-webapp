@@ -13,6 +13,7 @@ import { Initiative } from '../../../core/models/initiative.model';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CollectionSignatureSheet } from '../../../core/models/collection.model';
+import { CollectionType } from '@abraxas/voting-ecollecting-proto';
 
 @Component({
   selector: 'app-signature-sheet-header',
@@ -21,6 +22,8 @@ import { CollectionSignatureSheet } from '../../../core/models/collection.model'
   styleUrls: ['./signature-sheet-header.component.scss'],
 })
 export class SignatureSheetHeaderComponent implements OnDestroy {
+  protected readonly collectionTypes = CollectionType;
+
   protected collection?: Referendum | Initiative;
   protected sheet?: CollectionSignatureSheet;
 

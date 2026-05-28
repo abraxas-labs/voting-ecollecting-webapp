@@ -27,16 +27,7 @@ import { Person, PersonFilterData, PersonReviewState } from '../../core/models/p
 import { SignatureSheetHeaderComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-header/signature-sheet-header.component';
 import { SignatureSheetCitizenTableComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-citizen-table/signature-sheet-citizen-table.component';
 import { SignatureSheetPersonSearchComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-person-search/signature-sheet-person-search.component';
-import {
-  ConfirmDialogService,
-  createComparer,
-  emptyPage,
-  insertSorted,
-  LoadingBarComponent,
-  Page,
-  Pageable,
-  ToastService,
-} from 'ecollecting-lib';
+import { ConfirmDialogService, emptyPage, LoadingBarComponent, Page, Pageable, ToastService } from 'ecollecting-lib';
 import { SignatureSheetCandidatesTableComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-candidates-table/signature-sheet-candidates-table.component';
 import { VotingLibModule } from '@abraxas/voting-lib';
 import {
@@ -84,7 +75,6 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
   protected loadingCitizens = true;
   protected personCandidatesPage: Page<CollectionSignatureSheetCandidate> = emptyPage<CollectionSignatureSheetCandidate>();
 
-  private readonly personComparer = createComparer<Person>('officialName', 'firstName', 'dateOfBirth');
   private searchSubscription?: Subscription;
   private lastUsedFilter?: PersonFilterData;
   private addedPersonRegisterIds: string[] = [];
@@ -236,7 +226,7 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
     };
     candidate.person.reviewState = PersonReviewState.Added;
     this.addedPersonRegisterIds.push(candidate.person.registerId);
-    this.citizens = [...insertSorted(this.citizens, { ...candidate.person }, this.personComparer)];
+    this.citizens = [...this.citizens, { ...candidate.person }];
     this.sheet.count.invalid--;
     this.sheet.count.valid++;
   }

@@ -1,0 +1,8 @@
+@use '@abraxas/voting-lib/style/color' as *;
+
+bc-card:has(bc-button:hover, bc-icon-button:hover) {
+  ::ng-deep mat-card {
+    background-color: $color-surface-bg-neutral-full;
+    background-image: none !important;
+  }
+}

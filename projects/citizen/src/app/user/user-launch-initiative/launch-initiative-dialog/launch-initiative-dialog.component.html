@@ -60,25 +60,39 @@
           [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE'"></app-launch-initiative-sub-type>
       } @else if (form.controls.domainOfInfluenceType.value === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU) {
         <vo-ecol-municipality-filter
-          class="my-1 municipality"
+          class="my-1 municipality-filter"
           [showHint]="false"
           [control]="form.controls.bfs"
           [domainOfInfluences]="domainOfInfluences"
           (selectedDomainOfInfluenceChange)="selectedDomainOfInfluence = $event"
+          [optionTemplateInput]="optionTemplate"
         ></vo-ecol-municipality-filter>
-      }
-      @if (
-        form.value.domainOfInfluenceType === domainOfInfluenceTypes.DOMAIN_OF_INFLUENCE_TYPE_MU &&
-        form.value.bfs
-        ) {
-        <div class="flex gap-3 subtype-values">
-          <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DIALOG.MIN_SIGNATURE_COUNT' | translate">
-            {{ (selectedDomainOfInfluence?.initiativeMinSignatureCount | number) ?? '' }}
-          </bc-readonly>
-          <bc-readonly tabindex="0" [label]="'LAUNCH_INITIATIVE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
-            {{ selectedDomainOfInfluenceMaxElectronicSignatureCount | number }}
-          </bc-readonly>
-        </div>
+        <ng-template #optionTemplate let-item>
+          <div class="flex flex-wrap items-center">
+            <span class="description-text">{{ item.name }}</span>
+            <div class="municipality-filter-value-container">
+              <div class="municipality-filter-value">
+                <bc-label [label]="'LAUNCH_INITIATIVE.SUB_TYPE.MIN_SIGNATURE_COUNT' | translate"></bc-label>
+                <span> {{ item.initiativeMinSignatureCount | number }} </span>
+              </div>
+              <div class="municipality-filter-value">
+                <bc-label [label]="'LAUNCH_INITIATIVE.SUB_TYPE.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate"></bc-label>
+                <span> {{ getMaxElectronicSignatureCount(item) | number }} </span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        @if (form.value.bfs) {
+          <div class="flex gap-x-3 subtype-values">
+            <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MIN_SIGNATURE_COUNT' | translate">
+              {{ (selectedDomainOfInfluence?.initiativeMinSignatureCount | number) ?? '' }}
+            </bc-readonly>
+            <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">
+              {{ selectedDomainOfInfluenceMaxElectronicSignatureCount | number }}
+            </bc-readonly>
+          </div>
+        }
       }
     </div>
     <bc-text

@@ -31,3 +31,13 @@ app-signature-sheet-citizen-table {
   border-radius: 0.5rem;
   background-color: $color-surface-bg-neutral-bright;
 }
+
+.hint {
+  white-space: pre-wrap;
+  min-width: 40rem;
+}
+
+// overwrite bc tooltip max-width
+::ng-deep .tooltip {
+  max-width: unset !important;
+}

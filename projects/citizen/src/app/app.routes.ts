@@ -8,15 +8,18 @@ import { Routes } from '@angular/router';
 import { NotFoundPageComponent } from '@abraxas/voting-lib';
 import { launchInitiativeUrl, seekReferendumUrl } from './user/user.routes';
 import { AccessibilityPageComponent } from './core/components/accessibility-page/accessibility-page.component';
+import { SitemapPageComponent } from './core/components/sitemap-page/sitemap-page.component';
 
 export const accessibilityUrl = 'accessibility';
+export const sitemapUrl = 'sitemap';
 export const userUrl = 'user';
+export const overviewUrl = 'overview';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'overview',
+    redirectTo: overviewUrl,
   },
   {
     // this path is sent in emails, do not change!
@@ -55,6 +58,11 @@ export const routes: Routes = [
     path: accessibilityUrl,
     title: 'APP.TITLES.ACCESSIBILITY',
     component: AccessibilityPageComponent,
+  },
+  {
+    path: sitemapUrl,
+    title: 'APP.TITLES.SITEMAP',
+    component: SitemapPageComponent,
   },
   {
     path: '**',

@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.138.0`)
+# ✨ Changelog (`v1.141.14`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,181 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.138.0
-Previous version ---- v1.136.5
+This version -------- v1.141.14
+Previous version ---- v1.138.0
 Initial version ----- v1.115.24
-Total commits ------- 15
+Total commits ------- 28
 ```
+
+## [v1.141.14] - 2026-05-27
+
+### 🔄 Changed
+
+- update voting lib dependency
+
+## [v1.141.13] - 2026-05-27
+
+### 🔄 Changed
+
+- change submit signature sheets text
+
+## [v1.141.12] - 2026-05-27
+
+### 🆕 Added
+
+- add navigation to sub pages and improve municipality filter for accessibility
+
+## [v1.141.11] - 2026-05-21
+
+### 🔄 Changed
+
+- update voting lib and base-components for accessibility features
+
+## [v1.141.10] - 2026-05-21
+
+### 🔄 Changed
+
+- adjust font family of application title
+
+## [v1.141.9] - 2026-05-21
+
+### 🆕 Added
+
+- add site map
+
+## [v1.141.8] - 2026-05-20
+
+### 🆕 Added
+
+- add detail titles
+
+## [v1.141.7] - 2026-05-20
+
+### 🆕 Added
+
+- add header alt title and placeholder for date of birth
+
+## [v1.141.6] - 2026-05-20
+
+### 🆕 Added
+
+- add accessibility improvements
+
+## [v1.141.5] - 2026-05-19
+
+### 🔄 Changed
+
+- change committee member dialog fields order
+
+## [v1.141.4] - 2026-05-13
+
+### 🔄 Changed
+
+- email and phone required for update doi settings
+
+## [v1.141.3] - 2026-05-13
+
+### 🔄 Changed
+
+- show details when max electronic signature limit is reached
+
+## [v1.141.2] - 2026-05-12
+
+### 🔄 Changed
+
+- rework initiative committee members dialog
+
+## [v1.141.1] - 2026-05-12
+
+### 🆕 Added
+
+- add collection already exists validation
+
+## [v1.141.0] - 2026-05-11
+
+### 🆕 Added
+
+- feat(VOTING-7081): sort signature sheet people by time of adding
+
+## [v1.140.0] - 2026-05-07
+
+### 🔄 Changed
+
+- feat(VOTING-7080): reset form but not result when adding person to signature sheet
+
+## [v1.139.4] - 2026-05-04
+
+### 🔄 Changed
+
+- text changes
+
+## [v1.139.3] - 2026-05-01
+
+### 🔄 Changed
+
+- fix(VOTING-7073): selectively show electronic counts
+- fix(VOTING-7073): fix layout bug in initiative box if a long address is present
+
+## [v1.139.2] - 2026-04-28
+
+### 🔄 Changed
+
+- fix(VOTING-7008): align name order
+
+## [v1.139.1] - 2026-04-27
+
+### 🆕 Added
+
+- add custom option template to municipality filter
+
+## [v1.139.0] - 2026-04-20
+
+### 🆕 Added
+
+- feat(VOTING-7073): conditionally display max electronic signature count and attested counts
+
+## [v1.138.7] - 2026-04-20
+
+### 🔄 Changed
+
+- adjust texts for domain of influence settings by type
+
+## [v1.138.6] - 2026-04-20
+
+### 🆕 Added
+
+- fix(VOTING-7072): unsaved doi settings guard
+
+## [v1.138.5] - 2026-04-17
+
+### 🔄 Changed
+
+- fix refresh after next signature list has been created
+
+## [v1.138.4] - 2026-04-16
+
+### 🔄 Changed
+
+- allow past dates as start date for decrees
+- fix decree date validation
+
+## [v1.138.3] - 2026-04-16
+
+### 🔄 Changed
+
+- allow creating new decrees for all municipalities
+
+## [v1.138.2] - 2026-04-15
+
+### 🔄 Changed
+
+- text changes
+
+## [v1.138.1] - 2026-04-13
+
+### 🔄 Changed
+
+- rename check samples button for came about or came not about collections
 
 ## [v1.138.0] - 2026-04-10
 

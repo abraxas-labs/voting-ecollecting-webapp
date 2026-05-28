@@ -21,10 +21,10 @@ import { Initiative } from '../../../core/models/initiative.model';
 import { TranslatePipe } from '@ngx-translate/core';
 import { VotingLibModule } from '@abraxas/voting-lib';
 import { CollectionPeriodState, CollectionType, DecreeState, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
-import { AlertBarModule, ButtonModule, ReadonlyModule, SpinnerModule } from '@abraxas/base-components';
+import { AlertBarModule, ButtonModule, IconModule, ReadonlyModule, SpinnerModule } from '@abraxas/base-components';
 import { SignCollectionExtensionComponent } from '../sign-collection-extension/sign-collection-extension.component';
 import { Collection } from '../../../core/models/collection.model';
-import { signInitiativeUrl, signReferendumUrl } from '../../user.routes';
+import { signCollectionUrl, signInitiativeUrl, signReferendumUrl } from '../../user.routes';
 import { Router } from '@angular/router';
 import { CollectionService } from '../../../core/services/collection.service';
 import { DomainOfInfluenceService } from '../../../core/services/domain-of-influence.service';
@@ -46,6 +46,7 @@ const bfsFilterStorageKey = storageKeyPrefix + 'collection-bfs-filter';
     ReferendumCardComponent,
     SpinnerModule,
     AlertBarModule,
+    IconModule,
   ],
   templateUrl: './sign-collection-group-card.component.html',
   styleUrl: './sign-collection-group-card.component.scss',
@@ -76,6 +77,7 @@ export class SignCollectionGroupCardComponent implements OnInit, OnChanges {
 
   protected initialBfsFilter = persistentStorage.getItem(bfsFilterStorageKey);
   protected domainOfInfluences?: DomainOfInfluence[];
+  protected filterApplied = false;
 
   public async ngOnInit(): Promise<void> {
     this.domainOfInfluences = await this.domainOfInfluenceService.list(undefined, [DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU]);
@@ -94,6 +96,7 @@ export class SignCollectionGroupCardComponent implements OnInit, OnChanges {
   }
 
   public async applyFilter(): Promise<void> {
+    this.filterApplied = true;
     if (this.group.domainOfInfluenceType !== this.municipalityDoiType) {
       this.referendumDecrees = this.group.referendums;
       this.initiatives = this.group.initiatives;
@@ -121,8 +124,14 @@ export class SignCollectionGroupCardComponent implements OnInit, OnChanges {
     }
   }
 
+  public clearFilter(): void {
+    this.referendumDecrees = [];
+    this.initiatives = [];
+    this.filterApplied = false;
+  }
+
   public async signOnline(collection: Collection): Promise<void> {
     const typeSegment = collection.type === CollectionType.COLLECTION_TYPE_REFERENDUM ? signReferendumUrl : signInitiativeUrl;
-    await this.router.navigate(['user', typeSegment, collection.id]);
+    await this.router.navigate(['user', signCollectionUrl, typeSegment, collection.id]);
   }
 }

@@ -1,7 +1,6 @@
 <app-approval-page
   [loading]="loading"
   header="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.TITLE.DEFAULT"
-  [subHeader]="data?.description ?? ''"
   [hint]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.TEXT' | translate: data"
   [notFound]="notFound"
   notFoundHeader="LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.TITLE.NOT_FOUND"
@@ -14,7 +13,9 @@
         [header]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL.INITIATIVE_DETAIL.TITLE' | translate"
         [headingLevel]="'h4'">
         <div class="content">
-          <h5 class="user-text">{{ data.description }}</h5>
+          <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.DESCRIPTION' | translate">
+            <span class="user-text">{{ data.description }}</span>
+          </bc-readonly>
 
           @if (data.subType) {
             <bc-readonly [label]="'LAUNCH_INITIATIVE.DIALOG.SUB_TYPE' | translate">

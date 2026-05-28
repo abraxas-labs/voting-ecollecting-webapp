@@ -5,7 +5,14 @@
  */
 
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { AlertBarModule, ButtonModule, SpinnerModule, SubNavigationBarModule, TruncateWithTooltipModule } from '@abraxas/base-components';
+import {
+  AlertBarModule,
+  ButtonModule,
+  IconButtonModule,
+  SpinnerModule,
+  SubNavigationBarModule,
+  TruncateWithTooltipModule,
+} from '@abraxas/base-components';
 import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { endedCollectionsUrl, signCollectionUrl } from '../../user.routes';
@@ -37,7 +44,16 @@ const signKey = storageKeyPrefix + 'sign';
 
 @Component({
   selector: 'app-sign-page',
-  imports: [AlertBarModule, AsyncPipe, ButtonModule, SpinnerModule, SubNavigationBarModule, TranslatePipe, TruncateWithTooltipModule],
+  imports: [
+    AlertBarModule,
+    AsyncPipe,
+    ButtonModule,
+    SpinnerModule,
+    SubNavigationBarModule,
+    TranslatePipe,
+    TruncateWithTooltipModule,
+    IconButtonModule,
+  ],
   templateUrl: './sign-page.component.html',
   styleUrl: './sign-page.component.scss',
 })

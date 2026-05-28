@@ -33,6 +33,8 @@ import { CollectionType } from '@abraxas/voting-ecollecting-proto';
 })
 export class PermissionApprovalComponent extends ApprovalPageBaseComponent<PendingCollectionPermission> {
   private readonly collectionService = inject(CollectionService);
+
+  protected readonly collectionTypes = CollectionType;
   protected accepted = false;
 
   constructor() {

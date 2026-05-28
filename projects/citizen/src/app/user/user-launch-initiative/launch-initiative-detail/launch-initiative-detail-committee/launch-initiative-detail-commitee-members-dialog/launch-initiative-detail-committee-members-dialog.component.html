@@ -17,8 +17,20 @@
                [disabled]="!form.valid"></bc-button>
   }
 
-  <div class="container gap-x-3">
-    <div class="flex-1">
+  <bc-radio-button-group
+    class="mb-3"
+    [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.LABEL' | translate"
+    [items]="requestMemberSignatureChoices"
+    [formControl]="form.controls.requestMemberSignature"
+    [orientation]="'vertical'"
+    [disabled]="!canEdit || !dialogData.initiative.collection.isElectronicSubmission"
+    (valueChange)="updateValidators()"
+    [hint]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.' + (form.value.requestMemberSignature ? 'REQUEST_HINT' : 'NO_REQUEST_HINT') | translate"
+    subscriptSizing="dynamic"
+  ></bc-radio-button-group>
+
+  <div class="container gap-x-4">
+    <div class="flex-1 flex flex-col gap-y-2">
       <bc-text
         #lastName
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate"
@@ -64,20 +76,11 @@
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate"
         [formControl]="form.controls.dateOfBirth"
         [optionalText]="''"
+        [placeholder]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH_PLACEHOLDER' | translate"
         subscriptSizing="dynamic"
-        [adjustFormControlErrors]="false"
         [showDefaultErrors]="true"
         [error]="form.controls.dateOfBirth.touched && form.controls.dateOfBirth.invalid"
         [readonly]="!canEdit"></bc-date>
-      <bc-text
-        [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.EMAIL' | translate"
-        [formControl]="form.controls.email"
-        [optionalText]="!!form.value.requestMemberSignature || !!form.value.role ? '' : 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ADD_DIALOG.OPTIONAL' | translate"
-        [showDefaultErrors]="true"
-        [error]="form.controls.email.touched && form.controls.email.invalid"
-        subscriptSizing="dynamic"
-        [readonly]="!canEdit"
-      ></bc-text>
       <bc-text
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.POLITICAL_DUTY' | translate"
         [hint]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.POLITICAL_DUTY_HINT' | translate"
@@ -87,7 +90,7 @@
         [readonly]="!canEditPoliticalDuty"
       ></bc-text>
     </div>
-    <div class="flex-1">
+    <div class="flex-1 flex flex-col gap-y-2">
       <div class="container gap-x-2">
         <bc-text
           [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STREET' | translate"
@@ -142,7 +145,7 @@
         [readonly]="!canEdit"
       ></bc-text>
       <bc-radio-button-group
-        class="mt-3"
+        class="mt-2"
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ROLE' | translate"
         [items]="roleChoices"
         [formControl]="form.controls.role"
@@ -151,17 +154,15 @@
         (valueChange)="updateValidators()"
         subscriptSizing="dynamic"
       ></bc-radio-button-group>
-      <bc-radio-button-group
-        class="mt-3"
-        [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.LABEL' | translate"
-        [items]="requestMemberSignatureChoices"
-        [formControl]="form.controls.requestMemberSignature"
-        [orientation]="'vertical'"
-        [disabled]="!canEdit || !dialogData.initiative.collection.isElectronicSubmission"
-        (valueChange)="updateValidators()"
-        [hint]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.REQUEST_MEMBER_SIGNATURE.' + (form.value.requestMemberSignature ? 'REQUEST_HINT' : 'NO_REQUEST_HINT') | translate"
+      <bc-text
+        [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.EMAIL' | translate"
+        [formControl]="form.controls.email"
+        [optionalText]="!!form.value.requestMemberSignature || !!form.value.role ? '' : 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ADD_DIALOG.OPTIONAL' | translate"
+        [showDefaultErrors]="true"
+        [error]="form.controls.email.touched && form.controls.email.invalid"
         subscriptSizing="dynamic"
-      ></bc-radio-button-group>
+        [readonly]="!canEdit"
+      ></bc-text>
     </div>
   </div>
 </vo-ecol-dialog>

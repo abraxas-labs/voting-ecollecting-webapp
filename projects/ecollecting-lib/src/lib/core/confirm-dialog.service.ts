@@ -15,8 +15,8 @@ import { firstValueFrom } from 'rxjs';
 export class ConfirmDialogService {
   private readonly dialogService = inject(DialogService);
 
-  public async confirm(data: ConfirmDialogData): Promise<boolean> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, data);
+  public async confirm(data: ConfirmDialogData, widthWithUnit?: string): Promise<boolean> {
+    const dialogRef = this.dialogService.open(ConfirmDialogComponent, data, widthWithUnit);
     return firstValueFrom(dialogRef.afterClosed());
   }
 }

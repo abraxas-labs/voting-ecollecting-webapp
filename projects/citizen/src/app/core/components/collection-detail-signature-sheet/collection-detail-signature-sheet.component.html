@@ -1,7 +1,7 @@
 @if (collection) {
   <bc-card class="m-3" [border]="false">
     <bc-card-header>
-      <bc-card-title id="content" tabindex="0" [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
+      <bc-card-title id="content" [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
     </bc-card-header>
     <bc-card-content>
         <p>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.HINT' | translate }}</p>
@@ -33,7 +33,7 @@
             <vo-ecol-file-chip [label]="collection.signatureSheetTemplate.name"
                                (open)="openFile()"
                                [canRemove]="false"></vo-ecol-file-chip>
-            <a class="accessible-link" tabindex="0" [routerLink]="['..', detailSignatureSheetPreviewUrl]">{{ 'APP.OPEN_ACCESSIBLE_PDF' | translate }}</a>
+            <a class="accessible-link" [routerLink]="['..', detailSignatureSheetPreviewUrl]">{{ 'APP.OPEN_ACCESSIBLE_PDF' | translate }}</a>
           }
         </div>
         <div class="box">
@@ -43,26 +43,27 @@
                            [disabled]="!collection.userPermissions?.canEditSignatureSheetTemplate"
                            [subscriptSizing]="'dynamic'"></bc-radio-button>
           @if (!collection.signatureSheetTemplateGenerated) {
-            <vo-ecol-file-input
-              [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.FILE_UPLOAD.LABEL' | translate"
-              [dragDropEnabled]="true"
-              [layout]="'area'"
-              [accept]="'application/pdf'"
-              [hint]="'COLLECTION.DETAIL.SIGNATURE_SHEET.FILE_UPLOAD.HINT' | translate"
-              [readonly]="!collection.userPermissions?.canEditSignatureSheetTemplate"
-              [maxFileSize]="maxSizeInBytes"
-              (fileClicked)="openFile()"
-              [files]="signatureSheetTemplateFile ? [signatureSheetTemplateFile] : []"
-              (fileDeleted)="deleteFile()"
-              (filesChanged)="updateFiles($event)"
-            ></vo-ecol-file-input>
+            <div class="mt-2 ml-2">
+              <vo-ecol-file-input
+                [dragDropEnabled]="true"
+                [layout]="'area'"
+                [accept]="'application/pdf'"
+                [hint]="'COLLECTION.DETAIL.SIGNATURE_SHEET.FILE_UPLOAD.HINT' | translate"
+                [readonly]="!collection.userPermissions?.canEditSignatureSheetTemplate"
+                [maxFileSize]="maxSizeInBytes"
+                (fileClicked)="openFile()"
+                [files]="signatureSheetTemplateFile ? [signatureSheetTemplateFile] : []"
+                (fileDeleted)="deleteFile()"
+                (filesChanged)="updateFiles($event)"
+              ></vo-ecol-file-input>
+            </div>
           }
         </div>
 
       @if (qrCodeData) {
         <div class="mt-5">
-          <h3 tabindex="0">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.TITLE' | translate }}</h3>
-          <p tabindex="0">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.MSG' | translate }}</p>
+          <h3>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.TITLE' | translate }}</h3>
+          <p>{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.MSG' | translate }}</p>
           <qrcode (qrCodeURL)="qrCodeDownloadUrlChanged($event)" [width]="192" [qrdata]="qrCodeData" [errorCorrectionLevel]="'M'" [elementType]="'svg'"></qrcode>
           <bc-button [label]="'COLLECTION.DETAIL.SIGNATURE_SHEET.QR_CODE.DOWNLOAD' | translate" (buttonClick)="downloadQrCode()"></bc-button>
         </div>

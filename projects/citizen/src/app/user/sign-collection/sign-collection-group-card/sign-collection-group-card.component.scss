@@ -1,12 +1,14 @@
 @use '@abraxas/voting-lib/style/color' as *;
 
-bc-alert-bar ::ng-deep {
-  .alert-banner {
-    background-color: unset;
-    padding: 8px 0;
-  }
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $color-signal-info-dark;
+  padding: 8px 0;
 
-  .banner-text {
-    color: $color-signal-info;
+  bc-icon {
+    color: $color-signal-info-dark;
+    margin-right: 0;
   }
 }

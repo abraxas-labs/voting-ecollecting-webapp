@@ -1,4 +1,4 @@
-<div class="page layout">
+<div class="page-with-user-navigation-without-padding layout">
   @if (initiative) {
     <bc-sub-navigation-bar
       class="layout-header"
@@ -16,7 +16,6 @@
         }}
       </h2>
       <bc-icon-button class="ml-2" icon="add-comment" (buttonClick)="openChat()" [ariaLabel]="'CHAT.OPEN' | translate"></bc-icon-button>
-      <bc-icon-button class="ml-2" icon="question-circle-o" (buttonClick)="openHelpMenu()" [ariaLabel]="'HELP.OPEN' | translate"></bc-icon-button>
     </bc-sub-navigation-bar>
     <bc-nav-layout class="layout-content">
       <!-- collapseBreakpoint = medium break point https://getbootstrap.com/docs/5.3/layout/breakpoints/#available-breakpoints -->
@@ -30,42 +29,44 @@
         [border]="'right'"
         [disableClose]="true"
       >
-        <bc-nav-item
-          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.OVERVIEW' | translate"
-          [icon]="'home'"
-          [routerLink]="initiativeDetailOverviewUrl"
-          [target]="'self'"
-          [active]="active === initiativeDetailOverviewUrl"
+        <bc-nav-group>
+          <li bc-nav-item
+              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.OVERVIEW' | translate"
+              [icon]="'home'"
+              [routerLink]="initiativeDetailOverviewUrl"
+              [target]="'self'"
+              [active]="active === initiativeDetailOverviewUrl"
 
-        ></bc-nav-item>
-        <bc-nav-item
-          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.GENERAL_INFORMATION' | translate"
-          [icon]="'law'"
-          [routerLink]="initiativeDetailGeneralInformationUrl"
-          [target]="'self'"
-          [active]="active === initiativeDetailGeneralInformationUrl"
-        ></bc-nav-item>
-        <bc-nav-item
-          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.COMMITTEE' | translate"
-          [icon]="'users'"
-          [routerLink]="initiativeDetailCommitteeUrl"
-          [target]="'self'"
-          [active]="active === initiativeDetailCommitteeUrl"
-        ></bc-nav-item>
-        <bc-nav-item
-          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.SIGNATURE_LIST' | translate"
-          [icon]="'lists'"
-          [routerLink]="initiativeDetailSignatureSheetUrl"
-          [target]="'self'"
-          [active]="active === initiativeDetailSignatureSheetUrl"
-        ></bc-nav-item>
-        <bc-nav-item
-          [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.PERMISSIONS' | translate"
-          [icon]="'access'"
-          [routerLink]="initiativeDetailPermissionsUrl"
-          [target]="'self'"
-          [active]="active === initiativeDetailPermissionsUrl"
-        ></bc-nav-item>
+          ></li>
+          <li bc-nav-item
+              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.GENERAL_INFORMATION' | translate"
+              [icon]="'law'"
+              [routerLink]="initiativeDetailGeneralInformationUrl"
+              [target]="'self'"
+              [active]="active === initiativeDetailGeneralInformationUrl"
+          ></li>
+          <li bc-nav-item
+              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.COMMITTEE' | translate"
+              [icon]="'users'"
+              [routerLink]="initiativeDetailCommitteeUrl"
+              [target]="'self'"
+              [active]="active === initiativeDetailCommitteeUrl"
+          ></li>
+          <li bc-nav-item
+              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.SIGNATURE_LIST' | translate"
+              [icon]="'lists'"
+              [routerLink]="initiativeDetailSignatureSheetUrl"
+              [target]="'self'"
+              [active]="active === initiativeDetailSignatureSheetUrl"
+          ></li>
+          <li bc-nav-item
+              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.PERMISSIONS' | translate"
+              [icon]="'access'"
+              [routerLink]="initiativeDetailPermissionsUrl"
+              [target]="'self'"
+              [active]="active === initiativeDetailPermissionsUrl"
+          ></li>
+        </bc-nav-group>
       </bc-nav-drawer>
       <div class="content">
         <router-outlet></router-outlet>

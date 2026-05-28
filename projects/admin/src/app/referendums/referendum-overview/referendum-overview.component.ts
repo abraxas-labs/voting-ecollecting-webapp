@@ -34,7 +34,13 @@ import {
 import { ReferendumService } from '../../core/services/referendum.service';
 import { cloneDeep } from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CollectionPeriodState, CollectionState, DecreeState, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
+import {
+  CollectionPeriodState,
+  CollectionState,
+  CollectionType,
+  DecreeState,
+  DomainOfInfluenceType,
+} from '@abraxas/voting-ecollecting-proto';
 import { DomainOfInfluenceService } from '../../core/services/domain-of-influence.service';
 import { firstValueFrom } from 'rxjs';
 import { CollectionService } from '../../core/services/collection.service';
@@ -327,6 +333,8 @@ export class ReferendumOverviewComponent implements OnInit {
       electronicCitizenCount: decree.attestedCollectionCount?.electronicCitizenCount ?? 0,
       totalCitizenCount: decree.attestedCollectionCount?.totalCitizenCount ?? 0,
       collectionCounts: decree.collections?.map(x => ({ ...x.collection.attestedCollectionCount, description: x.collection.description })),
+      collectionType: CollectionType.COLLECTION_TYPE_REFERENDUM,
+      electronicCollectionEnabled: decree.electronicCollectionEnabled,
     } as CollectionFinishDialogData);
     const result = (await firstValueFrom(ref.afterClosed())) as CollectionFinishDialogResult;
     if (!result) {

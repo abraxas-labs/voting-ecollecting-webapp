@@ -22,7 +22,8 @@
     <bc-autocomplete
       [required]="true"
       [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.SELECTOR' | translate"
-      [(ngModel)]="selectedDoi"
+      [ngModel]="selectedDoi"
+      (ngModelChange)="selectDoi($event)"
       [items]="domainOfInfluences"
       [showOptionsOnSelected]="true"
       displayExpr="name"

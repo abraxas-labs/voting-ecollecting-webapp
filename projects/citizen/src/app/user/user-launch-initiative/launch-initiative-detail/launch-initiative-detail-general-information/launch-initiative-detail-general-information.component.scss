@@ -4,9 +4,12 @@ bc-readonly {
   white-space: nowrap;
 }
 
-@include sm-up() {
-  .subtype-values {
-    margin-top: 1.25rem;
+.subtype-values {
+  flex-wrap: wrap;
+
+  @include sm-up() {
+    margin-top: 1.5rem;
+    flex-wrap: nowrap;
   }
 }
 

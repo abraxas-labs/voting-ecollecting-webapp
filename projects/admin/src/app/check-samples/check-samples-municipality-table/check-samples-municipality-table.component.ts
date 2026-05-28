@@ -64,20 +64,7 @@ export class CheckSamplesMunicipalityTableComponent implements AfterViewInit {
   protected readonly actionsColumn = 'actions';
   protected readonly isLockedFilterItems: EnumItemDescription<boolean>[];
 
-  protected columns = [
-    this.bfsColumn,
-    this.municipalityNameColumn,
-    this.totalSignatureSheetsCountColumn,
-    this.totalSubmittedOrConfirmedSignatureSheetsCountColumn,
-    this.totalNotSubmittedSignatureSheetsCountColumn,
-    this.totalConfirmedSignatureSheetsCountColumn,
-    this.physicalCountInvalidColumn,
-    this.physicalCountValidColumn,
-    this.electronicCitizenCountColumn,
-    this.totalValidCitizenCountColumn,
-    this.isLockedColumn,
-    this.actionsColumn,
-  ];
+  protected columns: string[] = this.buildColumns(true);
   protected dataSource = new TableDataSource<CollectionMunicipality>();
   protected footerTotalSignatureSheetsCount = 0;
   protected footerTotalSubmittedOrConfirmedSignatureSheetsCount = 0;
@@ -96,6 +83,11 @@ export class CheckSamplesMunicipalityTableComponent implements AfterViewInit {
 
   @Input({ required: true })
   public collectionId!: string;
+
+  @Input()
+  public set electronicCollectionEnabled(enabled: boolean) {
+    this.columns = this.buildColumns(enabled);
+  }
 
   @Output()
   public signatureSheetsSubmitted: EventEmitter<void> = new EventEmitter<void>();
@@ -182,5 +174,22 @@ export class CheckSamplesMunicipalityTableComponent implements AfterViewInit {
     this.footerPhysicalCountValid = sum(this.dataSource.data.map(x => x.physicalCount.valid));
     this.footerElectronicCitizenCount = sum(this.dataSource.data.map(x => x.electronicCitizenCount));
     this.footerTotalValidCitizenCount = sum(this.dataSource.data.map(x => x.totalValidCitizenCount));
+  }
+
+  private buildColumns(electronicCollectionEnabled: boolean): string[] {
+    return [
+      this.bfsColumn,
+      this.municipalityNameColumn,
+      this.totalSignatureSheetsCountColumn,
+      this.totalSubmittedOrConfirmedSignatureSheetsCountColumn,
+      this.totalNotSubmittedSignatureSheetsCountColumn,
+      this.totalConfirmedSignatureSheetsCountColumn,
+      this.physicalCountInvalidColumn,
+      this.physicalCountValidColumn,
+      ...(electronicCollectionEnabled ? [this.electronicCitizenCountColumn] : []),
+      this.totalValidCitizenCountColumn,
+      this.isLockedColumn,
+      this.actionsColumn,
+    ];
   }
 }

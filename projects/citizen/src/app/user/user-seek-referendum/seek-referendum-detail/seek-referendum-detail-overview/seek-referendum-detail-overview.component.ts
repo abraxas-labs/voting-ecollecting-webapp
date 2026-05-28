@@ -5,12 +5,13 @@
  */
 
 import { Component } from '@angular/core';
+import { TranslateDirective } from '@ngx-translate/core';
 import { CardModule } from '@abraxas/base-components';
-import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-seek-referendum-detail-overview',
   templateUrl: './seek-referendum-detail-overview.component.html',
-  imports: [CardModule, TranslatePipe, TranslateDirective],
+  styleUrl: 'seek-referendum-detail-overview.component.scss',
+  imports: [TranslateDirective, CardModule],
 })
 export class SeekReferendumDetailOverviewComponent {}

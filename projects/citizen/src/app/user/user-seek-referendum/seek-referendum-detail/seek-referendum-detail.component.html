@@ -1,4 +1,4 @@
-<div class="page layout">
+<div class="page-with-user-navigation-without-padding layout">
   @if (referendum) {
     <div class="layout-header">
       <bc-sub-navigation-bar
@@ -16,7 +16,6 @@
           }}
         </h2>
         <bc-icon-button class="ml-2" icon="add-comment" (buttonClick)="openChat()" [ariaLabel]="'CHAT.OPEN' | translate"></bc-icon-button>
-        <bc-icon-button class="ml-2" icon="question-circle-o" (buttonClick)="openHelpMenu()" [ariaLabel]="'HELP.OPEN' | translate"></bc-icon-button>
       </bc-sub-navigation-bar>
 
       @if (referendum.decree) {
@@ -30,7 +29,7 @@
           </bc-card-header>
         </bc-card>
       } @else if (referendum.collection.userPermissions?.canEdit) {
-        <bc-card class="header-card" [backgroundColor]="'error'" [border]="false">
+        <bc-card role="alert" class="header-card" [backgroundColor]="'error'" [border]="false">
           <bc-card-header>
             <bc-card-subtitle [label]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_INFO' | translate" truncateWithTooltip
                               tooltip></bc-card-subtitle>
@@ -59,34 +58,36 @@
         [border]="'right'"
         [disableClose]="true"
       >
-        <bc-nav-item
-          [label]="'SEEK_REFERENDUM.DETAIL.NAV.OVERVIEW' | translate"
-          [icon]="'home'"
-          [routerLink]="detailOverviewUrl"
-          [target]="'self'"
-          [active]="active === detailOverviewUrl"
-        ></bc-nav-item>
-        <bc-nav-item
-          [label]="'SEEK_REFERENDUM.DETAIL.NAV.GENERAL_INFORMATION' | translate"
-          [icon]="'law'"
-          [routerLink]="detailGeneralInformationUrl"
-          [target]="'self'"
-          [active]="active === detailGeneralInformationUrl"
-        ></bc-nav-item>
-        <bc-nav-item
-          [label]="'SEEK_REFERENDUM.DETAIL.NAV.SIGNATURE_LIST' | translate"
-          [icon]="'lists'"
-          [routerLink]="detailSignatureSheetUrl"
-          [target]="'self'"
-          [active]="active === detailSignatureSheetUrl"
-        ></bc-nav-item>
-        <bc-nav-item
-          [label]="'SEEK_REFERENDUM.DETAIL.NAV.PERMISSIONS' | translate"
-          [icon]="'access'"
-          [routerLink]="detailPermissionsUrl"
-          [target]="'self'"
-          [active]="active === detailPermissionsUrl"
-        ></bc-nav-item>
+        <bc-nav-group>
+          <li bc-nav-item
+            [label]="'SEEK_REFERENDUM.DETAIL.NAV.OVERVIEW' | translate"
+            [icon]="'home'"
+            [routerLink]="detailOverviewUrl"
+            [target]="'self'"
+            [active]="active === detailOverviewUrl"
+          ></li>
+          <li bc-nav-item
+            [label]="'SEEK_REFERENDUM.DETAIL.NAV.GENERAL_INFORMATION' | translate"
+            [icon]="'law'"
+            [routerLink]="detailGeneralInformationUrl"
+            [target]="'self'"
+            [active]="active === detailGeneralInformationUrl"
+          ></li>
+          <li bc-nav-item
+            [label]="'SEEK_REFERENDUM.DETAIL.NAV.SIGNATURE_LIST' | translate"
+            [icon]="'lists'"
+            [routerLink]="detailSignatureSheetUrl"
+            [target]="'self'"
+            [active]="active === detailSignatureSheetUrl"
+          ></li>
+          <li bc-nav-item
+            [label]="'SEEK_REFERENDUM.DETAIL.NAV.PERMISSIONS' | translate"
+            [icon]="'access'"
+            [routerLink]="detailPermissionsUrl"
+            [target]="'self'"
+            [active]="active === detailPermissionsUrl"
+          ></li>
+        </bc-nav-group>
       </bc-nav-drawer>
       <div class="content">
         <router-outlet></router-outlet>

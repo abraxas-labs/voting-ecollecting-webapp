@@ -1,6 +1,11 @@
 @if (collection && sheet) {
   <div class="flex gap-4 p-3 items-center">
-    <bc-readonly [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.COLLECTION' | translate">
+    <bc-readonly
+      [label]="
+        'COLLECTION.SIGNATURE_SHEETS.DETAIL.' +
+          (collection.collection.type === collectionTypes.COLLECTION_TYPE_INITIATIVE ? 'INITIATIVE' : 'REFERENDUM') | translate
+      "
+    >
       <span class="user-text">{{ collection.collection.description }}</span>
     </bc-readonly>
     <ng-content select="[header-info]"></ng-content>

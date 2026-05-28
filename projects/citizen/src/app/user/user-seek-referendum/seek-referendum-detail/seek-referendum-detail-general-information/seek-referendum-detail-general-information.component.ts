@@ -16,15 +16,13 @@ import {
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CollectionAddress, ImageUploadComponent } from 'ecollecting-lib';
+import { CollectionAddress, HasUnsavedChanges, ImageUploadComponent } from 'ecollecting-lib';
 import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { CollectionService } from '../../../../core/services/collection.service';
 import { ReferendumService } from '../../../../core/services/referendum.service';
 import { Referendum } from '../../../../core/models/referendum.model';
-import { HasUnsavedChanges } from '../../../../core/guards/has-unsaved-changes.guard';
-
 @Component({
   selector: 'app-seek-referendum-detail-general-information',
   templateUrl: './seek-referendum-detail-general-information.component.html',

@@ -5,7 +5,7 @@
  */
 
 import { Component, inject, OnDestroy } from '@angular/core';
-import { filter, firstValueFrom, startWith, Subscription } from 'rxjs';
+import { filter, firstValueFrom, Subscription } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {
   ButtonModule,
@@ -91,20 +91,10 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
         void this.openChat();
       }
     });
-    this.routerEventsSubscription = this.router.events
-      .pipe(
-        filter(evt => evt instanceof NavigationEnd),
-        startWith(this.router),
-      )
-      .subscribe(event => {
-        // get the fifth url param, as the type of route is stored there
-        const pathParts = (event as NavigationEnd).url.split('/');
-        if (pathParts.length < 5) {
-          return;
-        }
-
-        this.active = pathParts[4];
-      });
+    this.routerEventsSubscription = this.router.events.pipe(filter(evt => evt instanceof NavigationEnd)).subscribe(() => {
+      this.active = this.route.firstChild?.routeConfig?.path ?? detailOverviewUrl;
+    });
+    this.active = this.route.firstChild?.routeConfig?.path ?? detailOverviewUrl;
   }
 
   public ngOnDestroy(): void {
@@ -115,10 +105,6 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
 
   public async back(): Promise<void> {
     await this.router.navigate(['..'], { relativeTo: this.route });
-  }
-
-  public openHelpMenu(): void {
-    this.dialogService.openRight(UserHelpMenuDialogComponent, {});
   }
 
   public async openChat(): Promise<void> {

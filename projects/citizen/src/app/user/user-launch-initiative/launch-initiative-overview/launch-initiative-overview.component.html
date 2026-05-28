@@ -1,7 +1,7 @@
 <div class="page-with-user-navigation">
   @if (!loading) {
     <div class="flex flex-wrap justify-between items-center">
-      <h2 id="content" tabindex="0" class="mb-0">{{ 'LAUNCH_INITIATIVE.TITLE' | translate }}</h2>
+      <h2 id="content" class="mb-0">{{ 'LAUNCH_INITIATIVE.TITLE' | translate }}</h2>
       <bc-button
         color="default"
         variant="tertiary"
@@ -13,7 +13,12 @@
 
     <div class="flex flex-col gap-3 mt-2">
       @for (initiative of initiatives; track initiative.id) {
-        <vo-ecol-initiative-card [initiative]="initiative" [role]="initiative.collection.userPermissions?.role" (cardClick)="open(initiative.id)" [showPeriodState]="false" [headingLevel]="'h3'">
+        <vo-ecol-initiative-card [initiative]="initiative"
+                                 [role]="initiative.collection.userPermissions?.role"
+                                 (cardClick)="open(initiative.id)"
+                                 [showElectronicCounters]="true"
+                                 [showPeriodState]="false"
+                                 [headingLevel]="'h3'">
           @if (initiative.collection.userPermissions) {
             <div class="flex items-center gap-x-2">
               <bc-button color="default"

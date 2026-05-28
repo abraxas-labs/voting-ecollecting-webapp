@@ -6,15 +6,15 @@
 
 import { Collection, mapCollectionToModel } from './collection.model';
 import {
-  InitiativeSubType as InitiativeSubTypeProto,
-  InitiativeGroup as InitiativeGroupProto,
+  AdmissibilityDecisionState,
   Initiative as InitiativeProto,
   InitiativeCommittee as InitiativeCommitteeProto,
   InitiativeCommitteeMember as InitiativeCommitteeMemberProto,
+  InitiativeGroup as InitiativeGroupProto,
+  InitiativeSubType as InitiativeSubTypeProto,
   VerifyInitiativeCommitteeMemberResponse as VerifyInitiativeCommitteeMemberResponseProto,
-  AdmissibilityDecisionState,
 } from '@abraxas/voting-ecollecting-proto/admin';
-import { StoredFile, fromProtoDate, Initiative as InitiativeShared, InitiativeSubType } from 'ecollecting-lib';
+import { fromProtoDate, Initiative as InitiativeShared, InitiativeSubType, StoredFile } from 'ecollecting-lib';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 
 export { InitiativeProto, InitiativeGroupProto };
@@ -28,6 +28,7 @@ export interface Initiative extends Omit<InitiativeShared, 'collection'> {
   collection: Collection;
   admissibilityDecisionState?: AdmissibilityDecisionState;
   sensitiveDataExpiryDate?: Date;
+  electronicCollectionEnabled: boolean;
 }
 
 export interface InitiativeCommittee {

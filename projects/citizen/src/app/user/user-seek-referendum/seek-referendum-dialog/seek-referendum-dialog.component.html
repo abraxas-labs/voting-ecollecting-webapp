@@ -10,7 +10,7 @@
   <div class="content">
     @if (!!decreeId) {
       <div class="flex flex-col mt-3">
-        <bc-label [label]="'SEEK_REFERENDUM.DIALOG.PAPER_SUBMISSION.TITLE' | translate"></bc-label>
+        <bc-label class="whitespace-pre-line" [label]="'SEEK_REFERENDUM.DIALOG.PAPER_SUBMISSION.TITLE' | translate"></bc-label>
         <bc-radio-button
           [(checked)]="isPaperSubmission"
           (checkedChange)="isElectronicSubmission = !$event; updatePaperSubmissionValidators()"

@@ -27,7 +27,7 @@ import {
 import { firstValueFrom, Subscription } from 'rxjs';
 import 'moment/locale/de';
 import { AuthenticationService } from './core/services/authentication.service';
-import { accessibilityUrl } from './app.routes';
+import { accessibilityUrl, sitemapUrl } from './app.routes';
 
 @Component({
   selector: 'app-root',
@@ -57,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly snackbarService = inject(SnackbarService);
   protected readonly accessibilityUrl = accessibilityUrl;
+  protected readonly sitemapUrl = sitemapUrl;
   protected readonly now = new Date();
 
   public appTitle: string = '';

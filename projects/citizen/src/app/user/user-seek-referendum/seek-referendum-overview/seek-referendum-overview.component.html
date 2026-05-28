@@ -1,9 +1,9 @@
 <div class="page-with-user-navigation">
   @if (!loading) {
-    <h2 id="content" tabindex="0">{{ 'SEEK_REFERENDUM.TITLE' | translate }}</h2>
+    <h2 id="content">{{ 'SEEK_REFERENDUM.TITLE' | translate }}</h2>
     <div class="flex flex-col gap-3" [class.mt-3]="myDecrees.length > 0">
       @for (decree of myDecrees; track decree.id) {
-        <vo-ecol-decree-card [decree]="decree" [headingLevel]="'h3'">
+        <vo-ecol-decree-card [decree]="decree" [showElectronicCounters]="true" [headingLevel]="'h3'">
           <div class="flex flex-col gap-3 mt-3">
             @for (referendum of decree.collections; track referendum.collection.id) {
               <vo-ecol-referendum-card [referendum]="referendum"
@@ -37,7 +37,7 @@
     }
 
     <div class="mt-3 flex flex-wrap justify-between items-center">
-      <h2 tabindex="0" class="mb-0">{{ 'SEEK_REFERENDUM.LIST_IN_COLLECTION_TITLE' | translate }}</h2>
+      <h2 class="mb-0">{{ 'SEEK_REFERENDUM.LIST_IN_COLLECTION_TITLE' | translate }}</h2>
       <bc-button color="default"
                  variant="tertiary"
                  (buttonClick)="createReferendum()"

@@ -8,16 +8,18 @@
     [headingLevel]="headingLevel"></vo-ecol-collection-card-header>
   <bc-card-content>
     <div class="container">
-      <ul class="flex flex-wrap">
+      <ul class="flex flex-wrap gap-x-2">
         <li class="collection-period">
           <bc-readonly [label]="'DECREE.COLLECTION_PERIOD' | translate">{{ decree.collectionStartDate | date }} - {{ decree.collectionEndDate | date }}</bc-readonly>
         </li>
         <li>
           <bc-readonly [label]="'DECREE.MIN_SIGNATURE_COUNT' | translate">{{ decree.minSignatureCount | number }}</bc-readonly>
         </li>
-        <li>
-          <bc-readonly [label]="'DECREE.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{ decree.maxElectronicSignatureCount | number }}</bc-readonly>
-        </li>
+        @if (showElectronicCounters) {
+          <li>
+            <bc-readonly [label]="'DECREE.MAX_ELECTRONIC_SIGNATURE_COUNT' | translate">{{ decree.maxElectronicSignatureCount | number }}</bc-readonly>
+          </li>
+        }
 
         @if (decree.attestedCollectionCount !== undefined && decree.attestedCollectionCount.totalCitizenCount !== undefined) {
           <li>
@@ -25,7 +27,7 @@
           </li>
         }
 
-        @if (decree.attestedCollectionCount !== undefined) {
+        @if (showElectronicCounters && decree.attestedCollectionCount !== undefined) {
           <li>
             <bc-readonly [label]="'DECREE.ELECTRONIC_ATTESTED' | translate">{{ decree.attestedCollectionCount.electronicCitizenCount | number }}</bc-readonly>
           </li>

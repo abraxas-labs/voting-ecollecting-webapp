@@ -3,6 +3,7 @@
 @use 'gap' as *;
 
 .box {
+  margin-top: 1rem;
   padding: 1rem;
   border-radius: 3px;
   border: 1px solid $color-border-soft;

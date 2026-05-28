@@ -12,8 +12,12 @@
     "YES": "Ja",
     "SAVED": "Gespeichert",
     "DELETED": "Gelöscht",
+    "INVALID_FORM_VALUES": {
+      "TITLE": "Fehlerhafte Eingaben",
+      "MSG": "Es gibt noch Textfelder mit fehlerhaften Eingaben. Wenn Sie die Seite verlassen, gehen die Eingaben verloren.\nWollen Sie die Seite trotzdem verlassen?"
+    },
     "CHANGES": {
-      "TITLE": "Änderungen",
+      "TITLE": "Abbrechen",
       "MSG": "Sind Sie sicher, dass Sie die Seite ohne zu Speichern verlassen wollen?"
     },
     "DELETE": {
@@ -35,9 +39,9 @@
     "NO_DATA": "Keine Erlasse verfügbar"
   },
   "DECREE": {
-    "MIN_SIGNATURE_COUNT": "Total Erforderlich",
+    "MIN_SIGNATURE_COUNT": "Total erforderlich",
     "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
-    "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
+    "ELECTRONIC_ATTESTED": "Elektronisch eingegangen",
     "TOTAL_ATTESTED": "Total bescheinigt",
     "COLLECTION_PERIOD": "Sammelfrist",
     "STATES": {
@@ -67,9 +71,9 @@
     }
   },
   "INITIATIVE": {
-    "MIN_SIGNATURE_COUNT": "Total Erforderlich",
+    "MIN_SIGNATURE_COUNT": "Total erforderlich",
     "MAX_ELECTRONIC_SIGNATURE_COUNT": "Elektronisch möglich",
-    "ELECTRONIC_ATTESTED": "Elektronisch bescheinigt",
+    "ELECTRONIC_ATTESTED": "Elektronisch eingegangen",
     "TOTAL_ATTESTED": "Total bescheinigt",
     "COLLECTION_PERIOD": "Sammelfrist",
     "STATES": {
@@ -98,8 +102,8 @@
       "3": "Sammlung beendet"
     },
     "CAME_NOT_ABOUT_REASONS": {
-      "1": "Die erforderliche Anzahl Unterschriften wurde nicht erreicht",
-      "2": "Es wurden keine Unterschriftenlisten eingereicht"
+      "1": "Die erforderliche Anzahl Unterschriften wurde nicht erreicht.",
+      "2": "Es wurden keine Unterschriftenlisten eingereicht."
     },
     "TYPE": {
       "REFERENDUM": "Referendum",
@@ -116,27 +120,24 @@
     "2": "Stellvertretung",
     "3": "Eigentümer"
   },
-  "COLLECTION_PERMISSION_ROLES_ACTION": {
-    "1": "lesen",
-    "2": "bearbeiten"
-  },
   "COLLECTION_MESSAGES": {
-    "TITLE": "Status und Mitteilungen",
+    "TITLE": "Chat mit Staatskanzlei",
     "SUB_TITLE": "Mitteilungsverlauf",
     "NO_DATA": "Keine Mitteilungen vorhanden",
     "ADD": "Mitteilung hinzufügen",
+    "ADD_HINT": "Maximal 1'000 Zeichen erlaubt.",
     "CLOSE": "Schliessen",
     "SEND": "Senden",
     "SENT": "Mitteilung wurde gesendet.",
-    "REQUEST_INFORMAL_REVIEW": "Informelle Vorprüfung veranlassen",
+    "REQUEST_INFORMAL_REVIEW": "Informelle Vorprüfung beantragen",
     "UNSAVED_CHANGES": {
       "MESSAGE": "Sind Sie sicher, dass Sie die Nachricht nicht senden möchten?",
       "SEND_AND_CLOSE": "Senden und schliessen",
       "DISCARD": "Nachricht verwerfen"
     },
     "REQUEST_INFORMAL_REVIEW_CONFIRM": {
-      "TITLE": "Informelle Vorprüfung",
-      "MESSAGE": "Sind Sie sicher, dass Sie eine informelle Vorprüfung bei der Staatskanzlei veranlassen wollen?\nWenn ja, beschreiben Sie bitte im folgenden Chat, was informell geprüft werden soll."
+      "TITLE": "Informelle Vorprüfung beantragen",
+      "MESSAGE": "Sie sind dabei, bei der Staatskanzlei eine informelle Vorprüfung zu beantragen.\nBitte beschreiben Sie im sich öffnenden Chat, welche Aspekte der Sammlung geprüft werden sollen.\n\nMöchten Sie fortfahren?"
     }
   },
   "FILE_UPLOAD": {
@@ -146,6 +147,6 @@
     "FILE_TOO_LARGE_MESSAGE": "Die hochgeladene Datei ist zu gross",
     "TEXT": "Dateien durchsuchen oder in dieses Feld ziehen",
     "CHOOSE": "Datei hochladen",
-    "IMAGE_HINT": "Erlaubt sind JPG oder PNG (max. 3MB)."
+    "IMAGE_HINT": "Erlaubt sind die Formate JPG oder PNG (max. 3MB)."
   }
 }

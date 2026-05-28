@@ -5,6 +5,10 @@
   flex-wrap: wrap;
   justify-content: center;
   row-gap: 0.5rem;
+
+  .assistive-text {
+    white-space: pre-line;
+  }
 }
 
 ::ng-deep bc-file-input .file-preview {

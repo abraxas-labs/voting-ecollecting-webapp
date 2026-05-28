@@ -135,8 +135,8 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
     }
 
     const ok = await this.confirmDialogService.confirm({
-      title: 'INITIATIVE.FINISH_CORRECTION.TITLE',
-      message: 'INITIATIVE.FINISH_CORRECTION.MSG',
+      title: 'INITIATIVE.FINISH_CORRECTION_DIALOG.TITLE',
+      message: 'INITIATIVE.FINISH_CORRECTION_DIALOG.MSG',
       confirmText: 'APP.YES',
       discardText: 'APP.DISCARD',
     });

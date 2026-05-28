@@ -14,8 +14,8 @@ import { FileInputModule, FileWithProgress, SnackbarModule } from '@abraxas/base
   imports: [FileInputModule, SnackbarModule],
 })
 export class FileInputComponent {
-  @Input({ required: true })
-  public label!: string;
+  @Input()
+  public label: string = '';
 
   @Input({ required: true })
   public accept!: string;

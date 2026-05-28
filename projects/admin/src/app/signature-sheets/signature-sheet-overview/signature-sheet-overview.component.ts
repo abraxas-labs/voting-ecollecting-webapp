@@ -33,6 +33,7 @@ import {
 } from '../../core/components/collection-committee-address-dialog/collection-committee-address-dialog.component';
 import { CollectionSignatureSheetService } from '../../core/services/collection-signature-sheet.service';
 import { isAddressComplete } from 'ecollecting-lib';
+import { CollectionType } from '@abraxas/voting-ecollecting-proto';
 
 @Component({
   selector: 'app-signature-sheet-overview',
@@ -56,6 +57,7 @@ export class SignatureSheetOverviewComponent implements OnDestroy {
   private readonly auth = inject(AuthenticationService);
 
   protected readonly sheetStates = CollectionSignatureSheetState;
+  protected readonly collectionTypes = CollectionType;
   protected collection?: Initiative | Referendum;
   protected selected: CollectionSignatureSheet[] = [];
   protected selectedAttested: CollectionSignatureSheet[] = [];

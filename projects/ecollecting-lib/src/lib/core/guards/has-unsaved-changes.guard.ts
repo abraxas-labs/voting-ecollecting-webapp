@@ -4,9 +4,9 @@
  * For license information see LICENSE file.
  */
 
-import { CanDeactivateFn } from '@angular/router';
 import { inject } from '@angular/core';
-import { ConfirmDialogService } from 'ecollecting-lib';
+import { CanDeactivateFn } from '@angular/router';
+import { ConfirmDialogService } from '../confirm-dialog.service';
 
 export const hasUnsavedChangesGuard: CanDeactivateFn<HasUnsavedChanges> = async (component: HasUnsavedChanges) => {
   const confirmDialogService = inject(ConfirmDialogService);
