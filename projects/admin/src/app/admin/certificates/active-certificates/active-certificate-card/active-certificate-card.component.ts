@@ -4,7 +4,7 @@
  * For license information see LICENSE file.
  */
 
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnChanges } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DecimalPipe } from '@angular/common';
 import { IconModule } from '@abraxas/base-components';
@@ -15,7 +15,7 @@ import { IconModule } from '@abraxas/base-components';
   templateUrl: './active-certificate-card.component.html',
   styleUrl: './active-certificate-card.component.scss',
 })
-export class ActiveCertificateCardComponent implements OnInit {
+export class ActiveCertificateCardComponent implements OnChanges {
   @Input({ required: true })
   public label!: string;
 
@@ -32,7 +32,7 @@ export class ActiveCertificateCardComponent implements OnInit {
   protected state: 'ok' | 'warning' | 'error' = 'ok';
   protected daysRemaining!: number;
 
-  public ngOnInit(): void {
+  public ngOnChanges(): void {
     const now = new Date();
     const msRemaining = this.notAfter.getTime() - now.getTime();
     this.daysRemaining = Math.ceil(msRemaining / (1000 * 60 * 60 * 24));
@@ -40,6 +40,8 @@ export class ActiveCertificateCardComponent implements OnInit {
       this.state = 'error';
     } else if (this.daysRemaining < this.numberOfDaysWarning) {
       this.state = 'warning';
+    } else {
+      this.state = 'ok';
     }
   }
 }

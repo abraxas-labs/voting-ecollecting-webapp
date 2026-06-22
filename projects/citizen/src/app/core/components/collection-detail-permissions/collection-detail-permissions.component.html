@@ -1,6 +1,6 @@
 <bc-card class="m-3" [border]="false">
   <bc-card-header>
-    <bc-card-title id="content" [label]="'COLLECTION.DETAIL.PERMISSIONS.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
+    <bc-card-title id="content" role="presentation" [label]="'COLLECTION.DETAIL.PERMISSIONS.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
   </bc-card-header>
   <bc-card-content>
     <p translate>COLLECTION.DETAIL.PERMISSIONS.INFO</p>
@@ -17,67 +17,51 @@
         [fixed]="false">
         <ng-container [columnDef]="lastNameColumn">
           <th bc-header-cell sort *headerCellDef>
-            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.LAST_NAME' | translate">
-              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.LAST_NAME' | translate }}
-            </span>
+            {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.LAST_NAME' | translate }}
           </th>
           <th bc-row-header-cell *dataCellDef="let row">
-            <div truncateWithTooltip tooltip>{{ row.iamLastName ? row.iamLastName : row.lastName }}</div>
+            {{ row.iamLastName ? row.iamLastName : row.lastName }}
           </th>
         </ng-container>
         <ng-container [columnDef]="firstNameColumn">
           <th bc-header-cell sort *headerCellDef>
-            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.FIRST_NAME' | translate">
-              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.FIRST_NAME' | translate }}
-            </span>
+            {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.FIRST_NAME' | translate }}
           </th>
           <th bc-row-header-cell *dataCellDef="let row">
-            <div truncateWithTooltip tooltip>{{ row.iamFirstName ? row.iamFirstName : row.firstName }}</div>
+            {{ row.iamFirstName ? row.iamFirstName : row.firstName }}
           </th>
         </ng-container>
         <ng-container [columnDef]="emailColumn">
           <th bc-header-cell sort *headerCellDef>
-            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.EMAIL' | translate">
-              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.EMAIL' | translate }}
-            </span>
+            {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.EMAIL' | translate }}
           </th>
           <td bc-data-cell *dataCellDef="let row">
-            <div truncateWithTooltip tooltip>{{ row.email }}</div>
+            {{ row.email }}
           </td>
         </ng-container>
         <ng-container [columnDef]="roleColumn">
           <th bc-header-cell sort *headerCellDef>
-            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.ROLE' | translate">
-              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.ROLE' | translate }}
-            </span>
+            {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.ROLE' | translate }}
           </th>
           <td bc-data-cell *dataCellDef="let row">
-            <div truncateWithTooltip tooltip>
-              <bc-status-label [label]="'COLLECTION_PERMISSION_ROLES.' + row.role | translate"></bc-status-label>
-            </div>
+            <bc-status-label [label]="'COLLECTION_PERMISSION_ROLES.' + row.role | translate"></bc-status-label>
           </td>
         </ng-container>
         <ng-container [columnDef]="acceptedColumn">
           <th bc-header-cell sort *headerCellDef>
-            <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.STATE.TITLE' | translate">
-              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.STATE.TITLE' | translate }}
-            </span>
+            {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.STATE.TITLE' | translate }}
           </th>
           <td bc-data-cell *dataCellDef="let row">
-            <div truncateWithTooltip tooltip>
-              <bc-status-label
-                [label]="
-                  'COLLECTION.DETAIL.PERMISSIONS.TABLE.STATE.' + row.state
-                    | translate
-                "
-              ></bc-status-label>
-            </div>
+            <bc-status-label
+              [label]="
+                'COLLECTION.DETAIL.PERMISSIONS.TABLE.STATE.' + row.state
+                  | translate
+              "
+            ></bc-status-label>
           </td>
           <ng-container [columnDef]="actionsColumn">
             <th bc-header-cell *headerCellDef [align]="'right'">
-              <span [tooltip]="'COLLECTION.DETAIL.PERMISSIONS.TABLE.ACTIONS' | translate">
-                {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.ACTIONS' | translate }}
-              </span>
+              {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.ACTIONS' | translate }}
             </th>
             <td bc-data-cell *dataCellDef="let element" [align]="'right'">
               @if (collection?.userPermissions?.canEditPermissions) {

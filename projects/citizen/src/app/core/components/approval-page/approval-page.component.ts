@@ -34,5 +34,8 @@ export class ApprovalPageComponent {
   public notFoundDetail = '';
 
   @Input()
+  public notFoundReasons: string[] = [];
+
+  @Input()
   public loading = true;
 }

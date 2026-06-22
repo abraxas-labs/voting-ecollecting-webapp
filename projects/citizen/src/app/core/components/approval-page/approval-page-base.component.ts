@@ -10,6 +10,7 @@ import {
   ConfirmDialogService,
   generateSecureRandomString,
   getGrpcErrorOrThrow,
+  isGrpcError,
   isGrpcNotFoundError,
   storage,
   storageKeyPrefix,
@@ -20,6 +21,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 
 const tokenStorageKey = storageKeyPrefix + 'approval_token';
 const acceptKey = storageKeyPrefix + 'accept';
+const cannotEditLockedFieldException = 'CannotEditLockedFieldException';
 
 @Directive()
 export abstract class ApprovalPageBaseComponent<T> implements OnInit {
@@ -128,7 +130,7 @@ export abstract class ApprovalPageBaseComponent<T> implements OnInit {
       this.token = token;
       this.data = await this.loadDataByToken(token);
     } catch (e) {
-      if (isGrpcNotFoundError(e)) {
+      if (isGrpcNotFoundError(e) || isGrpcError(e, cannotEditLockedFieldException)) {
         this.notFound = true;
       } else {
         throw e;

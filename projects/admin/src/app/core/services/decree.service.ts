@@ -17,7 +17,7 @@ import {
   GetDecreeForDeleteRequest,
   ListDecreesRequest,
   PrepareDeleteDecreeRequest,
-  SecondFactorTransaction,
+  SecondFactorAuthorization,
   SetDecreeSensitiveDataExpiryDateRequest,
   UpdateDecreeRequest,
 } from '@abraxas/voting-ecollecting-proto/admin';
@@ -26,6 +26,7 @@ import { CollectionCameNotAboutReason } from '@abraxas/voting-ecollecting-proto'
 import { environment } from '../../../environments/environment';
 import { toProtoDate } from 'ecollecting-lib';
 import { FileDownloadService } from '@abraxas/voting-lib';
+import { mapToSecondFactorTransaction, SecondFactorTransaction } from '../models/second-factor.model';
 
 @Injectable({
   providedIn: 'root',
@@ -115,12 +116,17 @@ export class DecreeService {
     );
   }
 
-  public async prepareDelete(decreeId: string): Promise<SecondFactorTransaction.AsObject> {
+  public async prepareDelete(decreeId: string): Promise<SecondFactorTransaction> {
     const resp = await lastValueFrom(this.client.prepareDelete(new PrepareDeleteDecreeRequest({ decreeId })));
-    return resp.toObject();
+    return mapToSecondFactorTransaction(resp);
   }
 
-  public delete(decreeId: string, secondFactorTransactionId: string): Observable<any> {
-    return this.client.delete(new DeleteDecreeRequest({ decreeId, secondFactorTransactionId }));
+  public delete(decreeId: string, secondFactorTransactionId: string, otpCode?: string): Observable<any> {
+    return this.client.delete(
+      new DeleteDecreeRequest({
+        decreeId,
+        secondFactorAuthorization: new SecondFactorAuthorization({ secondFactorTransactionId, otpCode }),
+      }),
+    );
   }
 }

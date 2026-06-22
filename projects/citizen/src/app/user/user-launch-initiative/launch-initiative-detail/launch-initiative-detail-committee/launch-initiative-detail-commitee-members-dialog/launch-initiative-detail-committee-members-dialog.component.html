@@ -129,6 +129,7 @@
           [optionalText]="''"
           [readonly]="!canEdit"
           (valueChange)="selectDoi($event.bfs)"
+          [searchMode]="'startswith'"
           displayExpr="name"
           subscriptSizing="dynamic"
         ></bc-autocomplete>

@@ -2,7 +2,16 @@
   <div class="container m-3">
     @if (notFound) {
       <h2 id="content">{{ notFoundHeader | translate }}</h2>
-      <p class="whitespace-pre-line error p-3">{{ notFoundDetail | translate }}</p>
+      <div class="error p-3">
+        <p>{{ notFoundDetail | translate }}</p>
+        @if (notFoundReasons) {
+          <ul>
+            @for (reason of notFoundReasons; track reason) {
+              <li>{{ reason | translate }}</li>
+            }
+          </ul>
+        }
+      </div>
     } @else if (loading) {
       <!-- show spinner only after 0.5s to prevent flickering -->
       @defer (on timer(500ms)) {

@@ -77,7 +77,6 @@ export const routes: Routes = [
       },
       {
         path: [seekReferendumUrl, idUrlSegment].join('/'),
-        title: 'APP.TITLES.SEEK_REFERENDUM_DETAIL',
         canActivate: [IsAuthenticatedGuard()],
         resolve: {
           referendum: getEntityResolver(ReferendumService),
@@ -94,6 +93,7 @@ export const routes: Routes = [
           },
           {
             path: detailOverviewUrl,
+            title: 'APP.TITLES.SEEK_REFERENDUM_DETAIL.OVERVIEW',
             loadComponent: () =>
               import('./user-seek-referendum/seek-referendum-detail/seek-referendum-detail-overview/seek-referendum-detail-overview.component').then(
                 m => m.SeekReferendumDetailOverviewComponent,
@@ -101,6 +101,7 @@ export const routes: Routes = [
           },
           {
             path: detailGeneralInformationUrl,
+            title: 'APP.TITLES.SEEK_REFERENDUM_DETAIL.GENERAL_INFORMATION',
             canDeactivate: [hasUnsavedChangesGuard],
             loadComponent: () =>
               import('./user-seek-referendum/seek-referendum-detail/seek-referendum-detail-general-information/seek-referendum-detail-general-information.component').then(
@@ -109,6 +110,7 @@ export const routes: Routes = [
           },
           {
             path: detailSignatureSheetUrl,
+            title: 'APP.TITLES.SEEK_REFERENDUM_DETAIL.SIGNATURE_SHEET',
             loadComponent: () =>
               import('../core/components/collection-detail-signature-sheet/collection-detail-signature-sheet.component').then(
                 m => m.CollectionDetailSignatureSheetComponent,
@@ -116,6 +118,7 @@ export const routes: Routes = [
           },
           {
             path: detailPermissionsUrl,
+            title: 'APP.TITLES.SEEK_REFERENDUM_DETAIL.PERMISSIONS',
             loadComponent: () =>
               import('../core/components/collection-detail-permissions/collection-detail-permissions.component').then(
                 m => m.CollectionDetailPermissionsComponent,
@@ -157,7 +160,6 @@ export const routes: Routes = [
       },
       {
         path: [launchInitiativeUrl, idUrlSegment].join('/'),
-        title: 'APP.TITLES.LAUNCH_INITIATIVE_DETAIL',
         canActivate: [IsAuthenticatedGuard()],
         resolve: {
           initiative: getEntityResolver(InitiativeService),
@@ -174,6 +176,7 @@ export const routes: Routes = [
           },
           {
             path: detailOverviewUrl,
+            title: 'APP.TITLES.LAUNCH_INITIATIVE_DETAIL.OVERVIEW',
             loadComponent: () =>
               import('./user-launch-initiative/launch-initiative-detail/launch-initiative-detail-overview/launch-initiative-detail-overview.component').then(
                 m => m.LaunchInitiativeDetailOverviewComponent,
@@ -181,6 +184,7 @@ export const routes: Routes = [
           },
           {
             path: detailGeneralInformationUrl,
+            title: 'APP.TITLES.LAUNCH_INITIATIVE_DETAIL.GENERAL_INFORMATION',
             canDeactivate: [hasUnsavedChangesGuard],
             loadComponent: () =>
               import('./user-launch-initiative/launch-initiative-detail/launch-initiative-detail-general-information/launch-initiative-detail-general-information.component').then(
@@ -189,6 +193,7 @@ export const routes: Routes = [
           },
           {
             path: detailCommitteeUrl,
+            title: 'APP.TITLES.LAUNCH_INITIATIVE_DETAIL.COMMITTEE',
             loadComponent: () =>
               import('./user-launch-initiative/launch-initiative-detail/launch-initiative-detail-committee/launch-initiative-detail-committee.component').then(
                 m => m.LaunchInitiativeDetailCommitteeComponent,
@@ -196,6 +201,7 @@ export const routes: Routes = [
           },
           {
             path: detailSignatureSheetUrl,
+            title: 'APP.TITLES.LAUNCH_INITIATIVE_DETAIL.SIGNATURE_SHEET',
             loadComponent: () =>
               import('../core/components/collection-detail-signature-sheet/collection-detail-signature-sheet.component').then(
                 m => m.CollectionDetailSignatureSheetComponent,
@@ -203,6 +209,7 @@ export const routes: Routes = [
           },
           {
             path: detailPermissionsUrl,
+            title: 'APP.TITLES.LAUNCH_INITIATIVE_DETAIL.PERMISSIONS',
             loadComponent: () =>
               import('../core/components/collection-detail-permissions/collection-detail-permissions.component').then(
                 m => m.CollectionDetailPermissionsComponent,

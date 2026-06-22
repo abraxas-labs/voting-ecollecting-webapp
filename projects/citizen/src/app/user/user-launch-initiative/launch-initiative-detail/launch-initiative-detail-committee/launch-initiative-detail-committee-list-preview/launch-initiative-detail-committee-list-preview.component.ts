@@ -8,7 +8,7 @@ import { Component, inject, OnDestroy } from '@angular/core';
 import { Initiative, InitiativeCommittee, InitiativeCommitteeMember } from '../../../../../core/models/initiative.model';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DividerModule, TableDataSource, TableModule, TooltipModule, TruncateWithTooltipModule } from '@abraxas/base-components';
+import { DividerModule, TableDataSource, TableModule } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { InitiativeService } from '../../../../../core/services/initiative.service';
 import { DatePipe, NgOptimizedImage } from '@angular/common';
@@ -22,7 +22,7 @@ import { CollectionPermission } from '../../../../../core/models/collection.mode
 
 @Component({
   selector: 'app-launch-initiative-detail-committee-list-preview',
-  imports: [TableModule, TooltipModule, TranslatePipe, TruncateWithTooltipModule, DividerModule, DatePipe, NgOptimizedImage],
+  imports: [TableModule, TranslatePipe, DividerModule, DatePipe, NgOptimizedImage],
   templateUrl: './launch-initiative-detail-committee-list-preview.component.html',
   styleUrl: './launch-initiative-detail-committee-list-preview.component.scss',
 })

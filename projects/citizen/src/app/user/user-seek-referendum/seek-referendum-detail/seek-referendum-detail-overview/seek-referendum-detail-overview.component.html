@@ -6,4 +6,15 @@
     <li translate>SEEK_REFERENDUM.DETAIL.OVERVIEW.INFO_3</li>
   </ul>
   <p class="whitespace-pre-line" translate>SEEK_REFERENDUM.DETAIL.OVERVIEW.INFO_FOOTER</p>
+  @if (
+    referendum?.collection?.state === collectionStates.COLLECTION_STATE_IN_PREPARATION &&
+    referendum?.decree?.periodState === collectionPeriodStates.COLLECTION_PERIOD_STATE_IN_COLLECTION
+  ) {
+    <bc-alert-bar
+      [color]="'error'"
+      [displayDismissAction]="false"
+      [displayShowAction]="false"
+      [message]="'SEEK_REFERENDUM.DETAIL.OVERVIEW.NOT_STARTED' | translate"
+    ></bc-alert-bar>
+  }
 </div>

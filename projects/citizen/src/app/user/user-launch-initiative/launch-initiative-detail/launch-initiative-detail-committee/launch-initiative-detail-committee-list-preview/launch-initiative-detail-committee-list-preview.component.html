@@ -29,21 +29,19 @@
       <bc-table [dataSource]="dataSource">
         <ng-container [columnDef]="numberColumn">
           <th bc-header-cell *headerCellDef [align]="'center'">
-          <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.NUMBER' | translate">
             {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.NUMBER' | translate }}
-          </span>
           </th>
-          <th bc-row-header-cell *dataCellDef="let row; let i = index" truncateWithTooltip tooltip [align]="'center'">
+          <th bc-row-header-cell *dataCellDef="let row; let i = index" [align]="'center'">
             {{ `${i + 1}.` }}
           </th>
         </ng-container>
         <ng-container [columnDef]="lastNameColumn">
           <th bc-header-cell *headerCellDef [align]="'center'">
-          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.LAST_NAME' | translate">
-            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.LAST_NAME' | translate }}
-          </span>
+            <span class="whitespace-pre-line">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.LAST_NAME' | translate }}
+            </span>
           </th>
-          <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip [align]="'center'">
+          <td bc-data-cell *dataCellDef="let row" [align]="'center'">
             <span>{{ row.lastName }}</span>
             <bc-divider></bc-divider>
             <span>{{ row.politicalLastName }}</span>
@@ -51,11 +49,11 @@
         </ng-container>
         <ng-container [columnDef]="firstNameColumn">
           <th bc-header-cell *headerCellDef [align]="'center'">
-          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.FIRST_NAME' | translate">
-            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.FIRST_NAME' | translate }}
-          </span>
+            <span class="whitespace-pre-line">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.FIRST_NAME' | translate }}
+            </span>
           </th>
-          <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip [align]="'center'">
+          <td bc-data-cell *dataCellDef="let row" [align]="'center'">
             <span>{{ row.firstName }}</span>
             <bc-divider></bc-divider>
             <span>{{ row.politicalFirstName }}</span>
@@ -63,21 +61,19 @@
         </ng-container>
         <ng-container [columnDef]="dateOfBirthColumn">
           <th bc-header-cell *headerCellDef [align]="'center'">
-          <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.DATE_OF_BIRTH' | translate">
             {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.DATE_OF_BIRTH' | translate }}
-          </span>
           </th>
-          <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip [align]="'center'">
+          <td bc-data-cell *dataCellDef="let row" [align]="'center'">
             <span>{{ row.dateOfBirth | date }}</span>
           </td>
         </ng-container>
         <ng-container [columnDef]="residenceColumn">
           <th bc-header-cell *headerCellDef [align]="'center'">
-          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.RESIDENCE' | translate">
-            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.RESIDENCE' | translate }}
-          </span>
+            <span class="whitespace-pre-line">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.RESIDENCE' | translate }}
+            </span>
           </th>
-          <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip [align]="'center'">
+          <td bc-data-cell *dataCellDef="let row" [align]="'center'">
             <span>{{ row.residence }}</span>
             <bc-divider></bc-divider>
             <span>{{ row.politicalResidence }}</span>
@@ -85,9 +81,9 @@
         </ng-container>
         <ng-container [columnDef]="signatureColumn">
           <th bc-header-cell *headerCellDef [align]="'center'">
-          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SIGNATURE' | translate">
-            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SIGNATURE' | translate }}
-          </span>
+            <span class="whitespace-pre-line">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.SIGNATURE' | translate }}
+            </span>
           </th>
           <td
             bc-data-cell
@@ -103,9 +99,9 @@
         </ng-container>
         <ng-container [columnDef]="checkColumn">
           <th bc-header-cell *headerCellDef [align]="'center'">
-          <span class="whitespace-pre-line" [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.CHECK' | translate">
-            {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.CHECK' | translate }}
-          </span>
+            <span class="whitespace-pre-line">
+              {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.LISTS.PREVIEW.CHECK' | translate }}
+            </span>
           </th>
           <td bc-data-cell *dataCellDef="let row"></td>
         </ng-container>

@@ -26,6 +26,7 @@
       (ngModelChange)="selectDoi($event)"
       [items]="domainOfInfluences"
       [showOptionsOnSelected]="true"
+      [searchMode]="'startswith'"
       displayExpr="name"
       subscriptSizing="dynamic"
     ></bc-autocomplete>

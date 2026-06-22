@@ -7,7 +7,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { CardModule, DialogService, IconModule } from '@abraxas/base-components';
 import { Initiative, InitiativeCommittee, InitiativeCommitteeMember } from '../../../../core/models/initiative.model';
-import { InitiativeCommitteeMemberApprovalState } from '@abraxas/voting-ecollecting-proto';
+import { InitiativeCommitteeMemberApprovalState, InitiativeCommitteeMemberSignatureType } from '@abraxas/voting-ecollecting-proto';
 import { InitiativeService } from '../../../../core/services/initiative.service';
 import {
   InitiativeDetailCommitteeMembersVerifyDialogComponent,
@@ -42,11 +42,19 @@ export class InitiativeDetailCommitteeMembersComponent {
   public async reset(member: InitiativeCommitteeMember): Promise<void> {
     await this.initiativeService.resetCommitteeMember(this.initiative.id, member.id);
     this.toast.success('INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.RESET');
-    if (member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED) {
+    if (
+      member.signatureType !== InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UPLOADED_SIGNATURE &&
+      member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED
+    ) {
       this.updateApprovedMembersCount(this.committee, -1);
     }
 
-    this.updateMember(member, InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED);
+    this.updateMember(
+      member,
+      member.signatureType === InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UPLOADED_SIGNATURE
+        ? InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_SIGNED
+        : InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED,
+    );
     this.moveMember(member, true);
   }
 
@@ -61,7 +69,10 @@ export class InitiativeDetailCommitteeMembersComponent {
       return;
     }
 
-    if (result.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED) {
+    if (
+      member.signatureType !== InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UPLOADED_SIGNATURE &&
+      result.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED
+    ) {
       this.updateApprovedMembersCount(this.committee, 1);
     }
 
@@ -86,7 +97,8 @@ export class InitiativeDetailCommitteeMembersComponent {
 
     member.approvalState = approvalState;
     member.userPermissions.canVerify =
-      member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED;
+      member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REQUESTED ||
+      member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_SIGNED;
     member.userPermissions.canReset =
       member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED ||
       member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_REJECTED;

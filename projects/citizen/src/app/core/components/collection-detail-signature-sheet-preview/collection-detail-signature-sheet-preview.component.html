@@ -34,7 +34,7 @@
             </p>
           }
         } @else if (referendum) {
-          <h4>{{ referendum.decree?.description }}</h4>
+          <p>{{ referendum.decree?.description }}</p>
           @if (collection.reason) {
             <p class="mt-4">{{ collection.reason }}</p>
           }
@@ -136,11 +136,11 @@
     <p class="date-container">
       <span>{{
         'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.COLLECTION_START_DATE'
-          | translate: { date: collection.collectionStartDate ?? minDate | date: 'dd.MM.yyyy' }
+          | translate: { date: ((referendum ? referendum.decree?.collectionStartDate : collection.collectionStartDate) | date: 'dd.MM.yyyy') ?? '' }
       }}</span>
       <span>{{
         'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.COLLECTION_END_DATE'
-          | translate: { date: collection.collectionEndDate ?? minDate | date: 'dd.MM.yyyy' }
+          | translate: { date: ((referendum ? referendum.decree?.collectionEndDate : collection.collectionEndDate) | date: 'dd.MM.yyyy') ?? '' }
       }}</span>
     </p>
 
@@ -176,7 +176,7 @@
     <p class="mb-0 mt-5">
       {{
         'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.SIGNATURE_SECTION.SEND'
-          | translate: { date: collection.signatureListSubmissionEndDate ?? minDate | date: 'dd. MMMM yyyy' }
+          | translate: { date: ((referendum ? referendum.decree?.signatureListSubmissionEndDate : collection.signatureListSubmissionEndDate) | date: 'dd. MMMM yyyy') ?? 'XX.XX.XXXX' }
       }}
     </p>
     <p>

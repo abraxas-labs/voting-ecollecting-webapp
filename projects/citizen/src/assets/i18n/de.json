@@ -30,9 +30,20 @@
       "EXTENSION": "E-Collecting - Kanton St. Gallen",
       "OVERVIEW": "Übersicht",
       "SEEK_REFERENDUM": "Referendum ergreifen",
-      "SEEK_REFERENDUM_DETAIL": "Detailseite Referendum ergreifen",
+      "SEEK_REFERENDUM_DETAIL": {
+        "OVERVIEW": "Übersicht - Detailseite Referendum ergreifen",
+        "GENERAL_INFORMATION": "Allgemeine Angaben - Detailseite Referendum ergreifen",
+        "SIGNATURE_SHEET": "Unterschriftenliste - Detailseite Referendum ergreifen",
+        "PERMISSIONS": "Berechtigungen - Detailseite Referendum ergreifen"
+      },
       "LAUNCH_INITIATIVE": "Initiative lancieren",
-      "LAUNCH_INITIATIVE_DETAIL": "Detailseite Initiative lancieren",
+      "LAUNCH_INITIATIVE_DETAIL": {
+        "OVERVIEW": "Übersicht - Detailseite Initiative lancieren",
+        "GENERAL_INFORMATION": "Allgemeine Angaben - Detailseite Initiative lancieren",
+        "COMMITTEE": "Komitee - Detailseite Initiative lancieren",
+        "SIGNATURE_SHEET": "Unterschriftenliste - Detailseite Initiative lancieren",
+        "PERMISSIONS": "Berechtigungen - Detailseite Initiative lancieren"
+      },
       "SIGN_COLLECTION": "Sammlung unterzeichnen",
       "SIGN_COLLECTION_DETAIL": "Detailseite Sammlung unterzeichnen",
       "ENDED_COLLECTIONS": "Beendete Sammlungen",
@@ -105,7 +116,8 @@
       "DESCRIPTION": "Bezeichnung der Sammlung",
       "DESCRIPTION_HINT": "Die Bezeichnung sollte einen direkten Zusammenhang mit dem Inhalt des Begehrens haben und gleich lauten wie auf den Unterschriftenlisten.",
       "PAPER_SUBMISSION": {
-        "TITLE": "Sind Sie bereits dabei, Unterschriften für dieses Referendum zu sammeln?\nFalls ja, brauchen Sie die Sammlungsnummer, die unten auf den Bescheinigungen der Gemeinden aufgedruckt ist, um die physische Sammlung mit der elektronischen zu verknüpfen.\nWenn Sie bereits Unterschriften sammeln, aber noch nicht über die Sammlungsnummer verfügen, nehmen Sie bitte Kontakt mit der Staatskanzlei (Telefon 058 229 88 88) auf.",
+        "TITLE": "Sind Sie bereits dabei, Unterschriften für dieses Referendum zu sammeln?\nFalls ja, brauchen Sie die Sammlungsnummer, die unten auf den Bescheinigungen der Gemeinden aufgedruckt ist, um die physische Sammlung mit der elektronischen zu verknüpfen.",
+        "SUBTITLE": "Wenn Sie bereits Unterschriften sammeln, aber noch nicht über die Sammlungsnummer verfügen, nehmen Sie bitte Kontakt mit der Staatskanzlei (Telefon 058 229 88 88) auf.",
         "TEXT": "Die Sammlung der Unterschriften läuft bereits und ich verfüge über die Sammlungsnummer.",
         "SECURE_ID_NUMBER": "Sammlungsnummer"
       },
@@ -142,7 +154,8 @@
         "INFO_1": "Durch Anklicken von \"Allgemeine Angaben\" können Sie die grundlegenden Informationen zu Ihrer Sammlung erfassen. Dabei gibt es Pflichtangaben, die zwingend ausgefüllt werden müssen. Zudem können optional weiterführende Informationen erfasst werden, die auf einer vom System generierten Unterschriftenliste abgebildet werden.",
         "INFO_2": "Durch Anklicken von \"Unterschriftenliste\" können Sie eine selber gestaltete Unterschriftenliste hochladen oder eine solche vom System automatisch generieren lassen. Die Unterschriftenliste steht den Bürgerinnen und Bürgern auf der E-Collecting-Plattform zum Herunterladen zur Verfügung. Sie kann für die Sammlung weiterer physischer Unterschriften verwendet werden, wenn das Maximum der zulässigen elektronischen Unterschriften erreicht ist.",
         "INFO_3": "Durch Anklicken von \"Berechtigungen\" können Sie festlegen, welche Personen Zugriff auf Ihre Sammlung haben und welche Rollen bzw. Rechte diesen Personen zugewiesen werden sollen (Lese- oder Schreibrechte).\nDiese Personen müssen zwingend über einen AGOV-Account verfügen. Sofern noch kein AGOV-Account besteht, werden die betreffenden Personen im Zuge der Bestätigung ihrer Rolle automatisch durch den Prozess der Einrichtung ihres AGOV-Accounts geführt.",
-        "INFO_FOOTER": "Durch Anklicken des Chat-Symbols oben rechts haben Sie jederzeit die Möglichkeit, mit der Staatskanzlei in Verbindung zu treten. Durch Anklicken des Hilfe-Symbols gelangen Sie zu den Erklärvideos.\n\nMit den drei Buttons unten auf der Seite haben Sie zudem die Möglichkeit, eine informelle Vorprüfung Ihrer Sammlung durch die Staatskanzlei zu veranlassen (ist jederzeit möglich), die Erfassung Ihrer Sammlung abzuschliessen oder diese zu löschen."
+        "INFO_FOOTER": "Durch Anklicken des Chat-Symbols oben rechts haben Sie jederzeit die Möglichkeit, mit der Staatskanzlei in Verbindung zu treten. Durch Anklicken des Hilfe-Symbols gelangen Sie zu den Erklärvideos.\n\nMit den drei Buttons unten auf der Seite haben Sie zudem die Möglichkeit, eine informelle Vorprüfung Ihrer Sammlung durch die Staatskanzlei zu veranlassen (ist jederzeit möglich), die Erfassung Ihrer Sammlung abzuschliessen oder diese zu löschen.",
+        "NOT_STARTED": "Diese Sammlung wurde noch nicht gestartet, die Sammelfrist läuft jedoch bereits. Wird die Sammlung nicht vor Ablauf der Sammelfrist gestartet, wird sie ohne weitere Rückfragen automatisch gelöscht."
       },
       "GENERAL_INFORMATION": {
         "TITLE": "Allgemeine Angaben",
@@ -357,7 +370,6 @@
           },
           "APPROVAL": {
             "TITLE": {
-              "NOT_FOUND": "Anfrage nicht gefunden",
               "DEFAULT": "Anfrage für Mitgliedschaft in einem Komitee"
             },
             "TEXT": "Guten Tag {{firstName}} {{lastName}}\n{{invitedByName}} hat Sie als Komiteemitglied für die Sammlung {{description}} vorgeschlagen.\nAuf dieser Seite können Sie die Mitgliedschaft bestätigen oder ablehnen.",
@@ -393,7 +405,16 @@
             "INITIATIVE_DETAIL": {
               "TITLE": "Details zur Initiative"
             },
-            "NOT_FOUND": "Die Anfrage kann nicht gefunden werden. Dafür kann es verschiedene Gründe geben:\n\nSie haben die Mitgliedschaft bereits bestätigt oder abgelehnt.\nDas Zeitfenster für eine Bestätigung oder Ablehnung der Mitgliedschaft ist abgelaufen (muss innerhalb von 72 Stunden erfolgen).\nDie Anfrage wurde zurückgezogen."
+            "NOT_FOUND": {
+              "TITLE": "Anfrage nicht gefunden",
+              "MSG": "Die Anfrage kann nicht gefunden werden. Dafür kann es verschiedene Gründe geben:",
+              "REASONS": {
+                "1": "Sie haben die Mitgliedschaft bereits bestätigt oder abgelehnt.",
+                "2": "Das Zeitfenster für eine Bestätigung oder Ablehnung der Mitgliedschaft ist abgelaufen (muss innerhalb von 72 Stunden erfolgen).",
+                "3": "Die Anfrage wurde zurückgezogen.",
+                "4": "Die Sammlung wurde bereits eingereicht."
+              }
+            }
           }
         }
       },
@@ -494,7 +515,12 @@
           "TITLE": "Bestätigung von Lese- oder Schreibrechten",
           "NOT_FOUND": {
             "TITLE": "Anfrage nicht gefunden",
-            "MSG": "Die Anfrage kann nicht gefunden werden. Dafür kann es verschiedene Gründe geben:\n\nSie haben die Anfrage bereits bestätigt oder abgelehnt.\nDas Zeitfenster für eine Bestätigung oder Ablehnung der Anfrage ist abgelaufen (muss innerhalb von 72 Stunden erfolgen).\nDie Anfrage wurde zurückgezogen."
+            "MSG": "Die Anfrage kann nicht gefunden werden. Dafür kann es verschiedene Gründe geben:",
+            "REASONS": {
+              "1": "Sie haben die Anfrage bereits bestätigt oder abgelehnt.",
+              "2": "Das Zeitfenster für eine Bestätigung oder Ablehnung der Anfrage ist abgelaufen (muss innerhalb von 72 Stunden erfolgen).",
+              "3": "Die Anfrage wurde zurückgezogen."
+            }
           },
           "INITIATIVE": {
             "1": "Guten Tag {{firstName}} {{lastName}}\n{{invitedByName}} hat Ihnen für die Initiative {{collectionDescription}} eine Leseberechtigung erteilt. Auf dieser Seite können Sie diese bestätigen oder ablehnen.",

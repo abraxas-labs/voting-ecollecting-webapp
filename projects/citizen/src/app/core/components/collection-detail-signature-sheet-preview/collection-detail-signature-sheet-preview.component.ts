@@ -51,7 +51,6 @@ export class CollectionDetailSignatureSheetPreviewComponent implements OnDestroy
     this.signatureColumn,
     this.checkColumn,
   ];
-  protected readonly minDate;
 
   private readonly collectionService = inject(CollectionService);
   private readonly initiativeService = inject(InitiativeService);
@@ -69,9 +68,6 @@ export class CollectionDetailSignatureSheetPreviewComponent implements OnDestroy
 
   constructor() {
     const route = inject(ActivatedRoute);
-
-    this.minDate = new Date();
-    this.minDate.setFullYear(1, 0, 1);
 
     this.routeSubscription = route.data.subscribe(async ({ initiative, referendum }) => {
       this.initiative = initiative;

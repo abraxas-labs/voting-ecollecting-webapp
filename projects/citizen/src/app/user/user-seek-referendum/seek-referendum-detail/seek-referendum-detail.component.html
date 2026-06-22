@@ -21,7 +21,7 @@
       @if (referendum.decree) {
         <bc-card class="header-card" [backgroundColor]="'basic'" [border]="false">
           <bc-card-header>
-            <bc-card-subtitle [label]="referendum.decree.description" truncateWithTooltip tooltip></bc-card-subtitle>
+            <bc-card-subtitle role="presentation" [label]="referendum.decree.description" truncateWithTooltip tooltip></bc-card-subtitle>
             @if (referendum.collection.userPermissions?.canEdit) {
               <bc-icon-button class="ml-2 mr-3" [icon]="'edit'" variant="tertiary"
                               (buttonClick)="selectDecree()" [ariaLabel]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE' | translate"></bc-icon-button>
@@ -31,8 +31,9 @@
       } @else if (referendum.collection.userPermissions?.canEdit) {
         <bc-card role="alert" class="header-card" [backgroundColor]="'error'" [border]="false">
           <bc-card-header>
-            <bc-card-subtitle [label]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_INFO' | translate" truncateWithTooltip
-                              tooltip></bc-card-subtitle>
+            <bc-card-subtitle role="presentation"
+                              [label]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_INFO' | translate"
+                              truncateWithTooltip tooltip></bc-card-subtitle>
             <bc-card-actions class="mr-3">
               <bc-button
                 class="nowrap"

@@ -38,7 +38,7 @@ import {
   RejectCommitteeMemberRequest,
   ResetCommitteeMemberRequest,
   ReturnInitiativeForCorrectionRequest,
-  SecondFactorTransaction,
+  SecondFactorAuthorization,
   SetCollectionPeriodInitiativeRequest,
   SetInitiativeSensitiveDataExpiryDateRequest,
   UpdateAdmissibilityDecisionRequest,
@@ -51,6 +51,7 @@ import { InitiativeLockedFields, InitiativeSubType, toProtoDate } from 'ecollect
 import { environment } from '../../../environments/environment';
 import { CollectionCameNotAboutReason, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { FileDownloadService } from '@abraxas/voting-lib';
+import { mapToSecondFactorTransaction, SecondFactorTransaction } from '../models/second-factor.model';
 
 @Injectable({
   providedIn: 'root',
@@ -278,13 +279,18 @@ export class InitiativeService {
     );
   }
 
-  public async prepareDelete(initiativeId: string): Promise<SecondFactorTransaction.AsObject> {
+  public async prepareDelete(initiativeId: string): Promise<SecondFactorTransaction> {
     const resp = await lastValueFrom(this.client.prepareDelete(new PrepareDeleteInitiativeRequest({ initiativeId })));
-    return resp.toObject();
+    return mapToSecondFactorTransaction(resp);
   }
 
-  public delete(initiativeId: string, secondFactorTransactionId: string): Observable<any> {
-    return this.client.delete(new DeleteInitiativeRequest({ initiativeId, secondFactorTransactionId }));
+  public delete(initiativeId: string, secondFactorTransactionId: string, otpCode?: string): Observable<any> {
+    return this.client.delete(
+      new DeleteInitiativeRequest({
+        initiativeId,
+        secondFactorAuthorization: new SecondFactorAuthorization({ secondFactorTransactionId, otpCode }),
+      }),
+    );
   }
 
   public async returnForCorrection(id: string, lockedFields?: InitiativeLockedFields): Promise<void> {

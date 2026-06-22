@@ -21,22 +21,7 @@ import { CollectionService } from '../../../core/services/collection.service';
 import { CollectionPeriodState, CollectionState } from '@abraxas/voting-ecollecting-proto';
 import { Observable } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import {
-  ConfirmDialogService,
-  generateSecureRandomString,
-  getGrpcErrorOrThrow,
-  storage,
-  storageKeyPrefix,
-  ToastService,
-} from 'ecollecting-lib';
-import {
-  collectionAlreadySignedException,
-  collectionMaxElectronicSignatureCountReachedException,
-  decreeAlreadySignedException,
-  decreeMaxElectronicSignatureCountReachedException,
-  insufficientAcrException,
-  personOrVotingRightNotFoundException,
-} from '../../../core/exceptions';
+import { ConfirmDialogService, generateSecureRandomString, storage, storageKeyPrefix, ToastService } from 'ecollecting-lib';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { Collection } from '../../../core/models/collection.model';
 
@@ -148,16 +133,6 @@ export class SignPageComponent implements OnInit {
       await this.collectionService.sign(this.collection.id, this.collection.type);
       this.canSign = false;
       this.toastService.success('SIGN_COLLECTION.SIGNED');
-    } catch (e) {
-      const error = getGrpcErrorOrThrow(e, [
-        insufficientAcrException,
-        collectionAlreadySignedException,
-        decreeAlreadySignedException,
-        collectionMaxElectronicSignatureCountReachedException,
-        decreeMaxElectronicSignatureCountReachedException,
-        personOrVotingRightNotFoundException,
-      ]);
-      this.toastService.error('ERROR_MESSAGES.TITLE', 'ERROR_MESSAGES.' + error);
     } finally {
       this.signing = false;
     }

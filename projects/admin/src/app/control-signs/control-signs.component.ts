@@ -179,8 +179,9 @@ export class ControlSignsComponent implements OnInit {
       this.deletingId = initiative.id;
       const transaction = await this.initiativeService.prepareDelete(initiative.id);
       await this.secondFactorTransactionService.showDialogAndExecuteVerifyAction(
-        () => this.initiativeService.delete(initiative.id, transaction.id),
-        transaction,
+        otpCode => this.initiativeService.delete(initiative.id, transaction.id, otpCode),
+        transaction.nevis,
+        transaction.availableProviders,
       );
 
       group.initiatives = group.initiatives.filter(i => i.id !== initiative.id);
@@ -215,8 +216,9 @@ export class ControlSignsComponent implements OnInit {
       this.deletingId = decree.id;
       const transaction = await this.decreeService.prepareDelete(decree.id);
       await this.secondFactorTransactionService.showDialogAndExecuteVerifyAction(
-        () => this.decreeService.delete(decree.id, transaction.id),
-        transaction,
+        otpCode => this.decreeService.delete(decree.id, transaction.id, otpCode),
+        transaction.nevis,
+        transaction.availableProviders,
       );
 
       group.decrees = group.decrees.filter(i => i.id !== decree.id);

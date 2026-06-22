@@ -1,10 +1,15 @@
 @use '@abraxas/voting-lib/style/responsive' as *;
+@use '@abraxas/voting-lib/style/color' as *;
 
 .content {
   // The minimum width is set to prevent the dialog window from shrinking when a validation message is displayed.
   @include md-up() {
     min-width: 37rem;
   }
+}
+
+::ng-deep .sub-title label {
+  color: $color-signal-error;
 }
 
 ::ng-deep .formfield .label-content {

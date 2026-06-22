@@ -1,7 +1,7 @@
 @if (referendum && !loading) {
   <bc-card class="m-3" [border]="false">
     <bc-card-header>
-      <bc-card-title id="content" [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
+      <bc-card-title id="content" role="presentation" [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
     </bc-card-header>
     <bc-card-content class="flex flex-col gap-y-2">
       <bc-text
@@ -103,7 +103,7 @@
         ></vo-ecol-image-upload>
       </div>
       @if (referendum.collection.userPermissions?.canEdit) {
-        <p class="mt-3 whitespace-pre-line" [tabindex]="0">{{ 'COLLECTION.DETAIL.GENERAL_INFORMATION.IMAGE_DISCLAIMER' | translate }}</p>
+        <p class="mt-3 whitespace-pre-line">{{ 'COLLECTION.DETAIL.GENERAL_INFORMATION.IMAGE_DISCLAIMER' | translate }}</p>
       }
     </bc-card-content>
   </bc-card>

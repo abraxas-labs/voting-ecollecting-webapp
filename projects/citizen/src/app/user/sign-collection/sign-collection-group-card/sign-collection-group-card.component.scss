@@ -4,11 +4,11 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: $color-signal-info-dark;
+  color: $color-signal-info;
   padding: 8px 0;
 
   bc-icon {
-    color: $color-signal-info-dark;
+    color: $color-signal-info;
     margin-right: 0;
   }
 }

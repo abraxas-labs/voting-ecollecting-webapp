@@ -14,7 +14,6 @@ import {
   StatusLabelModule,
   TableDataSource,
   TableModule,
-  TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { CollectionService } from '../../services/collection.service';
@@ -30,16 +29,7 @@ import { AuthenticationService } from '../../services/authentication.service';
   selector: 'app-collection-detail-permissions',
   templateUrl: './collection-detail-permissions.component.html',
   styleUrls: ['./collection-detail-permissions.component.scss'],
-  imports: [
-    CardModule,
-    TranslateDirective,
-    TranslatePipe,
-    TableModule,
-    ButtonModule,
-    TruncateWithTooltipModule,
-    StatusLabelModule,
-    IconButtonModule,
-  ],
+  imports: [CardModule, TranslateDirective, TranslatePipe, TableModule, ButtonModule, StatusLabelModule, IconButtonModule],
 })
 export class CollectionDetailPermissionsComponent implements AfterViewInit, OnDestroy {
   private readonly collectionService = inject(CollectionService);

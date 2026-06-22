@@ -11,6 +11,8 @@ import { GRPC_ERROR_MAPPER, NOT_FOUND_ERROR_URL, PERMISSION_DENIED_ERROR_URL, Vo
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from '@abraxas/base-components';
 import { GrpcStatusEvent } from '@ngx-grpc/common';
+import { GRPC_INTERCEPTORS } from '@ngx-grpc/core';
+import { GrpcErrorMapperInterceptor } from './core/grpc-error-mapper.interceptor';
 
 @NgModule({
   declarations: [],
@@ -33,6 +35,11 @@ export class EcollectingLibModule {
         {
           provide: PERMISSION_DENIED_ERROR_URL,
           useValue: '/errors/404',
+        },
+        {
+          provide: GRPC_INTERCEPTORS,
+          multi: true,
+          useClass: GrpcErrorMapperInterceptor,
         },
       ],
     };

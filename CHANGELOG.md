@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.141.14`)
+# ✨ Changelog (`v1.142.3`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,89 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.141.14
-Previous version ---- v1.138.0
+This version -------- v1.142.3
+Previous version ---- v1.141.14
 Initial version ----- v1.115.24
-Total commits ------- 28
+Total commits ------- 13
 ```
+
+## [v1.142.3] - 2026-06-18
+
+### 🔄 Changed
+
+- update base components and voting lib
+
+## [v1.142.2] - 2026-06-18
+
+### 🔄 Changed
+
+- accessibility feedback
+
+## [v1.142.1] - 2026-06-18
+
+### 🔄 Changed
+
+- highlight seek referendum paper submission label
+
+## [v1.142.0] - 2026-06-16
+
+### 🔄 Changed
+
+- otp
+
+## [v1.141.23] - 2026-06-10
+
+### 🔄 Changed
+
+- update committee members count and can verify
+
+## [v1.141.22] - 2026-06-09
+
+### 🔄 Changed
+
+- accept and reject committee members not possible if locked fields is set
+
+## [v1.141.21] - 2026-06-09
+
+### 🔄 Changed
+
+- autocomplete search mode to starts with
+
+## [v1.141.20] - 2026-06-09
+
+### 🔄 Changed
+
+- reset committee member to correct state
+
+## [v1.141.19] - 2026-06-09
+
+### 🔄 Changed
+
+- fix model mapping for referendums with no decree
+
+## [v1.141.18] - 2026-06-08
+
+### 🔄 Changed
+
+- remove tabindex=0 and update base-components
+
+## [v1.141.17] - 2026-06-08
+
+### 🔄 Changed
+
+- refresh active certificate component on certificate upload
+
+## [v1.141.16] - 2026-06-01
+
+### 🔄 Changed
+
+- show referendum not started hint
+
+## [v1.141.15] - 2026-06-01
+
+### 🔄 Changed
+
+- signature sheet preview collection date
 
 ## [v1.141.14] - 2026-05-27
 

@@ -1,88 +1,72 @@
 <bc-table [dataSource]="dataSource" [fixedLayout]="false" [fixed]="false" cdkDropList (cdkDropListDropped)="sortChanged.emit($event)">
   <ng-container [columnDef]="lastNameColumn">
     <th bc-header-cell *headerCellDef>
-      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.LAST_NAME' | translate }}
     </th>
-    <th bc-row-header-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <th bc-row-header-cell *dataCellDef="let row">
       {{ row.politicalLastName }}
     </th>
   </ng-container>
 
   <ng-container [columnDef]="firstNameColumn">
     <th bc-header-cell *headerCellDef>
-      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate }}
     </th>
-    <th bc-row-header-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <th bc-row-header-cell *dataCellDef="let row">
       {{ row.politicalFirstName }}
     </th>
   </ng-container>
 
   <ng-container [columnDef]="dateOfBirthColumn">
     <th bc-header-cell *headerCellDef>
-      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate }}
     </th>
-    <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <td bc-data-cell *dataCellDef="let row">
       {{ row.dateOfBirth | date }}
     </td>
   </ng-container>
 
   <ng-container [columnDef]="streetColumn">
     <th bc-header-cell *headerCellDef>
-      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STREET' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STREET' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STREET' | translate }}
     </th>
-    <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <td bc-data-cell *dataCellDef="let row">
       {{ row.street }}
     </td>
   </ng-container>
 
   <ng-container [columnDef]="houseNumberColumn">
     <th bc-header-cell *headerCellDef>
-      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate }}
     </th>
-    <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <td bc-data-cell *dataCellDef="let row">
       {{ row.houseNumber }}
     </td>
   </ng-container>
 
   <ng-container [columnDef]="zipCodeColumn">
     <th bc-header-cell *headerCellDef>
-      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ZIP_CODE' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ZIP_CODE' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ZIP_CODE' | translate }}
     </th>
-    <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <td bc-data-cell *dataCellDef="let row">
       {{ row.zipCode }}
     </td>
   </ng-container>
 
   <ng-container [columnDef]="residenceColumn">
     <th bc-header-cell *headerCellDef>
-      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.RESIDENCE' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.RESIDENCE' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.RESIDENCE' | translate }}
     </th>
-    <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <td bc-data-cell *dataCellDef="let row">
       {{ row.politicalResidence }}
     </td>
   </ng-container>
 
   <ng-container [columnDef]="signatureTypeColumn">
     <th bc-header-cell *headerCellDef>
-      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate }}
     </th>
-    <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-status-label
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.SIGNATURE_TYPE.' + row.signatureType | translate"
         [foregroundColor]="'light'"
@@ -93,11 +77,9 @@
 
   <ng-container [columnDef]="stateColumn">
     <th bc-header-cell *headerCellDef>
-      <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STATE' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STATE' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.STATE' | translate }}
     </th>
-    <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
+    <td bc-data-cell *dataCellDef="let row">
       <bc-status-label
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.APPROVAL_STATES.' + row.approvalState | translate"
         [backgroundColor]="approvalStateColorMap[row.approvalState]"
@@ -107,9 +89,7 @@
 
   <ng-container [columnDef]="actionsColumn">
     <th bc-header-cell *headerCellDef [align]="'right'">
-       <span [tooltip]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ACTIONS' | translate">
-        {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ACTIONS' | translate }}
-      </span>
+      {{ 'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.ACTIONS' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let element" [align]="'right'">
       @if ((element.userPermissions?.canEdit || element.userPermissions?.canEditPoliticalDuty || canRemove) && !readonly) {
