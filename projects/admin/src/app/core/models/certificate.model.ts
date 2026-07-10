@@ -27,7 +27,7 @@ export interface CertificateValidation {
 }
 
 export interface ActiveCertificate {
-  activeCertificate: Certificate;
+  activeCertificate?: Certificate;
   caCertificate: CertificateInfo;
 }
 
@@ -59,7 +59,7 @@ export function mapToCertificate(cert: CertificateProto): Certificate {
 
 export function mapToActiveCertificate(resp: GetActiveCertificateResponse): ActiveCertificate {
   return {
-    activeCertificate: mapToCertificate(resp.activeCertificate!),
+    activeCertificate: resp.activeCertificate ? mapToCertificate(resp.activeCertificate) : undefined,
     caCertificate: mapToCertificateInfo(resp.caCertificate!),
   };
 }

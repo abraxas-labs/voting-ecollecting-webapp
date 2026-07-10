@@ -25,14 +25,18 @@ import { Referendum } from '../../core/models/referendum.model';
 import { Initiative } from '../../core/models/initiative.model';
 import { lastValueFrom, Subscription } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
-import { CollectionSignatureSheet, CollectionSignatureSheetCandidate } from '../../core/models/collection.model';
+import {
+  CollectionSignatureSheet,
+  CollectionSignatureSheetCandidate,
+  CollectionSignatureSheetCitizen,
+} from '../../core/models/collection.model';
 import {
   SignatureSheetEditDialogComponent,
   SignatureSheetEditDialogData,
 } from '../signature-sheet-edit-dialog/signature-sheet-edit-dialog.component';
 import { ConfirmDialogService, emptyPage, LoadingBarComponent, Page, Pageable, ToastService } from 'ecollecting-lib';
 import { SignatureSheetPersonSearchComponent } from './signature-sheet-person-search/signature-sheet-person-search.component';
-import { Person, PersonFilterData } from '../../core/models/person.model';
+import { PersonFilterData } from '../../core/models/person.model';
 import { SignatureSheetCandidatesTableComponent } from './signature-sheet-candidates-table/signature-sheet-candidates-table.component';
 import { SignatureSheetCitizenTableComponent } from './signature-sheet-citizen-table/signature-sheet-citizen-table.component';
 import { CollectionSignatureSheetService } from '../../core/services/collection-signature-sheet.service';
@@ -77,7 +81,7 @@ export class SignatureSheetDetailComponent implements OnDestroy {
   protected sheet?: CollectionSignatureSheet;
 
   protected personCandidatesPage: Page<CollectionSignatureSheetCandidate> = emptyPage<CollectionSignatureSheetCandidate>();
-  protected citizens: Person[] = [];
+  protected citizens: CollectionSignatureSheetCitizen[] = [];
 
   protected loadingPersonRegisterId?: string;
   protected loadingCitizens: boolean = true;
@@ -192,7 +196,7 @@ export class SignatureSheetDetailComponent implements OnDestroy {
         signatureSheetNumber: this.sheet.number,
         electronic: false,
       };
-      this.citizens = [...this.citizens, { ...candidate.person }];
+      this.citizens = [...this.citizens, { ...candidate.person, collectionDateTime: new Date() }];
       this.sheet.count.invalid--;
       this.sheet.count.valid++;
       this.toast.success('COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.ADDED');
@@ -203,7 +207,7 @@ export class SignatureSheetDetailComponent implements OnDestroy {
     }
   }
 
-  protected async removeCitizen(citizen: Person): Promise<void> {
+  protected async removeCitizen(citizen: CollectionSignatureSheetCitizen): Promise<void> {
     if (!this.collection || !this.sheet || !!this.loadingPersonRegisterId) {
       return;
     }

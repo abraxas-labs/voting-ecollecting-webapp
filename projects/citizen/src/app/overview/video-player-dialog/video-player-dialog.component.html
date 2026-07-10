@@ -1,0 +1,24 @@
+<bc-dialog>
+  <div header>
+    <bc-icon-button
+      mat-dialog-close
+      variant="tertiary"
+      icon="cancel"
+      [ariaLabel]="'OVERVIEW.EXPLAINER_VIDEO.CLOSE' | translate"
+    ></bc-icon-button>
+    <h2 class="mb-0">{{ title | translate }}</h2>
+  </div>
+  <div content>
+    <div
+      class="video-player"
+      disable-auto-creation="true"
+      [id]="playerElementId"
+      [attr.video-id]="videoId"
+      [attr.player-id]="playerConfig.playerId"
+      [attr.channel-id]="playerConfig.channelId"
+      [attr.config-type]="playerConfig.configType"
+      [attr.flash-path]="playerConfig.flashPath"
+      [attr.api-url]="playerConfig.apiUrl"
+    ></div>
+  </div>
+</bc-dialog>

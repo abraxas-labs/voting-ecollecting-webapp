@@ -21,6 +21,8 @@
       "DATA_PROTECTION_ALT": "Externe Webseite mit Informationen zum Datenschutz",
       "ACCESSIBILITY": "Barrierefreiheit",
       "SITEMAP": "Site Map",
+      "SUPPORT": "Support",
+      "SUPPORT_ALT": "Externe Webseite mit Informationen zum Support",
       "COPYRIGHT": "© {{year}} Portal Kanton St.Gallen"
     },
     "EDIT": "Bearbeiten",
@@ -75,17 +77,21 @@
     "EXPLAINER_VIDEO": {
       "TITLE": "Erklärvideos",
       "OPEN": "Video öffnen",
+      "CLOSE": "Video schliessen",
       "SIGN_COLLECTION": {
         "TITLE": "Sammlung unterzeichnen",
-        "DESCRIPTION": "Erfahren Sie hier, wie Sie ein Referendums- oder Initiativbegehren elektronisch unterzeichnen können."
+        "DESCRIPTION": "Erfahren Sie hier, wie Sie ein Referendums- oder Initiativbegehren elektronisch unterzeichnen können.",
+        "ARIA_LABEL": "Video zum Thema Sammlung unterzeichnen öffnen"
       },
       "SEEK_REFERENDUM": {
         "TITLE": "Referendum ergreifen",
-        "DESCRIPTION": "Erfahren Sie hier, wie Sie das Referendum zu einem referendumsfähigen Erlass ergreifen können."
+        "DESCRIPTION": "Erfahren Sie hier, wie Sie das Referendum zu einem referendumsfähigen Erlass ergreifen können.",
+        "ARIA_LABEL": "Video zum Thema Referendum ergreifen öffnen"
       },
       "LAUNCH_INITIATIVE": {
         "TITLE": "Initiative lancieren",
-        "DESCRIPTION": "Erfahren Sie hier, wie Sie eine Initiative lancieren können."
+        "DESCRIPTION": "Erfahren Sie hier, wie Sie eine Initiative lancieren können.",
+        "ARIA_LABEL": "Video zum Thema Initiative lancieren öffnen"
       }
     }
   },

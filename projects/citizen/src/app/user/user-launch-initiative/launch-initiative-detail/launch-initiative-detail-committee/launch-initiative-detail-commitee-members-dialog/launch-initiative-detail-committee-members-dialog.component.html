@@ -40,6 +40,8 @@
         [error]="form.controls.lastName.touched && form.controls.lastName.invalid"
         subscriptSizing="dynamic"
         [readonly]="!canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="100"
       ></bc-text>
       <bc-text
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.FIRST_NAME' | translate"
@@ -49,6 +51,8 @@
         [error]="form.controls.firstName.touched && form.controls.firstName.invalid"
         subscriptSizing="dynamic"
         [readonly]="!canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="100"
       ></bc-text>
       <bc-text
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.POLITICAL_LAST_NAME' | translate"
@@ -60,6 +64,8 @@
         [placeholder]="form.value.lastName ?? ''"
         subscriptSizing="dynamic"
         [readonly]="!canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="100"
       ></bc-text>
       <bc-text
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.POLITICAL_FIRST_NAME' | translate"
@@ -71,6 +77,8 @@
         optionalText=""
         subscriptSizing="dynamic"
         [readonly]="!canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="100"
       ></bc-text>
       <bc-date
         [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate"
@@ -88,6 +96,8 @@
         [showDefaultErrors]="true"
         subscriptSizing="dynamic"
         [readonly]="!canEditPoliticalDuty"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="50"
       ></bc-text>
     </div>
     <div class="flex-1 flex flex-col gap-y-2">
@@ -100,6 +110,8 @@
           [error]="form.controls.street.touched && form.controls.street.invalid"
           subscriptSizing="dynamic"
           [readonly]="!canEdit"
+          [hintCountVisible]="'remaining'"
+          [maxlength]="150"
         ></bc-text>
         <bc-text
           [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate"
@@ -109,6 +121,8 @@
           [error]="form.controls.houseNumber.touched && form.controls.houseNumber.invalid"
           subscriptSizing="dynamic"
           [readonly]="!canEdit"
+          [hintCountVisible]="'remaining'"
+          [maxlength]="30"
         ></bc-text>
       </div>
       <div class="container gap-x-2">
@@ -120,6 +134,8 @@
           [error]="form.controls.zipCode.touched && form.controls.zipCode.invalid"
           subscriptSizing="dynamic"
           [readonly]="!canEdit"
+          [hintCountVisible]="'remaining'"
+          [maxlength]="15"
         ></bc-text>
         <bc-autocomplete
           [label]="'LAUNCH_INITIATIVE.DETAIL.COMMITTEE.MEMBERS.RESIDENCE' | translate"
@@ -144,6 +160,8 @@
         [placeholder]="selectedDomainOfInfluence?.name ?? ''"
         subscriptSizing="dynamic"
         [readonly]="!canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="100"
       ></bc-text>
       <bc-radio-button-group
         class="mt-2"
@@ -163,6 +181,8 @@
         [error]="form.controls.email.touched && form.controls.email.invalid"
         subscriptSizing="dynamic"
         [readonly]="!canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="254"
       ></bc-text>
     </div>
   </div>

@@ -389,6 +389,28 @@ export class ReferendumOverviewComponent implements OnInit {
     }
   }
 
+  protected async deleteExpired(decree: Decree, group: DecreeGroup): Promise<void> {
+    const ok = await this.confirmDialogService.confirm({
+      title: 'REFERENDUM.DELETE_EXPIRED.TITLE',
+      message: 'REFERENDUM.DELETE_EXPIRED.MSG',
+      confirmText: 'APP.YES',
+      discardText: 'APP.DISCARD',
+    });
+    if (!ok) {
+      return;
+    }
+
+    await this.decreeService.deleteExpired(decree);
+    this.toast.success('APP.DELETED');
+
+    group.decrees = group.decrees.filter(d => d.id !== decree.id);
+
+    const originalGroup = this.decreeGroups.find(x => x.domainOfInfluenceType === decree.domainOfInfluenceType);
+    if (originalGroup) {
+      originalGroup.decrees = originalGroup.decrees.filter(x => x.id !== decree.id);
+    }
+  }
+
   private async loadData(): Promise<void> {
     try {
       this.loading = true;

@@ -12,6 +12,8 @@
     [formControl]="form.controls.lastName"
     [required]="true"
     [showDefaultErrors]="true"
+    [hintCountVisible]="'remaining'"
+    [maxlength]="100"
     subscriptSizing="dynamic"
   ></bc-text>
   <bc-text
@@ -19,6 +21,8 @@
     [formControl]="form.controls.firstName"
     [required]="true"
     [showDefaultErrors]="true"
+    [hintCountVisible]="'remaining'"
+    [maxlength]="100"
     subscriptSizing="dynamic"
   ></bc-text>
   <bc-text
@@ -26,6 +30,8 @@
     [formControl]="form.controls.email"
     [required]="true"
     [showDefaultErrors]="true"
+    [hintCountVisible]="'remaining'"
+    [maxlength]="254"
     subscriptSizing="dynamic"
   ></bc-text>
   <bc-radio-button-group

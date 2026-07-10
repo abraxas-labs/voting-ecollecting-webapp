@@ -51,6 +51,7 @@ import { environment } from '../../../environments/environment';
 import { CollectionPermission, PendingCollectionPermission } from '../models/collection.model';
 import { mapValidationSummaryToModel, ValidationSummary } from '../models/validation.model';
 import { FileDownloadService } from '@abraxas/voting-lib';
+import { CollectionSignatureCacheService } from './collection-signature-cache.service';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +62,7 @@ export class CollectionService implements CollectionMessagesService {
   private readonly initiativeClient = inject(InitiativeServiceClient);
   private readonly http = inject(HttpClient);
   private readonly fileDownloadService = inject(FileDownloadService);
+  private readonly signatureCacheService = inject(CollectionSignatureCacheService);
 
   private readonly restApiUrl: string;
 
@@ -78,8 +80,15 @@ export class CollectionService implements CollectionMessagesService {
       req.bfs = bfs;
     }
 
+    const signatureCache = this.signatureCacheService.get(req);
+    if (signatureCache.etag) {
+      req.signatureInfoIfNoneMatchEtag = signatureCache.etag;
+    }
+
     const resp = await lastValueFrom(this.client.list(req));
-    return this.mapCollectionsFromResponse(resp);
+    const collections = this.mapCollectionsFromResponse(resp);
+    await this.signatureCacheService.handleResponse(signatureCache, resp.signatureInfoETag, collections);
+    return collections;
   }
 
   public async listPermissions(collectionId: string): Promise<CollectionPermission[]> {

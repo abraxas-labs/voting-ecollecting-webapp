@@ -27,7 +27,7 @@
             valueExpr="id"
             subscriptSizing="dynamic"
           ></bc-autocomplete>
-          @if (hasInitiative && selectedInitiativeState) {
+          @if (initiativeId && selectedInitiativeState) {
             <bc-readonly [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COLLECTION_STATE' | translate">
               <bc-status-label class="py-2"
                                [size]="'large'"
@@ -44,7 +44,7 @@
             (valueChange)="selectDoiType()"
             [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DOI_TYPE' | translate"
             [required]="true"
-            [readonly]="hasInitiative"
+            [readonly]="!!initiativeId"
             subscriptSizing="dynamic"
           ></bc-dropdown>
           <div class="flex gap-3">
@@ -65,6 +65,9 @@
               [readonly]="!canEditAdmissibilityDecisionState"
               [formControl]="form.controls.admissibilityDecisionState"></bc-dropdown>
           </div>
+          @if (initiativeId && !isValidCommittee) {
+            <bc-link [state]="'error'" [routerLink]="[initiativeUrl, initiativeId]" (buttonClick)="dialogRef.close()">{{ 'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.COMMITTEE_MEMBERS_NOT_VALID' | translate }}</bc-link>
+          }
           @if (dialogData.initiative?.collection?.secureIdNumber) {
             <bc-readonly [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.SECURE_ID_NUMBER' | translate">
               <bc-status-label class="py-2" [size]="'large'" [label]="dialogData.initiative!.collection!.secureIdNumber!"></bc-status-label>

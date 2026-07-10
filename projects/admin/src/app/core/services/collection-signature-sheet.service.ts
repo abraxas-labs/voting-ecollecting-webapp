@@ -40,14 +40,16 @@ import { environment } from '../../../environments/environment';
 import {
   CollectionSignatureSheet,
   CollectionSignatureSheetCandidate,
+  CollectionSignatureSheetCitizen,
   CollectionSignatureSheetNumberInfo,
   mapToCollectionSignatureSheet,
   mapToCollectionSignatureSheetCandidates,
+  mapToCollectionSignatureSheetCitizens,
   mapToCollectionSignatureSheets,
 } from '../models/collection.model';
 import { CollectionType, SortDirection } from '@abraxas/voting-ecollecting-proto';
 import { Timestamp } from '@ngx-grpc/well-known-types';
-import { mapToPerson, Person, PersonFilterData } from '../models/person.model';
+import { PersonFilterData } from '../models/person.model';
 import { FileDownloadService } from '@abraxas/voting-lib';
 
 @Injectable({
@@ -189,10 +191,10 @@ export class CollectionSignatureSheetService {
     await lastValueFrom(this.client.removeCitizen(req));
   }
 
-  public async listCitizens(collectionId: string, signatureSheetId: string): Promise<Person[]> {
+  public async listCitizens(collectionId: string, signatureSheetId: string): Promise<CollectionSignatureSheetCitizen[]> {
     const req = new ListSignatureSheetCitizensRequest({ collectionId, signatureSheetId });
     const resp = await lastValueFrom(this.client.listCitizens(req));
-    return resp.citizens!.map(p => mapToPerson(p));
+    return mapToCollectionSignatureSheetCitizens(resp.citizens!);
   }
 
   public async submit(collectionId: string, signatureSheetId: string): Promise<SubmitSignatureSheetResponse.AsObject> {

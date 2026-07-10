@@ -24,6 +24,7 @@ export interface DecreeUserPermissions {
   canGenerateDocuments: boolean;
   canAddCollection: boolean;
   canDelete: boolean;
+  canDeleteExpired: boolean;
 }
 
 export interface ReferendumDeleteInfo {

@@ -42,10 +42,7 @@ export class InitiativeDetailCommitteeMembersComponent {
   public async reset(member: InitiativeCommitteeMember): Promise<void> {
     await this.initiativeService.resetCommitteeMember(this.initiative.id, member.id);
     this.toast.success('INITIATIVE.COMMITTEE.MEMBERS.VERIFY_DIALOG.RESET');
-    if (
-      member.signatureType !== InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UPLOADED_SIGNATURE &&
-      member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED
-    ) {
+    if (member.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED) {
       this.updateApprovedMembersCount(this.committee, -1);
     }
 
@@ -69,10 +66,7 @@ export class InitiativeDetailCommitteeMembersComponent {
       return;
     }
 
-    if (
-      member.signatureType !== InitiativeCommitteeMemberSignatureType.INITIATIVE_COMMITTEE_MEMBER_SIGNATURE_TYPE_UPLOADED_SIGNATURE &&
-      result.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED
-    ) {
+    if (result.approvalState === InitiativeCommitteeMemberApprovalState.INITIATIVE_COMMITTEE_MEMBER_APPROVAL_STATE_APPROVED) {
       this.updateApprovedMembersCount(this.committee, 1);
     }
 

@@ -211,6 +211,10 @@
     "FINISH": "Abschliessen",
     "GENERATE_DOCUMENTS": "Dokumente generieren",
     "ADD_COLLECTION": "Neue Sammlung erfassen",
+    "DELETE_EXPIRED":  {
+      "TITLE": "Löschen",
+      "MSG": "Sind Sie sicher, dass Sie den Erlass inkl. allfälliger Sammlungen, die nicht gestartet wurden, unwiderruflich löschen möchten?"
+    },
     "ADD_COLLECTION_DIALOG": {
       "TITLE": "Neue Sammlung erfassen",
       "DECREE_DESCRIPTION": "Offizielle Bezeichnung Erlass",
@@ -364,6 +368,7 @@
           "DATE_OF_BIRTH": "Geburtsdatum",
           "RESIDENCE_ADDRESS_STREET": "Strasse",
           "RESIDENCE_ADDRESS_HOUSE_NUMBER": "Haus-Nr.",
+          "COLLECTION_DATE_TIME": "Erfasst am",
           "REVIEW_STATE": "Status",
           "REVIEW_STATES": {
             "added": "hinzugefügt",
@@ -588,6 +593,10 @@
           "MAX_ECOLLECTING_THRESHOLD": "Quorum für elektronische Unterschriften in Prozent"
         }
       },
+      "COLLECTION_SETTINGS": {
+        "EDIT": "Bearbeiten",
+        "SAVED": "Sammlungseinstellungen gespeichert"
+      },
       "ADDRESS_NAME": "Name der Gemeinde",
       "STREET": "Strasse und Hausnummer oder Postfach",
       "ZIP_CODE": "PLZ",
@@ -639,8 +648,8 @@
         "DETAILS": {
           "TITLE": "Angaben zur Initaitive",
           "SUB_TYPE": "Art der Initiative",
-          "WORDING":{
-            "LABEL":  "Wortlaut des Initiativbegehrens"
+          "WORDING": {
+            "LABEL": "Wortlaut des Initiativbegehrens"
           },
           "DESCRIPTION": {
             "LABEL": "Bezeichnung der Initiative"
@@ -651,7 +660,8 @@
           "2": "Sie sind dabei, den Zulässigkeitsentscheid auf \"Zulässig unter Auflagen\" zu setzen. Die Sammlung kann anschliessend auf der Detailseite zur Korrektur freigegeben werden.\n\nSind Sie sicher, dass Sie fortfahren möchten?",
           "3": "Sie sind dabei, den Zulässigkeitsentscheid auf \"Zulässig\" zu setzen. Die Sammlung wird dadurch für die Anmeldung freigegeben.\n\nSind Sie sicher, dass Sie fortfahren möchten?",
           "4": "Sie sind dabei, den Zulässigkeitsentscheid auf \"Nicht zulässig\" zu setzen. Die Sammlung wird automatisch in den gleichnamigen Status gesetzt.\n\nSind Sie sicher, dass Sie fortfahren möchten?"
-        }
+        },
+        "COMMITTEE_MEMBERS_NOT_VALID": "Die Komiteemitglieder sind nicht valide"
       }
     },
     "CERTS": {
@@ -688,7 +698,7 @@
           "CertificateSelfSigned": "Das Zertifikat ist selbstsigniert."
         }
       },
-      "NOT_FOUND": "Kein aktives Zertifikat gesetzt",
+      "NONE_ACTIVE": "Kein aktives Zertifikat gesetzt",
       "NOT_AFTER": "Gültig bis",
       "LABEL": "Bezeichnung",
       "THUMBPRINT_CA": "Fingerprint CA",

@@ -6,7 +6,7 @@
 
 import { Routes } from '@angular/router';
 import { NotFoundPageComponent } from '@abraxas/voting-lib';
-import { launchInitiativeUrl, seekReferendumUrl } from './user/user.routes';
+import { launchInitiativeUrl, seekReferendumUrl, signCollectionUrl, signInitiativeUrl, signReferendumUrl } from './user/user.routes';
 import { AccessibilityPageComponent } from './core/components/accessibility-page/accessibility-page.component';
 import { SitemapPageComponent } from './core/components/sitemap-page/sitemap-page.component';
 
@@ -32,6 +32,16 @@ export const routes: Routes = [
     path: 'referendums/:id',
     redirectTo: redirectData =>
       `/user/${seekReferendumUrl}/${redirectData.params['id']}?${new URLSearchParams(redirectData.queryParams).toString()}`,
+  },
+  {
+    // this path is printed for the qr code in the signature sheet, do not change!
+    path: 'sign-initiatives/:id',
+    redirectTo: redirectData => `/user/${signCollectionUrl}/${signInitiativeUrl}/${redirectData.params['id']}`,
+  },
+  {
+    // this path is printed for the qr code in the signature sheet, do not change!
+    path: 'sign-referendums/:id',
+    redirectTo: redirectData => `/user/${signCollectionUrl}/${signReferendumUrl}/${redirectData.params['id']}`,
   },
   {
     // this path is sent in emails, do not change!

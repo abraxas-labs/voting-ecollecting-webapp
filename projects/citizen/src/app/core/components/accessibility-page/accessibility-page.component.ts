@@ -84,18 +84,18 @@ export class AccessibilityPageComponent {
   private buildForm(): void {
     this.form = this.formBuilder.group<Form>({
       salutation: this.formBuilder.control(undefined),
-      firstName: this.formBuilder.control(undefined, {
+      firstName: this.formBuilder.control('', {
         validators: [Validators.maxLength(100)],
         asyncValidators: [AsyncInputValidators.complexSlText],
       }),
-      lastName: this.formBuilder.control(undefined, {
+      lastName: this.formBuilder.control('', {
         validators: [Validators.maxLength(100)],
         asyncValidators: [AsyncInputValidators.complexSlText],
       }),
       email: this.formBuilder.control('', {
         validators: [Validators.maxLength(254), Validators.email],
       }),
-      phone: this.formBuilder.control(undefined, {
+      phone: this.formBuilder.control('', {
         validators: [Validators.maxLength(254), InputValidators.phone],
       }),
       category: this.formBuilder.control(AccessibilityCategory.ACCESSIBILITY_CATEGORY_PROBLEM, {

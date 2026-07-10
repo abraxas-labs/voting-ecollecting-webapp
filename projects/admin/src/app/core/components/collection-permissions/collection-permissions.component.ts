@@ -4,11 +4,12 @@
  * For license information see LICENSE file.
  */
 
-import { AfterViewInit, Component, Input, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { SortDirective, StatusLabelModule, TableDataSource, TableModule, TruncateWithTooltipModule } from '@abraxas/base-components';
 import { CollectionService } from '../../services/collection.service';
 import { CollectionPermission } from '../../models/collection.model';
 import { TranslatePipe } from '@ngx-translate/core';
+import { collectionPermissionRoleColorMap } from 'ecollecting-lib';
 
 @Component({
   selector: 'app-collection-permissions',
@@ -17,6 +18,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [TableModule, TranslatePipe, TruncateWithTooltipModule, StatusLabelModule],
 })
 export class CollectionDetailPermissionsComponent implements OnInit, AfterViewInit {
+  protected readonly collectionPermissionRoleColorMap = collectionPermissionRoleColorMap;
   private readonly collectionService = inject(CollectionService);
 
   public readonly fullNameColumn = 'fullName';

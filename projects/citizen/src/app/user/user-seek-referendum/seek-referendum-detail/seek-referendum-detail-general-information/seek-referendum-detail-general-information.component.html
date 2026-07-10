@@ -12,6 +12,8 @@
         [showDefaultErrors]="true"
         [error]="(showValidationErrors || form.controls.description.touched) && form.controls.description.invalid"
         [readonly]="!referendum.collection.userPermissions?.canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="200"
         subscriptSizing="dynamic"
       ></bc-text>
       <bc-textarea
@@ -20,6 +22,8 @@
         [showDefaultErrors]="true"
         [rows]="6"
         [readonly]="!referendum.collection.userPermissions?.canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="10000"
         subscriptSizing="dynamic"
       ></bc-textarea>
       <bc-text
@@ -30,6 +34,8 @@
         [error]="(showValidationErrors || form.controls.address.controls.committeeOrPerson.touched) && form.controls.address.controls.committeeOrPerson.invalid"
         [readonly]="!referendum.collection.userPermissions?.canEdit"
         [autocomplete]="'name'"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="100"
         subscriptSizing="dynamic"
       ></bc-text>
       <bc-text
@@ -40,6 +46,8 @@
         [error]="(showValidationErrors || form.controls.address.controls.streetOrPostOfficeBox.touched) && form.controls.address.controls.streetOrPostOfficeBox.invalid"
         [readonly]="!referendum.collection.userPermissions?.canEdit"
         [autocomplete]="'address-line1'"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="150"
         subscriptSizing="dynamic"
       ></bc-text>
       <div class="zip-code-locality-container">
@@ -51,6 +59,8 @@
           [error]="(showValidationErrors || form.controls.address.controls.zipCode.touched) && form.controls.address.controls.zipCode.invalid"
           [readonly]="!referendum.collection.userPermissions?.canEdit"
           [autocomplete]="'postal-code'"
+          [hintCountVisible]="'remaining'"
+          [maxlength]="15"
           subscriptSizing="dynamic"
         ></bc-text>
         <bc-text
@@ -61,6 +71,8 @@
           [error]="(showValidationErrors || form.controls.address.controls.locality.touched) && form.controls.address.controls.locality.invalid"
           [readonly]="!referendum.collection.userPermissions?.canEdit"
           [autocomplete]="'address-level2'"
+          [hintCountVisible]="'remaining'"
+          [maxlength]="150"
           subscriptSizing="dynamic"
         ></bc-text>
       </div>
@@ -69,6 +81,8 @@
         [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.MEMBERS_COMMITTEE' | translate"
         [showDefaultErrors]="true"
         [readonly]="!referendum.collection.userPermissions?.canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="2000"
         subscriptSizing="dynamic"
       ></bc-textarea>
       <bc-text
@@ -76,6 +90,8 @@
         [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.LINK' | translate"
         [showDefaultErrors]="true"
         [readonly]="!referendum.collection.userPermissions?.canEdit"
+        [hintCountVisible]="'remaining'"
+        [maxlength]="2000"
         subscriptSizing="dynamic"
       ></bc-text>
       <div class="flex flex-wrap gap-x-4 mt-1">

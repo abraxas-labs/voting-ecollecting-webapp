@@ -91,7 +91,10 @@
                             ></bc-button>
                           }
                           <div class="grow"></div>
-                          @if (referendum.collection.informalReviewRequested && referendum.collection.userPermissions?.isRequestInformalReviewVisible) {
+                          @if (
+                            referendum.collection.informalReviewRequested &&
+                            referendum.collection.userPermissions?.isRequestInformalReviewVisible
+                          ) {
                             <bc-alert-bar
                               class="self-center"
                               [color]="'warning'"
@@ -123,7 +126,12 @@
                       </vo-ecol-referendum-card>
                     }
                   </div>
-                  @if (decree.userPermissions?.canGenerateDocuments || decree.userPermissions?.canFinish || decree.userPermissions?.canAddCollection) {
+                  @if (
+                    decree.userPermissions?.canGenerateDocuments ||
+                    decree.userPermissions?.canFinish ||
+                    decree.userPermissions?.canAddCollection ||
+                    decree.userPermissions?.canDeleteExpired
+                  ) {
                     <div class="flex gap-2 mt-2 items-center">
                       @if (decree.userPermissions?.canAddCollection) {
                         <bc-button
@@ -152,6 +160,14 @@
                           (buttonClick)="finish(decree)"
                           [label]="'REFERENDUM.FINISH' | translate"
                           [icon]="'checkmark'"
+                        ></bc-button>
+                      }
+                      @if (decree.userPermissions?.canDeleteExpired) {
+                        <bc-button
+                          color="warn"
+                          variant="tertiary"
+                          (buttonClick)="deleteExpired(decree, group)"
+                          [label]="'REFERENDUM.DELETE_EXPIRED.TITLE' | translate"
                         ></bc-button>
                       }
                     </div>

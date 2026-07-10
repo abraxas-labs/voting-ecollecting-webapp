@@ -65,6 +65,9 @@
           <bc-link [routerLink]="[sitemapUrl]">{{ 'APP.FOOTER.SITEMAP' | translate }}</bc-link>
         </li>
         <li>
+          <bc-link [href]="'https://support.sg.ch/ecollecting'" [target]="'_blank'" [ariaLabel]="'APP.FOOTER.SUPPORT_ALT' | translate">{{ 'APP.FOOTER.SUPPORT' | translate }}</bc-link>
+        </li>
+        <li>
           <span>{{ 'APP.FOOTER.COPYRIGHT' | translate: { year: now.getFullYear() } }}</span>
         </li>
       </ul>

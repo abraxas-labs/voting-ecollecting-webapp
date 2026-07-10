@@ -72,6 +72,11 @@ export class SignatureSheetPersonSearchComponent {
     this.officialNameInput.setFocus();
   }
 
+  protected onEnter(event: Event): void {
+    event.preventDefault();
+    this.onSearch();
+  }
+
   protected onSearch(): void {
     if (this.form.valid) {
       const data: PersonFilterData = this.form.value as Required<typeof this.form.value>;

@@ -11,12 +11,17 @@ import {
   GetDomainOfInfluenceRequest,
   ListDomainOfInfluenceOwnTypesRequest,
   ListDomainOfInfluencesRequest,
+  PrepareUpdateDomainOfInfluenceCollectionSettingsRequest,
   RemoveDomainOfInfluenceLogoRequest,
+  SecondFactorAuthorization,
   UpdateDomainOfInfluenceRequest as UpdateDomainOfInfluenceRequestProto,
+  UpdateDomainOfInfluenceCollectionSettings as UpdateDomainOfInfluenceCollectionSettingsProto,
+  UpdateDomainOfInfluenceCollectionSettingsRequest,
 } from '@abraxas/voting-ecollecting-proto/admin';
 import { lastValueFrom, Observable } from 'rxjs';
 import { BoolValue } from '@ngx-grpc/well-known-types';
 import { DomainOfInfluence, mapToDomainOfInfluence } from '../models/domain-of-influence.model';
+import { mapToSecondFactorTransaction, SecondFactorTransaction } from '../models/second-factor.model';
 import { switchMap } from 'rxjs/operators';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { newObjectUrlObservableForBlob } from 'ecollecting-lib';
@@ -24,6 +29,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 export type UpdateDomainOfInfluenceRequest = UpdateDomainOfInfluenceRequestProto.AsObject;
+export type DomainOfInfluenceCollectionSettings = UpdateDomainOfInfluenceCollectionSettingsProto.AsObject;
 
 @Injectable({
   providedIn: 'root',
@@ -65,6 +71,36 @@ export class DomainOfInfluenceService {
 
   public async update(updateReq: UpdateDomainOfInfluenceRequestProto.AsObject): Promise<void> {
     await lastValueFrom(this.client.update(new UpdateDomainOfInfluenceRequestProto(updateReq)));
+  }
+
+  public async prepareUpdateCollectionSettings(
+    bfs: string,
+    settings: DomainOfInfluenceCollectionSettings,
+  ): Promise<SecondFactorTransaction> {
+    const resp = await lastValueFrom(
+      this.client.prepareUpdateCollectionSettings(
+        new PrepareUpdateDomainOfInfluenceCollectionSettingsRequest({
+          bfs,
+          settings: new UpdateDomainOfInfluenceCollectionSettingsProto(settings),
+        }),
+      ),
+    );
+    return mapToSecondFactorTransaction(resp);
+  }
+
+  public updateCollectionSettings(
+    bfs: string,
+    settings: DomainOfInfluenceCollectionSettings,
+    secondFactorTransactionId: string,
+    otpCode?: string,
+  ): Observable<any> {
+    return this.client.updateCollectionSettings(
+      new UpdateDomainOfInfluenceCollectionSettingsRequest({
+        bfs,
+        settings: new UpdateDomainOfInfluenceCollectionSettingsProto(settings),
+        secondFactorAuthorization: new SecondFactorAuthorization({ secondFactorTransactionId, otpCode }),
+      }),
+    );
   }
 
   public async getLogo(bfs: string): Promise<Blob> {

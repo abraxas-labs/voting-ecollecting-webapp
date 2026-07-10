@@ -44,7 +44,10 @@
             {{ 'COLLECTION.DETAIL.PERMISSIONS.TABLE.ROLE' | translate }}
           </th>
           <td bc-data-cell *dataCellDef="let row">
-            <bc-status-label [label]="'COLLECTION_PERMISSION_ROLES.' + row.role | translate"></bc-status-label>
+            <bc-status-label
+              [label]="'COLLECTION_PERMISSION_ROLES.' + row.role | translate"
+              [backgroundColor]="collectionPermissionRoleColorMap[row.role]"
+            ></bc-status-label>
           </td>
         </ng-container>
         <ng-container [columnDef]="acceptedColumn">
@@ -57,6 +60,7 @@
                 'COLLECTION.DETAIL.PERMISSIONS.TABLE.STATE.' + row.state
                   | translate
               "
+              [backgroundColor]="collectionPermissionStateColorMap[row.state]"
             ></bc-status-label>
           </td>
           <ng-container [columnDef]="actionsColumn">

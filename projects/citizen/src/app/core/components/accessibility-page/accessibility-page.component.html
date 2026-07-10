@@ -24,12 +24,16 @@
             [formControl]="form.controls.firstName"
             [label]="'ACCESSIBILITY.FORM.FIRST_NAME' | translate"
             [showDefaultErrors]="true"
+            [hintCountVisible]="'remaining'"
+            [maxlength]="100"
             subscriptSizing="dynamic"
           ></bc-text>
           <bc-text
             [formControl]="form.controls.lastName"
             [label]="'ACCESSIBILITY.FORM.LAST_NAME' | translate"
             [showDefaultErrors]="true"
+            [hintCountVisible]="'remaining'"
+            [maxlength]="100"
             subscriptSizing="dynamic"
           ></bc-text>
         </div>
@@ -39,12 +43,16 @@
             [label]="'ACCESSIBILITY.FORM.EMAIL' | translate"
             [showDefaultErrors]="true"
             [required]="true"
+            [hintCountVisible]="'remaining'"
+            [maxlength]="254"
             subscriptSizing="dynamic"
           ></bc-text>
           <bc-text
             [formControl]="form.controls.phone"
             [label]="'ACCESSIBILITY.FORM.PHONE' | translate"
             [showDefaultErrors]="true"
+            [hintCountVisible]="'remaining'"
+            [maxlength]="14"
             subscriptSizing="dynamic"
           ></bc-text>
         </div>
@@ -62,6 +70,8 @@
           [label]="'ACCESSIBILITY.FORM.MESSAGE' | translate"
           [required]="true"
           [showDefaultErrors]="true"
+          [hintCountVisible]="'remaining'"
+          [maxlength]="1000"
           subscriptSizing="dynamic"
         ></bc-textarea>
         <div class="flex gap-2">

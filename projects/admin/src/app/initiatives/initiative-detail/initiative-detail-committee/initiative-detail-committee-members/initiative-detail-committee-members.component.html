@@ -5,7 +5,7 @@
   <bc-card-content>
     <div>
       <p>
-        @if (committee.approvedMembersCountOk) {
+        @if (committee.approvedMembersCountOk && committee.activeCommitteeMembers.length === committee.approvedMembersCount) {
           <bc-icon [icon]="'check-circle'" [iconColor]="'success'"></bc-icon>
         } @else {
           <bc-icon [icon]="'exclamation-triangle-o'" [iconColor]="'warning'"></bc-icon>

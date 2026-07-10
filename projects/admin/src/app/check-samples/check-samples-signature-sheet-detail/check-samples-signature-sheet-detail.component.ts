@@ -19,11 +19,15 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Referendum } from '../../core/models/referendum.model';
 import { Initiative } from '../../core/models/initiative.model';
-import { CollectionSignatureSheet, CollectionSignatureSheetCandidate } from '../../core/models/collection.model';
+import {
+  CollectionSignatureSheet,
+  CollectionSignatureSheetCandidate,
+  CollectionSignatureSheetCitizen,
+} from '../../core/models/collection.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionSignatureSheetService } from '../../core/services/collection-signature-sheet.service';
 import { firstValueFrom, Subscription } from 'rxjs';
-import { Person, PersonFilterData, PersonReviewState } from '../../core/models/person.model';
+import { PersonFilterData, PersonReviewState } from '../../core/models/person.model';
 import { SignatureSheetHeaderComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-header/signature-sheet-header.component';
 import { SignatureSheetCitizenTableComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-citizen-table/signature-sheet-citizen-table.component';
 import { SignatureSheetPersonSearchComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-person-search/signature-sheet-person-search.component';
@@ -71,7 +75,7 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
 
   protected collection?: Referendum | Initiative;
   protected sheet?: CollectionSignatureSheet;
-  protected citizens: Person[] = [];
+  protected citizens: CollectionSignatureSheetCitizen[] = [];
   protected loadingCitizens = true;
   protected personCandidatesPage: Page<CollectionSignatureSheetCandidate> = emptyPage<CollectionSignatureSheetCandidate>();
 
@@ -79,7 +83,7 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
   private lastUsedFilter?: PersonFilterData;
   private addedPersonRegisterIds: string[] = [];
   private originalSheet?: CollectionSignatureSheet;
-  private originalCitizens?: Person[];
+  private originalCitizens?: CollectionSignatureSheetCitizen[];
 
   @ViewChild(SignatureSheetPersonSearchComponent)
   protected personSearchComponent?: SignatureSheetPersonSearchComponent;
@@ -141,7 +145,7 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
     }
   }
 
-  protected removeCitizen(citizen: Person): void {
+  protected removeCitizen(citizen: CollectionSignatureSheetCitizen): void {
     if (!this.collection || !this.sheet) {
       return;
     }
@@ -168,11 +172,11 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
     this.addedPersonRegisterIds = this.addedPersonRegisterIds.filter(x => x !== citizen.registerId);
   }
 
-  protected confirmCitizen(citizen: Person): void {
+  protected confirmCitizen(citizen: CollectionSignatureSheetCitizen): void {
     citizen.reviewState = PersonReviewState.Confirmed;
   }
 
-  protected revertCitizen(citizen: Person): void {
+  protected revertCitizen(citizen: CollectionSignatureSheetCitizen): void {
     if (!this.collection || !this.sheet) {
       return;
     }
@@ -226,7 +230,7 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
     };
     candidate.person.reviewState = PersonReviewState.Added;
     this.addedPersonRegisterIds.push(candidate.person.registerId);
-    this.citizens = [...this.citizens, { ...candidate.person }];
+    this.citizens = [...this.citizens, { ...candidate.person, collectionDateTime: new Date() }];
     this.sheet.count.invalid--;
     this.sheet.count.valid++;
   }

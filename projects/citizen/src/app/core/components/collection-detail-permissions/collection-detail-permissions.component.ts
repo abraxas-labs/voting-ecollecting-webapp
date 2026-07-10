@@ -19,7 +19,7 @@ import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { CollectionService } from '../../services/collection.service';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ConfirmDialogService, ToastService } from 'ecollecting-lib';
+import { collectionPermissionRoleColorMap, collectionPermissionStateColorMap, ConfirmDialogService, ToastService } from 'ecollecting-lib';
 import { CollectionDetailPermissionDialogComponent } from '../collection-detail-permission-dialog/collection-detail-permission-dialog.component';
 import { Collection, CollectionPermission } from '../../models/collection.model';
 import { CollectionPermissionRole, CollectionPermissionState } from '@abraxas/voting-ecollecting-proto';
@@ -32,6 +32,9 @@ import { AuthenticationService } from '../../services/authentication.service';
   imports: [CardModule, TranslateDirective, TranslatePipe, TableModule, ButtonModule, StatusLabelModule, IconButtonModule],
 })
 export class CollectionDetailPermissionsComponent implements AfterViewInit, OnDestroy {
+  protected readonly collectionPermissionRoleColorMap = collectionPermissionRoleColorMap;
+  protected readonly collectionPermissionStateColorMap = collectionPermissionStateColorMap;
+
   private readonly collectionService = inject(CollectionService);
   private readonly dialogService = inject(DialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);

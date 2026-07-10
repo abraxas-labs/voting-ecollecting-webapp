@@ -27,7 +27,7 @@ import { collectionStateColorMap, FileChipComponent, ToastService, ImagePreviewC
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Collection } from '../../core/models/collection.model';
 import { CollectionDetailPermissionsComponent } from '../../core/components/collection-permissions/collection-permissions.component';
-import { Initiative } from '../../core/models/initiative.model';
+import { Initiative, InitiativeCommittee } from '../../core/models/initiative.model';
 import { AbstractCollectionDetailBase } from '../../core/components/collection-detail-base/collection-detail-base.component';
 import { InitiativeService } from '../../core/services/initiative.service';
 import { CollectionState } from '@abraxas/voting-ecollecting-proto';
@@ -83,6 +83,7 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
   protected readonly collectionStates: typeof CollectionState = CollectionState;
   protected readonly collectionStateColorMap = collectionStateColorMap;
   protected initiative?: Initiative;
+  protected committee?: InitiativeCommittee;
 
   @ViewChild(InitiativeDetailEditComponent)
   private editComponent?: InitiativeDetailEditComponent;
@@ -94,7 +95,10 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
 
   constructor() {
     super();
-    this.routeSubscription = this.route.data.subscribe(({ initiative }) => (this.initiative = initiative));
+    this.routeSubscription = this.route.data.subscribe(async ({ initiative }) => {
+      this.initiative = initiative;
+      this.committee = await this.initiativeService.getCommittee(initiative.id);
+    });
   }
 
   public ngOnDestroy(): void {

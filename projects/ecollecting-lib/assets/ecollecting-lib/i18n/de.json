@@ -125,7 +125,6 @@
     "SUB_TITLE": "Mitteilungsverlauf",
     "NO_DATA": "Keine Mitteilungen vorhanden",
     "ADD": "Mitteilung hinzufügen",
-    "ADD_HINT": "Maximal 1'000 Zeichen erlaubt.",
     "CLOSE": "Schliessen",
     "SEND": "Senden",
     "SENT": "Mitteilung wurde gesendet.",

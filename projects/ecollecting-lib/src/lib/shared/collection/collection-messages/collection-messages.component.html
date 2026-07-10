@@ -35,7 +35,8 @@
                    [label]="'COLLECTION_MESSAGES.ADD' | translate"
                    [showDefaultErrors]="true"
                    [error]="form.controls.message.invalid"
-                   [hint]="'COLLECTION_MESSAGES.ADD_HINT' | translate"></bc-textarea>
+                   [hintCountVisible]="'remaining'"
+                   [maxlength]="1000"></bc-textarea>
       <div class="actions mt-1">
         <bc-button [label]="'COLLECTION_MESSAGES.CLOSE'| translate"
                    (buttonClick)="close()"

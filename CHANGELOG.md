@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.142.3`)
+# ✨ Changelog (`v1.145.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,107 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.142.3
-Previous version ---- v1.141.14
+This version -------- v1.145.0
+Previous version ---- v1.142.3
 Initial version ----- v1.115.24
-Total commits ------- 13
+Total commits ------- 16
 ```
+
+## [v1.145.0] - 2026-07-07
+
+### 🆕 Added
+
+- embed explainer videos
+
+## [v1.144.7] - 2026-07-07
+
+### 🆕 Added
+
+- add collection sign url for signature sheet template
+
+## [v1.144.6] - 2026-07-07
+
+### 🆕 Added
+
+- add sorting for collection signature sheet citizens
+
+## [v1.144.5] - 2026-06-30
+
+### 🆕 Added
+
+- delete expired decree
+
+## [v1.144.4] - 2026-06-29
+
+### 🔄 Changed
+
+- show ca certificate even without active backup
+
+## [v1.144.3] - 2026-06-24
+
+### 🔄 Changed
+
+- update voting lib and base components
+
+## [v1.144.2] - 2026-06-24
+
+### 🆕 Added
+
+- add hint count for text and textarea fields
+
+## [v1.144.1] - 2026-06-24
+
+### 🆕 Added
+
+- add committee approved member validations for admin service
+
+## [v1.144.0] - 2026-06-24
+
+### 🔄 Changed
+
+- collection doi settings 2fa
+
+## [v1.143.0] - 2026-06-24
+
+### 🆕 Added
+
+- signature cache
+
+## [v1.142.9] - 2026-06-23
+
+### 🔄 Changed
+
+- env chip alignment
+
+## [v1.142.8] - 2026-06-22
+
+### 🆕 Added
+
+- add support footer link
+
+## [v1.142.7] - 2026-06-22
+
+### 🆕 Added
+
+- add aria labels for explainer videos
+
+## [v1.142.6] - 2026-06-22
+
+### 🆕 Added
+
+- add color for collection permission status labels
+
+## [v1.142.5] - 2026-06-22
+
+### 🔄 Changed
+
+- trigger person search on enter key
+
+## [v1.142.4] - 2026-06-19
+
+### 🔄 Changed
+
+- prevent double informal review confirm popup
 
 ## [v1.142.3] - 2026-06-18
 

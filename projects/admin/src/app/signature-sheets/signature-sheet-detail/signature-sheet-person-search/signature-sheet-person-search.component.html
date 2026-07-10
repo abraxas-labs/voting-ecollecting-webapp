@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSearch()" (reset)="reset()">
+<form (ngSubmit)="onSearch()" (reset)="reset()" (keydown.enter)="onEnter($event)">
   <bc-filter-text
     #officialNameInput
     optionalText=""

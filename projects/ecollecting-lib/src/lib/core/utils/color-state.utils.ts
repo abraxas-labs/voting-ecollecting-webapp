@@ -6,6 +6,8 @@
 
 import {
   CollectionPeriodState,
+  CollectionPermissionRole,
+  CollectionPermissionState,
   CollectionState,
   DecreeState,
   InitiativeCommitteeMemberApprovalState,
@@ -54,4 +56,17 @@ export const decreeStateColorMap: Record<string, string> = {
   [DecreeState.DECREE_STATE_COLLECTION_APPLICABLE]: '#d6efdf',
   [DecreeState.DECREE_STATE_ENDED_CAME_ABOUT]: '#298140',
   [DecreeState.DECREE_STATE_ENDED_CAME_NOT_ABOUT]: '#d12a33',
+};
+
+export const collectionPermissionRoleColorMap: Record<string, string> = {
+  [CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_READER]: '#dceaf9',
+  [CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_DEPUTY]: '#d6efdf',
+  [CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_OWNER]: '', // no background color
+};
+
+export const collectionPermissionStateColorMap: Record<string, string> = {
+  [CollectionPermissionState.COLLECTION_PERMISSION_STATE_PENDING]: '', // no background color
+  [CollectionPermissionState.COLLECTION_PERMISSION_STATE_ACCEPTED]: '#d6efdf',
+  [CollectionPermissionState.COLLECTION_PERMISSION_STATE_REJECTED]: '#f7e3e3',
+  [CollectionPermissionState.COLLECTION_PERMISSION_STATE_EXPIRED]: '#f7e3e3',
 };

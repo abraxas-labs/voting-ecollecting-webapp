@@ -142,8 +142,8 @@
           }
         </bc-card-content>
       </bc-card>
-      @if (initiative.collection.userPermissions?.canEdit) {
-        <app-initiative-detail-committee [initiative]="initiative"></app-initiative-detail-committee>
+      @if (initiative.collection.userPermissions?.canEdit && committee) {
+        <app-initiative-detail-committee [initiative]="initiative" [committee]="committee"></app-initiative-detail-committee>
         <bc-card class="m-3" [border]="false">
           <bc-card-header>
             <bc-card-title [label]="'COLLECTION.PERMISSIONS.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
@@ -157,10 +157,11 @@
 
     <div class="layout-footer">
       @if (!updating) {
-        @if (initiative.collection.userPermissions?.canFinishCorrection) {
+        @if (initiative.collection.userPermissions?.canFinishCorrection && committee) {
           <bc-button
             [icon]="'checkmark'"
             [label]="'INITIATIVE.FINISH_CORRECTION' | translate"
+            [disabled]="!committee.approvedMembersCountOk || committee.approvedMembersCount !== committee.activeCommitteeMembers.length"
             (buttonClick)="finishCorrection()"
           ></bc-button>
         }

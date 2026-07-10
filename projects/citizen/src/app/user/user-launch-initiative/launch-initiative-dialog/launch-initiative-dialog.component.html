@@ -101,6 +101,8 @@
       [hint]="'LAUNCH_INITIATIVE.DIALOG.DESCRIPTION_HINT' | translate"
       [required]="true"
       [showDefaultErrors]="true"
+      [hintCountVisible]="'remaining'"
+      [maxlength]="200"
       subscriptSizing="dynamic"
     ></bc-text>
     @if (error) {

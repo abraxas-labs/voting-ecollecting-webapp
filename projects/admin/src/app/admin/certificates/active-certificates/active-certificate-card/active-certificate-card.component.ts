@@ -19,20 +19,27 @@ export class ActiveCertificateCardComponent implements OnChanges {
   @Input({ required: true })
   public label!: string;
 
-  @Input({ required: true })
-  public notAfter!: Date;
+  @Input()
+  public notAfter?: Date;
 
-  @Input({ required: true })
-  public numberOfDaysWarning!: number;
+  @Input()
+  public numberOfDaysWarning?: number;
 
-  @Input({ required: true })
-  public numberOfDaysError!: number;
+  @Input()
+  public numberOfDaysError?: number;
 
   @HostBinding('class')
   protected state: 'ok' | 'warning' | 'error' = 'ok';
-  protected daysRemaining!: number;
+
+  protected daysRemaining?: number;
 
   public ngOnChanges(): void {
+    if (this.notAfter === undefined || this.numberOfDaysError === undefined || this.numberOfDaysWarning === undefined) {
+      this.state = 'error';
+      this.daysRemaining = undefined;
+      return;
+    }
+
     const now = new Date();
     const msRemaining = this.notAfter.getTime() - now.getTime();
     this.daysRemaining = Math.ceil(msRemaining / (1000 * 60 * 60 * 24));

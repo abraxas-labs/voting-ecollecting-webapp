@@ -8,7 +8,15 @@ import { AfterViewInit, Component, ElementRef, HostListener, inject, OnDestroy, 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { COLLECTION_MESSAGES_SERVICE_TOKEN } from '../../../core/collection-messages.service';
 import { CollectionMessage } from '../../models/collection-message.model';
-import { ButtonModule, DialogModule, IconButtonModule, SpinnerModule, SwitchModule, TextareaModule } from '@abraxas/base-components';
+import {
+  ButtonModule,
+  DialogModule,
+  IconButtonModule,
+  SpinnerModule,
+  SwitchModule,
+  TextareaModule,
+  TextModule,
+} from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CollectionMessageComponent } from './collection-message/collection-message.component';
 import { Subscription } from 'rxjs';
@@ -45,6 +53,7 @@ export interface CollectionMessagesComponentResult {
     ButtonModule,
     ReactiveFormsModule,
     SwitchModule,
+    TextModule,
   ],
   templateUrl: './collection-messages.component.html',
   styleUrl: './collection-messages.component.scss',
@@ -62,6 +71,13 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
   public messages: CollectionMessage[] = [];
   public informalReviewRequested?: boolean;
   public newMessage: string = '';
+
+  /**
+   * Persisted informal review state used to distinguish genuine user interactions from
+   * programmatic `checkedChange` emits of the `bc-switch` (which also fires when `checked`
+   * is set programmatically, e.g. when the chat is opened with an already requested review).
+   */
+  private persistedInformalReviewRequested?: boolean;
 
   public readonly backdropClickSubscription: Subscription;
 
@@ -109,6 +125,7 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
       const response = await this.messagesService.listMessages(this.data.collectionId);
       this.messages = response.messages;
       this.informalReviewRequested = response.informalReviewRequested;
+      this.persistedInformalReviewRequested = response.informalReviewRequested;
     } finally {
       this.loading = false;
     }
@@ -138,6 +155,10 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
   }
 
   public async requestInformalReview(requestInformalReview: boolean): Promise<void> {
+    if (requestInformalReview === this.persistedInformalReviewRequested) {
+      return;
+    }
+
     const ok =
       !requestInformalReview ||
       (await this.confirmDialogService.confirm({
@@ -152,6 +173,7 @@ export class CollectionMessagesComponent implements OnInit, AfterViewInit, OnDes
     }
 
     const message = await this.messagesService.updateRequestInformalReview(this.data.collectionId, requestInformalReview);
+    this.persistedInformalReviewRequested = requestInformalReview;
     this.messages = [...this.messages, message];
     this.toast.success(message.content);
   }

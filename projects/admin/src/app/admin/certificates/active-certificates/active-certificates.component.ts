@@ -4,11 +4,11 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonModule, DialogService, ErrorModule, LabelModule, ReadonlyModule, SpinnerModule } from '@abraxas/base-components';
 import { CertificateService } from '../../../core/services/certificate.service';
-import { isGrpcNotFoundError, ToastService } from 'ecollecting-lib';
+import { ToastService } from 'ecollecting-lib';
 import { DatePipe } from '@angular/common';
 import { ActiveCertificateCardComponent } from './active-certificate-card/active-certificate-card.component';
 import { NewCertificateDialogComponent } from '../new-certificate-dialog/new-certificate-dialog.component';
@@ -28,7 +28,6 @@ export class ActiveCertificatesComponent implements OnInit {
   private readonly dialogService = inject(DialogService);
 
   protected activeCertificate?: ActiveCertificate;
-  protected notFound = false;
 
   @Output()
   public certificateImported: EventEmitter<void> = new EventEmitter<void>();
@@ -52,15 +51,6 @@ export class ActiveCertificatesComponent implements OnInit {
   }
 
   private async loadData(): Promise<void> {
-    try {
-      this.notFound = false;
-      this.activeCertificate = await this.certificateService.getActive();
-    } catch (e) {
-      if (!isGrpcNotFoundError(e)) {
-        throw e;
-      }
-
-      this.notFound = true;
-    }
+    this.activeCertificate = await this.certificateService.getActive();
   }
 }

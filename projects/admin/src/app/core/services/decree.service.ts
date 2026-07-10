@@ -13,6 +13,7 @@ import {
   CreateDecreeResponse,
   DecreeServiceClient,
   DeleteDecreeRequest,
+  DeleteExpiredDecreeRequest,
   DeletePublishedDecreeRequest,
   GetDecreeForDeleteRequest,
   ListDecreesRequest,
@@ -80,6 +81,16 @@ export class DecreeService {
     await lastValueFrom(
       this.client.deletePublished(
         new DeletePublishedDecreeRequest({
+          ...decree,
+        }),
+      ),
+    );
+  }
+
+  public async deleteExpired(decree: Decree): Promise<void> {
+    await lastValueFrom(
+      this.client.deleteExpired(
+        new DeleteExpiredDecreeRequest({
           ...decree,
         }),
       ),

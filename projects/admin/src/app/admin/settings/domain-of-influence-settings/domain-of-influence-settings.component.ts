@@ -7,11 +7,16 @@
 import { Component, EventEmitter, HostListener, inject, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { DomainOfInfluence } from '../../../core/models/domain-of-influence.model';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DomainOfInfluenceService, UpdateDomainOfInfluenceRequest } from '../../../core/services/domain-of-influence.service';
+import {
+  DomainOfInfluenceService,
+  DomainOfInfluenceCollectionSettings,
+  UpdateDomainOfInfluenceRequest,
+} from '../../../core/services/domain-of-influence.service';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
 import {
   ButtonModule,
+  DialogService,
   ExpansionPanelModule,
   IconButtonModule,
   IconModule,
@@ -19,6 +24,7 @@ import {
   SpinnerModule,
   TextModule,
 } from '@abraxas/base-components';
+import { SecondFactorTransactionService, VotingLibModule } from '@abraxas/voting-lib';
 import { TranslatePipe } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, filter, merge, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -38,7 +44,9 @@ import { FileChipComponent, ImageUploadComponent, ToastService } from 'ecollecti
     ButtonModule,
     FileChipComponent,
     IconButtonModule,
+    VotingLibModule,
   ],
+  providers: [DialogService],
   templateUrl: './domain-of-influence-settings.component.html',
   styleUrl: './domain-of-influence-settings.component.scss',
 })
@@ -46,6 +54,7 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
   private readonly domainOfInfluenceService = inject(DomainOfInfluenceService);
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly toast = inject(ToastService);
+  private readonly secondFactorTransactionService = inject(SecondFactorTransactionService);
 
   @Input({ required: true })
   public domainOfInfluence!: DomainOfInfluence;
@@ -54,6 +63,10 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
   public statusMessageChange: EventEmitter<'saving' | 'saved' | undefined> = new EventEmitter<'saving' | 'saved' | undefined>();
 
   protected readonly form: FormGroup<Form> = this.buildForm();
+  protected readonly collectionForm: FormGroup<CollectionForm> = this.buildCollectionForm();
+  protected collectionEditMode: boolean = false;
+  protected collectionPanelExpanded: boolean = false;
+  protected savingCollectionSettings: boolean = false;
   protected logo?: File;
   protected logoError: boolean = false;
   protected logoLoading: boolean = false;
@@ -107,6 +120,7 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
         },
         { emitEvent: false },
       );
+      this.resetCollectionForm();
       await this.loadLogo();
 
       if (this.domainOfInfluence.userPermissions.canEdit) {
@@ -158,7 +172,6 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
       const formValue = this.form.value as Required<typeof this.form.value>;
       const value = {
         ...formValue,
-        settings: formValue,
         bfs: domainOfInfluence.bfs,
       } satisfies UpdateDomainOfInfluenceRequest;
       await this.domainOfInfluenceService.update(value);
@@ -168,8 +181,6 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
       Object.assign(domainOfInfluence.address, value);
       domainOfInfluence.address.name = value.addressName;
 
-      domainOfInfluence.settings ??= {} as any;
-      Object.assign(domainOfInfluence.settings, value);
       if (setStatusLabel) {
         this.statusMessageChange.emit('saved');
       }
@@ -179,6 +190,50 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
       }
 
       throw e;
+    }
+  }
+
+  protected startEditCollectionSettings(): void {
+    if (!this.domainOfInfluence.userPermissions.canEdit) {
+      return;
+    }
+
+    this.collectionEditMode = true;
+  }
+
+  protected cancelEditCollectionSettings(): void {
+    this.collectionEditMode = false;
+    this.resetCollectionForm();
+  }
+
+  protected async saveCollectionSettings(): Promise<void> {
+    if (this.collectionForm.invalid) {
+      this.collectionForm.markAllAsTouched();
+      return;
+    }
+
+    if (!this.collectionForm.dirty) {
+      this.cancelEditCollectionSettings();
+      return;
+    }
+
+    this.savingCollectionSettings = true;
+    try {
+      const settings = this.buildCollectionSettings();
+      const transaction = await this.domainOfInfluenceService.prepareUpdateCollectionSettings(this.domainOfInfluence.bfs, settings);
+      await this.secondFactorTransactionService.showDialogAndExecuteVerifyAction(
+        otpCode => this.domainOfInfluenceService.updateCollectionSettings(this.domainOfInfluence.bfs, settings, transaction.id, otpCode),
+        transaction.nevis,
+        transaction.availableProviders,
+      );
+
+      this.domainOfInfluence.settings ??= {} as any;
+      Object.assign(this.domainOfInfluence.settings, settings);
+      this.collectionForm.markAsPristine();
+      this.collectionEditMode = false;
+      this.toast.success('ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTION_SETTINGS.SAVED');
+    } finally {
+      this.savingCollectionSettings = false;
     }
   }
 
@@ -258,7 +313,7 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
   }
 
   private updateValidators(): void {
-    const controls = this.form.controls;
+    const controls = this.collectionForm.controls;
 
     controls.initiativeMinSignatureCount.setValidators([Validators.min(0)]);
     controls.initiativeMaxElectronicSignaturePercent.setValidators([Validators.min(0), Validators.max(100)]);
@@ -285,6 +340,40 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
     controls.initiativeMaxElectronicSignaturePercent.updateValueAndValidity();
     controls.referendumMinSignatureCount.updateValueAndValidity();
     controls.referendumMaxElectronicSignaturePercent.updateValueAndValidity();
+  }
+
+  private resetCollectionForm(): void {
+    this.collectionEditMode = false;
+    this.collectionForm.reset({ ...this.domainOfInfluence.settings }, { emitEvent: false });
+    this.collectionForm.markAsPristine();
+    this.collectionForm.markAsUntouched();
+  }
+
+  private buildCollectionSettings(): DomainOfInfluenceCollectionSettings {
+    const value = this.collectionForm.value;
+    switch (this.domainOfInfluence.type) {
+      case DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_MU:
+        return {
+          initiativeMinSignatureCount: value.initiativeMinSignatureCount,
+          referendumMinSignatureCount: value.referendumMinSignatureCount,
+          initiativeNumberOfMembersCommittee: value.initiativeNumberOfMembersCommittee,
+        };
+      case DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT:
+        return {
+          initiativeMaxElectronicSignaturePercent: value.initiativeMaxElectronicSignaturePercent,
+          referendumMinSignatureCount: value.referendumMinSignatureCount,
+          referendumMaxElectronicSignaturePercent: value.referendumMaxElectronicSignaturePercent,
+          initiativeNumberOfMembersCommittee: value.initiativeNumberOfMembersCommittee,
+        };
+      case DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CH:
+        return {
+          referendumMinSignatureCount: value.referendumMinSignatureCount,
+          referendumMaxElectronicSignaturePercent: value.referendumMaxElectronicSignaturePercent,
+          initiativeNumberOfMembersCommittee: value.initiativeNumberOfMembersCommittee,
+        };
+      default:
+        return {};
+    }
   }
 
   private async saveIfEditedAndValid(): Promise<void> {
@@ -321,9 +410,12 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
         validators: [Validators.maxLength(10000)],
         asyncValidators: [AsyncInputValidators.complexSlText],
       }),
-      initiativeNumberOfMembersCommittee: this.formBuilder.control<number | undefined>(undefined, {
-        validators: [Validators.min(0)],
-      }),
+      notificationEmails: this.formBuilder.control<string[]>([]),
+    });
+  }
+
+  private buildCollectionForm(): FormGroup<CollectionForm> {
+    return this.formBuilder.group({
       initiativeMinSignatureCount: this.formBuilder.control<number | undefined>(undefined, {
         validators: [Validators.required, Validators.min(0)],
       }),
@@ -336,7 +428,9 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
       referendumMaxElectronicSignaturePercent: this.formBuilder.control<number | undefined>(undefined, {
         validators: [Validators.required, Validators.min(0), Validators.max(100)],
       }),
-      notificationEmails: this.formBuilder.control<string[]>([]),
+      initiativeNumberOfMembersCommittee: this.formBuilder.control<number | undefined>(undefined, {
+        validators: [Validators.min(0)],
+      }),
     });
   }
 }
@@ -349,10 +443,13 @@ export interface Form {
   phone: FormControl<string>;
   email: FormControl<string>;
   webpage: FormControl<string>;
-  initiativeNumberOfMembersCommittee: FormControl<number | undefined>;
+  notificationEmails: FormControl<string[]>;
+}
+
+export interface CollectionForm {
   initiativeMinSignatureCount: FormControl<number | undefined>;
   initiativeMaxElectronicSignaturePercent: FormControl<number | undefined>;
   referendumMinSignatureCount: FormControl<number | undefined>;
   referendumMaxElectronicSignaturePercent: FormControl<number | undefined>;
-  notificationEmails: FormControl<string[]>;
+  initiativeNumberOfMembersCommittee: FormControl<number | undefined>;
 }

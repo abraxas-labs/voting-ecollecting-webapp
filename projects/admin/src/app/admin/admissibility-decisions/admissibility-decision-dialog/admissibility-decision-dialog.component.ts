@@ -21,6 +21,7 @@ import {
   CheckboxModule,
   DropdownModule,
   IconButtonModule,
+  LinkModule,
   ReadonlyModule,
   SpinnerModule,
   StatusLabelModule,
@@ -35,6 +36,7 @@ import { InitiativeService } from '../../../core/services/initiative.service';
 import { Initiative } from '../../../core/models/initiative.model';
 import { AdmissibilityDecisionState } from '@abraxas/voting-ecollecting-proto/admin';
 import { DomainOfInfluenceService } from '../../../core/services/domain-of-influence.service';
+import { initiativeUrl } from '../../../app.routes';
 
 @Component({
   selector: 'app-admissibility-decision-dialog',
@@ -53,6 +55,7 @@ import { DomainOfInfluenceService } from '../../../core/services/domain-of-influ
     ReadonlyModule,
     StatusLabelModule,
     MarkdownEditorComponent,
+    LinkModule,
   ],
   templateUrl: './admissibility-decision-dialog.component.html',
   styleUrl: './admissibility-decision-dialog.component.scss',
@@ -69,6 +72,7 @@ export class AdmissibilityDecisionDialogComponent
 
   protected readonly collectionStateColorMap = collectionStateColorMap;
   protected readonly collectionStates = CollectionState;
+  protected readonly initiativeUrl = initiativeUrl;
   protected saving: boolean = false;
   protected loading: boolean = true;
   protected form!: FormGroup<Form>;
@@ -83,14 +87,15 @@ export class AdmissibilityDecisionDialogComponent
   protected initiatives: (Initiative & { description: string })[] = [];
 
   protected hasSubType: boolean = false;
-  protected hasInitiative: boolean = false;
+  protected initiativeId?: string;
   protected selectedInitiativeState?: CollectionState;
 
   protected readonly canEditInitiative: boolean;
   protected canEditGeneralInformation: boolean;
-  protected readonly canEditAdmissibilityDecision: boolean;
+  protected canEditAdmissibilityDecision: boolean;
   protected canEditAdmissibilityDecisionState: boolean = true;
   protected canEditGovernmentDecisionNumber: boolean = true;
+  protected isValidCommittee: boolean = false;
 
   protected isWordingRequired: boolean = false;
   protected isAddressRequired: boolean = false;
@@ -102,12 +107,12 @@ export class AdmissibilityDecisionDialogComponent
     const enumItemDescriptionUtils = inject(EnumItemDescriptionUtils);
 
     this.isNew = this.dialogData.initiative === undefined;
-    this.hasInitiative = !this.isNew;
+    this.initiativeId = this.dialogData.initiative?.id;
 
     this.canEditAdmissibilityDecision = this.dialogData.initiative?.collection?.userPermissions?.canEditAdmissibilityDecision !== false;
     this.canEditGeneralInformation =
       this.dialogData.initiative?.collection?.userPermissions?.canEditGeneralInformationInAdmissibilityDecision !== false;
-    this.canEditInitiative = !this.hasInitiative;
+    this.canEditInitiative = !this.initiativeId;
     this.canEditAdmissibilityDecisionState = this.canEditAdmissibilityDecision;
     this.canEditGovernmentDecisionNumber = this.canEditAdmissibilityDecision;
 
@@ -123,7 +128,8 @@ export class AdmissibilityDecisionDialogComponent
   }
 
   public override get hasChanges(): boolean {
-    return this.form.dirty && this.form.touched;
+    // adding is valid committee to allow closing the dialog without the unsaved changes check
+    return this.form.dirty && this.form.touched && this.isValidCommittee;
   }
 
   public async ngOnInit(): Promise<void> {
@@ -149,10 +155,17 @@ export class AdmissibilityDecisionDialogComponent
         return;
       }
 
+      const committee = await this.initiativeService.getCommittee(this.dialogData.initiative.id);
+      this.isValidCommittee =
+        (committee.approvedMembersCountOk && committee.activeCommitteeMembers.length === committee.approvedMembersCount) ||
+        !this.dialogData.initiative.collection.isElectronicSubmission;
       this.canEditGovernmentDecisionNumber =
         this.dialogData.initiative.collection.userPermissions?.canEditAdmissibilityDecision !== false &&
         (!this.dialogData.initiative.admissibilityDecisionState ||
-          this.dialogData.initiative.admissibilityDecisionState === AdmissibilityDecisionState.ADMISSIBILITY_DECISION_STATE_OPEN);
+          this.dialogData.initiative.admissibilityDecisionState === AdmissibilityDecisionState.ADMISSIBILITY_DECISION_STATE_OPEN) &&
+        this.isValidCommittee;
+      this.canEditAdmissibilityDecisionState =
+        this.dialogData.initiative.collection.userPermissions?.canEditAdmissibilityDecision !== false && this.isValidCommittee;
 
       if (!this.canEditGovernmentDecisionNumber) {
         this.form.controls.admissibilityDecisionState.addValidators(x =>
@@ -197,7 +210,7 @@ export class AdmissibilityDecisionDialogComponent
     this.saving = true;
     try {
       const values = this.form.value as DeepRequired<typeof this.form.value>;
-      if (this.hasInitiative && this.isNew) {
+      if (this.initiativeId && this.isNew) {
         await this.initiativeService.createLinkedAdmissibilityDecision(
           values.initiativeId,
           values.admissibilityDecisionState,
@@ -207,7 +220,7 @@ export class AdmissibilityDecisionDialogComponent
         return;
       }
 
-      if (this.hasInitiative) {
+      if (this.initiativeId) {
         if (this.canEditGeneralInformation) {
           const initiative = this.initiatives.find(x => x.id === this.form.value.initiativeId);
           await this.initiativeService.update({
@@ -258,14 +271,23 @@ export class AdmissibilityDecisionDialogComponent
     }
   }
 
-  protected selectInitiative(): void {
+  protected async selectInitiative(): Promise<void> {
     if (!this.isNew) {
       return;
     }
 
-    this.hasInitiative = !!this.form.value.initiativeId;
-    this.canEditGeneralInformation = !this.hasInitiative;
+    this.initiativeId = this.form.value.initiativeId;
+    this.canEditGeneralInformation = !this.initiativeId;
     const initiative = this.initiatives.find(x => x.id === this.form.value.initiativeId);
+    if (initiative) {
+      const committee = await this.initiativeService.getCommittee(initiative.id);
+      this.isValidCommittee =
+        (committee.approvedMembersCountOk && committee.activeCommitteeMembers.length === committee.approvedMembersCount) ||
+        !initiative.collection.isElectronicSubmission;
+      this.canEditAdmissibilityDecisionState = this.isValidCommittee;
+      this.canEditGovernmentDecisionNumber = this.isValidCommittee;
+      this.canEditAdmissibilityDecision = this.isValidCommittee;
+    }
     this.form.patchValue({
       domainOfInfluenceType: initiative?.domainOfInfluenceType,
       address: initiative?.collection?.address ?? {

@@ -10,6 +10,7 @@ import {
   CollectionPermission as CollectionPermissionProto,
   CollectionSignatureSheet as CollectionSignatureSheetProto,
   CollectionSignatureSheetCandidate as CollectionSignatureSheetCandidateProto,
+  CollectionSignatureSheetCitizen as CollectionSignatureSheetCitizenProto,
   CollectionSignatureSheetState,
   SubmitCollectionMunicipalitySignatureSheetsResponse as SubmitCollectionMunicipalitySignatureSheetsResponseProto,
   SubmitSignatureSheetsResponse as SubmitSignatureSheetsResponseProto,
@@ -49,6 +50,10 @@ export interface CollectionSignatureSheet {
 export interface CollectionSignatureSheetCandidate {
   person: Person;
   existingSignature?: CollectionSignatureSheetCandidateExistingSignature;
+}
+
+export interface CollectionSignatureSheetCitizen extends Person {
+  collectionDateTime: Date;
 }
 
 export interface CollectionSignatureSheetCandidateExistingSignature {
@@ -184,6 +189,13 @@ export function mapToCollectionSignatureSheetCandidates(
           collectionDateTime: c.existingSignature.collectionDateTime!.toDate(),
         },
     person: mapToPerson(c.person!),
+  }));
+}
+
+export function mapToCollectionSignatureSheetCitizens(citizens: CollectionSignatureSheetCitizenProto[]): CollectionSignatureSheetCitizen[] {
+  return citizens.map(c => ({
+    ...mapToPerson(c.person!),
+    collectionDateTime: c.collectionDateTime!.toDate(),
   }));
 }
 

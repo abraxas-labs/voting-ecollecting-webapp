@@ -4,10 +4,11 @@
  * For license information see LICENSE file.
  */
 
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {
   CheckboxModule,
   IconButtonModule,
+  SortDirective,
   SpinnerModule,
   StatusLabelModule,
   TableDataSource,
@@ -17,8 +18,9 @@ import {
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
-import { Person, PersonReviewState } from '../../../core/models/person.model';
+import { PersonReviewState } from '../../../core/models/person.model';
 import { ConfirmDialogService } from 'ecollecting-lib';
+import { CollectionSignatureSheetCitizen } from '../../../core/models/collection.model';
 
 @Component({
   selector: 'app-signature-sheet-citizen-table',
@@ -36,7 +38,7 @@ import { ConfirmDialogService } from 'ecollecting-lib';
   templateUrl: './signature-sheet-citizen-table.component.html',
   styleUrl: './signature-sheet-citizen-table.component.scss',
 })
-export class SignatureSheetCitizenTableComponent implements OnInit {
+export class SignatureSheetCitizenTableComponent implements OnInit, AfterViewInit {
   private readonly confirmDialogService = inject(ConfirmDialogService);
 
   protected readonly officialNameColumn = 'officialName';
@@ -44,7 +46,8 @@ export class SignatureSheetCitizenTableComponent implements OnInit {
   protected readonly dateOfBirthColumn = 'dateOfBirth';
   protected readonly residenceAddressStreetColumn = 'residenceAddressStreet';
   protected readonly residenceAddressHouseNumberColumn = 'residenceAddressHouseNumber';
-  protected readonly stateColumn = 'state';
+  protected readonly collectionDateTimeColumn = 'collectionDateTime';
+  protected readonly reviewStateColumn = 'reviewState';
   protected readonly actionsColumn = 'actions';
 
   protected columns = [
@@ -53,11 +56,12 @@ export class SignatureSheetCitizenTableComponent implements OnInit {
     this.dateOfBirthColumn,
     this.residenceAddressStreetColumn,
     this.residenceAddressHouseNumberColumn,
-    this.stateColumn,
+    this.collectionDateTimeColumn,
+    this.reviewStateColumn,
     this.actionsColumn,
   ];
 
-  protected readonly dataSource = new TableDataSource<Person>([]);
+  protected readonly dataSource = new TableDataSource<CollectionSignatureSheetCitizen>([]);
   protected readonly reviewStates = PersonReviewState;
 
   @Input()
@@ -67,13 +71,13 @@ export class SignatureSheetCitizenTableComponent implements OnInit {
   public loading: boolean = true;
 
   @Output()
-  public remove: EventEmitter<Person> = new EventEmitter<Person>();
+  public remove: EventEmitter<CollectionSignatureSheetCitizen> = new EventEmitter<CollectionSignatureSheetCitizen>();
 
   @Input()
   public canRemove = false;
 
   @Input()
-  public set citizens(v: Person[]) {
+  public set citizens(v: CollectionSignatureSheetCitizen[]) {
     this.dataSource.data = v;
   }
 
@@ -81,18 +85,25 @@ export class SignatureSheetCitizenTableComponent implements OnInit {
   public canReview = false;
 
   @Output()
-  public confirm: EventEmitter<Person> = new EventEmitter<Person>();
+  public confirm: EventEmitter<CollectionSignatureSheetCitizen> = new EventEmitter<CollectionSignatureSheetCitizen>();
 
   @Output()
-  public revert: EventEmitter<Person> = new EventEmitter<Person>();
+  public revert: EventEmitter<CollectionSignatureSheetCitizen> = new EventEmitter<CollectionSignatureSheetCitizen>();
+
+  @ViewChild(SortDirective, { static: true })
+  public sort!: SortDirective;
 
   public ngOnInit(): void {
     if (!this.canReview) {
-      this.columns = this.columns.filter(x => x !== this.stateColumn);
+      this.columns = this.columns.filter(x => x !== this.reviewStateColumn);
     }
   }
 
-  protected async confirmAndRemove(row: Person): Promise<void> {
+  public ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+  }
+
+  protected async confirmAndRemove(row: CollectionSignatureSheetCitizen): Promise<void> {
     const ok = await this.confirmDialogService.confirm({
       title: 'APP.DELETE.TITLE',
       message: 'APP.DELETE.MSG',

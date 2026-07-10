@@ -1,7 +1,9 @@
 <bc-table
+  sort
+  [sortActive]="[{ id: collectionDateTimeColumn, direction: 'asc' }]"
   [dataSource]="dataSource">
   <ng-container [columnDef]="officialNameColumn">
-    <th bc-header-cell *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.OFFICIAL_NAME' | translate }}
         </span>
@@ -15,7 +17,7 @@
     </td>
   </ng-container>
   <ng-container [columnDef]="firstNameColumn">
-    <th bc-header-cell *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.FIRST_NAME' | translate }}
         </span>
@@ -23,7 +25,7 @@
     <td bc-data-cell *dataCellDef="let row">{{ row.firstName }}</td>
   </ng-container>
   <ng-container [columnDef]="dateOfBirthColumn">
-    <th bc-header-cell *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.DATE_OF_BIRTH' | translate }}
         </span>
@@ -31,7 +33,7 @@
     <td bc-data-cell *dataCellDef="let row">{{ row.dateOfBirth | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
   <ng-container [columnDef]="residenceAddressStreetColumn">
-    <th bc-header-cell *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_STREET' | translate }}
         </span>
@@ -39,15 +41,23 @@
     <td bc-data-cell *dataCellDef="let row">{{ row.residenceAddressStreet }}</td>
   </ng-container>
   <ng-container [columnDef]="residenceAddressHouseNumberColumn">
-    <th bc-header-cell *headerCellDef>
+    <th bc-header-cell sort *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.RESIDENCE_ADDRESS_HOUSE_NUMBER' | translate }}
         </span>
     </th>
     <td bc-data-cell *dataCellDef="let row">{{ row.residenceAddressHouseNumber }}</td>
   </ng-container>
-  <ng-container [columnDef]="stateColumn">
-    <th bc-header-cell *headerCellDef>
+  <ng-container [columnDef]="collectionDateTimeColumn">
+    <th bc-header-cell sort *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.COLLECTION_DATE_TIME' | translate }}
+        </span>
+    </th>
+    <td bc-data-cell *dataCellDef="let row">{{ row.collectionDateTime | date: 'dd.MM.yyyy HH:mm:ss' }}</td>
+  </ng-container>
+  <ng-container [columnDef]="reviewStateColumn">
+    <th bc-header-cell sort *headerCellDef>
         <span truncateWithTooltip tooltip>
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.REVIEW_STATE' | translate }}
         </span>

@@ -20,9 +20,9 @@
   },
   "private": true,
   "dependencies": {
-    "@abraxas/base-components": "21.75.0",
-    "@abraxas/voting-ecollecting-proto": "1.111.0",
-    "@abraxas/voting-lib": "5.17.10",
+    "@abraxas/base-components": "21.80.0",
+    "@abraxas/voting-ecollecting-proto": "1.113.2",
+    "@abraxas/voting-lib": "5.17.13",
     "@angular/animations": "21.2.6",
     "@angular/common": "21.2.6",
     "@angular/compiler": "21.2.6",
