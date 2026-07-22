@@ -1,12 +1,7 @@
 <div class="page-with-user-navigation-without-padding layout">
   @if (referendum) {
     <div class="layout-header">
-      <bc-sub-navigation-bar
-        [type]="'subpage'"
-        [border]="false"
-        (actionClick)="back()"
-        [backBtnAriaLabel]="'APP.BACK' | translate"
-      >
+      <bc-sub-navigation-bar [type]="'subpage'" [border]="false" (actionClick)="back()" [backBtnAriaLabel]="'APP.BACK' | translate">
         <h2 sub-navigation-title tooltip truncateWithTooltip>
           {{
             (referendum.collection.isElectronicSubmission
@@ -23,17 +18,25 @@
           <bc-card-header>
             <bc-card-subtitle role="presentation" [label]="referendum.decree.description" truncateWithTooltip tooltip></bc-card-subtitle>
             @if (referendum.collection.userPermissions?.canEdit) {
-              <bc-icon-button class="ml-2 mr-3" [icon]="'edit'" variant="tertiary"
-                              (buttonClick)="selectDecree()" [ariaLabel]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE' | translate"></bc-icon-button>
+              <bc-icon-button
+                class="ml-2 mr-3"
+                [icon]="'edit'"
+                variant="tertiary"
+                (buttonClick)="selectDecree()"
+                [ariaLabel]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE' | translate"
+              ></bc-icon-button>
             }
           </bc-card-header>
         </bc-card>
       } @else if (referendum.collection.userPermissions?.canEdit) {
         <bc-card role="alert" class="header-card" [backgroundColor]="'error'" [border]="false">
           <bc-card-header>
-            <bc-card-subtitle role="presentation"
-                              [label]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_INFO' | translate"
-                              truncateWithTooltip tooltip></bc-card-subtitle>
+            <bc-card-subtitle
+              role="presentation"
+              [label]="'SEEK_REFERENDUM.DETAIL.SELECT_DECREE_INFO' | translate"
+              truncateWithTooltip
+              tooltip
+            ></bc-card-subtitle>
             <bc-card-actions class="mr-3">
               <bc-button
                 class="nowrap"
@@ -47,46 +50,55 @@
       }
     </div>
 
-    <bc-nav-layout class="layout-content">
+    <bc-nav-layout class="layout-content" [collapsed]="navigationCollapsed">
       <!-- collapseBreakpoint = medium break point https://getbootstrap.com/docs/5.3/layout/breakpoints/#available-breakpoints -->
       <bc-nav-drawer
         [opened]="true"
-        [collapseBreakpoint]="768"
+        [collapseBreakpoint]="navigationCollapseBreakpoint"
         [expandable]="true"
         [rounded]="true"
         [autoFocus]="false"
         [mode]="'side'"
         [border]="'right'"
         [disableClose]="true"
+        (collapseChanged)="navigationCollapsed = $event"
       >
         <bc-nav-group>
-          <li bc-nav-item
+          <li
+            bc-nav-item
             [label]="'SEEK_REFERENDUM.DETAIL.NAV.OVERVIEW' | translate"
             [icon]="'home'"
             [routerLink]="detailOverviewUrl"
             [target]="'self'"
             [active]="active === detailOverviewUrl"
+            (click)="collapseNavigationOnSmallScreens()"
           ></li>
-          <li bc-nav-item
+          <li
+            bc-nav-item
             [label]="'SEEK_REFERENDUM.DETAIL.NAV.GENERAL_INFORMATION' | translate"
             [icon]="'law'"
             [routerLink]="detailGeneralInformationUrl"
             [target]="'self'"
             [active]="active === detailGeneralInformationUrl"
+            (click)="collapseNavigationOnSmallScreens()"
           ></li>
-          <li bc-nav-item
+          <li
+            bc-nav-item
             [label]="'SEEK_REFERENDUM.DETAIL.NAV.SIGNATURE_LIST' | translate"
             [icon]="'lists'"
             [routerLink]="detailSignatureSheetUrl"
             [target]="'self'"
             [active]="active === detailSignatureSheetUrl"
+            (click)="collapseNavigationOnSmallScreens()"
           ></li>
-          <li bc-nav-item
+          <li
+            bc-nav-item
             [label]="'SEEK_REFERENDUM.DETAIL.NAV.PERMISSIONS' | translate"
             [icon]="'access'"
             [routerLink]="detailPermissionsUrl"
             [target]="'self'"
             [active]="active === detailPermissionsUrl"
+            (click)="collapseNavigationOnSmallScreens()"
           ></li>
         </bc-nav-group>
       </bc-nav-drawer>

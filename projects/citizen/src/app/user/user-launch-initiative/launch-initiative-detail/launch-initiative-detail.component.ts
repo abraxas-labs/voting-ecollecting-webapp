@@ -60,6 +60,8 @@ import {
   providers: [DialogService],
 })
 export class LaunchInitiativeDetailComponent implements OnDestroy {
+  protected readonly navigationCollapseBreakpoint = 768;
+
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialogService = inject(DialogService);
@@ -77,6 +79,7 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
 
   public initiative?: Initiative;
   public active = detailOverviewUrl;
+  protected navigationCollapsed = false;
 
   private routeSubscription: Subscription;
   private queryParamsSubscription: Subscription;
@@ -213,5 +216,11 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
     } satisfies CollectionValidationDialogData);
 
     return firstValueFrom(dialogRef.afterClosed());
+  }
+
+  protected collapseNavigationOnSmallScreens(): void {
+    if (typeof window !== 'undefined' && window.matchMedia(`(max-width: ${this.navigationCollapseBreakpoint}px)`).matches) {
+      this.navigationCollapsed = true;
+    }
   }
 }

@@ -17,54 +17,64 @@
       </h2>
       <bc-icon-button class="ml-2" icon="add-comment" (buttonClick)="openChat()" [ariaLabel]="'CHAT.OPEN' | translate"></bc-icon-button>
     </bc-sub-navigation-bar>
-    <bc-nav-layout class="layout-content">
+    <bc-nav-layout class="layout-content" [collapsed]="navigationCollapsed">
       <!-- collapseBreakpoint = medium break point https://getbootstrap.com/docs/5.3/layout/breakpoints/#available-breakpoints -->
       <bc-nav-drawer
         [opened]="true"
-        [collapseBreakpoint]="768"
+        [collapseBreakpoint]="navigationCollapseBreakpoint"
         [expandable]="true"
         [rounded]="true"
         [autoFocus]="false"
         [mode]="'side'"
         [border]="'right'"
         [disableClose]="true"
+        (collapseChanged)="navigationCollapsed = $event"
       >
         <bc-nav-group>
-          <li bc-nav-item
-              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.OVERVIEW' | translate"
-              [icon]="'home'"
-              [routerLink]="initiativeDetailOverviewUrl"
-              [target]="'self'"
-              [active]="active === initiativeDetailOverviewUrl"
-
+          <li
+            bc-nav-item
+            [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.OVERVIEW' | translate"
+            [icon]="'home'"
+            [routerLink]="initiativeDetailOverviewUrl"
+            [target]="'self'"
+            [active]="active === initiativeDetailOverviewUrl"
+            (click)="collapseNavigationOnSmallScreens()"
           ></li>
-          <li bc-nav-item
-              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.GENERAL_INFORMATION' | translate"
-              [icon]="'law'"
-              [routerLink]="initiativeDetailGeneralInformationUrl"
-              [target]="'self'"
-              [active]="active === initiativeDetailGeneralInformationUrl"
+          <li
+            bc-nav-item
+            [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.GENERAL_INFORMATION' | translate"
+            [icon]="'law'"
+            [routerLink]="initiativeDetailGeneralInformationUrl"
+            [target]="'self'"
+            [active]="active === initiativeDetailGeneralInformationUrl"
+            (click)="collapseNavigationOnSmallScreens()"
           ></li>
-          <li bc-nav-item
-              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.COMMITTEE' | translate"
-              [icon]="'users'"
-              [routerLink]="initiativeDetailCommitteeUrl"
-              [target]="'self'"
-              [active]="active === initiativeDetailCommitteeUrl"
+          <li
+            bc-nav-item
+            [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.COMMITTEE' | translate"
+            [icon]="'users'"
+            [routerLink]="initiativeDetailCommitteeUrl"
+            [target]="'self'"
+            [active]="active === initiativeDetailCommitteeUrl"
+            (click)="collapseNavigationOnSmallScreens()"
           ></li>
-          <li bc-nav-item
-              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.SIGNATURE_LIST' | translate"
-              [icon]="'lists'"
-              [routerLink]="initiativeDetailSignatureSheetUrl"
-              [target]="'self'"
-              [active]="active === initiativeDetailSignatureSheetUrl"
+          <li
+            bc-nav-item
+            [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.SIGNATURE_LIST' | translate"
+            [icon]="'lists'"
+            [routerLink]="initiativeDetailSignatureSheetUrl"
+            [target]="'self'"
+            [active]="active === initiativeDetailSignatureSheetUrl"
+            (click)="collapseNavigationOnSmallScreens()"
           ></li>
-          <li bc-nav-item
-              [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.PERMISSIONS' | translate"
-              [icon]="'access'"
-              [routerLink]="initiativeDetailPermissionsUrl"
-              [target]="'self'"
-              [active]="active === initiativeDetailPermissionsUrl"
+          <li
+            bc-nav-item
+            [label]="'LAUNCH_INITIATIVE.DETAIL.NAV.PERMISSIONS' | translate"
+            [icon]="'access'"
+            [routerLink]="initiativeDetailPermissionsUrl"
+            [target]="'self'"
+            [active]="active === initiativeDetailPermissionsUrl"
+            (click)="collapseNavigationOnSmallScreens()"
           ></li>
         </bc-nav-group>
       </bc-nav-drawer>
@@ -98,11 +108,7 @@
         ></bc-button>
       }
       @if (initiative.collection.userPermissions?.canRegister) {
-        <bc-button
-          icon="clipboard"
-          [label]="'LAUNCH_INITIATIVE.DETAIL.REGISTER' | translate"
-          (buttonClick)="register()"
-        ></bc-button>
+        <bc-button icon="clipboard" [label]="'LAUNCH_INITIATIVE.DETAIL.REGISTER' | translate" (buttonClick)="register()"></bc-button>
       }
       @if (initiative.collection.userPermissions?.canWithdraw) {
         <bc-button
@@ -114,5 +120,4 @@
       }
     </div>
   }
-
 </div>

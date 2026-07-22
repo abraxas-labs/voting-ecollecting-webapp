@@ -364,6 +364,7 @@
           "FOUND": "Gefundene Personen: {{ count }}",
           "SIGNATURE": "Unterschrift",
           "OFFICIAL_NAME": "Name",
+          "FIRST_OR_CALL_NAME": "Vorname / Rufname",
           "FIRST_NAME": "Vorname",
           "DATE_OF_BIRTH": "Geburtsdatum",
           "RESIDENCE_ADDRESS_STREET": "Strasse",

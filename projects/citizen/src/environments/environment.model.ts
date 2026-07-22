@@ -13,5 +13,7 @@ export interface Environment extends TenantConfig, UserConfig, AuthorizationConf
   authenticationConfig: AuthenticationConfig & Required<Pick<AuthenticationConfig, 'clientId' | 'issuer' | 'scope'>>;
   grpcApiEndpoint: string;
   restApiEndpoint: string;
+  enableApiAuthRouteSplitting: boolean;
   includeDelegations: boolean;
+  customHeaderColor?: string;
 }

@@ -32,6 +32,7 @@ import { Title } from '@angular/platform-browser';
 import { administrationUrl, controlSignUrl, initiativeUrl, referendumUrl } from './app.routes';
 import 'moment/locale/de';
 import { HasAnyRoleDirective } from './core/directives/has-any-role.directive';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -71,6 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public hasTenant = false;
   public loading = true;
   public appTitle: string = '';
+  public customHeaderColor?: string;
 
   @ViewChild(SnackbarComponent)
   public snackbarComponent?: SnackbarComponent;
@@ -85,6 +87,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // enable automatic silent refresh
     this.oauthService.setupAutomaticSilentRefresh({}, 'access_token');
+
+    this.customHeaderColor = environment.customHeaderColor;
 
     const snackbarSubscription = this.snackbarService.message$.subscribe(m => {
       if (!this.snackbarComponent) {

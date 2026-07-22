@@ -5,7 +5,7 @@
  */
 
 import { GrpcStatusEvent } from '@ngx-grpc/common';
-import { isErrorType } from '@abraxas/voting-lib';
+import { isErrorCode, isErrorType } from '@abraxas/voting-lib';
 
 export function getGrpcErrorOrThrow(e: any, errTypes: string[]): string {
   for (const errType of errTypes) {
@@ -23,5 +23,5 @@ export function isGrpcError(e: any, errType: string): boolean {
 }
 
 export function isGrpcNotFoundError(e: any): boolean {
-  return e instanceof GrpcStatusEvent && e.statusCode === 5;
+  return isErrorCode(e, 5);
 }

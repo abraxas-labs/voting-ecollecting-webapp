@@ -5,20 +5,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Collection, sha256, storage, storageKeyPrefix } from 'ecollecting-lib';
+import { Collection } from 'ecollecting-lib';
 import { CollectionsGroup } from '../models/collections-group.model';
 import { CollectionSignatureType } from '@abraxas/voting-ecollecting-proto/citizen';
 import { GrpcMessage } from '@ngx-grpc/common';
 
-const signaturesCacheStorageKeyPrefix = storageKeyPrefix + 'signatures-info-cache:';
-
 interface SignatureCacheEntry {
   key: string;
   etag: string;
-
-  /**
-   * sha256(collectionId) => details
-   */
   entries: Record<string, { isSigned: boolean; signatureType?: CollectionSignatureType }>;
 }
 
@@ -26,25 +20,18 @@ interface SignatureCacheEntry {
   providedIn: 'root',
 })
 export class CollectionSignatureCacheService {
-  public get(req: GrpcMessage): SignatureCacheEntry {
-    const key = this.getKey(req);
-    try {
-      const cacheItem = storage.getItem(key);
-      if (!cacheItem) {
-        return { key, etag: '', entries: {} };
-      }
+  private readonly cache = new Map<string, SignatureCacheEntry>();
 
-      return JSON.parse(cacheItem);
-    } catch {
-      return {
-        key,
-        etag: '',
-        entries: {},
-      };
-    }
+  public clear(): void {
+    this.cache.clear();
   }
 
-  public async handleResponse(cache: SignatureCacheEntry, responseETag: string, responseGroups: CollectionsGroup[]): Promise<void> {
+  public get(req: GrpcMessage): SignatureCacheEntry {
+    const key = this.getKey(req);
+    return this.cache.get(key) ?? { key, etag: '', entries: {} };
+  }
+
+  public handleResponse(cache: SignatureCacheEntry, responseETag: string, responseGroups: CollectionsGroup[]): void {
     // if the response has no etag, do not apply or rebuild the cache.
     // It is likely an unauthenticated request and therefore doesn't carry any signature info.
     if (!responseETag) {
@@ -62,30 +49,30 @@ export class CollectionSignatureCacheService {
     // always store any retrieved info in cache,
     // try to load missing info from cache.
     for (const group of responseGroups) {
-      cacheModified = await this.handleResponseGroupInitiatives(group, cache, cacheModified);
-      cacheModified = await this.handleResponseGroupDecrees(group, cache, cacheModified);
+      cacheModified = this.handleResponseGroupInitiatives(group, cache, cacheModified);
+      cacheModified = this.handleResponseGroupDecrees(group, cache, cacheModified);
     }
 
     if (cacheModified) {
-      storage.setItem(cache.key, JSON.stringify(cache));
+      this.cache.set(cache.key, cache);
     }
   }
 
-  private async handleResponseGroupInitiatives(group: CollectionsGroup, cache: SignatureCacheEntry, cacheModified: boolean) {
+  private handleResponseGroupInitiatives(group: CollectionsGroup, cache: SignatureCacheEntry, cacheModified: boolean) {
     for (const initiative of group.initiatives) {
-      if (await this.handleResponseCollection(initiative.collection, cache)) {
+      if (this.handleResponseCollection(initiative.collection, cache)) {
         cacheModified = true;
       }
     }
     return cacheModified;
   }
 
-  private async handleResponseGroupDecrees(group: CollectionsGroup, cache: SignatureCacheEntry, cacheModified: boolean) {
+  private handleResponseGroupDecrees(group: CollectionsGroup, cache: SignatureCacheEntry, cacheModified: boolean) {
     for (const decree of group.referendums) {
       let isAnyReferendumSigned = false;
 
       for (const referendum of decree.collections ?? []) {
-        if (await this.handleResponseCollection(referendum.collection, cache)) {
+        if (this.handleResponseCollection(referendum.collection, cache)) {
           cacheModified = true;
         }
 
@@ -101,19 +88,17 @@ export class CollectionSignatureCacheService {
     return cacheModified;
   }
 
-  private async handleResponseCollection(collection: Collection, cache: SignatureCacheEntry): Promise<boolean> {
-    const idHash = await sha256(collection.id);
-
+  private handleResponseCollection(collection: Collection, cache: SignatureCacheEntry): boolean {
     // signature info provided by server, update cache
     if (collection.isSigned !== undefined) {
-      cache.entries[idHash] = { isSigned: collection.isSigned, signatureType: collection.signatureType };
+      cache.entries[collection.id] = { isSigned: collection.isSigned, signatureType: collection.signatureType };
       return true;
     }
 
     // no signature info provided,
     // but available in cache, load from cache.
-    if (idHash in cache.entries) {
-      const entry = cache.entries[idHash];
+    if (collection.id in cache.entries) {
+      const entry = cache.entries[collection.id];
       collection.isSigned = entry.isSigned;
       collection.signatureType = entry.signatureType;
     }
@@ -122,8 +107,6 @@ export class CollectionSignatureCacheService {
   }
 
   private getKey(req: GrpcMessage): string {
-    // store each request under a different key
-    // there are only a handful of requests and we only store in session storage, so this should be fine.
-    return signaturesCacheStorageKeyPrefix + btoa(String.fromCharCode(...req.serializeBinary()));
+    return btoa(String.fromCharCode(...req.serializeBinary()));
   }
 }

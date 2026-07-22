@@ -13,6 +13,7 @@ import { Router, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService as SharedAuthenticationService, storage, storageKeyPrefix } from 'ecollecting-lib';
 import { AuthServiceClient } from '@abraxas/voting-ecollecting-proto/citizen';
 import { Empty } from '@ngx-grpc/well-known-types';
+import { CollectionSignatureCacheService } from './collection-signature-cache.service';
 
 const urlStateKey = storageKeyPrefix + 'auth_path';
 const forceLoginKey = storageKeyPrefix + 'force_login';
@@ -24,6 +25,7 @@ export class AuthenticationService implements SharedAuthenticationService {
   private readonly oauthService = inject(OAuthService);
   private readonly router = inject(Router);
   private readonly authServiceClient = inject(AuthServiceClient);
+  private readonly collectionSignatureCache = inject(CollectionSignatureCacheService);
 
   private authenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _userProfile?: UserProfile;
@@ -102,6 +104,7 @@ export class AuthenticationService implements SharedAuthenticationService {
     routerState?: RouterStateSnapshot;
     state?: string;
   }): Promise<void> {
+    this.collectionSignatureCache.clear();
     options ??= {};
 
     if (!options.forceLogin && (await this.tryLogin())) {
@@ -131,6 +134,7 @@ export class AuthenticationService implements SharedAuthenticationService {
   }
 
   public async logout(): Promise<void> {
+    this.collectionSignatureCache.clear();
     await this.oauthService.revokeTokenAndLogout();
     this.authenticated$.next(false);
     delete this._userProfile;

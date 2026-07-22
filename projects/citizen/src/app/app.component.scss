@@ -22,6 +22,14 @@ bc-app-header-bar {
   ::ng-deep .link bc-logo {
     display: none;
   }
+
+  // ensure all header elements are accessible on small screens, even if they don't fit in the header bar
+  @media (width < 576px) {
+    ::ng-deep .mat-toolbar {
+      overflow: auto;
+      gap: 1rem;
+    }
+  }
 }
 
 .content {

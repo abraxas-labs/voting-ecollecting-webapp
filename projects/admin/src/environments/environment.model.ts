@@ -15,4 +15,5 @@ export interface Environment extends TenantConfig, UserConfig, AuthorizationConf
   restApiEndpoint: string;
   includeDelegations: boolean;
   enableMunicipalityReviewProcess: boolean;
+  customHeaderColor?: string;
 }

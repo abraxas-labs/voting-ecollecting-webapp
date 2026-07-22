@@ -87,7 +87,7 @@ export class CollectionService implements CollectionMessagesService {
 
     const resp = await lastValueFrom(this.client.list(req));
     const collections = this.mapCollectionsFromResponse(resp);
-    await this.signatureCacheService.handleResponse(signatureCache, resp.signatureInfoETag, collections);
+    this.signatureCacheService.handleResponse(signatureCache, resp.signatureInfoETag, collections);
     return collections;
   }
 

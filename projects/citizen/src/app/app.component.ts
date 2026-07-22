@@ -28,6 +28,7 @@ import { firstValueFrom, Subscription } from 'rxjs';
 import 'moment/locale/de';
 import { AuthenticationService } from './core/services/authentication.service';
 import { accessibilityUrl, sitemapUrl } from './app.routes';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -62,6 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public appTitle: string = '';
   public state: 'initializing' | 'authenticating' | 'initialized' = 'initializing';
+  public customHeaderColor?: string;
 
   @ViewChild(SnackbarComponent)
   public snackbarComponent?: SnackbarComponent;
@@ -73,6 +75,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     stylingService.setTheme(ColorTokensThemes.SGSchalterELight);
     stylingService.setRadius(CornerRadiusTokensThemes.Large);
+
+    this.customHeaderColor = environment.customHeaderColor;
   }
 
   public async ngOnInit(): Promise<void> {

@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.145.0`)
+# ✨ Changelog (`v1.149.0`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,53 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.145.0
-Previous version ---- v1.142.3
+This version -------- v1.149.0
+Previous version ---- v1.145.0
 Initial version ----- v1.115.24
-Total commits ------- 16
+Total commits ------- 7
 ```
+
+## [v1.149.0] - 2026-07-22
+
+### 🆕 Added
+
+- auth route splitting
+
+## [v1.148.1] - 2026-07-22
+
+### 🔄 Changed
+
+- correctly detect grpc not found errors
+
+## [v1.148.0] - 2026-07-22
+
+### 🆕 Added
+
+- auto-collapse menu after selection on small screens
+
+## [v1.147.0] - 2026-07-22
+
+### 🆕 Added
+
+- support custom header color
+
+## [v1.146.0] - 2026-07-21
+
+### 🆕 Added
+
+- search by first or call name
+
+## [v1.145.2] - 2026-07-15
+
+### 🔄 Changed
+
+- mv signature cache to in-memory and rm hashing
+
+## [v1.145.1] - 2026-07-15
+
+### 🔄 Changed
+
+- handle mobile header overflow
 
 ## [v1.145.0] - 2026-07-07
 

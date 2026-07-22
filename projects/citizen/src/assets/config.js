@@ -5,4 +5,5 @@
     window["config"].ENV = "${ENV}";
     window["config"].ISSUER = "${ISSUER}";
     window["config"].CLIENT_ID = "${CLIENT_ID}";
+    window['config'].CUSTOM_HEADER_COLOR = '${CUSTOM_HEADER_COLOR}';
 })(this);

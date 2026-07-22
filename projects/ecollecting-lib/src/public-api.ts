@@ -29,7 +29,6 @@ export * from './lib/core/utils/error.utils';
 export * from './lib/core/utils/object-url.utils';
 export * from './lib/core/utils/enum-item-description.utils';
 export * from './lib/core/utils/string.utils';
-export * from './lib/core/utils/hash.utils';
 export * from './lib/core/utils/date.utils';
 export * from './lib/core/utils/url.utils';
 export * from './lib/core/utils/type.utils';

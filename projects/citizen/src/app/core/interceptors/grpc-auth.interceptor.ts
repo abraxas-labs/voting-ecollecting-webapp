@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../../environments/environment';
 import { isUrlWithinBase } from 'ecollecting-lib';
+import { addApiRoutePrefix } from '../utils/api-route.utils';
 
 const authorizationKey = 'Authorization';
 const bearerPrefix = 'Bearer ';
@@ -28,6 +29,10 @@ export class GrpcAuthInterceptor implements GrpcInterceptor {
     }
 
     const accessToken = this.authService.getAccessToken();
+
+    if (environment.enableApiAuthRouteSplitting) {
+      request.path = addApiRoutePrefix(request.path, !!accessToken);
+    }
 
     if (accessToken) {
       request.requestMetadata.set(authorizationKey, bearerPrefix + accessToken);

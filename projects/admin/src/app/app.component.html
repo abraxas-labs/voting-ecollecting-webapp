@@ -9,11 +9,19 @@
           (tenantChanged)="switchTenant()"
           [showThemes]="false"
           logo="VO"
+          [style.--color-component-appheader-bg]="customHeaderColor"
+          [style.--color-component-appheader-border]="customHeaderColor"
         >
           <vo-lib-environment-chip></vo-lib-environment-chip>
         </bc-app-header-bar-iam>
       } @else {
-        <bc-app-header-bar [link]="['/']" [title]="appTitle" logo="VO"></bc-app-header-bar>
+        <bc-app-header-bar
+          [link]="['/']"
+          [title]="appTitle"
+          logo="VO"
+          [style.--color-component-appheader-bg]="customHeaderColor"
+          [style.--color-component-appheader-border]="customHeaderColor"
+        ></bc-app-header-bar>
       }
     </header>
     <main class="layout-content content-width" [class.large-content-width]="route.snapshot | routeData: 'largeView'">

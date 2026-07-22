@@ -10,24 +10,29 @@ import { environment } from '../../../environments/environment';
 import { inject } from '@angular/core';
 import { OAuthStorage } from 'angular-oauth2-oidc';
 import { isUrlWithinBase } from 'ecollecting-lib';
+import { addApiRoutePrefix } from '../utils/api-route.utils';
 
 const authorizationKey = 'Authorization';
 const bearerPrefix = 'Bearer ';
 const accessTokenStorageField = 'access_token';
 
 export function httpAuthInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-  if (!isUrlWithinBase(req.url, environment.restApiEndpoint) || !!req.headers.get(authorizationKey)) {
+  if (!isUrlWithinBase(req.url, environment.restApiEndpoint)) {
     return next(req);
   }
 
   const accessToken = inject(OAuthStorage).getItem(accessTokenStorageField);
-  if (!accessToken) {
-    return next(req);
+  let url = req.url;
+  if (environment.enableApiAuthRouteSplitting) {
+    const parsedUrl = new URL(url);
+    parsedUrl.pathname = addApiRoutePrefix(parsedUrl.pathname, !!accessToken);
+    url = parsedUrl.toString();
   }
 
   return next(
     req.clone({
-      setHeaders: { [authorizationKey]: `${bearerPrefix}${accessToken}` },
+      url,
+      setHeaders: accessToken && !req.headers.has(authorizationKey) ? { [authorizationKey]: `${bearerPrefix}${accessToken}` } : undefined,
     }),
   );
 }

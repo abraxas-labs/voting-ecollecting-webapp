@@ -61,6 +61,8 @@ import {
   providers: [DialogService],
 })
 export class SeekReferendumDetailComponent implements OnDestroy {
+  protected readonly navigationCollapseBreakpoint = 768;
+
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialogService = inject(DialogService);
@@ -77,6 +79,7 @@ export class SeekReferendumDetailComponent implements OnDestroy {
   public referendum?: Referendum;
   public active = detailOverviewUrl;
   public submitting = false;
+  protected navigationCollapsed = false;
 
   private routeSubscription: Subscription;
   private queryParamsSubscription: Subscription;
@@ -225,5 +228,11 @@ export class SeekReferendumDetailComponent implements OnDestroy {
       this.referendum.collection.state === CollectionState.COLLECTION_STATE_IN_PREPARATION &&
       !!result.decreeId &&
       !this.referendum.collection.informalReviewRequested;
+  }
+
+  protected collapseNavigationOnSmallScreens(): void {
+    if (typeof window !== 'undefined' && window.matchMedia(`(max-width: ${this.navigationCollapseBreakpoint}px)`).matches) {
+      this.navigationCollapsed = true;
+    }
   }
 }

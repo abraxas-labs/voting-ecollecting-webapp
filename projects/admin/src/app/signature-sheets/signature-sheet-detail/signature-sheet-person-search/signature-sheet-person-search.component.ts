@@ -98,7 +98,7 @@ export class SignatureSheetPersonSearchComponent {
         officialName: this.formBuilder.control('', {
           validators: [Validators.minLength(2), Validators.maxLength(100), InputValidators.complexSlText],
         }),
-        firstName: this.formBuilder.control('', {
+        firstNameOrCallName: this.formBuilder.control('', {
           validators: [Validators.minLength(2), Validators.maxLength(100), InputValidators.complexSlText],
         }),
         dateOfBirth: this.formBuilder.control(undefined),
@@ -118,7 +118,7 @@ export class SignatureSheetPersonSearchComponent {
   private requireAtLeastOne(): ValidatorFn {
     return (): ValidationErrors | null => {
       const hasValue =
-        this.form?.value.firstName ||
+        this.form?.value.firstNameOrCallName ||
         this.form?.value.officialName ||
         this.form?.value.residenceAddressStreet ||
         this.form?.value.residenceAddressHouseNumber;
@@ -129,7 +129,7 @@ export class SignatureSheetPersonSearchComponent {
 
 interface Form {
   officialName: FormControl<string>;
-  firstName: FormControl<string>;
+  firstNameOrCallName: FormControl<string>;
   dateOfBirth: FormControl<Date | undefined>;
   residenceAddressStreet: FormControl<string>;
   residenceAddressHouseNumber: FormControl<string>;

@@ -8,13 +8,18 @@ import { Person as PersonProto } from '@abraxas/voting-ecollecting-proto/admin';
 
 export interface PersonFilterData {
   officialName: string;
-  firstName: string;
+  firstNameOrCallName: string;
   dateOfBirth?: Date;
   residenceAddressStreet: string;
   residenceAddressHouseNumber: string;
 }
 
-export interface Person extends Required<PersonFilterData> {
+export interface Person {
+  officialName: string;
+  firstName: string;
+  dateOfBirth: Date;
+  residenceAddressStreet: string;
+  residenceAddressHouseNumber: string;
   registerId: string;
   isVotingAllowed: boolean;
   isBirthDateValidForVotingRights: boolean;
