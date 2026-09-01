@@ -1,4 +1,4 @@
-# ✨ Changelog (`v1.149.0`)
+# ✨ Changelog (`v1.150.16`)
 
 All notable changes to this project will be documented in this file.
 
@@ -8,11 +8,143 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Info
 
 ```text
-This version -------- v1.149.0
-Previous version ---- v1.145.0
+This version -------- v1.150.16
+Previous version ---- v1.149.0
 Initial version ----- v1.115.24
-Total commits ------- 7
+Total commits ------- 22
 ```
+
+## [v1.150.16] - 2026-08-28
+
+### 🔄 Changed
+
+- change add collection dialog label
+
+## [v1.150.15] - 2026-08-25
+
+### 🔄 Changed
+
+- translate markdown editor label
+
+## [v1.150.14] - 2026-08-24
+
+### 🔄 Changed
+
+- update dependencies
+
+## [v1.150.13] - 2026-08-19
+
+### 🆕 Added
+
+- add detailed voting rights
+
+## [v1.150.12] - 2026-08-18
+
+### 🆕 Added
+
+- add accessibility certificate
+
+## [v1.150.11] - 2026-08-17
+
+### 🔄 Changed
+
+- reference final explainer videos
+
+## [v1.150.10] - 2026-08-06
+
+### ❌ Removed
+
+- remove clearable icon for filter input components
+
+## [v1.150.9] - 2026-08-06
+
+### ❌ Removed
+
+- remove clearable icon from number and date components
+
+## [v1.150.8] - 2026-08-05
+
+### 🔄 Changed
+
+- align email validation with backend email validation
+
+## [v1.150.7] - 2026-08-05
+
+### ❌ Removed
+
+- remove clearable icon in form fields
+
+## [v1.150.6] - 2026-08-05
+
+### 🆕 Added
+
+- add explain videos with sign language
+
+## [v1.150.5] - 2026-08-05
+
+### 🔄 Changed
+
+- fix content jump links
+
+## [v1.150.4] - 2026-08-04
+
+### 🆕 Added
+
+- add content for help dialog
+
+## [v1.150.3] - 2026-08-04
+
+### 🔄 Changed
+
+- fix tooltips
+
+## [v1.150.2] - 2026-08-03
+
+### 🔄 Changed
+
+- keep collection edit form open and show error when saving invalid data
+
+## [v1.150.1] - 2026-08-03
+
+### ❌ Removed
+
+- remove import for snackbar module in file input component
+
+## [v1.150.0] - 2026-07-29
+
+### 🆕 Added
+
+- generate admissibility decision information document for Ct initiatives
+
+## [v1.149.5] - 2026-07-27
+
+### 🔄 Changed
+
+- upgrade bc to fix table styles
+
+## [v1.149.4] - 2026-07-24
+
+### 🔄 Changed
+
+- expose BASE_HREF env variable to the application
+
+## [v1.149.3] - 2026-07-24
+
+### 🔄 Changed
+
+- use configurable segments for rest api calls
+
+## [v1.149.2] - 2026-07-23
+
+### 🔄 Changed
+
+- use latest bc
+
+## [v1.149.1] - 2026-07-23
+
+### 🔄 Changed
+
+- use latest bc and to rm card clickable listener
 
 ## [v1.149.0] - 2026-07-22
 

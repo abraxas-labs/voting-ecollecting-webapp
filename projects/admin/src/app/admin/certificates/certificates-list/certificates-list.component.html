@@ -17,9 +17,7 @@
   </ng-container>
   <ng-container [columnDef]="importedAtColumn">
     <th bc-header-cell sort *headerCellDef>
-      <span [tooltip]="'ADMIN.CERTS.IMPORTED_AT' | translate">
-        {{ 'ADMIN.CERTS.IMPORTED_AT' | translate }}
-      </span>
+      {{ 'ADMIN.CERTS.IMPORTED_AT' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.importedAt | date: 'dd.MM.yyyy HH:mm:ss' }}</div>
@@ -27,9 +25,7 @@
   </ng-container>
   <ng-container [columnDef]="importedByColumn">
     <th bc-header-cell sort *headerCellDef>
-      <span [tooltip]="'ADMIN.CERTS.IMPORTED_BY' | translate">
-        {{ 'ADMIN.CERTS.IMPORTED_BY' | translate }}
-      </span>
+      {{ 'ADMIN.CERTS.IMPORTED_BY' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.importedByName }}</div>
@@ -37,9 +33,7 @@
   </ng-container>
   <ng-container [columnDef]="subjectColumn">
     <th bc-header-cell sort *headerCellDef>
-      <span [tooltip]="'ADMIN.CERTS.SUBJECT' | translate">
-        {{ 'ADMIN.CERTS.SUBJECT' | translate }}
-      </span>
+      {{ 'ADMIN.CERTS.SUBJECT' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.info.subject }}</div>
@@ -47,9 +41,7 @@
   </ng-container>
   <ng-container [columnDef]="labelColumn">
     <th bc-header-cell sort *headerCellDef>
-      <span [tooltip]="'ADMIN.CERTS.LABEL' | translate">
-        {{ 'ADMIN.CERTS.LABEL' | translate }}
-      </span>
+      {{ 'ADMIN.CERTS.LABEL' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.label }}</div>
@@ -57,9 +49,7 @@
   </ng-container>
   <ng-container [columnDef]="checkColumn">
     <th bc-header-cell sort *headerCellDef>
-      <span [tooltip]="'ADMIN.CERTS.CHECK' | translate">
-        {{ 'ADMIN.CERTS.CHECK' | translate }}
-      </span>
+      {{ 'ADMIN.CERTS.CHECK' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <bc-status-label [label]="'ADMIN.CERTS.ACTIVE.CA_CERT_TITLE' | translate"
@@ -73,9 +63,7 @@
   </ng-container>
   <ng-container [columnDef]="thumbprintColumn">
     <th bc-header-cell sort *headerCellDef>
-      <span [tooltip]="'ADMIN.CERTS.THUMBPRINT' | translate">
-        {{ 'ADMIN.CERTS.THUMBPRINT' | translate }}
-      </span>
+      {{ 'ADMIN.CERTS.THUMBPRINT' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div [tooltip]="tooltipContent" class="truncate">{{ row.info.thumbprint }}</div>

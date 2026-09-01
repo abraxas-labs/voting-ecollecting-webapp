@@ -5,7 +5,7 @@
  */
 
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { ButtonModule, CardModule, DialogService, IconModule, SpinnerModule } from '@abraxas/base-components';
+import { ButtonModule, CardModule, IconModule, SpinnerModule } from '@abraxas/base-components';
 import { Initiative, InitiativeCommittee, InitiativeCommitteeMember } from '../../../../../core/models/initiative.model';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
@@ -13,7 +13,7 @@ import {
   LaunchInitiativeDetailCommitteeMembersDialogData,
 } from '../launch-initiative-detail-commitee-members-dialog/launch-initiative-detail-committee-members-dialog.component';
 import { DecimalPipe } from '@angular/common';
-import { ConfirmDialogService, DomainOfInfluence, ToastService } from 'ecollecting-lib';
+import { ConfirmDialogService, CustomDialogService, DomainOfInfluence, ToastService } from 'ecollecting-lib';
 import { InitiativeService } from '../../../../../core/services/initiative.service';
 import { DomainOfInfluenceType, InitiativeCommitteeMemberApprovalState } from '@abraxas/voting-ecollecting-proto';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -35,7 +35,7 @@ import { LaunchInitiativeDetailCommitteeMembersTableComponent } from '../launch-
   styleUrl: './launch-initiative-detail-committee-members.component.scss',
 })
 export class LaunchInitiativeDetailCommitteeMembersComponent implements OnInit {
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly initiativeService = inject(InitiativeService);
   private readonly toast = inject(ToastService);
@@ -54,7 +54,7 @@ export class LaunchInitiativeDetailCommitteeMembersComponent implements OnInit {
   }
 
   public add(): void {
-    this.dialogService.open(LaunchInitiativeDetailCommitteeMembersDialogComponent, {
+    this.customDialogService.openWithoutAutoFocus(LaunchInitiativeDetailCommitteeMembersDialogComponent, {
       initiative: this.initiative,
       domainOfInfluences: this.domainOfInfluences ?? [],
       onSave: member => this.addMember(member),
@@ -63,7 +63,7 @@ export class LaunchInitiativeDetailCommitteeMembersComponent implements OnInit {
 
   public async edit(member: InitiativeCommitteeMember): Promise<void> {
     const oldApprovalState = member.approvalState;
-    this.dialogService.open(LaunchInitiativeDetailCommitteeMembersDialogComponent, {
+    this.customDialogService.openWithoutAutoFocus(LaunchInitiativeDetailCommitteeMembersDialogComponent, {
       member,
       initiative: this.initiative,
       domainOfInfluences: this.domainOfInfluences ?? [],

@@ -20,6 +20,7 @@ export * from './lib/core/validation-messages-provider';
 export * from './lib/core/language.service';
 export * from './lib/core/confirm-dialog.service';
 export * from './lib/core/guards/has-unsaved-changes.guard';
+export * from './lib/core/custom-dialog.service';
 export { ConfirmDialogData } from './lib/shared/confirm-dialog/confirm-dialog.component';
 
 // utils

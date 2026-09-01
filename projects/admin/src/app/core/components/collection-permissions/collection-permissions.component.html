@@ -1,9 +1,7 @@
-<bc-table sort [sortMultiple]="true" [sortActive]="[{ id: fullNameColumn, direction: 'asc' }]" [dataSource]="dataSource">
+<bc-table sort [sortMultiple]="true" [sortActive]="[{ id: fullNameColumn, direction: 'asc' }]" [dataSource]="dataSource" [fixed]="false">
   <ng-container [columnDef]="fullNameColumn">
     <th bc-header-cell sort *headerCellDef>
-      <span [tooltip]="'COLLECTION.PERMISSIONS.FULL_NAME' | translate">
-        {{ 'COLLECTION.PERMISSIONS.FULL_NAME' | translate }}
-      </span>
+      {{ 'COLLECTION.PERMISSIONS.FULL_NAME' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.fullName }}</div>
@@ -11,9 +9,7 @@
   </ng-container>
   <ng-container [columnDef]="emailColumn">
     <th bc-header-cell sort *headerCellDef>
-      <span [tooltip]="'COLLECTION.PERMISSIONS.EMAIL' | translate">
-        {{ 'COLLECTION.PERMISSIONS.EMAIL' | translate }}
-      </span>
+      {{ 'COLLECTION.PERMISSIONS.EMAIL' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.email }}</div>
@@ -21,9 +17,7 @@
   </ng-container>
   <ng-container [columnDef]="roleColumn">
     <th bc-header-cell sort *headerCellDef>
-      <span [tooltip]="'COLLECTION.PERMISSIONS.ROLE' | translate">
-        {{ 'COLLECTION.PERMISSIONS.ROLE' | translate }}
-      </span>
+      {{ 'COLLECTION.PERMISSIONS.ROLE' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>

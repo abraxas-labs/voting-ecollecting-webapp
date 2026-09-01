@@ -25,6 +25,8 @@ export interface Person {
   isBirthDateValidForVotingRights: boolean;
   isNationalityValidForVotingRights: boolean;
   reviewState?: PersonReviewState;
+  restrictedVotingAndElectionRightFederation: boolean;
+  isMoveInArrivalDateValidForVotingRights: boolean;
 }
 
 export enum PersonReviewState {

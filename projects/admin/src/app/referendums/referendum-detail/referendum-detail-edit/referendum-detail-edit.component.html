@@ -5,6 +5,7 @@
     [required]="true"
     [showDefaultErrors]="true"
     [error]="(form.controls.description.touched) && form.controls.description.invalid"
+    [clearable]="false"
     subscriptSizing="dynamic"
   ></bc-text>
   <bc-textarea
@@ -12,12 +13,14 @@
     [label]="'COLLECTION.GENERAL_INFORMATION.REASON' | translate"
     [showDefaultErrors]="true"
     [rows]="6"
+    [clearable]="false"
     subscriptSizing="dynamic"
   ></bc-textarea>
   <bc-text
     [formControl]="form.controls.link"
     [label]="'COLLECTION.GENERAL_INFORMATION.LINK' | translate"
     [showDefaultErrors]="true"
+    [clearable]="false"
     subscriptSizing="dynamic"
   ></bc-text>
   <bc-text
@@ -26,6 +29,7 @@
     [required]="true"
     [showDefaultErrors]="true"
     [error]="(form.controls.address.controls.committeeOrPerson.touched) && form.controls.address.controls.committeeOrPerson.invalid"
+    [clearable]="false"
     subscriptSizing="dynamic"
   ></bc-text>
   <bc-text
@@ -34,6 +38,7 @@
     [required]="true"
     [showDefaultErrors]="true"
     [error]="(form.controls.address.controls.streetOrPostOfficeBox.touched) && form.controls.address.controls.streetOrPostOfficeBox.invalid"
+    [clearable]="false"
     subscriptSizing="dynamic"
   ></bc-text>
   <div class="zip-code-locality-container">
@@ -43,6 +48,7 @@
       [required]="true"
       [showDefaultErrors]="true"
       [error]="(form.controls.address.controls.zipCode.touched) && form.controls.address.controls.zipCode.invalid"
+      [clearable]="false"
       subscriptSizing="dynamic"
     ></bc-text>
     <bc-text
@@ -51,6 +57,7 @@
       [required]="true"
       [showDefaultErrors]="true"
       [error]="form.controls.address.controls.locality.touched && form.controls.address.controls.locality.invalid"
+      [clearable]="false"
       subscriptSizing="dynamic"
     ></bc-text>
   </div>
@@ -59,6 +66,7 @@
     [label]="'COLLECTION.GENERAL_INFORMATION.MEMBERS_COMMITTEE' | translate"
     [showDefaultErrors]="true"
     [rows]="6"
+    [clearable]="false"
     subscriptSizing="dynamic"
   ></bc-textarea>
 </div>

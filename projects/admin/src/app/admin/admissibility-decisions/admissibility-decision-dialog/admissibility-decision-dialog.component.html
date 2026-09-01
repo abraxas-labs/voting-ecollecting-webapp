@@ -54,7 +54,8 @@
               [required]="true"
               [readonly]="!canEditGovernmentDecisionNumber"
               [error]="form.controls.governmentDecisionNumber.touched && form.controls.governmentDecisionNumber.invalid"
-              [formControl]="form.controls.governmentDecisionNumber"></bc-text>
+              [formControl]="form.controls.governmentDecisionNumber"
+              [clearable]="false"></bc-text>
             <bc-dropdown
               [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DECISION' | translate"
               [items]="admissibilityDecisionStates"
@@ -84,6 +85,7 @@
             [required]="isAddressRequired"
             [error]="form.controls.address.controls.committeeOrPerson.touched && form.controls.address.controls.committeeOrPerson.invalid"
             [readonly]="!canEditGeneralInformation"
+            [clearable]="false"
             subscriptSizing="dynamic"
           ></bc-text>
           <bc-text
@@ -92,6 +94,7 @@
             [required]="isAddressRequired"
             [error]="form.controls.address.controls.streetOrPostOfficeBox.touched && form.controls.address.controls.streetOrPostOfficeBox.invalid"
             [readonly]="!canEditGeneralInformation"
+            [clearable]="false"
             subscriptSizing="dynamic"
           ></bc-text>
           <div class="flex gap-3">
@@ -101,6 +104,7 @@
               [required]="isAddressRequired"
               [error]="form.controls.address.controls.zipCode.touched && form.controls.address.controls.zipCode.invalid"
               [readonly]="!canEditGeneralInformation"
+              [clearable]="false"
               subscriptSizing="dynamic"
             ></bc-text>
             <bc-text
@@ -109,6 +113,7 @@
               [required]="isAddressRequired"
               [error]="form.controls.address.controls.locality.touched && form.controls.address.controls.locality.invalid"
               [readonly]="!canEditGeneralInformation"
+              [clearable]="false"
               subscriptSizing="dynamic"
             ></bc-text>
           </div>
@@ -134,6 +139,7 @@
           [required]="true"
           [error]="form.controls.description.touched && form.controls.description.invalid"
           [readonly]="!canEditGeneralInformation"
+          [clearable]="false"
           subscriptSizing="dynamic"
         ></bc-text>
         <vo-lib-markdown-editor
@@ -142,8 +148,8 @@
           [error]="form.controls.wording.touched && form.controls.wording.invalid"
           [readonly]="!canEditGeneralInformation"
           [showDefaultErrors]="true"
-          subscriptSizing="dynamic"
-          label="ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DETAILS.WORDING.LABEL"></vo-lib-markdown-editor>
+          [label]="'ADMIN.ADMISSIBILITY_DECISIONS.EDIT_DIALOG.DETAILS.WORDING.LABEL' | translate"
+          subscriptSizing="dynamic"></vo-lib-markdown-editor>
       </div>
     </div>
   }

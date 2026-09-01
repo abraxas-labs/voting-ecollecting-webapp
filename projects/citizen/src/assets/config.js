@@ -6,4 +6,5 @@
     window["config"].ISSUER = "${ISSUER}";
     window["config"].CLIENT_ID = "${CLIENT_ID}";
     window['config'].CUSTOM_HEADER_COLOR = '${CUSTOM_HEADER_COLOR}';
+    window['config'].BASE_HREF = '${BASE_HREF}';
 })(this);

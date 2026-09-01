@@ -5,11 +5,11 @@
  */
 
 import { Component, inject, OnInit } from '@angular/core';
-import { ButtonModule, DialogService, SpinnerModule } from '@abraxas/base-components';
+import { ButtonModule, SpinnerModule } from '@abraxas/base-components';
 import { TranslateModule } from '@ngx-translate/core';
 import { DecreeEditDialogComponent } from '../decree-edit-dialog/decree-edit-dialog.component';
 import { Decree, ReferendumDeleteInfo } from '../../../core/models/decree.model';
-import { ConfirmDialogService, ToastService } from 'ecollecting-lib';
+import { ConfirmDialogService, CustomDialogService, ToastService } from 'ecollecting-lib';
 import { DecreeService } from '../../../core/services/decree.service';
 import { DecreeTableComponent } from '../decree-table/decree-table.component';
 import { DomainOfInfluenceService } from '../../../core/services/domain-of-influence.service';
@@ -22,10 +22,10 @@ import { DecreeDeleteDialogComponent } from '../../../core/components/decree-del
   selector: 'app-decree-overview',
   templateUrl: './decree-overview.component.html',
   imports: [ButtonModule, TranslateModule, DecreeTableComponent, VotingLibModule, SpinnerModule],
-  providers: [DialogService, DecreeService],
+  providers: [DecreeService],
 })
 export class DecreeOverviewComponent implements OnInit {
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly decreeService = inject(DecreeService);
@@ -42,7 +42,7 @@ export class DecreeOverviewComponent implements OnInit {
   }
 
   public async openDialog(decree?: Decree): Promise<void> {
-    const dialogRef = this.dialogService.open(DecreeEditDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(DecreeEditDialogComponent, {
       decree: decree,
       domainOfInfluenceTree: this.domainOfInfluenceTree,
     });
@@ -86,7 +86,7 @@ export class DecreeOverviewComponent implements OnInit {
   }
 
   private async confirmDeleteWithCollections(referendums: ReferendumDeleteInfo[]): Promise<boolean> {
-    const dialogRef = this.dialogService.open(DecreeDeleteDialogComponent, { referendums });
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(DecreeDeleteDialogComponent, { referendums });
     return (await firstValueFrom(dialogRef.afterClosed())) ?? false;
   }
 

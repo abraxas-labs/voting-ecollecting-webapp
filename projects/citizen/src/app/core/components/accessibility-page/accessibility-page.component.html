@@ -1,11 +1,16 @@
 <div class="page">
   <div class="p-3">
-    <h1 id="content">{{ 'ACCESSIBILITY.TITLE' | translate }}</h1>
+    <h1 id="content" [tabindex]="-1">{{ 'ACCESSIBILITY.TITLE' | translate }}</h1>
     <p class="info">
       <span>{{ 'ACCESSIBILITY.INFO_1' | translate }}</span>
-      <bc-link href="mailto:support@sg.ch">{{ 'ACCESSIBILITY.INFO_2' | translate }}</bc-link>
+      <bc-link href="https://www.w3.org/TR/WCAG22/" [target]="'_blank'">{{ 'ACCESSIBILITY.INFO_2' | translate }}</bc-link>
       <span>{{ 'ACCESSIBILITY.INFO_3' | translate }}</span>
     </p>
+    <div class="mb-3">
+      <a href="https://www.access-for-all.ch" target="_blank">
+        <img ngSrc="assets/accessibility_certficate.png" alt="{{ 'ACCESSIBILITY.CERTIFICATE_ALT' | translate }}" height="81" width="212" />
+      </a>
+    </div>
     <h2>{{ 'ACCESSIBILITY.FORM.TITLE' | translate }}</h2>
     <p class="info">{{ 'ACCESSIBILITY.FORM.INFO' | translate }}</p>
 
@@ -26,6 +31,7 @@
             [showDefaultErrors]="true"
             [hintCountVisible]="'remaining'"
             [maxlength]="100"
+            [clearable]="false"
             subscriptSizing="dynamic"
           ></bc-text>
           <bc-text
@@ -34,6 +40,7 @@
             [showDefaultErrors]="true"
             [hintCountVisible]="'remaining'"
             [maxlength]="100"
+            [clearable]="false"
             subscriptSizing="dynamic"
           ></bc-text>
         </div>
@@ -45,6 +52,7 @@
             [required]="true"
             [hintCountVisible]="'remaining'"
             [maxlength]="254"
+            [clearable]="false"
             subscriptSizing="dynamic"
           ></bc-text>
           <bc-text
@@ -53,6 +61,7 @@
             [showDefaultErrors]="true"
             [hintCountVisible]="'remaining'"
             [maxlength]="14"
+            [clearable]="false"
             subscriptSizing="dynamic"
           ></bc-text>
         </div>
@@ -72,6 +81,7 @@
           [showDefaultErrors]="true"
           [hintCountVisible]="'remaining'"
           [maxlength]="1000"
+          [clearable]="false"
           subscriptSizing="dynamic"
         ></bc-textarea>
         <div class="flex gap-2">

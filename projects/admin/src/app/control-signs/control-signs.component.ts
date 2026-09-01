@@ -5,14 +5,7 @@
  */
 
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  AlertBarModule,
-  ButtonModule,
-  DialogService,
-  SegmentedControl,
-  SegmentedControlGroupModule,
-  SpinnerModule,
-} from '@abraxas/base-components';
+import { AlertBarModule, ButtonModule, SegmentedControl, SegmentedControlGroupModule, SpinnerModule } from '@abraxas/base-components';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CollectionControlSignFilter } from '@abraxas/voting-ecollecting-proto/admin';
 import { CollectionService } from '../core/services/collection.service';
@@ -24,6 +17,7 @@ import {
   MunicipalityFilterComponent,
   ReferendumCardComponent,
   ToastService,
+  CustomDialogService,
 } from 'ecollecting-lib';
 import { DatePipe } from '@angular/common';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
@@ -55,14 +49,13 @@ import { DecreeService } from '../core/services/decree.service';
     VotingLibModule,
   ],
   templateUrl: './control-signs.component.html',
-  providers: [DialogService],
 })
 export class ControlSignsComponent implements OnInit {
   private readonly doiService = inject(DomainOfInfluenceService);
   private readonly initiativeService = inject(InitiativeService);
   private readonly decreeService = inject(DecreeService);
   private readonly collectionService = inject(CollectionService);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly secondFactorTransactionService = inject(SecondFactorTransactionService);
   private readonly toast = inject(ToastService);
@@ -192,7 +185,7 @@ export class ControlSignsComponent implements OnInit {
   }
 
   protected async setInitiativeSensitiveDataExpiryDate(initiative: Initiative, group: CollectionsGroup): Promise<void> {
-    const dialogRef = this.dialogService.open(ControlSignSensitiveDataExpiryDialogComponent, { initiative });
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(ControlSignSensitiveDataExpiryDialogComponent, { initiative });
     const saved = await firstValueFrom(dialogRef.afterClosed());
 
     if (saved && this.filter === CollectionControlSignFilter.COLLECTION_CONTROL_SIGN_FILTER_READY_TO_DELETE) {
@@ -229,7 +222,7 @@ export class ControlSignsComponent implements OnInit {
   }
 
   protected async setDecreeSensitiveDataExpiryDate(decree: Decree, group: CollectionsGroup): Promise<void> {
-    const dialogRef = this.dialogService.open(ControlSignSensitiveDataExpiryDialogComponent, { decree });
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(ControlSignSensitiveDataExpiryDialogComponent, { decree });
     const saved = await firstValueFrom(dialogRef.afterClosed());
 
     if (saved && this.filter === CollectionControlSignFilter.COLLECTION_CONTROL_SIGN_FILTER_READY_TO_DELETE) {

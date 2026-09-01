@@ -12,6 +12,7 @@
     "YES": "Ja",
     "SAVED": "Gespeichert",
     "DELETED": "Gelöscht",
+    "BACK": "Zurück",
     "INVALID_FORM_VALUES": {
       "TITLE": "Fehlerhafte Eingaben",
       "MSG": "Es gibt noch Textfelder mit fehlerhaften Eingaben. Wenn Sie die Seite verlassen, gehen die Eingaben verloren.\nWollen Sie die Seite trotzdem verlassen?"
@@ -95,6 +96,9 @@
     }
   },
   "COLLECTION": {
+    "HEADER": {
+      "EXTERNAL_LINK": "Externe Webseite der Sammlung öffnen"
+    },
     "ADDRESS": "{{committeeOrPerson}}, {{streetOrPostOfficeBox}}, {{zipCode}} {{locality}}",
     "PERIOD_STATES": {
       "1": "Sammelfrist startet in {{days}} Tagen",

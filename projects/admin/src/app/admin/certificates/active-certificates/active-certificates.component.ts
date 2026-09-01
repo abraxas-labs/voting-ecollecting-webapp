@@ -6,9 +6,9 @@
 
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ButtonModule, DialogService, ErrorModule, LabelModule, ReadonlyModule, SpinnerModule } from '@abraxas/base-components';
+import { ButtonModule, ErrorModule, LabelModule, ReadonlyModule, SpinnerModule } from '@abraxas/base-components';
 import { CertificateService } from '../../../core/services/certificate.service';
-import { ToastService } from 'ecollecting-lib';
+import { CustomDialogService, ToastService } from 'ecollecting-lib';
 import { DatePipe } from '@angular/common';
 import { ActiveCertificateCardComponent } from './active-certificate-card/active-certificate-card.component';
 import { NewCertificateDialogComponent } from '../new-certificate-dialog/new-certificate-dialog.component';
@@ -20,12 +20,11 @@ import { ActiveCertificate } from '../../../core/models/certificate.model';
   imports: [TranslatePipe, ReadonlyModule, LabelModule, DatePipe, ErrorModule, ActiveCertificateCardComponent, ButtonModule, SpinnerModule],
   templateUrl: './active-certificates.component.html',
   styleUrl: './active-certificates.component.scss',
-  providers: [DialogService],
 })
 export class ActiveCertificatesComponent implements OnInit {
   private readonly certificateService = inject(CertificateService);
   private readonly toast = inject(ToastService);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
 
   protected activeCertificate?: ActiveCertificate;
 
@@ -42,7 +41,7 @@ export class ActiveCertificatesComponent implements OnInit {
   }
 
   protected async importNew(): Promise<void> {
-    const ref = this.dialogService.open(NewCertificateDialogComponent, {});
+    const ref = this.customDialogService.openWithoutAutoFocus(NewCertificateDialogComponent, {});
     const imported = await firstValueFrom(ref.afterClosed());
     if (imported) {
       this.certificateImported.emit();

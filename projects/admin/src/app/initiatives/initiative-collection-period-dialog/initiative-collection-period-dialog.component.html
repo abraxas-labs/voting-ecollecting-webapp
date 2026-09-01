@@ -21,6 +21,7 @@
       [formControl]="form.controls.collectionStartDate"
       [error]="form.controls.collectionStartDate.invalid"
       [adjustFormControlErrors]="false"
+      [clearable]="false"
       subscriptSizing="dynamic"
     >
       @if (form.controls.collectionStartDate.errors?.['dateNotInFuture']) {
@@ -33,6 +34,7 @@
       [formControl]="form.controls.collectionEndDate"
       [error]="form.controls.collectionEndDate.invalid"
       [adjustFormControlErrors]="false"
+      [clearable]="false"
       subscriptSizing="dynamic"
     >
       @if (form.controls.collectionEndDate.errors?.['dateNotOlderThanStartDate']) {

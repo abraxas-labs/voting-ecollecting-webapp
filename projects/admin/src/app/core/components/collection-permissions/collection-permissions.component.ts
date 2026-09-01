@@ -14,7 +14,6 @@ import { collectionPermissionRoleColorMap } from 'ecollecting-lib';
 @Component({
   selector: 'app-collection-permissions',
   templateUrl: './collection-permissions.component.html',
-  styleUrls: ['./collection-permissions.component.scss'],
   imports: [TableModule, TranslatePipe, TruncateWithTooltipModule, StatusLabelModule],
 })
 export class CollectionDetailPermissionsComponent implements OnInit, AfterViewInit {

@@ -1,0 +1,21 @@
+<bc-dialog>
+  <div header>
+    <bc-icon-button
+      mat-dialog-close
+      variant="tertiary"
+      icon="cancel"
+      [ariaLabel]="'EXPLAINER_VIDEO.CLOSE' | translate"
+    ></bc-icon-button>
+    <h2 class="mb-0">{{ title | translate }}</h2>
+  </div>
+  <div content>
+    <bc-switch
+      [label]="'EXPLAINER_VIDEO.WITH_SIGN_LANGUAGE' | translate"
+      [checked]="withSignLanguage"
+      (checkedChange)="onWithSignLanguageChange($event)"
+    ></bc-switch>
+
+    <!-- placeholder for the player element which is created later in the component -->
+    <div [id]="playerElementId"></div>
+  </div>
+</bc-dialog>

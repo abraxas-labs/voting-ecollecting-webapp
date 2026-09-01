@@ -10,6 +10,7 @@
     [sortActive]="[{ id: numberColumn, direction: 'asc' }]"
     (selectionChange)="select($event)"
     [selectionMultiple]="true"
+    [fixed]="false"
     [dataSource]="page.items">
 
     <ng-container [columnDef]="selectionColumn">
@@ -31,9 +32,7 @@
 
     <ng-container [columnDef]="numberColumn">
       <th bc-header-cell sort *headerCellDef>
-              <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.NUMBER' | translate">
-                {{ 'COLLECTION.SIGNATURE_SHEETS.NUMBER' | translate }}
-              </span>
+        {{ 'COLLECTION.SIGNATURE_SHEETS.NUMBER' | translate }}
       </th>
       <td bc-data-cell *dataCellDef="let row" class="text-right">
         {{ row.number | number }}
@@ -42,9 +41,7 @@
 
     <ng-container [columnDef]="dateColumn">
       <th bc-header-cell sort *headerCellDef>
-        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.RECEIVED_AT' | translate">
-          {{ 'COLLECTION.SIGNATURE_SHEETS.RECEIVED_AT' | translate }}
-        </span>
+        {{ 'COLLECTION.SIGNATURE_SHEETS.RECEIVED_AT' | translate }}
       </th>
       <td bc-data-cell *dataCellDef="let row">
         <div truncateWithTooltip tooltip>{{ row.receivedAt | date: 'dd.MM.yyyy' }}</div>
@@ -59,9 +56,7 @@
                       [filterItems]="attestedAtValues"
                       filterDisplayExpr="label"
                       filterValueExpr="value">
-        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.ATTESTED_TIMESTAMP' | translate">
-          {{ 'COLLECTION.SIGNATURE_SHEETS.ATTESTED_TIMESTAMP' | translate }}
-        </span>
+        {{ 'COLLECTION.SIGNATURE_SHEETS.ATTESTED_TIMESTAMP' | translate }}
       </th>
       <td bc-data-cell *dataCellDef="let row">
         <div truncateWithTooltip tooltip>{{ row.attestedAt | date: 'dd.MM.yyyy HH:mm' }}</div>
@@ -70,9 +65,7 @@
 
     <ng-container [columnDef]="modifiedByNameColumn">
       <th bc-header-cell sort *headerCellDef>
-        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.MODIFIED_BY_NAME' | translate">
-          {{ 'COLLECTION.SIGNATURE_SHEETS.MODIFIED_BY_NAME' | translate }}
-        </span>
+        {{ 'COLLECTION.SIGNATURE_SHEETS.MODIFIED_BY_NAME' | translate }}
       </th>
       <td bc-data-cell *dataCellDef="let row">
         <div truncateWithTooltip tooltip>{{ row.modifiedByName || row.createdByName }}</div>
@@ -81,9 +74,7 @@
 
     <ng-container [columnDef]="signatureCountTotalColumn">
       <th bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.COUNT.TOTAL' | translate">
-          {{ 'COLLECTION.SIGNATURE_SHEETS.COUNT.TOTAL' | translate }}
-        </span>
+        {{ 'COLLECTION.SIGNATURE_SHEETS.COUNT.TOTAL' | translate }}
       </th>
       <td bc-data-cell *dataCellDef="let row" class="text-right">
         {{ row.count.total | number }}
@@ -92,9 +83,7 @@
 
     <ng-container [columnDef]="signatureCountValidColumn">
       <th bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.COUNT.VALID' | translate">
-          {{ 'COLLECTION.SIGNATURE_SHEETS.COUNT.VALID' | translate }}
-        </span>
+        {{ 'COLLECTION.SIGNATURE_SHEETS.COUNT.VALID' | translate }}
       </th>
       <td bc-data-cell *dataCellDef="let row" class="text-right">
         {{ row.count.valid | number }}
@@ -103,9 +92,7 @@
 
     <ng-container [columnDef]="signatureCountInvalidColumn">
       <th bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.COUNT.INVALID' | translate">
-          {{ 'COLLECTION.SIGNATURE_SHEETS.COUNT.INVALID' | translate }}
-        </span>
+        {{ 'COLLECTION.SIGNATURE_SHEETS.COUNT.INVALID' | translate }}
       </th>
       <td bc-data-cell *dataCellDef="let row" class="text-right">
         {{ row.count.invalid | number }}
@@ -114,9 +101,7 @@
 
     <ng-container [columnDef]="stateColumn">
       <th bc-header-cell sort [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-        <span [tooltip]="'COLLECTION.SIGNATURE_SHEETS.STATE' | translate">
-          {{ 'COLLECTION.SIGNATURE_SHEETS.STATE' | translate }}
-        </span>
+        {{ 'COLLECTION.SIGNATURE_SHEETS.STATE' | translate }}
       </th>
       <td bc-data-cell *dataCellDef="let row" class="text-right">
         <bc-status-label
@@ -133,7 +118,7 @@
     <ng-container [columnDef]="actionsColumn">
       <th bc-header-cell *headerCellDef></th>
       <td bc-data-cell *dataCellDef="let row">
-        <div class="flex flex-wrap gap-1 justify-end">
+        <div class="flex gap-1 justify-end">
           @if (canEdit) {
             <bc-icon-button (buttonClick)="open(row.id)"
                             [icon]="'edit'"

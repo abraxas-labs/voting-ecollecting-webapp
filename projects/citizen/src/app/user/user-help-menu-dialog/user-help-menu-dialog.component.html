@@ -3,4 +3,19 @@
     <bc-icon-button mat-dialog-close variant="tertiary" icon="cancel" [ariaLabel]="'HELP.CLOSE' | translate"></bc-icon-button>
     <h2 class="mb-0">{{ 'HELP.TITLE' | translate }}</h2>
   </div>
+  <div content>
+    <h3 translate>EXPLAINER_VIDEO.TITLE</h3>
+    <div class="flex flex-col gap-y-3 mb-3">
+      @for (explainerVideo of explainerVideos; track explainerVideo) {
+        <div class="flex-1">
+          <app-explainer-video [explainerVideo]="explainerVideo" [headingLevel]="'h4'"></app-explainer-video>
+        </div>
+      }
+    </div>
+
+    <p>
+      <span>{{ 'HELP.SUPPORT.TEXT' | translate }}</span>
+      <bc-link [href]="'https://support.sg.ch/ecollecting'" [target]="'_blank'" [ariaLabel]="'HELP.SUPPORT.LINK_ALT' | translate">{{ 'HELP.SUPPORT.LINK' | translate }}</bc-link>
+    </p>
+  </div>
 </bc-dialog>

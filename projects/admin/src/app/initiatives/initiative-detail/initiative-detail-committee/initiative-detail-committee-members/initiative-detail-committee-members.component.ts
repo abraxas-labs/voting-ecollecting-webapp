@@ -5,7 +5,7 @@
  */
 
 import { Component, inject, Input } from '@angular/core';
-import { CardModule, DialogService, IconModule } from '@abraxas/base-components';
+import { CardModule, IconModule } from '@abraxas/base-components';
 import { Initiative, InitiativeCommittee, InitiativeCommitteeMember } from '../../../../core/models/initiative.model';
 import { InitiativeCommitteeMemberApprovalState, InitiativeCommitteeMemberSignatureType } from '@abraxas/voting-ecollecting-proto';
 import { InitiativeService } from '../../../../core/services/initiative.service';
@@ -17,7 +17,7 @@ import {
   InitiativeDetailCommitteeMembersEditDialogComponent,
   InitiativeDetailCommitteeMembersEditDialogData,
 } from '../initiative-detail-committee-members-edit-dialog/initiative-detail-committee-members-edit-dialog.component';
-import { ToastService } from 'ecollecting-lib';
+import { CustomDialogService, ToastService } from 'ecollecting-lib';
 import { firstValueFrom } from 'rxjs';
 import { InitiativeDetailCommitteeMembersTableComponent } from '../initiative-detail-committee-members-table/initiative-detail-committee-members-table.component';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -30,7 +30,7 @@ import { DecimalPipe } from '@angular/common';
 })
 export class InitiativeDetailCommitteeMembersComponent {
   private readonly initiativeService = inject(InitiativeService);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly toast = inject(ToastService);
 
   @Input({ required: true })
@@ -56,7 +56,7 @@ export class InitiativeDetailCommitteeMembersComponent {
   }
 
   public async verify(member: InitiativeCommitteeMember): Promise<void> {
-    const dialogRef = this.dialogService.open(InitiativeDetailCommitteeMembersVerifyDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(InitiativeDetailCommitteeMembersVerifyDialogComponent, {
       initiativeId: this.initiative.id,
       memberId: member.id,
     } satisfies InitiativeDetailCommitteeMembersVerifyDialogData);
@@ -78,7 +78,7 @@ export class InitiativeDetailCommitteeMembersComponent {
   }
 
   protected async edit(member: InitiativeCommitteeMember) {
-    this.dialogService.open(InitiativeDetailCommitteeMembersEditDialogComponent, {
+    this.customDialogService.openWithoutAutoFocus(InitiativeDetailCommitteeMembersEditDialogComponent, {
       initiativeId: this.initiative.id,
       member,
     } satisfies InitiativeDetailCommitteeMembersEditDialogData);

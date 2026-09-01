@@ -9,7 +9,6 @@ import {
   BreadcrumbItemModule,
   BreadcrumbsModule,
   ButtonModule,
-  DialogService,
   DividerModule,
   SpinnerModule,
   SubNavigationBarModule,
@@ -23,6 +22,7 @@ import { Referendum } from '../../core/models/referendum.model';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { CollectionType } from '@abraxas/voting-ecollecting-proto';
 import { CollectionSignatureSheet } from '../../core/models/collection.model';
+import { CustomDialogService } from 'ecollecting-lib';
 import { CollectionSignatureSheetService } from '../../core/services/collection-signature-sheet.service';
 import {
   CheckSamplesAddSamplesDialogComponent,
@@ -45,13 +45,12 @@ import {
     SubNavigationBarModule,
     TranslatePipe,
   ],
-  providers: [DialogService],
 })
 export class CheckSamplesSamplesComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly collectionSignatureSheetService = inject(CollectionSignatureSheetService);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
 
   protected readonly collectionTypes = CollectionType;
   protected collection?: Initiative | Referendum;
@@ -83,7 +82,7 @@ export class CheckSamplesSamplesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const ref = this.dialogService.open(CheckSamplesAddSamplesDialogComponent, {
+    const ref = this.customDialogService.openWithoutAutoFocus(CheckSamplesAddSamplesDialogComponent, {
       collectionId: this.collection.id,
     } satisfies CheckSamplesAddSamplesDialogData);
     const result = (await firstValueFrom(ref.afterClosed())) as CheckSamplesAddSamplesDialogResult;

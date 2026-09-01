@@ -8,7 +8,7 @@
     [canSign]="!referendum.isOtherReferendumOfSameDecreeSigned"
   >
     <ng-container info>
-      <p id="content" class="font-bold user-text">{{ referendum.decree.description }}</p>
+      <p id="content" [tabindex]="-1" class="font-bold user-text">{{ referendum.decree.description }}</p>
       <h3 class="user-text">{{ referendum.collection.description }}</h3>
       <p class="user-text">{{ referendum.collection.reason }}</p>
 

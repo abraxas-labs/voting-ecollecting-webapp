@@ -36,7 +36,8 @@
                    [showDefaultErrors]="true"
                    [error]="form.controls.message.invalid"
                    [hintCountVisible]="'remaining'"
-                   [maxlength]="1000"></bc-textarea>
+                   [maxlength]="1000"
+                   [clearable]="false"></bc-textarea>
       <div class="actions mt-1">
         <bc-button [label]="'COLLECTION_MESSAGES.CLOSE'| translate"
                    (buttonClick)="close()"

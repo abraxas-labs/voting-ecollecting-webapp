@@ -1,9 +1,7 @@
-<bc-table [dataSource]="dataSource">
+<bc-table [dataSource]="dataSource" [fixed]="false">
   <ng-container [columnDef]="lastNameColumn">
     <th bc-header-cell *headerCellDef>
-            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.LAST_NAME' | translate">
-              {{ 'INITIATIVE.COMMITTEE.MEMBERS.LAST_NAME' | translate }}
-            </span>
+      {{ 'INITIATIVE.COMMITTEE.MEMBERS.LAST_NAME' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       {{ row.politicalLastName }}
@@ -12,9 +10,7 @@
 
   <ng-container [columnDef]="firstNameColumn">
     <th bc-header-cell *headerCellDef>
-            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.FIRST_NAME' | translate">
-              {{ 'INITIATIVE.COMMITTEE.MEMBERS.FIRST_NAME' | translate }}
-            </span>
+      {{ 'INITIATIVE.COMMITTEE.MEMBERS.FIRST_NAME' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       {{ row.politicalFirstName }}
@@ -23,9 +19,7 @@
 
   <ng-container [columnDef]="dateOfBirthColumn">
     <th bc-header-cell *headerCellDef>
-            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate">
-              {{ 'INITIATIVE.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate }}
-            </span>
+      {{ 'INITIATIVE.COMMITTEE.MEMBERS.DATE_OF_BIRTH' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       {{ row.dateOfBirth | date }}
@@ -34,9 +28,7 @@
 
   <ng-container [columnDef]="streetColumn">
     <th bc-header-cell *headerCellDef>
-            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.STREET' | translate">
-              {{ 'INITIATIVE.COMMITTEE.MEMBERS.STREET' | translate }}
-            </span>
+      {{ 'INITIATIVE.COMMITTEE.MEMBERS.STREET' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       {{ row.street }}
@@ -45,9 +37,7 @@
 
   <ng-container [columnDef]="houseNumberColumn">
     <th bc-header-cell *headerCellDef>
-            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate">
-              {{ 'INITIATIVE.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate }}
-            </span>
+      {{ 'INITIATIVE.COMMITTEE.MEMBERS.HOUSE_NUMBER' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       {{ row.houseNumber }}
@@ -56,9 +46,7 @@
 
   <ng-container [columnDef]="zipCodeColumn">
     <th bc-header-cell *headerCellDef>
-            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.ZIP_CODE' | translate">
-              {{ 'INITIATIVE.COMMITTEE.MEMBERS.ZIP_CODE' | translate }}
-            </span>
+      {{ 'INITIATIVE.COMMITTEE.MEMBERS.ZIP_CODE' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       {{ row.zipCode }}
@@ -67,9 +55,7 @@
 
   <ng-container [columnDef]="residenceColumn">
     <th bc-header-cell *headerCellDef>
-            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.RESIDENCE' | translate">
-              {{ 'INITIATIVE.COMMITTEE.MEMBERS.RESIDENCE' | translate }}
-            </span>
+      {{ 'INITIATIVE.COMMITTEE.MEMBERS.RESIDENCE' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       {{ row.politicalResidence }}
@@ -78,9 +64,7 @@
 
   <ng-container [columnDef]="signatureTypeColumn">
     <th bc-header-cell *headerCellDef>
-            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate">
-              {{ 'INITIATIVE.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate }}
-            </span>
+      {{ 'INITIATIVE.COMMITTEE.MEMBERS.SIGNATURE_TYPE.LABEL' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       <bc-status-label
@@ -93,9 +77,7 @@
 
   <ng-container [columnDef]="stateColumn">
     <th bc-header-cell *headerCellDef>
-            <span [tooltip]="'INITIATIVE.COMMITTEE.MEMBERS.STATE' | translate">
-              {{ 'INITIATIVE.COMMITTEE.MEMBERS.STATE' | translate }}
-            </span>
+      {{ 'INITIATIVE.COMMITTEE.MEMBERS.STATE' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" truncateWithTooltip tooltip>
       <bc-status-label

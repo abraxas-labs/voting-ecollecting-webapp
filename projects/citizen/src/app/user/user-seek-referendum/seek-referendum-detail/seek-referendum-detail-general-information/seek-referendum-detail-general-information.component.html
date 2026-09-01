@@ -1,7 +1,7 @@
 @if (referendum && !loading) {
   <bc-card class="m-3" [border]="false">
     <bc-card-header>
-      <bc-card-title id="content" role="presentation" [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
+      <bc-card-title id="content" [tabindex]="-1" role="presentation" [label]="'SEEK_REFERENDUM.DETAIL.GENERAL_INFORMATION.TITLE' | translate" [headingLevel]="'h3'"></bc-card-title>
     </bc-card-header>
     <bc-card-content class="flex flex-col gap-y-2">
       <bc-text
@@ -14,6 +14,7 @@
         [readonly]="!referendum.collection.userPermissions?.canEdit"
         [hintCountVisible]="'remaining'"
         [maxlength]="200"
+        [clearable]="false"
         subscriptSizing="dynamic"
       ></bc-text>
       <bc-textarea
@@ -24,6 +25,7 @@
         [readonly]="!referendum.collection.userPermissions?.canEdit"
         [hintCountVisible]="'remaining'"
         [maxlength]="10000"
+        [clearable]="false"
         subscriptSizing="dynamic"
       ></bc-textarea>
       <bc-text
@@ -36,6 +38,7 @@
         [autocomplete]="'name'"
         [hintCountVisible]="'remaining'"
         [maxlength]="100"
+        [clearable]="false"
         subscriptSizing="dynamic"
       ></bc-text>
       <bc-text
@@ -48,6 +51,7 @@
         [autocomplete]="'address-line1'"
         [hintCountVisible]="'remaining'"
         [maxlength]="150"
+        [clearable]="false"
         subscriptSizing="dynamic"
       ></bc-text>
       <div class="zip-code-locality-container">
@@ -61,6 +65,7 @@
           [autocomplete]="'postal-code'"
           [hintCountVisible]="'remaining'"
           [maxlength]="15"
+          [clearable]="false"
           subscriptSizing="dynamic"
         ></bc-text>
         <bc-text
@@ -73,6 +78,7 @@
           [autocomplete]="'address-level2'"
           [hintCountVisible]="'remaining'"
           [maxlength]="150"
+          [clearable]="false"
           subscriptSizing="dynamic"
         ></bc-text>
       </div>
@@ -83,6 +89,7 @@
         [readonly]="!referendum.collection.userPermissions?.canEdit"
         [hintCountVisible]="'remaining'"
         [maxlength]="2000"
+        [clearable]="false"
         subscriptSizing="dynamic"
       ></bc-textarea>
       <bc-text
@@ -92,6 +99,7 @@
         [readonly]="!referendum.collection.userPermissions?.canEdit"
         [hintCountVisible]="'remaining'"
         [maxlength]="2000"
+        [clearable]="false"
         subscriptSizing="dynamic"
       ></bc-text>
       <div class="flex flex-wrap gap-x-4 mt-1">

@@ -8,7 +8,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   ButtonModule,
-  DialogService,
   IconButtonModule,
   SegmentedControl,
   SegmentedControlGroupModule,
@@ -18,7 +17,7 @@ import {
   TooltipModule,
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
-import { ConfirmDialogService, persistentStorage, storageKeyPrefix, ToastService } from 'ecollecting-lib';
+import { ConfirmDialogService, CustomDialogService, persistentStorage, storageKeyPrefix, ToastService } from 'ecollecting-lib';
 import { InitiativeService } from '../../core/services/initiative.service';
 import { Initiative } from '../../core/models/initiative.model';
 import { AdmissibilityDecisionsTableComponent } from './admissibility-decisions-table/admissibility-decisions-table.component';
@@ -53,11 +52,10 @@ const filterKey = storageKeyPrefix + 'admissibility-decisions-filter';
   ],
   templateUrl: './admissibility-decisions.component.html',
   styleUrl: 'admissibility-decisions.component.scss',
-  providers: [DialogService],
 })
 export class AdmissibilityDecisionsComponent implements OnInit {
   private readonly initiativeService = inject(InitiativeService);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
@@ -115,7 +113,9 @@ export class AdmissibilityDecisionsComponent implements OnInit {
 
   protected async editOrNew(initiative?: Initiative): Promise<void> {
     const isNew = !initiative;
-    const ref = this.dialogService.open(AdmissibilityDecisionDialogComponent, { initiative } satisfies AdmissibilityDecisionDialogData);
+    const ref = this.customDialogService.openWithoutAutoFocus(AdmissibilityDecisionDialogComponent, {
+      initiative,
+    } satisfies AdmissibilityDecisionDialogData);
     const result = (await firstValueFrom(ref.afterClosed())) as AdmissibilityDecisionDialogResult;
     if (!result?.initiative) {
       return;

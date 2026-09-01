@@ -10,7 +10,6 @@ import {
   AlertBarModule,
   ButtonModule,
   CardModule,
-  DialogService,
   IconButtonModule,
   ReadonlyModule,
   SpinnerModule,
@@ -31,6 +30,7 @@ import {
   persistentStorage,
   storageKeyPrefix,
   ToastService,
+  CustomDialogService,
 } from 'ecollecting-lib';
 import { CollectionPeriodState, CollectionState, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
 import { CollectionService } from '../../core/services/collection.service';
@@ -70,7 +70,6 @@ const bfsFilterStorageKey = storageKeyPrefix + 'initiative-bfs-filter';
     ButtonModule,
     SpinnerModule,
   ],
-  providers: [DialogService],
 })
 export class InitiativeOverviewComponent implements OnInit {
   private readonly initiativeService = inject(InitiativeService);
@@ -78,7 +77,7 @@ export class InitiativeOverviewComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly doiService = inject(DomainOfInfluenceService);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
 
@@ -265,14 +264,16 @@ export class InitiativeOverviewComponent implements OnInit {
   }
 
   protected async finish(initiative: Initiative): Promise<void> {
-    const ref = this.dialogService.open(CollectionFinishDialogComponent, {
+    const ref = this.customDialogService.openWithoutAutoFocus(CollectionFinishDialogComponent, {
       minSignatureCount: initiative.minSignatureCount,
       electronicCitizenCount: initiative.collection.attestedCollectionCount?.electronicCitizenCount ?? 0,
       totalCitizenCount: initiative.collection.attestedCollectionCount?.totalCitizenCount ?? 0,
-      collectionCounts: [{ ...initiative.collection.attestedCollectionCount, description: initiative.collection.description }],
+      collectionCounts: initiative.collection.attestedCollectionCount
+        ? [{ ...initiative.collection.attestedCollectionCount, description: initiative.collection.description }]
+        : [],
       collectionType: initiative.collection.type,
       electronicCollectionEnabled: initiative.electronicCollectionEnabled,
-    } as CollectionFinishDialogData);
+    } satisfies CollectionFinishDialogData);
     const result = (await firstValueFrom(ref.afterClosed())) as CollectionFinishDialogResult;
     if (!result) {
       return;

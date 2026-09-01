@@ -25,10 +25,22 @@ export class ReferendumDetailEditComponent implements OnChanges {
   public referendum!: Referendum;
 
   protected readonly form: FormGroup<Form>;
-  public showValidationErrors = false;
+  private showValidationErrorsValue = false;
 
   constructor() {
     this.form = this.buildForm();
+  }
+
+  public get showValidationErrors(): boolean {
+    return this.showValidationErrorsValue;
+  }
+
+  public set showValidationErrors(value: boolean) {
+    this.showValidationErrorsValue = value;
+
+    if (value) {
+      this.form.markAllAsTouched();
+    }
   }
 
   public ngOnChanges(): void {

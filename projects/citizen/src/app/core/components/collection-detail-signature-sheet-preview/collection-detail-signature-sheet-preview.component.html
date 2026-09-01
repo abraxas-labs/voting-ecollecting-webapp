@@ -1,6 +1,6 @@
 <div class="page-with-user-navigation">
   @if (collection) {
-    <h2 id="content">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.TITLE' | translate }}</h2>
+    <h2 id="content" [tabindex]="-1">{{ 'COLLECTION.DETAIL.SIGNATURE_SHEET.PREVIEW.TITLE' | translate }}</h2>
     <div class="flex justify-between">
       <h3>{{ collection.description }}</h3>
       @if (collection.link) {

@@ -268,6 +268,11 @@ export class InitiativeService {
     await this.fileDownloadService.getDownloadFile(url);
   }
 
+  public async downloadAdmissibilityDecisionInformation(initiativeId: string): Promise<void> {
+    const url = `${this.restApiUrl}/${initiativeId}/admissibility-decision-information`;
+    await this.fileDownloadService.getDownloadFile(url);
+  }
+
   public async setSensitiveDataExpiryDate(initiativeId: string, sensitiveDataExpiryDate: Date): Promise<void> {
     await lastValueFrom(
       this.client.setSensitiveDataExpiryDate(

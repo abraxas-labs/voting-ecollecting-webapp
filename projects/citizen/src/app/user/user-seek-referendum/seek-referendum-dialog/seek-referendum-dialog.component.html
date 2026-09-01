@@ -24,6 +24,7 @@
           [required]="true"
           [showDefaultErrors]="false"
           [error]="form.controls.secureIdNumber.invalid && form.controls.secureIdNumber.dirty"
+          [clearable]="false"
           subscriptSizing="dynamic"
         >
           @for (error of form.controls.secureIdNumber.errors ?? {} | keyvalue; track error) {
@@ -63,6 +64,7 @@
     [showDefaultErrors]="true"
     [hintCountVisible]="'remaining'"
     [maxlength]="200"
+    [clearable]="false"
     subscriptSizing="dynamic"
   ></bc-text>
 </ng-template>

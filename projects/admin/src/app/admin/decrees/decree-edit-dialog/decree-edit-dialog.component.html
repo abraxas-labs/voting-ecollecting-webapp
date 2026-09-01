@@ -29,6 +29,7 @@
       [formControl]="form.controls.description"
       [showDefaultErrors]="true"
       [rows]="8"
+      [clearable]="false"
     ></bc-textarea>
     <bc-date
       [value]="(decree.collectionStartDate | date)!"
@@ -38,6 +39,7 @@
       [formControl]="form.controls.collectionStartDate"
       [error]="form.controls.collectionStartDate.invalid"
       [adjustFormControlErrors]="false"
+      [clearable]="false"
       subscriptSizing="dynamic"
     ></bc-date>
     <bc-date
@@ -48,6 +50,7 @@
       [formControl]="form.controls.collectionEndDate"
       [error]="form.controls.collectionEndDate.invalid"
       [adjustFormControlErrors]="false"
+      [clearable]="false"
       subscriptSizing="dynamic"
     >
       @if (form.controls.collectionEndDate.errors?.['dateNotInFuture']) {
@@ -66,6 +69,7 @@
       [formControl]="form.controls.minSignatureCount"
       [showDefaultErrors]="true"
       [error]="form.controls.minSignatureCount.invalid && form.controls.minSignatureCount.touched"
+      [clearable]="false"
       subscriptSizing="dynamic"
     ></bc-number>
     @if (decree.electronicCollectionEnabled) {
@@ -76,6 +80,7 @@
         [readonly]="true"
         optionalText=""
         [formControl]="form.controls.maxElectronicSignatureCount"
+        [clearable]="false"
         subscriptSizing="dynamic"
       ></bc-number>
     }
@@ -90,6 +95,7 @@
           (valueChange)="decree.link = $event; contentChanged()"
           [formControl]="form.controls.link"
           [showDefaultErrors]="true"
+          [clearable]="false"
           subscriptSizing="dynamic"
         ></bc-text>
         <bc-link

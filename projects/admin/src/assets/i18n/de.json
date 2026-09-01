@@ -6,7 +6,9 @@
       "INITIATIVES": "Initiativen",
       "CONTROL_SIGNS": "Kontrollzeichen",
       "ADMINISTRATION": "Administration"
-    }
+    },
+    "FORM_INVALID_TITLE": "Angaben ungültig",
+    "FORM_INVALID_MESSAGE": "Bitte füllen Sie alle Felder korrekt aus, bevor Sie speichern."
   },
   "DECREE": {
     "CREATE": "Erlass erfassen",
@@ -117,6 +119,7 @@
     "SHOW_SIGNATURE_SHEETS": "Unterschriftenlisten anzeigen",
     "FINISH": "Abschliessen",
     "GENERATE_DOCUMENTS": "Dokumente generieren",
+    "ADMISSIBILITY_DECISION_INFORMATION": "Dokumente für Zulässigkeitsbeschluss herunterladen",
     "GENERAL_INFORMATION": {
       "SUB_TYPE": "Art der Initiative",
       "SUB_TYPE_DEFAULT": "Volksinitiative",
@@ -222,7 +225,7 @@
       "DESCRIPTION": "Bezeichnung der Sammlung",
       "ADDRESS": {
         "COMMITTEE_OR_PERSON": "Name der verantwortlichen Person oder des Komitees",
-        "STREET_OR_POST_OFFICE_BOX": "Strasse und Hausnummer oder Postfach",
+        "STREET_OR_POST_OFFICE_BOX": "Strasse und Hausnummer oder Postfach (bei keiner Angabe bitte \"–\" eintragen)",
         "ZIP_CODE": "PLZ",
         "LOCALITY": "Ort"
       }
@@ -381,9 +384,11 @@
             "true": "Ja",
             "false": "Nein",
             "REASON": {
-              "AGE": "Nicht volljährig",
-              "NATIONALITY": "Kein Schweizer Bürgerrecht",
-              "OTHER": "Stimmverzicht"
+              "TITLE": "Kurzbegründung",
+              "NATIONALITY": "f1. kein Stimmrecht in eidgenössischen Angelegenheiten (z.B. da kein Schweizer Bürgerrecht)",
+              "AGE": "f2. minderjährig",
+              "MOVE_IN_ARRIVAL_DATE": "f3. nicht in der Gemeinde wohnhaft (weggezogen)",
+              "RESTRICTED_VOTING_RIGHT": "f5 / f6. kein Stimmrecht / Stimmverzicht"
             }
           },
           "NONE_FOUND": "Keine Personen gefunden",

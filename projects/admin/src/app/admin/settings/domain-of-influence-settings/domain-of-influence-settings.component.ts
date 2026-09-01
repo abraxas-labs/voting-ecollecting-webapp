@@ -8,12 +8,12 @@ import { Component, EventEmitter, HostListener, inject, Input, OnChanges, OnDest
 import { DomainOfInfluence } from '../../../core/models/domain-of-influence.model';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
-  DomainOfInfluenceService,
   DomainOfInfluenceCollectionSettings,
+  DomainOfInfluenceService,
   UpdateDomainOfInfluenceRequest,
 } from '../../../core/services/domain-of-influence.service';
 import { DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
-import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
+import { AsyncInputValidators, InputValidators, SecondFactorTransactionService, VotingLibModule } from '@abraxas/voting-lib';
 import {
   ButtonModule,
   DialogService,
@@ -24,7 +24,6 @@ import {
   SpinnerModule,
   TextModule,
 } from '@abraxas/base-components';
-import { SecondFactorTransactionService, VotingLibModule } from '@abraxas/voting-lib';
 import { TranslatePipe } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, filter, merge, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -72,7 +71,7 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
   protected logoLoading: boolean = false;
   protected isSwitchingDoi: boolean = false;
   protected readonly emailToAddControl = new FormControl<string>('', {
-    validators: [Validators.email],
+    validators: [InputValidators.email],
     nonNullable: true,
   });
 
@@ -404,7 +403,7 @@ export class DomainOfInfluenceSettingsComponent implements OnChanges, OnDestroy 
         validators: [Validators.required, Validators.maxLength(254), InputValidators.phone],
       }),
       email: this.formBuilder.control('', {
-        validators: [Validators.required, Validators.maxLength(254), Validators.email],
+        validators: [Validators.required, Validators.maxLength(254), InputValidators.email],
       }),
       webpage: this.formBuilder.control('', {
         validators: [Validators.maxLength(10000)],

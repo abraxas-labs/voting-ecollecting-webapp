@@ -5,6 +5,7 @@
         [type]="'subpage'"
         [border]="false"
         (actionClick)="back()"
+        [backBtnAriaLabel]="'APP.BACK' | translate"
       >
         <h4 sub-navigation-title truncateWithTooltip tooltip>{{ 'REFERENDUM.TITLE' | translate: { description: referendum.collection.description } | translate }}</h4>
         <div></div>

@@ -10,7 +10,6 @@ import {
   AlertBarModule,
   ButtonModule,
   CardModule,
-  DialogService,
   IconButtonModule,
   ReadonlyModule,
   SpinnerModule,
@@ -30,6 +29,7 @@ import {
   ReferendumCardComponent,
   storageKeyPrefix,
   ToastService,
+  CustomDialogService,
 } from 'ecollecting-lib';
 import { ReferendumService } from '../../core/services/referendum.service';
 import { cloneDeep } from 'lodash';
@@ -85,7 +85,6 @@ const bfsFilterStorageKey = storageKeyPrefix + 'referendum-bfs-filter';
     CollectionFilterComponent,
     SpinnerModule,
   ],
-  providers: [DialogService],
 })
 export class ReferendumOverviewComponent implements OnInit {
   private readonly referendumService = inject(ReferendumService);
@@ -93,7 +92,7 @@ export class ReferendumOverviewComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly doiService = inject(DomainOfInfluenceService);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly decreeService = inject(DecreeService);
@@ -328,14 +327,17 @@ export class ReferendumOverviewComponent implements OnInit {
   }
 
   protected async finish(decree: Decree): Promise<void> {
-    const ref = this.dialogService.open(CollectionFinishDialogComponent, {
+    const ref = this.customDialogService.openWithoutAutoFocus(CollectionFinishDialogComponent, {
       minSignatureCount: decree.minSignatureCount,
       electronicCitizenCount: decree.attestedCollectionCount?.electronicCitizenCount ?? 0,
       totalCitizenCount: decree.attestedCollectionCount?.totalCitizenCount ?? 0,
-      collectionCounts: decree.collections?.map(x => ({ ...x.collection.attestedCollectionCount, description: x.collection.description })),
+      collectionCounts:
+        decree.collections
+          ?.filter(x => x.collection.attestedCollectionCount)
+          .map(x => ({ ...x.collection.attestedCollectionCount!, description: x.collection.description })) ?? [],
       collectionType: CollectionType.COLLECTION_TYPE_REFERENDUM,
       electronicCollectionEnabled: decree.electronicCollectionEnabled,
-    } as CollectionFinishDialogData);
+    } satisfies CollectionFinishDialogData);
     const result = (await firstValueFrom(ref.afterClosed())) as CollectionFinishDialogResult;
     if (!result) {
       return;
@@ -360,7 +362,7 @@ export class ReferendumOverviewComponent implements OnInit {
   }
 
   protected async addCollection(decree: Decree): Promise<void> {
-    const ref = this.dialogService.open(ReferendumNewDialogComponent, {
+    const ref = this.customDialogService.openWithoutAutoFocus(ReferendumNewDialogComponent, {
       decree: decree,
     } satisfies ReferendumNewDialogData);
     const result = (await firstValueFrom(ref.afterClosed())) as ReferendumNewDialogResult;

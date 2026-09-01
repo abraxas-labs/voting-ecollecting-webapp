@@ -1,7 +1,7 @@
 <div class="page">
   <div class="container m-3">
     @if (notFound) {
-      <h2 id="content">{{ notFoundHeader | translate }}</h2>
+      <h2 id="content" [tabindex]="-1">{{ notFoundHeader | translate }}</h2>
       <div class="error p-3">
         <p>{{ notFoundDetail | translate }}</p>
         @if (notFoundReasons) {
@@ -18,7 +18,7 @@
         <bc-spinner size="large"></bc-spinner>
       }
     } @else {
-      <h2 id="content">{{ header | translate }}</h2>
+      <h2 id="content" [tabindex]="-1">{{ header | translate }}</h2>
       <p class="hint">{{ hint | translate }}</p>
       <h3 class="user-text">{{ subHeader | translate }}</h3>
       <ng-content select="[sub-header-content]"></ng-content>

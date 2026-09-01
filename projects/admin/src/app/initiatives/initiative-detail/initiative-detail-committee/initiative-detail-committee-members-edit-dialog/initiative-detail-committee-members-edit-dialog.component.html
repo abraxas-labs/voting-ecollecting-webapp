@@ -39,6 +39,7 @@
         [showDefaultErrors]="true"
         optionalText=""
         [placeholder]="dialogData.member.lastName"
+        [clearable]="false"
         subscriptSizing="dynamic"
       ></bc-text>
       <bc-text
@@ -47,6 +48,7 @@
         [required]="false"
         [showDefaultErrors]="true"
         [placeholder]="dialogData.member.firstName"
+        [clearable]="false"
         optionalText=""
         subscriptSizing="dynamic"
       ></bc-text>
@@ -59,12 +61,14 @@
       [showDefaultErrors]="true"
       optionalText=""
       [placeholder]="dialogData.member.residence"
+      [clearable]="false"
       subscriptSizing="dynamic"
     ></bc-text>
     <bc-text
       [label]="'INITIATIVE.COMMITTEE.MEMBERS.POLITICAL_DUTY' | translate"
       [formControl]="form.controls.politicalDuty"
       [showDefaultErrors]="true"
+      [clearable]="false"
       subscriptSizing="dynamic"
     ></bc-text>
   </div>

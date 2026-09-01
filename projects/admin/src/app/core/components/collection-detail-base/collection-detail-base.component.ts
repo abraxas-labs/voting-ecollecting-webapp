@@ -11,6 +11,7 @@ import {
   CollectionMessagesComponentData,
   CollectionMessagesComponentResult,
   ConfirmDialogService,
+  CustomDialogService,
 } from 'ecollecting-lib';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '@abraxas/base-components';
@@ -22,6 +23,7 @@ import { firstValueFrom, Observable } from 'rxjs';
 export abstract class AbstractCollectionDetailBase implements OnInit {
   protected readonly route = inject(ActivatedRoute);
   protected readonly dialogService = inject(DialogService);
+  protected readonly customDialogService = inject(CustomDialogService);
   private readonly router = inject(Router);
   private readonly collectionService = inject(CollectionService);
   protected readonly confirmDialogService = inject(ConfirmDialogService);
@@ -164,14 +166,14 @@ export abstract class AbstractCollectionDetailBase implements OnInit {
   protected async finishEditing(): Promise<void> {
     this.savingEdits = true;
     try {
-      await this.saveEdits();
-      this.editing = false;
+      // only leave edit mode if the edits were actually saved, otherwise invalid changes are silently discarded
+      this.editing = !(await this.saveEdits());
     } finally {
       this.savingEdits = false;
     }
   }
 
-  protected abstract saveEdits(): Promise<void>;
+  protected abstract saveEdits(): Promise<boolean>;
 
   protected abstract get collection(): Collection | undefined;
 

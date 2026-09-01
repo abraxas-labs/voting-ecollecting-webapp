@@ -8,7 +8,6 @@ import { AfterViewInit, Component, inject, OnDestroy, ViewChild } from '@angular
 import {
   ButtonModule,
   CardModule,
-  DialogService,
   IconButtonModule,
   SortDirective,
   StatusLabelModule,
@@ -19,7 +18,13 @@ import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 import { CollectionService } from '../../services/collection.service';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { collectionPermissionRoleColorMap, collectionPermissionStateColorMap, ConfirmDialogService, ToastService } from 'ecollecting-lib';
+import {
+  collectionPermissionRoleColorMap,
+  collectionPermissionStateColorMap,
+  ConfirmDialogService,
+  CustomDialogService,
+  ToastService,
+} from 'ecollecting-lib';
 import { CollectionDetailPermissionDialogComponent } from '../collection-detail-permission-dialog/collection-detail-permission-dialog.component';
 import { Collection, CollectionPermission } from '../../models/collection.model';
 import { CollectionPermissionRole, CollectionPermissionState } from '@abraxas/voting-ecollecting-proto';
@@ -36,7 +41,7 @@ export class CollectionDetailPermissionsComponent implements AfterViewInit, OnDe
   protected readonly collectionPermissionStateColorMap = collectionPermissionStateColorMap;
 
   private readonly collectionService = inject(CollectionService);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toastService = inject(ToastService);
   private readonly authService = inject(AuthenticationService);
@@ -96,7 +101,13 @@ export class CollectionDetailPermissionsComponent implements AfterViewInit, OnDe
       return;
     }
 
-    const dialogRef = this.dialogService.open(CollectionDetailPermissionDialogComponent, { collectionId: this.collection.id }, '500px');
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(
+      CollectionDetailPermissionDialogComponent,
+      {
+        collectionId: this.collection.id,
+      },
+      '500px',
+    );
     const result = await firstValueFrom(dialogRef.afterClosed());
 
     if (!result) {

@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { DialogService } from '@abraxas/base-components';
+import { CustomDialogService } from './custom-dialog.service';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../shared/confirm-dialog/confirm-dialog.component';
 import { firstValueFrom } from 'rxjs';
 
@@ -13,10 +13,10 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class ConfirmDialogService {
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
 
   public async confirm(data: ConfirmDialogData, widthWithUnit?: string): Promise<boolean> {
-    const dialogRef = this.dialogService.open(ConfirmDialogComponent, data, widthWithUnit);
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(ConfirmDialogComponent, data, widthWithUnit);
     return firstValueFrom(dialogRef.afterClosed());
   }
 }

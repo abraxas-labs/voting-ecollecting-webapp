@@ -25,10 +25,22 @@ export class InitiativeDetailEditComponent implements OnChanges {
   public initiative!: Initiative;
 
   protected readonly form: FormGroup<Form>;
-  public showValidationErrors = false;
+  private showValidationErrorsValue = false;
 
   constructor() {
     this.form = this.buildForm();
+  }
+
+  public get showValidationErrors(): boolean {
+    return this.showValidationErrorsValue;
+  }
+
+  public set showValidationErrors(value: boolean) {
+    this.showValidationErrorsValue = value;
+
+    if (value) {
+      this.form.markAllAsTouched();
+    }
   }
 
   public ngOnChanges(): void {

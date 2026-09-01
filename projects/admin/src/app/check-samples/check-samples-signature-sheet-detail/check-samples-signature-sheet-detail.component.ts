@@ -7,7 +7,6 @@
 import { Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import {
   ButtonModule,
-  DialogService,
   DividerModule,
   IconButtonModule,
   ReadonlyModule,
@@ -31,7 +30,7 @@ import { PersonFilterData, PersonReviewState } from '../../core/models/person.mo
 import { SignatureSheetHeaderComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-header/signature-sheet-header.component';
 import { SignatureSheetCitizenTableComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-citizen-table/signature-sheet-citizen-table.component';
 import { SignatureSheetPersonSearchComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-person-search/signature-sheet-person-search.component';
-import { ConfirmDialogService, emptyPage, LoadingBarComponent, Page, Pageable, ToastService } from 'ecollecting-lib';
+import { ConfirmDialogService, CustomDialogService, emptyPage, LoadingBarComponent, Page, Pageable, ToastService } from 'ecollecting-lib';
 import { SignatureSheetCandidatesTableComponent } from '../../signature-sheets/signature-sheet-detail/signature-sheet-candidates-table/signature-sheet-candidates-table.component';
 import { VotingLibModule } from '@abraxas/voting-lib';
 import {
@@ -63,14 +62,13 @@ import { cloneDeep, isEqual } from 'lodash';
     VotingLibModule,
     ReadonlyModule,
   ],
-  providers: [DialogService],
 })
 export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly collectionSignatureSheetService = inject(CollectionSignatureSheetService);
   private readonly toast = inject(ToastService);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
 
   protected collection?: Referendum | Initiative;
@@ -122,7 +120,7 @@ export class CheckSamplesSignatureSheetDetailComponent implements OnInit {
 
     const removedPersonRegisterIds = this.citizens.filter(x => x.reviewState === PersonReviewState.Removed).map(x => x.registerId);
 
-    const dialogRef = this.dialogService.open(CheckSamplesSignatureSheetConfirmDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(CheckSamplesSignatureSheetConfirmDialogComponent, {
       collectionId: this.collection.id,
       signatureSheetId: this.sheet.id,
       collectionType: this.collection.collection.type,

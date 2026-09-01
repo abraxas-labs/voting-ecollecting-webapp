@@ -17,6 +17,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   DateModule,
   ErrorModule,
+  NumberModule,
   RadioButton,
   RadioButtonModule,
   StatusToggleModule,
@@ -48,6 +49,7 @@ import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Va
     TableModule,
     TooltipModule,
     TruncateWithTooltipModule,
+    NumberModule,
   ],
 })
 export class CollectionFinishDialogComponent extends BaseDialogWithUnsavedChangesCheckComponent<

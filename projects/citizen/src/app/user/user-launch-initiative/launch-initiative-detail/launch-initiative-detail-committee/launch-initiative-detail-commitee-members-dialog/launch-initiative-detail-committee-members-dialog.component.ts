@@ -20,6 +20,7 @@ import {
   AutocompleteModule,
   ButtonModule,
   DateModule,
+  NumberModule,
   RadioButton,
   RadioButtonModule,
   TextComponent,
@@ -44,6 +45,7 @@ import { InitiativeService } from '../../../../../core/services/initiative.servi
     RadioButtonModule,
     ButtonModule,
     AutocompleteModule,
+    NumberModule,
   ],
   templateUrl: './launch-initiative-detail-committee-members-dialog.component.html',
   styleUrl: './launch-initiative-detail-committee-members-dialog.component.scss',
@@ -167,9 +169,9 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
 
   protected updateValidators(): void {
     if (!!this.form.value.requestMemberSignature || !!this.form.value.role) {
-      this.form.controls.email.setValidators([Validators.required, Validators.email]);
+      this.form.controls.email.setValidators([Validators.required, InputValidators.email]);
     } else {
-      this.form.controls.email.setValidators([Validators.email]);
+      this.form.controls.email.setValidators([InputValidators.email]);
     }
 
     this.form.controls.email.updateValueAndValidity();
@@ -288,7 +290,7 @@ export class LaunchInitiativeDetailCommitteeMembersDialogComponent extends BaseD
       }),
       politicalResidence: this.formBuilder.control(undefined),
       email: this.formBuilder.control('', {
-        validators: [Validators.required, Validators.email],
+        validators: [Validators.required, InputValidators.email],
       }),
       politicalDuty: this.formBuilder.control('', {
         validators: [Validators.maxLength(50)],

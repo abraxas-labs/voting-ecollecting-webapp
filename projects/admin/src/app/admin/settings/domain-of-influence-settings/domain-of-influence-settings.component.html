@@ -15,6 +15,7 @@
       [showDefaultErrors]="true"
       [error]="form.controls.addressName.touched && form.controls.addressName.invalid"
       [formControl]="form.controls.addressName"
+      [clearable]="false"
     ></bc-text>
     <bc-text
       [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.STREET' | translate"
@@ -24,6 +25,7 @@
       [showDefaultErrors]="true"
       [error]="form.controls.street.touched && form.controls.street.invalid"
       [formControl]="form.controls.street"
+      [clearable]="false"
     ></bc-text>
     <div class="flex gap-x-2">
       <bc-text
@@ -34,6 +36,7 @@
         [showDefaultErrors]="true"
         [error]="form.controls.zipCode.touched && form.controls.zipCode.invalid"
         [formControl]="form.controls.zipCode"
+        [clearable]="false"
       ></bc-text>
       <bc-text
         [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.LOCALITY' | translate"
@@ -43,6 +46,7 @@
         [showDefaultErrors]="true"
         [error]="form.controls.locality.touched && form.controls.locality.invalid"
         [formControl]="form.controls.locality"
+        [clearable]="false"
       ></bc-text>
     </div>
   </bc-expansion-panel>
@@ -61,6 +65,7 @@
         [readonly]="!domainOfInfluence.userPermissions.canEdit"
         [error]="form.controls.phone.touched && form.controls.phone.invalid"
         [formControl]="form.controls.phone"
+        [clearable]="false"
       ></bc-text>
       <bc-text
         [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.E_MAIL' | translate"
@@ -70,6 +75,7 @@
         [readonly]="!domainOfInfluence.userPermissions.canEdit"
         [error]="form.controls.email.touched && form.controls.email.invalid"
         [formControl]="form.controls.email"
+        [clearable]="false"
       ></bc-text>
     </div>
     <bc-text
@@ -79,6 +85,7 @@
       [readonly]="!domainOfInfluence.userPermissions.canEdit"
       [error]="form.controls.webpage.touched && form.controls.webpage.invalid"
       [formControl]="form.controls.webpage"
+      [clearable]="false"
     ></bc-text>
   </bc-expansion-panel>
 
@@ -156,6 +163,7 @@
                 collectionForm.controls.initiativeNumberOfMembersCommittee.invalid
               "
               [formControl]="collectionForm.controls.initiativeNumberOfMembersCommittee"
+              [clearable]="false"
             ></bc-number>
 
             @if (domainOfInfluence.type === DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT) {
@@ -170,6 +178,7 @@
                   collectionForm.controls.initiativeMaxElectronicSignaturePercent.invalid
                 "
                 [formControl]="collectionForm.controls.initiativeMaxElectronicSignaturePercent"
+                [clearable]="false"
               ></bc-number>
             }
           </div>
@@ -190,6 +199,7 @@
                 collectionForm.controls.referendumMinSignatureCount.touched && collectionForm.controls.referendumMinSignatureCount.invalid
               "
               [formControl]="collectionForm.controls.referendumMinSignatureCount"
+              [clearable]="false"
             ></bc-number>
             <bc-number
               [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.REFERENDUM.MAX_ECOLLECTING_THRESHOLD' | translate"
@@ -202,6 +212,7 @@
                 collectionForm.controls.referendumMaxElectronicSignaturePercent.invalid
               "
               [formControl]="collectionForm.controls.referendumMaxElectronicSignaturePercent"
+              [clearable]="false"
             ></bc-number>
           </div>
         </div>
@@ -223,6 +234,7 @@
                 collectionForm.controls.initiativeMinSignatureCount.touched && collectionForm.controls.initiativeMinSignatureCount.invalid
               "
               [formControl]="collectionForm.controls.initiativeMinSignatureCount"
+              [clearable]="false"
             ></bc-number>
             <bc-number
               [label]="'ADMIN.DOMAIN_OF_INFLUENCE_SETTINGS.COLLECTIONS.INITIATIVE.COMMITTEE_MEMBER_COUNT' | translate"
@@ -234,6 +246,7 @@
                 collectionForm.controls.initiativeNumberOfMembersCommittee.invalid
               "
               [formControl]="collectionForm.controls.initiativeNumberOfMembersCommittee"
+              [clearable]="false"
             ></bc-number>
           </div>
         </div>
@@ -253,6 +266,7 @@
                 collectionForm.controls.referendumMinSignatureCount.touched && collectionForm.controls.referendumMinSignatureCount.invalid
               "
               [formControl]="collectionForm.controls.referendumMinSignatureCount"
+              [clearable]="false"
             ></bc-number>
           </div>
         </div>
@@ -272,6 +286,7 @@
         [error]="emailToAddControl.touched && emailToAddControl.invalid"
         [formControl]="emailToAddControl"
         (keydown.enter)="addEmail()"
+        [clearable]="false"
       ></bc-text>
       <!-- margin top accounts for the form label -->
       <bc-icon-button

@@ -7,7 +7,6 @@
 import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import {
   ButtonModule,
-  DialogService,
   DividerModule,
   ExpansionPanelModule,
   IconButtonModule,
@@ -34,7 +33,7 @@ import {
   SignatureSheetEditDialogComponent,
   SignatureSheetEditDialogData,
 } from '../signature-sheet-edit-dialog/signature-sheet-edit-dialog.component';
-import { ConfirmDialogService, emptyPage, LoadingBarComponent, Page, Pageable, ToastService } from 'ecollecting-lib';
+import { ConfirmDialogService, CustomDialogService, emptyPage, LoadingBarComponent, Page, Pageable, ToastService } from 'ecollecting-lib';
 import { SignatureSheetPersonSearchComponent } from './signature-sheet-person-search/signature-sheet-person-search.component';
 import { PersonFilterData } from '../../core/models/person.model';
 import { SignatureSheetCandidatesTableComponent } from './signature-sheet-candidates-table/signature-sheet-candidates-table.component';
@@ -66,12 +65,11 @@ import { SignatureSheetHeaderComponent } from './signature-sheet-header/signatur
   ],
   templateUrl: './signature-sheet-detail.component.html',
   styleUrl: './signature-sheet-detail.component.scss',
-  providers: [DialogService],
 })
 export class SignatureSheetDetailComponent implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly toast = inject(ToastService);
   private readonly collectionSignatureSheetService = inject(CollectionSignatureSheetService);
@@ -257,7 +255,7 @@ export class SignatureSheetDetailComponent implements OnDestroy {
       return;
     }
 
-    const dialogRef = this.dialogService.open(SignatureSheetEditDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(SignatureSheetEditDialogComponent, {
       collectionId: this.collection.id,
       sheet: createNew ? undefined : this.sheet,
     } satisfies SignatureSheetEditDialogData);

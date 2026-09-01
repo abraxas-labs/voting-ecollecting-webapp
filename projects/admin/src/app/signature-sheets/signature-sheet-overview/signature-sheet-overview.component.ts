@@ -12,7 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   AuthenticationService,
   ButtonModule,
-  DialogService,
   DividerModule,
   SpinnerModule,
   SubNavigationBarModule,
@@ -32,7 +31,7 @@ import {
   CollectionCommitteeAddressDialogResult,
 } from '../../core/components/collection-committee-address-dialog/collection-committee-address-dialog.component';
 import { CollectionSignatureSheetService } from '../../core/services/collection-signature-sheet.service';
-import { isAddressComplete } from 'ecollecting-lib';
+import { CustomDialogService, isAddressComplete } from 'ecollecting-lib';
 import { CollectionType } from '@abraxas/voting-ecollecting-proto';
 
 @Component({
@@ -47,12 +46,11 @@ import { CollectionType } from '@abraxas/voting-ecollecting-proto';
     SpinnerModule,
   ],
   templateUrl: './signature-sheet-overview.component.html',
-  providers: [DialogService],
 })
 export class SignatureSheetOverviewComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly collectionSignatureSheetService = inject(CollectionSignatureSheetService);
   private readonly auth = inject(AuthenticationService);
 
@@ -90,7 +88,7 @@ export class SignatureSheetOverviewComponent implements OnDestroy {
       return;
     }
 
-    const dialogRef = this.dialogService.open(SignatureSheetEditDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(SignatureSheetEditDialogComponent, {
       collectionId: this.collection.id,
     } satisfies SignatureSheetEditDialogData);
 
@@ -154,7 +152,7 @@ export class SignatureSheetOverviewComponent implements OnDestroy {
       return;
     }
 
-    const dialogRef = this.dialogService.open(CollectionCommitteeAddressDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(CollectionCommitteeAddressDialogComponent, {
       collectionId: this.collection.id,
     } satisfies CollectionCommitteeAddressDialogData);
     const result: CollectionCommitteeAddressDialogResult = await firstValueFrom(dialogRef.afterClosed());

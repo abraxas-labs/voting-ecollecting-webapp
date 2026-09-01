@@ -5,13 +5,13 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FileInputModule, FileWithProgress, SnackbarModule } from '@abraxas/base-components';
+import { FileInputModule, FileWithProgress } from '@abraxas/base-components';
 
 @Component({
   selector: 'vo-ecol-file-input',
   templateUrl: './file-input.component.html',
   styleUrl: './file-input.component.scss',
-  imports: [FileInputModule, SnackbarModule],
+  imports: [FileInputModule],
 })
 export class FileInputComponent {
   @Input()

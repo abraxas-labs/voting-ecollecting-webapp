@@ -10,7 +10,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { BaseDialogWithUnsavedChangesCheckComponent, DialogComponent } from 'ecollecting-lib';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CollectionPermissionRole, CollectionPermissionState } from '@abraxas/voting-ecollecting-proto';
-import { AsyncInputValidators } from '@abraxas/voting-lib';
+import { AsyncInputValidators, InputValidators } from '@abraxas/voting-lib';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CollectionPermission } from '@abraxas/voting-ecollecting-proto/citizen';
 import { CollectionService } from '../../services/collection.service';
@@ -98,7 +98,7 @@ export class CollectionDetailPermissionDialogComponent extends BaseDialogWithUns
         asyncValidators: [AsyncInputValidators.complexSlText],
       }),
       email: this.formBuilder.control('', {
-        validators: [Validators.required, Validators.email],
+        validators: [Validators.required, InputValidators.email],
       }),
       role: this.formBuilder.control(CollectionPermissionRole.COLLECTION_PERMISSION_ROLE_UNSPECIFIED, {
         validators: [Validators.required],

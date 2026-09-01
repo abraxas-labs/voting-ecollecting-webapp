@@ -5,9 +5,9 @@
  */
 
 import { Component, OnInit, inject } from '@angular/core';
-import { DecreeCardComponent, ReferendumCardComponent } from 'ecollecting-lib';
+import { DecreeCardComponent, ReferendumCardComponent, CustomDialogService } from 'ecollecting-lib';
 import { VotingLibModule } from '@abraxas/voting-lib';
-import { ButtonModule, DialogService, ErrorModule, ReadonlyModule, SpinnerModule } from '@abraxas/base-components';
+import { ButtonModule, ErrorModule, ReadonlyModule, SpinnerModule } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Decree, DecreeGroup } from '../../../core/models/decree.model';
@@ -40,7 +40,7 @@ export class SeekReferendumOverviewComponent implements OnInit {
   private readonly collectionService = inject(CollectionService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
 
   public loading: boolean = false;
   public myDecrees: Decree[] = [];
@@ -67,7 +67,9 @@ export class SeekReferendumOverviewComponent implements OnInit {
   }
 
   public async createReferendum(decree?: Decree): Promise<void> {
-    const dialogRef = this.dialogService.open(SeekReferendumDialogComponent, { decreeId: decree?.id } satisfies SeekReferendumDialogData);
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(SeekReferendumDialogComponent, {
+      decreeId: decree?.id,
+    } satisfies SeekReferendumDialogData);
     const result = await firstValueFrom(dialogRef.afterClosed());
 
     if (!result) {

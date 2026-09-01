@@ -1,7 +1,7 @@
 <div class="layout page">
   @if (collection && sheet) {
     <div class="layout-header">
-      <bc-sub-navigation-bar [type]="'subpage'" [border]="false" (actionClick)="backWithUnsavedChangesCheck()">
+      <bc-sub-navigation-bar [type]="'subpage'" [border]="false" (actionClick)="backWithUnsavedChangesCheck()" [backBtnAriaLabel]="'APP.BACK' | translate">
         <h4 sub-navigation-title truncateWithTooltip tooltip>{{ 'COLLECTION.CHECK_SAMPLES.SIGNATURE_SHEETS.DETAIL.TITLE' | translate }}</h4>
         @if (sheet.userPermissions?.canConfirm) {
           <bc-button

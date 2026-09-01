@@ -5,7 +5,7 @@
  */
 
 import { Component, inject } from '@angular/core';
-import { DateModule } from '@abraxas/base-components';
+import { DateModule, NumberModule } from '@abraxas/base-components';
 import {
   AbstractControl,
   FormControl,
@@ -27,7 +27,7 @@ import { Initiative } from '../../core/models/initiative.model';
 
 @Component({
   selector: 'app-control-sign-sensitive-data-expiry-dialog',
-  imports: [DateModule, DialogComponent, ReactiveFormsModule, TranslatePipe],
+  imports: [DateModule, DialogComponent, ReactiveFormsModule, TranslatePipe, NumberModule],
   templateUrl: './control-sign-sensitive-data-expiry-dialog.component.html',
 })
 export class ControlSignSensitiveDataExpiryDialogComponent {

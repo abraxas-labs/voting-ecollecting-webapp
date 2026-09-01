@@ -28,6 +28,7 @@ import {
   newSimpleDecree,
   SHOW_CHAT_QUERY_PARAM,
   ToastService,
+  CustomDialogService,
 } from 'ecollecting-lib';
 import { CollectionState, CollectionType } from '@abraxas/voting-ecollecting-proto';
 import { Referendum } from '../../../core/models/referendum.model';
@@ -58,7 +59,6 @@ import {
   ],
   templateUrl: './seek-referendum-detail.component.html',
   styleUrls: ['./seek-referendum-detail.component.scss'],
-  providers: [DialogService],
 })
 export class SeekReferendumDetailComponent implements OnDestroy {
   protected readonly navigationCollapseBreakpoint = 768;
@@ -66,6 +66,7 @@ export class SeekReferendumDetailComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly referendumService = inject(ReferendumService);
   private readonly collectionService = inject(CollectionService);
@@ -176,7 +177,7 @@ export class SeekReferendumDetailComponent implements OnDestroy {
     }
 
     const validationSummary = await this.collectionService.validate(this.referendum.id);
-    const dialogRef = this.dialogService.open(CollectionValidationDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(CollectionValidationDialogComponent, {
       title: 'SEEK_REFERENDUM.DETAIL.VALIDATION.TITLE',
       info: 'SEEK_REFERENDUM.DETAIL.VALIDATION.INFO',
       validationSummary,
@@ -204,7 +205,7 @@ export class SeekReferendumDetailComponent implements OnDestroy {
       return;
     }
 
-    const dialogRef = this.dialogService.open(SeekReferendumDetailSelectDecreeDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(SeekReferendumDetailSelectDecreeDialogComponent, {
       referendumId: this.referendum.id,
       decreeId: this.referendum.decree?.id,
     } satisfies SeekReferendumDetailSelectDecreeDialogData);

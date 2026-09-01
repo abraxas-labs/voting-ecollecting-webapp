@@ -1,7 +1,7 @@
 <div class="page-with-user-navigation">
   @if (!loading) {
     <div class="flex flex-wrap justify-between items-center">
-      <h2 id="content" class="mb-0">{{ 'LAUNCH_INITIATIVE.TITLE' | translate }}</h2>
+      <h2 id="content" [tabindex]="-1" class="mb-0">{{ 'LAUNCH_INITIATIVE.TITLE' | translate }}</h2>
       <bc-button
         color="default"
         variant="tertiary"

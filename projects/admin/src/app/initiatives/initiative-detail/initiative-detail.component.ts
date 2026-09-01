@@ -10,7 +10,6 @@ import {
   AlertBarModule,
   ButtonModule,
   CardModule,
-  DialogService,
   DividerModule,
   IconButtonModule,
   LabelModule,
@@ -23,14 +22,15 @@ import {
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
-import { collectionStateColorMap, FileChipComponent, ToastService, ImagePreviewComponent } from 'ecollecting-lib';
+import { collectionStateColorMap, FileChipComponent, ImagePreviewComponent, ToastService } from 'ecollecting-lib';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { Collection } from '../../core/models/collection.model';
 import { CollectionDetailPermissionsComponent } from '../../core/components/collection-permissions/collection-permissions.component';
 import { Initiative, InitiativeCommittee } from '../../core/models/initiative.model';
 import { AbstractCollectionDetailBase } from '../../core/components/collection-detail-base/collection-detail-base.component';
 import { InitiativeService } from '../../core/services/initiative.service';
-import { CollectionState } from '@abraxas/voting-ecollecting-proto';
+import { CollectionState, DomainOfInfluenceType } from '@abraxas/voting-ecollecting-proto';
+import { AdmissibilityDecisionState } from '@abraxas/voting-ecollecting-proto/admin';
 import { VotingLibModule } from '@abraxas/voting-lib';
 import {
   InitiativeCollectionPeriodDialogComponent,
@@ -45,6 +45,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { InitiativeDetailInfoComponent } from './initiative-detail-info/initiative-detail-info.component';
 import { InitiativeDetailEditComponent } from './initiative-detail-edit/initiative-detail-edit.component';
+import { HasAnyRoleDirective } from '../../core/directives/has-any-role.directive';
 
 @Component({
   selector: 'app-initiative-detail',
@@ -75,15 +76,18 @@ import { InitiativeDetailEditComponent } from './initiative-detail-edit/initiati
     InitiativeDetailInfoComponent,
     InitiativeDetailEditComponent,
     ImagePreviewComponent,
+    HasAnyRoleDirective,
   ],
-  providers: [DialogService],
 })
 export class InitiativeDetailComponent extends AbstractCollectionDetailBase implements OnDestroy {
   private readonly initiativeService = inject(InitiativeService);
   protected readonly collectionStates: typeof CollectionState = CollectionState;
   protected readonly collectionStateColorMap = collectionStateColorMap;
+  protected readonly ctDoiType = DomainOfInfluenceType.DOMAIN_OF_INFLUENCE_TYPE_CT;
+  protected readonly admissibilityDecisionStateOpen = AdmissibilityDecisionState.ADMISSIBILITY_DECISION_STATE_OPEN;
   protected initiative?: Initiative;
   protected committee?: InitiativeCommittee;
+  protected generatingAdmissibilityDecisionInformation = false;
 
   @ViewChild(InitiativeDetailEditComponent)
   private editComponent?: InitiativeDetailEditComponent;
@@ -109,14 +113,15 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
     return this.initiative?.collection;
   }
 
-  protected override async saveEdits(): Promise<void> {
+  protected override async saveEdits(): Promise<boolean> {
     if (!this.initiative || !this.editComponent) {
-      return;
+      return false;
     }
 
     const values = this.editComponent.getFormValues();
     if (!values) {
-      return;
+      this.toast.error('APP.FORM_INVALID_TITLE', 'APP.FORM_INVALID_MESSAGE');
+      return false;
     }
 
     await this.initiativeService.update({
@@ -131,6 +136,7 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
     // refetch to update rendered markdown
     Object.assign(this.initiative, await this.initiativeService.get(this.initiative.id));
     this.toast.saved();
+    return true;
   }
 
   public async finishCorrection(): Promise<void> {
@@ -167,7 +173,7 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
       return;
     }
 
-    const dialogRef = this.dialogService.open(InitiativeCollectionPeriodDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(InitiativeCollectionPeriodDialogComponent, {
       collectionId: this.initiative.id,
       collectionStartDate: this.initiative.collection.collectionStartDate,
       collectionEndDate: this.initiative.collection.collectionEndDate,
@@ -192,7 +198,7 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
       return;
     }
 
-    const dialogRef = this.dialogService.open(InitiativeCollectionPeriodDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(InitiativeCollectionPeriodDialogComponent, {
       collectionId: this.initiative.id,
       collectionStartDate: this.initiative.collection.collectionStartDate,
       collectionEndDate: this.initiative.collection.collectionEndDate,
@@ -218,7 +224,7 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
       return;
     }
 
-    const dialogRef = this.dialogService.open(InitiativeReturnForCorrectionDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(InitiativeReturnForCorrectionDialogComponent, {
       collectionId: this.initiative.id,
     } satisfies InitiativeReturnForCorrectionDialogData);
 
@@ -230,6 +236,19 @@ export class InitiativeDetailComponent extends AbstractCollectionDetailBase impl
     if (this.initiative.collection.userPermissions) {
       this.initiative.collection.userPermissions.canReturnForCorrection = false;
       this.initiative.collection.userPermissions.canFinishCorrection = false;
+    }
+  }
+
+  public async downloadAdmissibilityDecisionInformation(): Promise<void> {
+    if (!this.initiative) {
+      return;
+    }
+
+    try {
+      this.generatingAdmissibilityDecisionInformation = true;
+      await this.initiativeService.downloadAdmissibilityDecisionInformation(this.initiative.id);
+    } finally {
+      this.generatingAdmissibilityDecisionInformation = false;
     }
   }
 }

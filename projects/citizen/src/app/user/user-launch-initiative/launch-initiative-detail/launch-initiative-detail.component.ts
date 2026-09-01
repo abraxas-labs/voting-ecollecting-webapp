@@ -18,7 +18,6 @@ import {
   TruncateWithTooltipModule,
 } from '@abraxas/base-components';
 import { Initiative } from '../../../core/models/initiative.model';
-import { UserHelpMenuDialogComponent } from '../../user-help-menu-dialog/user-help-menu-dialog.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   detailCommitteeUrl,
@@ -32,6 +31,7 @@ import {
   CollectionMessagesComponentData,
   CollectionMessagesComponentResult,
   ConfirmDialogService,
+  CustomDialogService,
   SHOW_CHAT_QUERY_PARAM,
 } from 'ecollecting-lib';
 import { CollectionService } from '../../../core/services/collection.service';
@@ -65,6 +65,7 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialogService = inject(DialogService);
+  private readonly customDialogService = inject(CustomDialogService);
   private readonly confirmDialogService = inject(ConfirmDialogService);
   private readonly collectionService = inject(CollectionService);
   private readonly initiativeService = inject(InitiativeService);
@@ -209,12 +210,11 @@ export class LaunchInitiativeDetailComponent implements OnDestroy {
 
   private async validate(id: string): Promise<boolean> {
     const validationSummary = await this.collectionService.validate(id);
-    const dialogRef = this.dialogService.open(CollectionValidationDialogComponent, {
+    const dialogRef = this.customDialogService.openWithoutAutoFocus(CollectionValidationDialogComponent, {
       title: 'LAUNCH_INITIATIVE.DETAIL.VALIDATION.TITLE',
       info: 'LAUNCH_INITIATIVE.DETAIL.VALIDATION.INFO',
       validationSummary,
     } satisfies CollectionValidationDialogData);
-
     return firstValueFrom(dialogRef.afterClosed());
   }
 

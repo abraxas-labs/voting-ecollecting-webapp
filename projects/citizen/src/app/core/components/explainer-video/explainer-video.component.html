@@ -1,0 +1,18 @@
+<bc-card backgroundColor="primary" class="h-full">
+  <bc-card-header>
+    <bc-card-title role="presentation" [label]="explainerVideo.title | translate" [headingLevel]="headingLevel"></bc-card-title>
+    <bc-card-actions>
+      <!-- Cannot use an icon-button inside an a element. This would lead to multiple keyboard/tab selections. -->
+      <bc-icon-button
+        class="mr-1"
+        [variant]="'secondary'"
+        [icon]="'play'"
+        [ariaLabel]="explainerVideo.ariaLabel | translate"
+        (buttonClick)="openVideo(explainerVideo)"
+      ></bc-icon-button>
+    </bc-card-actions>
+  </bc-card-header>
+  <bc-card-content>
+    <p class="pr-5">{{ explainerVideo.description | translate }}</p>
+  </bc-card-content>
+</bc-card>

@@ -1,6 +1,6 @@
 <div class="page">
   <div class="p-3">
-    <h2 id="content" translate>OVERVIEW.TITLE</h2>
+    <h2 id="content" [tabindex]="-1" translate>OVERVIEW.TITLE</h2>
     <p>
       <span translate>OVERVIEW.INFO.TEXT</span>
       <bc-link [href]="'https://support.sg.ch/ecollecting'" [target]="'_blank'" [ariaLabel]="'OVERVIEW.INFO.LINK_ALT' | translate">{{ 'OVERVIEW.INFO.LINK' | translate }}</bc-link>
@@ -8,28 +8,11 @@
 
     <bc-divider class="my-3"></bc-divider>
 
-    <h2 translate>OVERVIEW.EXPLAINER_VIDEO.TITLE</h2>
+    <h2 translate>EXPLAINER_VIDEO.TITLE</h2>
     <div class="explainer-videos gap-4">
       @for (explainerVideo of explainerVideos; track explainerVideo) {
         <div class="explainer-video flex-1">
-          <bc-card backgroundColor="primary" class="h-full">
-            <bc-card-header>
-              <bc-card-title role="presentation" [label]="explainerVideo.title | translate" [headingLevel]="'h3'"></bc-card-title>
-              <bc-card-actions>
-                <!-- Cannot use an icon-button inside an a element. This would lead to multiple keyboard/tab selections. -->
-                <bc-icon-button
-                  class="mr-1"
-                  [variant]="'secondary'"
-                  [icon]="'play'"
-                  [ariaLabel]="explainerVideo.ariaLabel | translate"
-                  (buttonClick)="openVideo(explainerVideo)"
-                ></bc-icon-button>
-              </bc-card-actions>
-            </bc-card-header>
-            <bc-card-content>
-              <p class="pr-5" translate>{{ explainerVideo.description }}</p>
-            </bc-card-content>
-          </bc-card>
+          <app-explainer-video [explainerVideo]="explainerVideo"></app-explainer-video>
         </div>
       }
     </div>

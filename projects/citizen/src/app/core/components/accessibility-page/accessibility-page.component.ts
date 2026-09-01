@@ -22,6 +22,7 @@ import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Va
 import { EnumItemDescriptionUtils } from 'ecollecting-lib';
 import { AccessibilityCategory, AccessibilitySalutation } from '@abraxas/voting-ecollecting-proto/citizen';
 import { AccessibilityService } from '../../services/accessibility.service';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-accessibility-page',
@@ -38,6 +39,7 @@ import { AccessibilityService } from '../../services/accessibility.service';
     TextareaModule,
     ButtonModule,
     AlertBarModule,
+    NgOptimizedImage,
   ],
 })
 export class AccessibilityPageComponent {
@@ -93,7 +95,7 @@ export class AccessibilityPageComponent {
         asyncValidators: [AsyncInputValidators.complexSlText],
       }),
       email: this.formBuilder.control('', {
-        validators: [Validators.maxLength(254), Validators.email],
+        validators: [Validators.maxLength(254), InputValidators.email],
       }),
       phone: this.formBuilder.control('', {
         validators: [Validators.maxLength(254), InputValidators.phone],

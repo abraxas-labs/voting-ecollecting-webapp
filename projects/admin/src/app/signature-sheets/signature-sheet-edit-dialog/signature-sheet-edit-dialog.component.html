@@ -37,12 +37,14 @@
       [required]="true"
       subscriptSizing="dynamic"
       [max]="today"
-      [adjustFormControlErrors]="false"></bc-date>
+      [adjustFormControlErrors]="false"
+      [clearable]="false"></bc-date>
     <bc-number
       [label]="'COLLECTION.SIGNATURE_SHEETS.EDIT_DIALOG.SIGNATURES_COUNT_TOTAL' | translate"
       [required]="true"
       [formControl]="form.controls.signaturesCountTotal"
       [error]="form.controls.signaturesCountTotal.invalid && form.controls.signaturesCountTotal.dirty"
+      [clearable]="false"
       subscriptSizing="dynamic"
     ></bc-number>
   } @else {

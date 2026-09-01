@@ -5,6 +5,7 @@
         [type]="'subpage'"
         [border]="false"
         (actionClick)="back()"
+        [backBtnAriaLabel]="'APP.BACK' | translate"
       >
         <h4 sub-navigation-title truncateWithTooltip tooltip>{{ 'INITIATIVE.TITLE' | translate: { description: initiative.collection.description } | translate }}</h4>
         <div></div>
@@ -176,6 +177,18 @@
 
         @if (initiative.collection.userPermissions?.canReturnForCorrection) {
           <bc-button [icon]="'undo'" [label]="'INITIATIVE.RETURN_FOR_CORRECTION.TITLE' | translate" (buttonClick)="returnForCorrection()"></bc-button>
+        }
+
+        @if (initiative.domainOfInfluenceType === ctDoiType && initiative.admissibilityDecisionState === admissibilityDecisionStateOpen) {
+          <ng-container *appHasRole="'Stammdatenverwalter'">
+            <bc-button
+              [disabled]="generatingAdmissibilityDecisionInformation"
+              [icon]="'file-pdf'"
+              [loading]="generatingAdmissibilityDecisionInformation"
+              [label]="'INITIATIVE.ADMISSIBILITY_DECISION_INFORMATION' | translate"
+              (buttonClick)="downloadAdmissibilityDecisionInformation()"
+            ></bc-button>
+          </ng-container>
         }
 
         <bc-button class="close-button" [icon]="'cancel'" [label]="'APP.CLOSE' | translate" (buttonClick)="back()"></bc-button>

@@ -13,5 +13,6 @@
            [formControl]="form.controls.sensitiveDataExpiryDate"
            [error]="form.controls.sensitiveDataExpiryDate.touched && !!form.controls.sensitiveDataExpiryDate.errors"
            [label]="'CONTROL_SIGNS.SENSITIVE_DATA_EXPIRY_DATE.DATE' | translate"
-           [adjustFormControlErrors]="false"></bc-date>
+           [adjustFormControlErrors]="false"
+           [clearable]="false"></bc-date>
 </vo-ecol-dialog>

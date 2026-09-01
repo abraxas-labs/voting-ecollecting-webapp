@@ -1,7 +1,7 @@
 <bc-table sort filter [sortActive]="[{ id: municipalityNameColumn, direction: 'asc' }]" [dataSource]="dataSource" [sticky]="true">
   <ng-container [columnDef]="bfsColumn">
     <th bc-header-cell sort filter filterType="text" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.BFS' | translate">{{ 'COLLECTION.CHECK_SAMPLES.TABLE.BFS' | translate }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.BFS' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.bfs }}</div>
@@ -13,9 +13,7 @@
 
   <ng-container [columnDef]="municipalityNameColumn">
     <th bc-header-cell sort filter filterType="text" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.MUNICIPALITY_NAME' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.MUNICIPALITY_NAME' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.MUNICIPALITY_NAME' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div truncateWithTooltip tooltip>{{ row.municipalityName }}</div>
@@ -25,9 +23,7 @@
 
   <ng-container [columnDef]="totalSignatureSheetsCountColumn">
     <th bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SIGNATURE_SHEETS_COUNT' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SIGNATURE_SHEETS_COUNT' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SIGNATURE_SHEETS_COUNT' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       <div truncateWithTooltip tooltip>{{ row.signatureSheetsCount.totalSignatureSheetsCount | number }}</div>
@@ -37,9 +33,7 @@
 
   <ng-container [columnDef]="totalSubmittedOrConfirmedSignatureSheetsCountColumn">
     <th bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SUBMITTED_OR_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SUBMITTED_OR_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_SUBMITTED_OR_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row">
       <div class="flex justify-end gap-2">
@@ -56,9 +50,7 @@
 
   <ng-container [columnDef]="totalNotSubmittedSignatureSheetsCountColumn">
     <th bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_NOT_SUBMITTED_SIGNATURE_SHEETS_COUNT' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_NOT_SUBMITTED_SIGNATURE_SHEETS_COUNT' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_NOT_SUBMITTED_SIGNATURE_SHEETS_COUNT' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       <div truncateWithTooltip tooltip>{{ row.signatureSheetsCount.totalNotSubmittedSignatureSheetsCount | number }}</div>
@@ -68,9 +60,7 @@
 
   <ng-container [columnDef]="totalConfirmedSignatureSheetsCountColumn">
     <th bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_CONFIRMED_SIGNATURE_SHEETS_COUNT' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       <div truncateWithTooltip tooltip>{{ row.signatureSheetsCount.totalConfirmedSignatureSheetsCount | number }}</div>
@@ -80,9 +70,7 @@
 
   <ng-container [columnDef]="physicalCountInvalidColumn">
     <th bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_INVALID' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_INVALID' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_INVALID' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       <div truncateWithTooltip tooltip>{{ row.physicalCount.invalid | number }}</div>
@@ -92,9 +80,7 @@
 
   <ng-container [columnDef]="physicalCountValidColumn">
     <th bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_VALID' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_VALID' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.PHYSICAL_COUNT_VALID' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       <div truncateWithTooltip tooltip>{{ row.physicalCount.valid | number }}</div>
@@ -104,9 +90,7 @@
 
   <ng-container [columnDef]="electronicCitizenCountColumn">
     <th bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.ELECTRONIC_CITIZEN_COUNT' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.ELECTRONIC_CITIZEN_COUNT' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.ELECTRONIC_CITIZEN_COUNT' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       <div truncateWithTooltip tooltip>{{ row.electronicCitizenCount | number }}</div>
@@ -116,9 +100,7 @@
 
   <ng-container [columnDef]="totalValidCitizenCountColumn">
     <th bc-header-cell sort filter filterType="number" [arrowPosition]="'before'" [align]="'right'" *headerCellDef>
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_VALID_CITIZEN_COUNT' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_VALID_CITIZEN_COUNT' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.TOTAL_VALID_CITIZEN_COUNT' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       <div truncateWithTooltip tooltip>{{ row.totalValidCitizenCount | number }}</div>
@@ -138,9 +120,7 @@
       [align]="'right'"
       *headerCellDef
     >
-      <span [tooltip]="'COLLECTION.CHECK_SAMPLES.TABLE.IS_LOCKED.TITLE' | translate">{{
-        'COLLECTION.CHECK_SAMPLES.TABLE.IS_LOCKED.TITLE' | translate
-      }}</span>
+      {{ 'COLLECTION.CHECK_SAMPLES.TABLE.IS_LOCKED.TITLE' | translate }}
     </th>
     <td bc-data-cell *dataCellDef="let row" [align]="'right'">
       <bc-status-label [label]="'COLLECTION.CHECK_SAMPLES.TABLE.IS_LOCKED.' + row.isLocked | translate"></bc-status-label>

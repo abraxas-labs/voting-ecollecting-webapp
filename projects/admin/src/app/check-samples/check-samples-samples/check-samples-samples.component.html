@@ -1,7 +1,7 @@
 <div class="layout page">
   @if (collection) {
     <div class="layout-header">
-      <bc-sub-navigation-bar [type]="'subpage'" [border]="false" (actionClick)="back()">
+      <bc-sub-navigation-bar [type]="'subpage'" [border]="false" (actionClick)="back()" [backBtnAriaLabel]="'APP.BACK' | translate">
         <bc-breadcrumbs sub-navigation-title>
           <bc-breadcrumb-item [link]="'../../../'">{{
             'COLLECTION.CHECK_SAMPLES.BREADCRUMBS.' +

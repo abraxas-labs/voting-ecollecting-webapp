@@ -6,7 +6,7 @@
 
 import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { DialogModule, IconButtonModule } from '@abraxas/base-components';
+import { DialogModule, IconButtonModule, SwitchModule } from '@abraxas/base-components';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
 
@@ -31,7 +31,7 @@ interface VideoPlayerCollection {
   selector: 'app-video-player-dialog',
   templateUrl: './video-player-dialog.component.html',
   styleUrls: ['./video-player-dialog.component.scss'],
-  imports: [DialogModule, IconButtonModule, TranslatePipe, MatDialogClose],
+  imports: [DialogModule, IconButtonModule, TranslatePipe, MatDialogClose, SwitchModule],
 })
 export class VideoPlayerDialogComponent implements AfterViewInit, OnDestroy {
   private readonly document = inject(DOCUMENT);
@@ -39,11 +39,13 @@ export class VideoPlayerDialogComponent implements AfterViewInit, OnDestroy {
   protected readonly playerConfig = VIDEO_PLAYER_CONFIG;
   protected readonly title: string;
   protected readonly videoId: string;
+  protected readonly videoIdWithSignLanguage: string;
   protected readonly playerElementId = `video-player-${++VideoPlayerDialogComponent.playerCounter}`;
 
   private static embedScriptPromise?: Promise<void>;
   private static playerCounter = 0;
 
+  protected withSignLanguage = false;
   private destroyed = false;
   private playerCreated = false;
 
@@ -51,14 +53,32 @@ export class VideoPlayerDialogComponent implements AfterViewInit, OnDestroy {
     const dialogData = inject<VideoPlayerDialogData>(MAT_DIALOG_DATA);
     this.title = dialogData.title;
     this.videoId = dialogData.videoId;
+    this.videoIdWithSignLanguage = dialogData.videoIdWithSignLanguage;
   }
 
   public async ngAfterViewInit(): Promise<void> {
-    // The embed only auto-creates players once, when its script first loads.
-    // Because the player element is added dynamically every time the dialog
-    // opens, we load the script once and create the player explicitly so it
-    // also works when the same (or another) video is reopened.
-    this.preparePlayerElement();
+    await this.loadNewPlayer();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroyed = true;
+    if (!this.playerCreated) {
+      return;
+    }
+    try {
+      this.getPlayerCollection()?.removePlayerById(this.playerElementId);
+    } catch {
+      // The player may already have been torn down; nothing to clean up.
+    }
+  }
+
+  protected async onWithSignLanguageChange(event: boolean): Promise<void> {
+    this.withSignLanguage = event;
+    await this.loadNewPlayer();
+  }
+
+  private async loadNewPlayer(): Promise<void> {
+    this.createNewPlayerContainer();
 
     try {
       await this.loadVideoEmbed();
@@ -78,18 +98,6 @@ export class VideoPlayerDialogComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  public ngOnDestroy(): void {
-    this.destroyed = true;
-    if (!this.playerCreated) {
-      return;
-    }
-    try {
-      this.getPlayerCollection()?.removePlayerById(this.playerElementId);
-    } catch {
-      // The player may already have been torn down; nothing to clean up.
-    }
-  }
-
   private getPlayer(): { Collection?: VideoPlayerCollection } | undefined {
     return (this.document.defaultView as unknown as { VideoPlayer?: { Collection?: VideoPlayerCollection } } | null)?.VideoPlayer;
   }
@@ -98,8 +106,24 @@ export class VideoPlayerDialogComponent implements AfterViewInit, OnDestroy {
     return this.getPlayer()?.Collection;
   }
 
-  private preparePlayerElement(): void {
-    this.document.getElementById(this.playerElementId)?.setAttribute(VIDEO_PLAYER_EMBED_ATTRIBUTE, '');
+  private createNewPlayerContainer(): void {
+    const newContainer = this.document.createElement('div');
+    newContainer.id = this.playerElementId;
+    newContainer.setAttribute('video-id', this.withSignLanguage ? this.videoIdWithSignLanguage : this.videoId);
+    newContainer.setAttribute('player-id', this.playerConfig.playerId);
+    newContainer.setAttribute('channel-id', this.playerConfig.channelId);
+    newContainer.setAttribute('config-type', this.playerConfig.configType);
+    newContainer.setAttribute('flash-path', this.playerConfig.flashPath);
+    newContainer.setAttribute('api-url', this.playerConfig.apiUrl);
+    newContainer.setAttribute('disable-auto-creation', 'true');
+    newContainer.setAttribute('class', 'video-player');
+    newContainer.setAttribute(VIDEO_PLAYER_EMBED_ATTRIBUTE, '');
+
+    const oldContainer = this.document.getElementById(this.playerElementId);
+    if (!oldContainer?.parentElement) {
+      return;
+    }
+    oldContainer.parentElement.replaceChild(newContainer, oldContainer);
   }
 
   /**
@@ -132,4 +156,5 @@ export class VideoPlayerDialogComponent implements AfterViewInit, OnDestroy {
 export interface VideoPlayerDialogData {
   title: string;
   videoId: string;
+  videoIdWithSignLanguage: string;
 }

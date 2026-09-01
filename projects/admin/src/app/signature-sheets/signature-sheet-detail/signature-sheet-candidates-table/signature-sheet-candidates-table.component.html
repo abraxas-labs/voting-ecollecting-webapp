@@ -91,14 +91,24 @@
           {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.IS_VOTING_ALLOWED.TITLE' | translate }}
         </span>
     </th>
-    <td bc-data-cell *dataCellDef="let row">
+    <td bc-data-cell *dataCellDef="let row" [align]="'center'">
       <bc-status-label
         width="3rem"
-        [tooltipDisabled]="row.person.isVotingAllowed"
-        [tooltip]="('COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.IS_VOTING_ALLOWED.REASON.' + (!row.person.isBirthDateValidForVotingRights ? 'AGE' : !row.person.isNationalityValidForVotingRights ? 'NATIONALITY' : 'OTHER')) | translate"
         [label]="'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.IS_VOTING_ALLOWED.' + row.person.isVotingAllowed | translate"
         [foregroundColor]="row.person.isVotingAllowed ? 'dark' : 'light'"
         [backgroundColor]="row.person.isVotingAllowed ? '#e8f4ed' : '#c60000'"></bc-status-label>
+    </td>
+  </ng-container>
+  <ng-container [columnDef]="reasonColumn">
+    <th bc-header-cell *headerCellDef>
+        <span truncateWithTooltip tooltip>
+          {{ 'COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.IS_VOTING_ALLOWED.REASON.TITLE' | translate }}
+        </span>
+    </th>
+    <td bc-data-cell *dataCellDef="let row">
+      <div truncateWithTooltip tooltip>
+        {{ !row.person.isVotingAllowed ? ('COLLECTION.SIGNATURE_SHEETS.DETAIL.PERSON.IS_VOTING_ALLOWED.REASON.' + (!row.person.isBirthDateValidForVotingRights ? 'AGE' : !row.person.isNationalityValidForVotingRights ? 'NATIONALITY' : row.person.restrictedVotingAndElectionRightFederation ? 'RESTRICTED_VOTING_RIGHT' : !row.person.isMoveInArrivalDateValidForVotingRights ? 'MOVE_IN_ARRIVAL_DATE' : '') | translate) : '' }}
+      </div>
     </td>
   </ng-container>
 

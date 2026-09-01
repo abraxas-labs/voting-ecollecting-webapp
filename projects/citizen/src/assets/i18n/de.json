@@ -26,7 +26,6 @@
       "COPYRIGHT": "© {{year}} Portal Kanton St.Gallen"
     },
     "EDIT": "Bearbeiten",
-    "BACK": "Zurück",
     "CONTENT": "Inhalt",
     "TITLES": {
       "EXTENSION": "E-Collecting - Kanton St. Gallen",
@@ -51,7 +50,7 @@
       "ENDED_COLLECTIONS": "Beendete Sammlungen",
       "INITIATIVE_COMMITTEE_MEMBERSHIP_APPROVAL": "Anfrage für Mitgliedschaft in einem Komitee",
       "PERMISSION_APPROVAL": "Bestätigung Verwaltung Sammlung",
-      "ACCESSIBILITY": "Barrierefreiheitserklärung",
+      "ACCESSIBILITY": "Digitale Barrierefreiheit",
       "SITEMAP": "Site Map",
       "SIGNATURE_SHEET_PREVIEW": "Unterschriftenliste",
       "COMMITTEE_LIST_PREVIEW": "Vorlage für Mitgliederliste"
@@ -73,32 +72,38 @@
       "LINK": "Support",
       "LINK_ALT": "Externe Webseite mit Informationen zum Support"
     },
-    "INFO_LINK": "Link",
-    "EXPLAINER_VIDEO": {
-      "TITLE": "Erklärvideos",
-      "OPEN": "Video öffnen",
-      "CLOSE": "Video schliessen",
-      "SIGN_COLLECTION": {
-        "TITLE": "Sammlung unterzeichnen",
-        "DESCRIPTION": "Erfahren Sie hier, wie Sie ein Referendums- oder Initiativbegehren elektronisch unterzeichnen können.",
-        "ARIA_LABEL": "Video zum Thema Sammlung unterzeichnen öffnen"
-      },
-      "SEEK_REFERENDUM": {
-        "TITLE": "Referendum ergreifen",
-        "DESCRIPTION": "Erfahren Sie hier, wie Sie das Referendum zu einem referendumsfähigen Erlass ergreifen können.",
-        "ARIA_LABEL": "Video zum Thema Referendum ergreifen öffnen"
-      },
-      "LAUNCH_INITIATIVE": {
-        "TITLE": "Initiative lancieren",
-        "DESCRIPTION": "Erfahren Sie hier, wie Sie eine Initiative lancieren können.",
-        "ARIA_LABEL": "Video zum Thema Initiative lancieren öffnen"
-      }
+    "INFO_LINK": "Link"
+  },
+  "EXPLAINER_VIDEO": {
+    "TITLE": "Erklärvideos",
+    "OPEN": "Video öffnen",
+    "CLOSE": "Video schliessen",
+    "WITH_SIGN_LANGUAGE": "Video mit Gebärdensprache",
+    "SIGN_COLLECTION": {
+      "TITLE": "Sammlung unterzeichnen",
+      "DESCRIPTION": "Erfahren Sie hier, wie Sie ein Referendums- oder Initiativbegehren elektronisch unterzeichnen können.",
+      "ARIA_LABEL": "Video zum Thema Sammlung unterzeichnen öffnen"
+    },
+    "SEEK_REFERENDUM": {
+      "TITLE": "Referendum ergreifen",
+      "DESCRIPTION": "Erfahren Sie hier, wie Sie das Referendum zu einem referendumsfähigen Erlass ergreifen können.",
+      "ARIA_LABEL": "Video zum Thema Referendum ergreifen öffnen"
+    },
+    "LAUNCH_INITIATIVE": {
+      "TITLE": "Initiative lancieren",
+      "DESCRIPTION": "Erfahren Sie hier, wie Sie eine Initiative lancieren können.",
+      "ARIA_LABEL": "Video zum Thema Initiative lancieren öffnen"
     }
   },
   "HELP": {
     "TITLE": "Hilfe",
     "OPEN": "Hilfe öffnen",
-    "CLOSE": "Hilfe schliessen"
+    "CLOSE": "Hilfe schliessen",
+    "SUPPORT": {
+      "TEXT": "Bei weiterführenden Fragen oder Unklarheiten erreichen Sie den Support der Staatskanzlei telefonisch unter der Nummer 058 229 10 10 oder über folgenden Link: ",
+      "LINK": "Support",
+      "LINK_ALT": "Externe Webseite mit Informationen zum Support"
+    }
   },
   "CHAT": {
     "TITLE": "Chat mit Staatskanzlei",
@@ -480,9 +485,6 @@
     "SHOW": "Sammlungen anzeigen"
   },
   "COLLECTION": {
-    "HEADER": {
-      "EXTERNAL_LINK": "Externe Webseite der Sammlung öffnen"
-    },
     "DETAIL": {
       "GENERAL_INFORMATION": {
         "IMAGE_DISCLAIMER": "Mit dem Hochladen von Dateien auf die E-Collecting-Plattform bestätigen Sie, dass Sie über die Rechte oder die erforderliche Erlaubnis zur Nutzung und Veröffentlichung der Inhalte verfügen. Sie stimmen zu, dass die hochgeladenen Dateien keine urheberrechtlich geschützten Inhalte, keine Personendaten ohne Zustimmung und keine unangemessenen oder illegalen Inhalte enthalten.\n\nDie Betreiberin der E-Collecting-Plattform behält sich das Recht vor, hochgeladene Dateien zu überprüfen und gegebenenfalls zu entfernen, insbesondere wenn Anhaltspunkte für Rechtsverletzungen bestehen.\n\nMit dem Hochladen der Dateien übernehmen Sie die volle Verantwortung für die Inhalte und entbinden die Betreiberin der E-Collecting-Plattform von jeglicher Haftung in diesem Zusammenhang."
@@ -656,13 +658,14 @@
     "TITLE": "Beendete Sammlungen"
   },
   "ACCESSIBILITY": {
-    "TITLE": "Barrierefreiheitserklärung",
-    "INFO_1": "Diese Webseite für die Sammlung von Unterschriften ist mit der WCAG 2.1, Konformitätsstufe AA vereinbar.\nRückmeldungen zur Barrierefreiheit können über das nachstehende Feedback-Formular übermittelt werden.\nGerne dürfen Sie sich für Kontaktanfragen auch direkt per E-Mail unter ",
-    "INFO_2": "support@sg.ch",
-    "INFO_3": " an den Support der Staatskanzlei St.Gallen wenden.",
+    "TITLE": "Digitale Barrierefreiheit",
+    "INFO_1": "Diese Webseite wurde auf ihre Barrierefreiheit geprüft und erfüllt die Anforderungen der internationalen Richtlinien für barrierefreie Webinhalte ",
+    "INFO_2": "WCAG 2.2",
+    "INFO_3": ", Konformitätsstufe AA.\nVerwendete Webtechnologien, welche die Barrierefreiheit unterstützen: HTML, CSS, JavaScript.",
+    "CERTIFICATE_ALT": "Barrierefreie Website Konformität WCAG 2.2 AA zertifiziert durch Zugang für alle",
     "FORM": {
       "TITLE": "Feedback-Formular",
-      "INFO": "Gerne nehmen wir Ihre Rückmeldungen zur Optimierung unserer Webseite in Bezug auf die Barrierefreiheit entgegen.",
+      "INFO": "Rückmeldungen zur Barrierefreiheit können über das nachstehende Formular übermittelt werden.",
       "FIRST_NAME": "Vorname",
       "LAST_NAME": "Nachname",
       "EMAIL": "E-Mail",

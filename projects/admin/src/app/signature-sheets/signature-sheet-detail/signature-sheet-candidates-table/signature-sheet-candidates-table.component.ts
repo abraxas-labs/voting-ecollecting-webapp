@@ -42,6 +42,7 @@ export class SignatureSheetCandidatesTableComponent {
   protected readonly residenceAddressStreetColumn = 'residenceAddressStreet';
   protected readonly residenceAddressHouseNumberColumn = 'residenceAddressHouseNumber';
   protected readonly isVotingAllowedColumn = 'isVotingAllowed';
+  protected readonly reasonColumn = 'reason';
 
   protected readonly columns = [
     this.signatureColumn,
@@ -51,6 +52,7 @@ export class SignatureSheetCandidatesTableComponent {
     this.residenceAddressStreetColumn,
     this.residenceAddressHouseNumberColumn,
     this.isVotingAllowedColumn,
+    this.reasonColumn,
   ];
 
   @Input()

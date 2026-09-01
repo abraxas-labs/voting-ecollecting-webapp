@@ -84,14 +84,15 @@ export class ReferendumDetailComponent extends AbstractCollectionDetailBase impl
     this.routeSubscription.unsubscribe();
   }
 
-  protected override async saveEdits(): Promise<void> {
+  protected override async saveEdits(): Promise<boolean> {
     if (!this.referendum || !this.editComponent) {
-      return;
+      return false;
     }
 
     const values = this.editComponent.getFormValues();
     if (!values) {
-      return;
+      this.toast.error('APP.FORM_INVALID_TITLE', 'APP.FORM_INVALID_MESSAGE');
+      return false;
     }
 
     await this.referendumService.update(
@@ -109,6 +110,7 @@ export class ReferendumDetailComponent extends AbstractCollectionDetailBase impl
     this.referendum.membersCommittee = values.membersCommittee;
     this.referendum.collection.link = values.link;
     this.toast.saved();
+    return true;
   }
 
   protected override get collection(): Collection | undefined {
